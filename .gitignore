@@ -24,6 +24,8 @@ paper/supplement.pdf
 paper/overleaf_upload_*/
 paper/overleaf_upload_*.zip
 /IVC_submission_revised_*.zip
+/overleaf_ivc/
+/overleaf_ivc.zip
 
 # Local/editor/system state
 .DS_Store

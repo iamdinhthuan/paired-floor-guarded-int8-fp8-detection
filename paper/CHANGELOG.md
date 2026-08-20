@@ -42,6 +42,7 @@
 
 ## Submission package
 
+- Restored the author-created graphical abstract PNG from its vector PDF source and prepared a minimal standalone Overleaf package.
 - Added the authors' confirmed no-specific-funding declaration and confirmed the manuscript authorship metadata.
 - Archived software release `v2.0.0` under DOI `10.5281/zenodo.22031664` and updated the citation and availability metadata.
 - Rewrote the title, abstract, highlights, Introduction, Related Work, Methods, Results, Discussion, Conclusion, and Supplementary Information.
