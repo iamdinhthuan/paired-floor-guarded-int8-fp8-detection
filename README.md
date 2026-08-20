@@ -187,10 +187,9 @@ original notices; see [`CAS_TEMPLATE_NOTICE.txt`](CAS_TEMPLATE_NOTICE.txt) and
 
 ## License and contact
 
-A repository-wide software license has not yet been selected. Until a license
-file is added, copyright is retained by the authors and no permission beyond
-applicable law should be inferred. Dataset and third-party components remain
-under their respective licenses.
+Original software and documentation in this repository are released under the
+[`MIT License`](LICENSE). Dataset assets, Elsevier CAS files, and other
+third-party components remain under their respective licenses and notices.
 
 For questions about the study or archived evidence, use the corresponding
 author details in the manuscript or open a GitHub issue.
