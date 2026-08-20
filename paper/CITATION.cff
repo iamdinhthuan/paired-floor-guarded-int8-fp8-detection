@@ -4,6 +4,7 @@ title: "A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8 Ob
 type: software
 version: 2.0.0
 date-released: 2026-08-20
+repository-code: "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection"
 authors:
   - family-names: Nguyen
     given-names: Dinh Thuan

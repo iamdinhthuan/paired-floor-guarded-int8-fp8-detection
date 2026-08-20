@@ -19,8 +19,11 @@ artifacts/
 *.out
 *.synctex.gz
 paper/main.abs
+paper/main.pdf
+paper/supplement.pdf
 paper/overleaf_upload_*/
 paper/overleaf_upload_*.zip
+/IVC_submission_revised_*.zip
 
 # Local/editor/system state
 .DS_Store

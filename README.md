@@ -1,5 +1,7 @@
 # Topic C — Quantization × Corruption × Object Size
 
+Public repository: https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection
+
 This is the isolated project for the IVC Topic C experiment. Topic C outputs belong under `/home/thuan/topic_c_ivc`; the legacy COCO and TT100K roots are immutable inputs and must never be overwritten.
 
 Run only in the approved RTX 5090 environment:
@@ -41,4 +43,4 @@ generated ledgers, ten vector figures, and interactive framework companion are
 under `paper/`. The complete local numerical/archive bundle and its verification
 reports are under `artifacts/four_dataset_pilot_v1/`.
 
-The proposed machine-readable confirmatory decisions are in [confirmatory_protocol_candidate_v1.json](configs/statistics/confirmatory_protocol_candidate_v1.json). It remains a candidate follow-up protocol and must not be back-applied to the completed results. The current four-dataset, B=500 cell-wise bootstrap is exploratory evidence and must not be relabelled confirmatory.
+The proposed machine-readable confirmatory decisions are in [confirmatory_protocol_candidate_v1.json](configs/statistics/confirmatory_protocol_candidate_v1.json). It remains a candidate follow-up protocol and must not be back-applied to the completed results. The current four-dataset, B=2,000 image-paired bootstrap is exploratory evidence and must not be relabelled confirmatory.
