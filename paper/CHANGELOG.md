@@ -42,6 +42,7 @@
 
 ## Submission package
 
+- Archived software release `v2.0.0` under DOI `10.5281/zenodo.22031664` and updated the citation and availability metadata.
 - Rewrote the title, abstract, highlights, Introduction, Related Work, Methods, Results, Discussion, Conclusion, and Supplementary Information.
 - Added recent detector-PTQ, flexible 8-bit, and quantization/robustness references.
 - Updated the data/code availability and generative-AI declarations without inventing a repository DOI or funding statement.

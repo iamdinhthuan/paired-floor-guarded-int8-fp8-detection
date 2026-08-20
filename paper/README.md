@@ -64,4 +64,8 @@ Under this convention, the mean INT8 `E` values in the architecture-portability 
 
 ## Submission note
 
-No public archival DOI is asserted in this package. Complete the author-dependent items in `AUTHOR_CHECKLIST.md`, especially the funding statement and confirmation of the AI/graphical-abstract declarations, before uploading the final files.
+Release `v2.0.0` is archived at
+[https://doi.org/10.5281/zenodo.22031664](https://doi.org/10.5281/zenodo.22031664).
+Complete the remaining author-dependent items in `AUTHOR_CHECKLIST.md`,
+especially the funding statement and confirmation of the AI/graphical-abstract
+declarations, before uploading the final files.
