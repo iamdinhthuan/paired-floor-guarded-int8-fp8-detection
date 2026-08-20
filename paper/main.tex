@@ -1,0 +1,145 @@
+\documentclass[a4paper,fleqn]{cas-dc}
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{placeins}
+\usepackage{adjustbox}
+\usepackage{silence}
+\WarningFilter{hyperref}{Ignoring empty anchor}
+\IfFileExists{CharisSIL.sty}{\usepackage{CharisSIL}}{\microtypesetup{expansion=false}}
+
+\emergencystretch=3em
+\hbadness=10000
+\setlength{\textfloatsep}{9pt plus 2pt minus 2pt}
+\setlength{\floatsep}{7pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{9pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{7pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\dbltopfraction}{0.95}
+\renewcommand{\dblfloatpagefraction}{0.85}
+\pdfstringdefDisableCommands{\def\corref#1{}}
+
+\graphicspath{{figures/}}
+\newcommand{\AP}{\mathrm{AP}}
+\newcommand{\appts}{\,\text{AP points}}
+\newcolumntype{Y}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\begin{document}
+\begin{titlepage}
+\shortauthors{Nguyen et al.}
+\shorttitle{Paired, floor-guarded INT8--FP8 evaluation}
+\title[mode=title]{A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8 Object Detectors under Synthetic Image Corruptions}
+
+\author[mymainaddress]{Dinh Thuan Nguyen}[orcid=0000-0001-9302-3129]
+\author[mymainaddress]{Lam Phuong Nguyen}[orcid=0009-0007-3439-5871]
+\author[mysecondaryaddress]{Vinh Huy Nguyen}[orcid=0009-0006-0878-9714]
+\author[mythirdaddress]{Mohan Rajesh Elara}[orcid=0000-0001-6504-1530]
+\author[myfourthaddress]{Anh Vu Le\corref{mycorrespondingauthor}}[orcid=0000-0002-4804-7540]
+\cortext[mycorrespondingauthor]{Corresponding author: \href{mailto:leanhvu@tdtu.edu.vn}{leanhvu@tdtu.edu.vn}.}
+
+\address[mymainaddress]{Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam}
+\address[mysecondaryaddress]{Center of Visualization and Simulation, Duy Tan University, Da Nang, Vietnam}
+\address[mythirdaddress]{ROAR Lab, Engineering Product Development, Singapore University of Technology and Design, Singapore}
+\address[myfourthaddress]{Advanced Intelligent Technology Research Group, Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam}
+
+\begin{abstract}
+Robustness comparisons of quantized detectors often use the raw accuracy gap on
+corrupted images, which conflates a pre-existing matched-clean gap with any
+corruption-specific interaction. We introduce a paired, floor-guarded protocol
+for executable TensorRT INT8 and FP8 treatments. Each clean or corrupted
+condition is materialized once and shared byte-for-byte across formats. The
+direct interaction is
+$\Delta E=(\mathrm{FP8}-\mathrm{INT8})_{\mathrm{corrupt}}-
+(\mathrm{FP8}-\mathrm{INT8})_{\mathrm{clean}}$, estimated with common
+image-bootstrap draws; absolute corrupted AP guards against apparent convergence
+at a shared failure floor. The exploratory grid contains 144 cells over four
+datasets, three YOLO11 capacities, four synthetic corruptions, and three ordinal
+severities. The raw corrupted gap favored FP8 in 134 cells, but the clean gap
+favored FP8 in all 144; clean adjustment changed the interpretation in 56 cells.
+FP8 retained 1.40 more matched-clean AP on average across 12 dataset--model
+blocks, whereas the balanced interaction was -0.02 AP points (95\% percentile
+interval, -0.24 to +0.15). Untouched VOC/KITTI final partitions yielded -0.55
+AP points ($[-0.78,-0.29]$). Absolute AP decreased in 282 of 288 corrupted
+format arms, with 35 below 10 AP. Architecture stress cases further show that a
+favorable interaction sign can follow a failed clean-fidelity gate. Clean
+fidelity, absolute corrupted accuracy, and corruption-specific interaction are
+therefore distinct deployment claims and should be reported together.
+\end{abstract}
+
+\begin{keywords}
+Post-training quantization \sep
+Object detection \sep
+Corruption robustness \sep
+Paired evaluation \sep
+FP8 \sep
+INT8 \sep
+TensorRT
+\end{keywords}
+
+\maketitle
+\hypersetup{%
+  pdftitle={A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8 Object Detectors under Synthetic Image Corruptions},
+  pdfauthor={Dinh Thuan Nguyen; Lam Phuong Nguyen; Vinh Huy Nguyen; Mohan Rajesh Elara; Anh Vu Le},
+  pdfsubject={Paired evaluation of quantized object detectors under synthetic image corruptions},
+  pdfkeywords={post-training quantization; object detection; corruption robustness; paired evaluation; FP8; INT8; TensorRT}}
+\end{titlepage}
+
+\input{sections/01_introduction.tex}
+\input{sections/02_related_work.tex}
+\input{sections/03_methods.tex}
+\input{sections/04_results.tex}
+\input{sections/05_discussion.tex}
+\input{sections/06_conclusion.tex}
+
+\FloatBarrier
+\section*{Data and code availability}
+
+The source package and Supplementary Data~S2 supplied with this submission
+contain the LaTeX source, generated CSV/JSON ledgers, validation audits, and
+deterministic scripts needed to reproduce the manuscript-level summaries,
+cross-family sign checks, and decision-impact figure. Raw benchmark datasets,
+training checkpoints, TensorRT engines, and raw prediction payloads are not
+redistributed because of licensing and size constraints. The retained run and
+metric records bind the reported summaries to those artifacts by SHA-256. No
+public archival DOI is claimed in this version.
+
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
+
+During manuscript preparation, the authors used OpenAI Codex, OpenAI ChatGPT,
+and Anthropic Claude Code for language revision, LaTeX drafting, code
+refactoring, and consistency checks. The tools did not autonomously select
+experimental conditions or generate detector measurements. The authors reviewed
+and reran the analysis and validation scripts, verified the numerical claims and
+citations, edited the resulting text, and take full responsibility for the
+content of the article.
+
+\section*{Declaration of competing interest}
+
+The authors declare that they have no known competing financial interests or
+personal relationships that could have appeared to influence the work reported
+in this paper.
+
+\section*{CRediT authorship contribution statement}
+
+\textbf{Dinh Thuan Nguyen:} Conceptualization, Methodology, Software,
+Investigation, Formal analysis, Writing--original draft. \textbf{Lam Phuong
+Nguyen:} Validation, Data curation, Writing--review and editing. \textbf{Vinh
+Huy Nguyen:} Methodology, Visualization, Writing--review and editing.
+\textbf{Mohan Rajesh Elara:} Supervision, Writing--review and editing.
+\textbf{Anh Vu Le:} Supervision, Project administration, Writing--review and
+editing.
+
+\bibliographystyle{cas-model2-names}
+\bibliography{references}
+
+\end{document}

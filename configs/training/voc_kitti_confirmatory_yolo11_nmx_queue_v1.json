@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "queue_id": "voc_kitti_confirmatory_yolo11_nmx_queue_v1",
+  "execution_policy": "strictly_serial_single_gpu_process_after_one-checkpoint_smoke validation",
+  "retain_only_best": true,
+  "profile": "configs/training/voc_kitti_confirmatory_yolo11_nmx_v1.json",
+  "datasets": {
+    "voc": {
+      "data_yaml": "manifests/splits/voc_confirmatory_v1/voc_confirmatory_v1.yaml",
+      "split_registry": "manifests/splits/voc_confirmatory_v1/voc_confirmatory_v1.json",
+      "acquisition_registry": "manifests/datasets/voc_acquisition_v1.json"
+    },
+    "kitti": {
+      "data_yaml": "manifests/splits/kitti_confirmatory_v1/kitti_confirmatory_v1.yaml",
+      "split_registry": "manifests/splits/kitti_confirmatory_v1/kitti_confirmatory_v1.json",
+      "acquisition_registry": "manifests/datasets/kitti_acquisition_v1.json"
+    }
+  },
+  "jobs": [
+    {"dataset": "voc", "model": "yolo11n", "run_id": "voc_yolo11n_confirmatory_s20260818_v1"},
+    {"dataset": "voc", "model": "yolo11m", "run_id": "voc_yolo11m_confirmatory_s20260818_v1"},
+    {"dataset": "voc", "model": "yolo11x", "run_id": "voc_yolo11x_confirmatory_s20260818_v1"},
+    {"dataset": "kitti", "model": "yolo11n", "run_id": "kitti_yolo11n_confirmatory_s20260818_v1"},
+    {"dataset": "kitti", "model": "yolo11m", "run_id": "kitti_yolo11m_confirmatory_s20260818_v1"},
+    {"dataset": "kitti", "model": "yolo11x", "run_id": "kitti_yolo11x_confirmatory_s20260818_v1"}
+  ]
+}

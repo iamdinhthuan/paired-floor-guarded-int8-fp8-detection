@@ -1,0 +1,42 @@
+\begin{tabular}{lllrrr}
+\toprule
+Dataset & Model & Precision & Original clean AP (\%) & JPEG-95 clean AP (\%) & Codec minus original (AP pt) \\
+\midrule
+COCO & YOLO11n & FP32 & 38.73 & 38.70 & -0.035 \\
+COCO & YOLO11n & INT8 & 36.64 & 36.65 & +0.014 \\
+COCO & YOLO11n & FP8 & 37.74 & 37.81 & +0.072 \\
+COCO & YOLO11m & FP32 & 50.68 & 50.57 & -0.113 \\
+COCO & YOLO11m & INT8 & 48.85 & 48.82 & -0.025 \\
+COCO & YOLO11m & FP8 & 50.08 & 50.05 & -0.028 \\
+COCO & YOLO11x & FP32 & 53.81 & 53.69 & -0.118 \\
+COCO & YOLO11x & INT8 & 52.75 & 52.56 & -0.197 \\
+COCO & YOLO11x & FP8 & 53.52 & 53.47 & -0.056 \\
+VOC & YOLO11n & FP32 & 62.54 & 62.56 & +0.013 \\
+VOC & YOLO11n & INT8 & 61.42 & 61.51 & +0.090 \\
+VOC & YOLO11n & FP8 & 62.06 & 62.19 & +0.125 \\
+VOC & YOLO11m & FP32 & 68.53 & 68.56 & +0.036 \\
+VOC & YOLO11m & INT8 & 66.75 & 66.66 & -0.089 \\
+VOC & YOLO11m & FP8 & 68.31 & 68.36 & +0.044 \\
+VOC & YOLO11x & FP32 & 70.09 & 70.05 & -0.032 \\
+VOC & YOLO11x & INT8 & 69.07 & 69.03 & -0.047 \\
+VOC & YOLO11x & FP8 & 70.00 & 69.94 & -0.060 \\
+KITTI & YOLO11n & FP32 & 64.79 & 64.84 & +0.049 \\
+KITTI & YOLO11n & INT8 & 61.52 & 61.69 & +0.170 \\
+KITTI & YOLO11n & FP8 & 63.68 & 63.83 & +0.147 \\
+KITTI & YOLO11m & FP32 & 73.82 & 73.87 & +0.049 \\
+KITTI & YOLO11m & INT8 & 69.22 & 69.34 & +0.124 \\
+KITTI & YOLO11m & FP8 & 73.32 & 73.31 & -0.016 \\
+KITTI & YOLO11x & FP32 & 72.93 & 73.06 & +0.127 \\
+KITTI & YOLO11x & INT8 & 70.87 & 70.82 & -0.053 \\
+KITTI & YOLO11x & FP8 & 72.20 & 72.26 & +0.061 \\
+TT100K & YOLO11n & FP32 & 28.78 & 28.76 & -0.013 \\
+TT100K & YOLO11n & INT8 & 25.10 & 25.29 & +0.191 \\
+TT100K & YOLO11n & FP8 & 27.12 & 26.41 & -0.709 \\
+TT100K & YOLO11m & FP32 & 56.57 & 56.55 & -0.014 \\
+TT100K & YOLO11m & INT8 & 53.05 & 52.97 & -0.074 \\
+TT100K & YOLO11m & FP8 & 54.75 & 54.40 & -0.350 \\
+TT100K & YOLO11x & FP32 & 57.63 & 57.66 & +0.034 \\
+TT100K & YOLO11x & INT8 & 55.50 & 56.02 & +0.521 \\
+TT100K & YOLO11x & FP8 & 56.76 & 56.10 & -0.667 \\
+\bottomrule
+\end{tabular}

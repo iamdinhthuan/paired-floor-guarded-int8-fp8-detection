@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "dataset": "kitti",
+  "split": "test",
+  "annotation_sha256": "3ac7970874a4a7400c1ea9494f3e0ebf1dbd7a6b0536a426a2abaa199f6b56c1",
+  "class_to_category_id": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "class_names": [
+    "car",
+    "van",
+    "truck",
+    "pedestrian",
+    "person_sitting",
+    "cyclist",
+    "tram",
+    "misc"
+  ],
+  "acquisition_registry_sha256": "89fdbf13833842ef058f2cab411fc7d5dfce015a879c38bdfae86e7219bc1f30",
+  "class_map_sha256": "9beb53076d454fc746269fe566bee7b6660e746c1bbb82f5a2ce072a3a34bc82"
+}

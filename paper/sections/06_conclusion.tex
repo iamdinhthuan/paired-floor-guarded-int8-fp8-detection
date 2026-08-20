@@ -1,0 +1,29 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A corrupted-image difference between quantized detectors is not, by itself, a
+robustness comparison. It combines any pre-existing clean-fidelity gap with the
+additional change induced by corruption. We introduced a byte-matched,
+image-paired, floor-guarded protocol that separates these quantities through the
+direct interaction
+$\Delta E=(\mathrm{FP8}-\mathrm{INT8})_c-
+(\mathrm{FP8}-\mathrm{INT8})_{95}$ and interprets it only alongside matched-clean
+and absolute corrupted AP.
+
+The distinction changes the evidence. Although the raw corrupted gap favored
+FP8 in 134 of 144 YOLO cells, clean adjustment changed the interpretation in 56
+cells. FP8 preserved 1.40 more matched-clean AP on average across all 12 YOLO
+blocks, whereas the balanced exploratory interaction was -0.02 AP points with a
+95\% interval of $[-0.24,+0.15]$. Untouched VOC/KITTI final partitions yielded
+-0.55 $[-0.78,-0.29]$, demonstrating a narrower but stronger split-independent
+conditional result. Absolute accuracy fell in 282 of 288 corrupted arms, with
+35 below 10 AP, so gap contraction cannot be equated with retained performance.
+Architecture stress cases further showed that a negative interaction can arise
+when an INT8 recipe already fails its matched-clean fidelity gate.
+
+The supported conclusion is not a universal INT8--FP8 robustness ranking.
+Clean fidelity, absolute corrupted accuracy, and the corruption-specific format
+interaction are different deployment claims. Reporting them together, under an
+explicit finite target and a fully specified executable treatment, produces a
+more auditable and decision-relevant evaluation of quantized computer-vision
+systems.

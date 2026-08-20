@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "dataset": "kitti",
+  "protocol": "prospectively_locked_confirmatory_resplit",
+  "scope_note": "The final split is excluded from the new training, selection, calibration, and tuning workflow; it is not claimed to have been historically unseen before this prespecification.",
+  "seed": 20260818,
+  "final_fraction": 0.2,
+  "dataset_root": "/home/thuan/topic_c_ivc/data/datasets/kitti",
+  "acquisition_registry": "/home/thuan/topic_c_ivc/manifests/datasets/kitti_acquisition_v1.json",
+  "acquisition_registry_sha256": "89fdbf13833842ef058f2cab411fc7d5dfce015a879c38bdfae86e7219bc1f30",
+  "partition_sources": {
+    "train": [
+      "images/train (remainder after deterministic final selection)"
+    ],
+    "selection": [
+      "images/val"
+    ],
+    "final": [
+      "images/train (deterministic class-covered subset)"
+    ]
+  },
+  "names": {
+    "0": "car",
+    "1": "van",
+    "2": "truck",
+    "3": "pedestrian",
+    "4": "person_sitting",
+    "5": "cyclist",
+    "6": "tram",
+    "7": "misc"
+  },
+  "yaml_path": "/home/thuan/topic_c_ivc/manifests/splits/kitti_confirmatory_v1/kitti_confirmatory_v1.yaml",
+  "yaml_sha256": "3128480f6d2d2dc22401aab3e6f742564b613e96bcf12a21fbae263409020893",
+  "splits": {
+    "train": {
+      "images": 4788,
+      "objects": 25847,
+      "class_image_counts": {
+        "0": 4282,
+        "1": 1348,
+        "2": 658,
+        "3": 1113,
+        "4": 71,
+        "5": 708,
+        "6": 225,
+        "7": 496
+      },
+      "class_object_counts": {
+        "0": 18344,
+        "1": 1837,
+        "2": 692,
+        "3": 2863,
+        "4": 158,
+        "5": 1014,
+        "6": 322,
+        "7": 617
+      },
+      "list_path": "/home/thuan/topic_c_ivc/manifests/splits/kitti_confirmatory_v1/lists/kitti_confirmatory_v1_train.txt",
+      "list_sha256": "d60f9878a076273501456b55d324be5b89c13193cba7c2fbe5b6b0962b376542"
+    },
+    "selection": {
+      "images": 1496,
+      "objects": 8128,
+      "class_image_counts": {
+        "0": 1322,
+        "1": 419,
+        "2": 212,
+        "3": 377,
+        "4": 17,
+        "5": 252,
+        "6": 77,
+        "7": 158
+      },
+      "class_object_counts": {
+        "0": 5716,
+        "1": 555,
+        "2": 223,
+        "3": 921,
+        "4": 36,
+        "5": 352,
+        "6": 117,
+        "7": 208
+      },
+      "list_path": "/home/thuan/topic_c_ivc/manifests/splits/kitti_confirmatory_v1/lists/kitti_confirmatory_v1_selection.txt",
+      "list_sha256": "af761718b2772b1592cde54f1b9e4464690e89ff4532864051937c8888b7b88a"
+    },
+    "final": {
+      "images": 1197,
+      "objects": 6595,
+      "class_image_counts": {
+        "0": 1080,
+        "1": 378,
+        "2": 166,
+        "3": 289,
+        "4": 11,
+        "5": 181,
+        "6": 47,
+        "7": 124
+      },
+      "class_object_counts": {
+        "0": 4682,
+        "1": 522,
+        "2": 179,
+        "3": 703,
+        "4": 28,
+        "5": 261,
+        "6": 72,
+        "7": 148
+      },
+      "list_path": "/home/thuan/topic_c_ivc/manifests/splits/kitti_confirmatory_v1/lists/kitti_confirmatory_v1_final.txt",
+      "list_sha256": "571fd3c9344e7936d196ac808c26d28352c515bc7f3b1cbb5ed4256dfc425710"
+    }
+  },
+  "report_path": "/home/thuan/topic_c_ivc/manifests/splits/kitti_confirmatory_v1/kitti_confirmatory_v1.json",
+  "content_sha256": "2b4fd608142033f921ca38c1e3263f04e61225f7c07be0862919aa0cf6e55813"
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "purpose": "Immutable export, quantization, and TensorRT build ladder for newly trained Topic C transfer datasets.",
+  "datasets": [
+    {"dataset": "voc", "imgsz": 640, "calibration_list": "manifests/calibration/voc_train_clean_512_s20260807_v1.json"},
+    {"dataset": "kitti", "imgsz": 640, "calibration_list": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json"},
+    {"dataset": "tt100k", "imgsz": 1280, "calibration_list": "manifests/calibration/tt100k_train_clean_512_s20260807_v1.json"}
+  ],
+  "models": ["yolo11n", "yolo11m", "yolo11x"],
+  "precisions": ["fp32", "fp16", "int8-entropy", "fp8"],
+  "trt_root": "/home/thuan/traffic/third_party/TensorRT-11.1.0.106",
+  "workspace": "4096M"
+}

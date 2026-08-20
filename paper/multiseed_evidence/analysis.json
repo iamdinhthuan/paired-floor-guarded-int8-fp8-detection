@@ -1,0 +1,35 @@
+{
+  "analyzer_sha256": "09bd1238a166a34ae92337d8e82f3006be9b4bb34c62e05e4e30887df8a64c1c",
+  "artifacts_sha256": {
+    "cells_csv": "b73a2935babef2af54f84419868ce560ec9c38e5a36a974bafab64c431176dad",
+    "decomposition_csv": "e28de947d172f97ae737fbb71353aef9226f3b787ba2af3906a63660324694bc",
+    "main_tex": "92f344632f431b1dfb8dce79add79d28cc4bdf48ac99914c63dda6fcb64a433e",
+    "marginals_csv": "c5626ce726f21944df5bb0b2c7f6acdc8a4594acccce2058ef5f7ca9b65b5efa",
+    "supplement_tex": "5290ab38e51f032d12d56488acde7a4de37eca0e5e3afc7a31b9b14c3b089763"
+  },
+  "attempt": "ivc_multiseed_yolo11m_s5_v1",
+  "completed_at_utc": "2026-08-14T10:48:04.690204+00:00",
+  "config_sha256": "ab293f9632de1f67c041e13698ca4746d7265bc53cd55660cad025b3243d21ae",
+  "counts": {
+    "direct_cells": 108,
+    "marginals": 14,
+    "variance_blocks": 12
+  },
+  "metric_completion_report_sha256": "67fc90579b41a4e49196d4a3bf2f8dd67d927fd1b0801c6b33e132564d1aa911",
+  "report_sha256": "4d5e963844d91a3fc191f5cb5c08faec4ef987e7b27c5356ef3a8b5aa2cd6a9c",
+  "schema_version": 1,
+  "status": "complete",
+  "summary": {
+    "overall": {
+      "max_delta_e_ap_points": 3.475906095801351,
+      "mean_delta_e_ap_points": -1.109406421273949,
+      "min_delta_e_ap_points": -6.501596895287365,
+      "n": 108
+    },
+    "sign_inventory": {
+      "negative": 74,
+      "positive": 34,
+      "zero": 0
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "expected_mean_e_ap_points": {
+    "retinanet-r50-fpn-v2/fp8": 0.012380115006584319,
+    "retinanet-r50-fpn-v2/int8-entropy": -6.214841431638553,
+    "rtdetr-l/fp8": -0.017908668770093106,
+    "rtdetr-l/int8-entropy": -6.811576541336124
+  },
+  "formula": {
+    "DeltaE": "E_INT8-E_FP8=(FP8-INT8)_corrupt-(FP8-INT8)_clean",
+    "E": "Q_corrupt-Q_clean",
+    "Q": "AP_FP32-AP_quantized"
+  },
+  "generated_sha256": {
+    "cross_family_evidence/analysis.json": "b3543a026cf515e91c052347a5465435de62cd90eaf4e69a18aee6f6555447af",
+    "generated/cross_family_direct_cells.csv": "009696e2e6fa75abbdb5cda4317e3b40f5fcc8199d9722e18bb111d927057ec7",
+    "generated/cross_family_direct_summary.tex": "f911805ddcce78e1a835454d1027886f6e6a5135a1b64dccaf6fb1ec3c6ddbcb",
+    "generated/cross_family_interaction.tex": "9045ad3aa4d3d9f6bb6adca48d9384da027336b57384c35d8f91acdf633312ec",
+    "generated/cross_family_interaction_cells.csv": "04b1ec067112b783d76d189b829a5bce8ccdd906cf1cbed1de66e0ff57b63f68"
+  },
+  "schema_version": 2,
+  "source_sha256": {
+    "generated/cross_family_cells.csv": "75f3addd0f503b7d111818010c14c3567d0762920b6ef157abeb210baddd7b41",
+    "generated/cross_family_q95_clean.csv": "57e0631a8a936b7c47139bf1c3d3d3b6e9d3d7df7e5bece849b5f904aa7ee4f2"
+  },
+  "status": "valid"
+}

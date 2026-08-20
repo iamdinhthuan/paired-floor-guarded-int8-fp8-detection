@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "purpose": "RT-DETR-L cross-family transfer extension for IVC",
+  "models": ["rtdetr-l"],
+  "epochs": 100,
+  "imgsz_by_dataset": {"voc": 640, "kitti": 640, "tt100k": 1280},
+  "batch_by_dataset": {"voc": 8, "kitti": 8, "tt100k": 2},
+  "device": 0,
+  "workers": 8,
+  "seed": 20260807,
+  "deterministic": true,
+  "pretrained": true,
+  "optimizer": "auto",
+  "patience": 0,
+  "close_mosaic": 10,
+  "cache": false,
+  "amp": true,
+  "save_period": -1
+}

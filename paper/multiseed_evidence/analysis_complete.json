@@ -1,0 +1,18 @@
+{
+  "artifacts_sha256": {
+    "outputs/analysis/ivc_multiseed_yolo11m_s5_v1/ivc_multiseed_yolo11m_s5_v1_analysis.json": "42fb2216877d682f069e2813b38345804c659ea0580bfe55efcde2064f69a3c7",
+    "outputs/analysis/ivc_multiseed_yolo11m_s5_v1/ivc_multiseed_yolo11m_s5_v1_direct_cells.csv": "b73a2935babef2af54f84419868ce560ec9c38e5a36a974bafab64c431176dad",
+    "outputs/analysis/ivc_multiseed_yolo11m_s5_v1/ivc_multiseed_yolo11m_s5_v1_main.tex": "92f344632f431b1dfb8dce79add79d28cc4bdf48ac99914c63dda6fcb64a433e",
+    "outputs/analysis/ivc_multiseed_yolo11m_s5_v1/ivc_multiseed_yolo11m_s5_v1_marginals.csv": "c5626ce726f21944df5bb0b2c7f6acdc8a4594acccce2058ef5f7ca9b65b5efa",
+    "outputs/analysis/ivc_multiseed_yolo11m_s5_v1/ivc_multiseed_yolo11m_s5_v1_supplement.tex": "5290ab38e51f032d12d56488acde7a4de37eca0e5e3afc7a31b9b14c3b089763",
+    "outputs/analysis/ivc_multiseed_yolo11m_s5_v1/ivc_multiseed_yolo11m_s5_v1_variance_decomposition.csv": "e28de947d172f97ae737fbb71353aef9226f3b787ba2af3906a63660324694bc",
+    "outputs/reports/ivc_multiseed_yolo11m_s5_v1_metric_complete.json": "67fc90579b41a4e49196d4a3bf2f8dd67d927fd1b0801c6b33e132564d1aa911"
+  },
+  "attempt": "ivc_multiseed_yolo11m_s5_v1",
+  "completed_at_utc": "2026-08-14T10:48:04.691421+00:00",
+  "config_sha256": "ab293f9632de1f67c041e13698ca4746d7265bc53cd55660cad025b3243d21ae",
+  "report_sha256": "4ef9507b79e68edb8ba3f49e83d4f1ea6e890b4e4f10cd68ae312d2b2fbae5fb",
+  "schema_version": 1,
+  "stage": "analysis",
+  "status": "complete"
+}

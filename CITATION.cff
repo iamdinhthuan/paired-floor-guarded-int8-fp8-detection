@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "Author confirmation required before release: verify the author list, affiliations, CRediT roles, and archive record."
+title: "Paired Excess-Gap Evaluation of INT8 and FP8 YOLO11 Detectors under Image Corruption"
+type: software
+authors:
+  - family-names: "Nguyen"
+    given-names: "Dinh Thuan"
+    affiliation: "Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam"
+  - family-names: "Nguyen"
+    given-names: "Lam Phuong"
+    affiliation: "Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam"
+  - family-names: "Nguyen"
+    given-names: "Vinh Huy"
+    affiliation: "Center of Visualization and Simulation, Duy Tan University, Da Nang, Vietnam"
+  - family-names: "Elara"
+    given-names: "Mohan Rajesh"
+    affiliation: "ROAR Lab, Engineering Product Development, Singapore University of Technology and Design, Singapore"
+  - family-names: "Le"
+    given-names: "Anh Vu"
+    affiliation: "Advanced Intelligent Technology Research Group, Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, 19 Nguyen Huu Tho Street, Tan Phong Ward, District 7, Ho Chi Minh City 700000, Vietnam"
+keywords:
+  - "post-training quantization"
+  - "object detection"
+  - "corruption robustness"
+  - "TensorRT"

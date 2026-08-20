@@ -1,0 +1,407 @@
+\documentclass[10pt]{article}
+
+\usepackage[a4paper,margin=1.8cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{longtable}
+
+\hypersetup{
+  pdftitle={Supplementary Information: A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8 Object Detectors},
+  pdfauthor={Dinh Thuan Nguyen; Lam Phuong Nguyen; Vinh Huy Nguyen; Mohan Rajesh Elara; Anh Vu Le},
+  pdfsubject={Supplementary methods, evidence summaries, and reproducibility contract}
+}
+
+\newcommand{\AP}{\mathrm{AP}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\DeltaE}{\Delta E}
+\newcommand{\DeltaPsi}{\Delta\Psi}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlength{\tabcolsep}{4pt}
+
+\title{Supplementary Information for\\[1mm]
+\textbf{A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8 Object Detectors under Synthetic Image Corruptions}}
+\author{Dinh Thuan Nguyen$^{1}$, Lam Phuong Nguyen$^{1}$, Vinh Huy Nguyen$^{2}$,\\
+Mohan Rajesh Elara$^{3}$, Anh Vu Le$^{4,*}$\\[2mm]
+\small $^1$Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Vietnam\\
+\small $^2$Center of Visualization and Simulation, Duy Tan University, Vietnam\\
+\small $^3$ROAR Lab, Singapore University of Technology and Design, Singapore\\
+\small $^4$Advanced Intelligent Technology Research Group, Ton Duc Thang University, Vietnam\\
+\small $^*$Corresponding author: leanhvu@tdtu.edu.vn}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Purpose, scope, and evidence hierarchy}
+
+This supplement documents the estimands, diagnostic summaries, sensitivity
+analyses, and artifact contract supporting the main article. It does not add a
+new population-level claim. The evidence hierarchy used throughout the paper is:
+(i) the 144-cell four-dataset YOLO landscape for exploratory factorial
+characterization; (ii) the untouched VOC/KITTI rerun as the strongest
+split-independent conditional evidence; (iii) targeted realization, training,
+calibration, class-universe, codec, weighting, and runtime sensitivities; and
+(iv) RT-DETR and RetinaNet experiments as recipe-portability stress cases.
+
+The labels \emph{INT8} and \emph{FP8} denote the complete recorded TensorRT
+treatments---quantizer placement, Q/DQ coverage, calibration or scale
+construction, graph rewriting, mixed-precision fallbacks, engine building, and
+frozen decoding---rather than datatype effects in isolation. All quantities are
+reported in AP points unless stated otherwise.
+
+\section{Atomic paired design and estimands}
+
+For a fixed dataset $d$, checkpoint $m$, endpoint $b$, and corruption condition
+$c$, let $95$ denote the deterministic JPEG-quality-95 matched-clean control.
+For quantized treatment $q$, define the FP32-referenced quantization gap and the
+clean-adjusted excess gap as
+\begin{align}
+Q_{d,m,q,b,c}
+ &= \AP_{d,m,\mathrm{FP32},b,c}-\AP_{d,m,q,b,c},\\
+E_{d,m,q,b,c}
+ &= Q_{d,m,q,b,c}-Q_{d,m,q,b,95}.
+\end{align}
+A positive $E$ means that corruption widens the treatment--FP32 discrepancy
+relative to matched clean; a negative $E$ means that the discrepancy contracts.
+Neither sign is, by itself, evidence of retained absolute accuracy.
+
+The direct treatment interaction is computed inside each common image resample:
+\begin{align}
+\DeltaE_{d,m,b,c}
+ &= E_{d,m,\mathrm{INT8},b,c}-E_{d,m,\mathrm{FP8},b,c}\\
+ &= \bigl(\AP_{\mathrm{FP8},c}-\AP_{\mathrm{INT8},c}\bigr)
+  -\bigl(\AP_{\mathrm{FP8},95}-\AP_{\mathrm{INT8},95}\bigr).
+\end{align}
+The FP32 term cancels algebraically. Consequently, $\DeltaE$ asks whether the
+FP8--INT8 discrepancy changes under corruption after removing the discrepancy
+already present on matched clean inputs. A positive value indicates expansion;
+a negative value indicates contraction.
+
+For area endpoints, the within-treatment size contrast is
+\begin{equation}
+\Psi_{d,m,q,c}=E_{d,m,q,S,c}-E_{d,m,q,L,c},
+\end{equation}
+with direct size interaction $\DeltaPsi=\Psi_{\mathrm{INT8}}-
+\Psi_{\mathrm{FP8}}$. TT100K uses its native height-based small-like and
+large-like endpoints, which are reported separately and never pooled
+numerically with the COCO/VOC/KITTI area endpoints.
+
+The absolute-accuracy guardrail is
+\begin{equation}
+D_{d,m,p,b,c}=\AP_{d,m,p,b,95}-\AP_{d,m,p,b,c}.
+\end{equation}
+The protocol is therefore \emph{floor-guarded}: $D$, corrupted AP, and low-AP
+inventories are reported beside relative interactions. It is not a formal
+statistical correction for censoring or an AP floor.
+
+The image is the resampling unit. Each direct comparison reuses one deterministic
+schedule of 2,000 image-index bootstrap draws across all four INT8/FP8 by
+clean/corrupted arms. Percentile intervals quantify finite-evaluation-set
+uncertainty conditional on the frozen datasets, checkpoints, calibration lists,
+engines, corruption materializations, and decoder. They do not propagate a
+population distribution over datasets, training runs, calibration runs, or
+corruption generators.
+
+\section{Decision-impact diagnostic}
+
+The methodological value of clean adjustment can be measured directly. For each
+of the 144 exploratory cells, the raw corrupted gap satisfies
+\begin{equation}
+(\AP_{\mathrm{FP8}}-\AP_{\mathrm{INT8}})_{c}
+=(\AP_{\mathrm{FP8}}-\AP_{\mathrm{INT8}})_{95}+\DeltaE.
+\end{equation}
+The raw corrupted comparison favored FP8 in 134 cells, but 56 of those cells
+became negative after subtracting the matched-clean discrepancy
+(Table~\ref{tab:decision-impact}). Thus a raw corrupted leaderboard comparison
+would conflate clean fidelity with corruption-specific interaction in 38.9\% of
+the finite grid.
+
+\begin{table}[htbp]
+\centering
+\caption{Decision-impact inventory over the 144 exploratory cells. ``Below AP''
+counts a cell when at least one quantized treatment crosses the stated floor.}
+\label{tab:decision-impact}
+\small
+\input{generated/decision_impact_summary.tex}
+\end{table}
+
+\section{Quantized graph coverage}
+
+Table~\ref{tab:graph-coverage} summarizes hash-bound ONNX graph coverage. These
+counts characterize inserted Q/DQ structure and zero-point datatype; they are
+not a claim that every TensorRT kernel executes at the nominal precision. That
+stronger claim would require per-layer engine inspection or profiling, which is
+outside the recorded evidence package.
+
+\begin{table}[htbp]
+\centering
+\caption{Graph-level Q/DQ coverage across the evaluated detector families.
+Ranges reflect the three dataset-specific graphs for each row.}
+\label{tab:graph-coverage}
+\scriptsize
+\resizebox{\textwidth}{!}{\input{generated/quantization_graph_coverage.tex}}
+\end{table}
+
+\section{Exploratory interaction summaries}
+
+Table~\ref{tab:dataset-summary} reports the four dataset margins, while
+Table~\ref{tab:factor-summary} reports capacity, corruption, and ordinal-severity
+margins. Cell-wise percentile signs are descriptive inventories rather than
+multiplicity-adjusted discoveries. The balanced macro is the arithmetic mean of
+the finite, prespecified 144-cell grid; it is not a deployment-population
+weighted effect.
+
+\begin{table}[htbp]
+\centering
+\caption{Dataset-level direct interaction summaries. TT100K's $\DeltaPsi$ uses
+the height endpoint; the other rows use the area endpoint.}
+\label{tab:dataset-summary}
+\small
+\resizebox{0.88\textwidth}{!}{\input{generated/direct_format_contrast_summary.tex}}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Factor-level heterogeneity in the exploratory direct ledger.}
+\label{tab:factor-summary}
+\scriptsize
+\resizebox{\textwidth}{!}{\input{generated/direct_heterogeneity_summary.tex}}
+\end{table}
+
+\section{Size-specific absolute-accuracy guardrail}
+
+Table~\ref{tab:size-guardrail} binds relative size interactions to absolute
+matched-clean AP, corrupted AP, and clean-to-corrupted loss. The AP$<5$
+inventory makes explicit when an apparent contraction occurs close to a task
+failure floor. COCO, VOC, and KITTI use COCO-style area endpoints; TT100K uses
+its original-box-height endpoints.
+
+\begin{table}[htbp]
+\centering
+\caption{Size-specific absolute-accuracy guardrail. Values are balanced means
+across 36 model--corruption--severity cells per row.}
+\label{tab:size-guardrail}
+\scriptsize
+\resizebox{\textwidth}{!}{\input{generated/direct_size_guardrail_summary.tex}}
+\end{table}
+
+\section{Codec-control sensitivity}
+
+The primary estimand uses deterministic JPEG-95 matched-clean inputs so that
+both clean and corrupted arms share the terminal materialization codec.
+Table~\ref{tab:codec} compares original-source clean AP with JPEG-95 clean AP.
+This point sensitivity quantifies the control choice; it is not a bootstrap
+interval and does not replace the codec-matched estimand.
+
+\begin{table}[htbp]
+\centering
+\caption{Original-source clean versus deterministic JPEG-95 clean AP. The last
+column is JPEG-95 minus original-source AP.}
+\label{tab:codec}
+\scriptsize
+\resizebox{\textwidth}{!}{\input{generated/codec_sensitivity.tex}}
+\end{table}
+
+\section{Weighting, omission, and runtime sensitivities}
+
+Alternative weighting changes the descriptive target, not merely the standard
+error. Table~\ref{tab:weighting} therefore reports equal-cell, image-count, and
+object-count means together with leave-one-dataset and leave-one-corruption
+summaries. Sign changes near zero expose conditional heterogeneity; they do not
+identify a causal role for the omitted factor.
+
+\begin{table}[htbp]
+\centering
+\caption{Weighting and leave-one-factor-out sensitivity of the 144-cell ledger.}
+\label{tab:weighting}
+\scriptsize
+\resizebox{0.92\textwidth}{!}{\input{generated/direct_heterogeneity_sensitivity.tex}}
+\end{table}
+
+Runtime is reported only for matched engine conditions. Ratios exclude image
+decoding, preprocessing, host--device transfer, detector decoding, NMS, power,
+and energy. Table~\ref{tab:runtime-sensitivity} stratifies the engine-only
+measurements by input size and YOLO11 capacity rather than pooling unlike
+workloads into one deployment claim.
+
+\begin{table}[htbp]
+\centering
+\caption{Matched engine-only latency-ratio sensitivity. Entries are median
+[Q1, Q3] across retained conditions.}
+\label{tab:runtime-sensitivity}
+\small
+\resizebox{0.86\textwidth}{!}{\input{generated/direct_runtime_sensitivity.tex}}
+\end{table}
+
+\section{Untouched-holdout and corruption-realization sensitivities}
+
+The untouched branch froze disjoint checkpoint-selection and final image lists
+before training. VOC used 2,510 selection and 5,823 final images; KITTI used
+1,496 selection and 1,197 final images. Calibration identities were drawn only
+from training data. The final factorial rerun retained 72 equal-weight
+VOC/KITTI cells and reused a common 2,000-draw schedule within each dataset.
+Its balanced direct interaction was -0.55 AP points with percentile interval
+$[-0.78,-0.29]$; VOC was -0.43 $[-0.54,-0.29]$ and KITTI was -0.67
+$[-1.13,-0.20]$. FP8 retained 1.60 more matched-clean AP on average, and the
+clean advantage was positive in all six dataset--capacity blocks. Nine of 144
+corrupted format arms were below 5 AP and 18 were below 10 AP. This branch
+removes evaluation-after-selection reuse for these two datasets, but it does
+not convert the broader exploratory grid into a prospective confirmatory study.
+
+The corruption-realization sensitivity used three fixed realization seeds over
+36 base conditions on class-covering 512-image subsets of VOC, KITTI, and
+TT100K. Its equal-cell mean $\DeltaE$ was -0.23 AP points, with nested
+realization/image percentiles $[-0.95,-0.28,+0.37]$. Mean between-realization
+variance was 0.3989 AP-points$^2$, compared with 0.7446 within-image-bootstrap
+variance. For $\DeltaPsi$, the mean was -1.04 with nested percentiles
+$[-3.05,-1.42,+0.10]$. Only three materializations were used, so these are
+conditional sensitivity summaries rather than population intervals over all
+possible corruptions. In this separate sensitivity branch, stochastic fields
+and motion-blur angles were nested across severity; in the exploratory grid,
+severity remains an ordinal factor conditional on its recorded materialization.
+
+\section{Training--calibration seed sensitivity}
+
+The targeted $3\times3$ training--calibration grid covers YOLO11m on VOC,
+KITTI, and TT100K at severity 5. Across 108 cells, the equally weighted mean
+$\DeltaE$ was -1.11 AP points. Training-seed marginal means ranged from -1.64
+to -0.68, and calibration-seed marginal means from -1.32 to -0.84. The
+original-seed intersection was -1.21, close to the balanced seed-grid mean.
+These results do not extend to COCO, other capacity rungs, lower severities, or
+an unspecified population of training and calibration seeds.
+
+\begin{table}[htbp]
+\centering
+\caption{Descriptive two-way seed decomposition within each targeted
+YOLO11m severity-5 block. The last three columns are percentages of the
+within-block total sum of squares; Train$\times$cal. denotes non-additivity.}
+\label{tab:multiseed-decomposition}
+\scriptsize
+\resizebox{0.86\textwidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Dataset & Corruption & Mean & Train (\%) & Cal. (\%) & Train$\times$cal. (\%) \\
+\midrule
+VOC & Gaussian noise & -1.494 & 28.6 & 23.0 & 48.4 \\
+VOC & Motion blur & -1.256 & 11.3 & 18.0 & 70.7 \\
+VOC & Fog & +0.018 & 34.2 & 36.5 & 29.3 \\
+VOC & JPEG & -2.033 & 9.3 & 80.2 & 10.5 \\
+KITTI & Gaussian noise & -3.532 & 51.5 & 13.8 & 34.8 \\
+KITTI & Motion blur & -4.350 & 57.1 & 37.4 & 5.5 \\
+KITTI & Fog & +1.608 & 23.9 & 24.8 & 51.3 \\
+KITTI & JPEG & +0.120 & 38.4 & 54.6 & 7.0 \\
+TT100K & Gaussian noise & -1.381 & 8.7 & 22.5 & 68.8 \\
+TT100K & Motion blur & -0.998 & 12.6 & 5.5 & 82.0 \\
+TT100K & Fog & +0.769 & 11.5 & 27.5 & 61.0 \\
+TT100K & JPEG & -0.787 & 90.9 & 0.5 & 8.5 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\section{Fixed-class-universe bootstrap sensitivity}
+
+For the prespecified TT100K YOLO11m/motion-blur/severity-5 stress cell, a
+positive-weight Bayesian image bootstrap retained the complete category
+universe across all 3,067 images. With 10,000 draws, the $\DeltaE$ percentiles
+were $[-1.19,-0.17,+0.88]$, compared with $[-1.79,-0.20,+1.34]$ under the
+ordinary 2,000-draw image bootstrap. The height-based $\DeltaPsi$ percentiles
+were $[-5.69,-4.08,-2.48]$ versus $[-7.22,-4.48,-1.81]$. The median sign and
+zero-crossing status of $\DeltaE$, and the negative-interval status of
+$\DeltaPsi$, were unchanged. This targeted cell does not establish
+class-composition invariance for the full TT100K grid.
+
+\section{Architecture-portability stress cases}
+
+The RT-DETR-L and RetinaNet-R50-FPN-v2 extension tests whether the frozen
+quantization recipes transfer beyond the YOLO family. It is interpreted in a
+fixed sequence: matched-clean fidelity first, corruption interaction second,
+and absolute corrupted AP third.
+
+\begin{table}[htbp]
+\centering
+\caption{Matched JPEG-95 clean AP and clean quantization gaps for the
+architecture-portability stress cases.}
+\label{tab:cross-clean}
+\scriptsize
+\resizebox{\textwidth}{!}{\input{generated/cross_family_q95_summary.tex}}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Canonical cross-family interaction summaries under
+$E=Q_c-Q_{95}$. Negative INT8 means largely reflect contraction of a large
+clean gap near low corrupted AP.}
+\label{tab:cross-interaction}
+\scriptsize
+\resizebox{\textwidth}{!}{\input{generated/cross_family_interaction.tex}}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Descriptive direct $\DeltaE$ summaries for the architecture stress
+cases. These values are not evidence of intrinsic datatype superiority.}
+\label{tab:cross-direct}
+\small
+\resizebox{0.72\textwidth}{!}{\input{generated/cross_family_direct_summary.tex}}
+\end{table}
+
+FP8 remained within 1.15 matched-clean AP points of the FP32-typed engine in all
+six dataset--family blocks. By contrast, the transferred INT8 recipe produced
+mean clean gaps of 38.66 AP for RT-DETR-L and 22.53 for RetinaNet. Mean
+corrupted INT8 AP was 1.97 and 11.34, respectively. The supported conclusion is
+therefore a failure of recipe portability under these recorded treatments, not
+an intrinsic limitation of INT8 or a universal advantage of FP8.
+
+\section{Evidence-generation and audit boundary}
+
+The source package separates three layers:
+\begin{itemize}
+  \item \textbf{Metric ledgers and evidence reports} contain the retained
+  summaries and upstream SHA-256 bindings supplied with the study.
+  \item \textbf{Generation scripts} deterministically reconstruct the
+  decision-impact diagnostic and the canonical cross-family sign convention
+  from packaged CSV inputs.
+  \item \textbf{LaTeX} consumes prevalidated tables and figures; compilation
+  itself does not recompute model inference or independently verify external
+  files that are absent from the source package.
+\end{itemize}
+
+The external research pipeline validated metric-to-run, input-manifest,
+ordered-image, prediction, and analysis hashes before generating the packaged
+artifacts. The manuscript does not claim that the LaTeX engine performs those
+checks. The included validator checks package-level consistency: row counts,
+formula signs, required files, abstract/highlight constraints, graphical
+abstract dimensions, unresolved placeholders, and SHA-256 manifest integrity.
+Raw datasets, checkpoints, TensorRT engines, and per-image predictions are not
+redistributed in this submission source.
+
+\section{Minimum reporting checklist for paired corruption studies}
+
+For reuse of this protocol, a report should state at least:
+\begin{itemize}
+  \item the exact clean materialization and whether corrupted arms share its
+  terminal codec;
+  \item the treatment-level quantization recipe, graph coverage, calibration
+  identities, runtime version, and decoder;
+  \item the atomic image IDs and proof that compared arms consume identical
+  ordered inputs;
+  \item the direct clean-adjusted contrast, not only corrupted treatment means;
+  \item absolute corrupted AP and explicit low-accuracy floor inventories;
+  \item the resampling unit, pairing structure, draw reuse, and uncertainty
+  boundary;
+  \item the finite-grid weighting target and all non-pooled endpoint families;
+  \item sensitivity to split reuse, corruption realization, training and
+  calibration seeds, class universe, and recipe transfer where feasible.
+\end{itemize}
+
+\end{document}

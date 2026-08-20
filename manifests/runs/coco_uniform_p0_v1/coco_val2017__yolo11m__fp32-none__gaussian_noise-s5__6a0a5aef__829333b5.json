@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "condition_id": "coco_val2017__yolo11m__fp32-none__gaussian_noise-s5__6a0a5aef__829333b5",
+  "dataset": "coco",
+  "split": "val2017",
+  "model": "yolo11m",
+  "precision": "fp32",
+  "calibrator": "none",
+  "calibration_list_path": null,
+  "calibration_sha256": null,
+  "calibration_method": "not_applicable",
+  "calibration_provenance": "not_applicable",
+  "corruption": "gaussian_noise",
+  "severity": 5,
+  "engine_path": "/home/thuan/topic_c_ivc/engines/coco/yolo11m/fp32.plan",
+  "engine_sha256": "6a0a5aef7a9611072847ffac3b20bb429af2537bd55804628e1187553aee8490",
+  "runner_sha256": "78c9d445915bd4e4474ecc643f60e169d04fd86edff114fca9b24f54c9f9ad5b",
+  "preprocess_sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+  "decoder_sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c",
+  "class_map_path": null,
+  "class_map_sha256": "builtin:COCO80_TO_91",
+  "annotation_sha256": "e8c7f7908f1d7278341fae127d0da654f102f11bd7b21d8aeefa635b8c810b6f",
+  "input_manifest_sha256": "829333b5052f32a9398488198945cb930d9c80128dba54e86e3c70abb7152b52",
+  "input_image_ids_sha256": "da6fc732d63651c32997a20b8f1197813a923613f059986297c5ddd5c6325190",
+  "prediction_sha256": "d6457cb2da99a7562153b35687bc491fd5d7d949c5fc83c228ddf0821f4ccff4",
+  "n_images": 5000,
+  "n_detections": 650348,
+  "runtime_seconds": 52.19652819633484,
+  "runtime_environment": {
+    "python_executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "python_version": "3.11.15",
+    "tensorrt_version": "11.1.0.106",
+    "gpu": [
+      "NVIDIA GeForce RTX 5090, 610.43.02, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb"
+    ]
+  },
+  "command": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py --engine /home/thuan/topic_c_ivc/engines/coco/yolo11m/fp32.plan --annotations /home/thuan/coco_journal/data/coco_src/annotations/instances_val2017.json --image-manifest /home/thuan/topic_c_ivc/manifests/images/coco_val2017_full_gaussian_noise_s5.json --manifest-cache-root /home/thuan/topic_c_ivc/data/coco_c --out /home/thuan/topic_c_ivc/outputs/predictions/coco_uniform_p0_v1/coco_val2017__yolo11m__fp32-none__gaussian_noise-s5__6a0a5aef__829333b5.json --input-record /home/thuan/topic_c_ivc/outputs/inputs/coco_uniform_p0_v1/coco_val2017__yolo11m__fp32-none__gaussian_noise-s5__6a0a5aef__829333b5.json --run-record /home/thuan/topic_c_ivc/manifests/runs/coco_uniform_p0_v1/coco_val2017__yolo11m__fp32-none__gaussian_noise-s5__6a0a5aef__829333b5.json --condition-id coco_val2017__yolo11m__fp32-none__gaussian_noise-s5__6a0a5aef__829333b5 --dataset coco --split val2017 --imgsz 640 --model yolo11m --precision fp32 --calibrator none --corruption gaussian_noise --severity 5"
+}

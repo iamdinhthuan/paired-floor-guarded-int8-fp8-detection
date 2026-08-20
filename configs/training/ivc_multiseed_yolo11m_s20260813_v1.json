@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "profile_id": "ivc_multiseed_yolo11m_s20260813_v1",
+  "models": ["yolo11m"],
+  "epochs": 100,
+  "imgsz_by_dataset": {"voc": 640, "kitti": 640, "tt100k": 1280},
+  "batch_by_dataset": {"voc": 16, "kitti": 16, "tt100k": 4},
+  "device": 0,
+  "workers": 8,
+  "seed": 20260813,
+  "deterministic": true,
+  "pretrained": true,
+  "optimizer": "auto",
+  "patience": 0,
+  "close_mosaic": 10,
+  "cache": false,
+  "amp": true,
+  "save_period": -1
+}

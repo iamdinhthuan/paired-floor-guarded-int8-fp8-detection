@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "attempt": "voc_kitti_confirmatory_v1",
+  "protocol_config": "configs/confirmatory_voc_kitti_v1.json",
+  "protocol_config_sha256": "53a859e5cb0c26183701b2b2a86b3f792affb54819acb044b4a3e331a4184b48",
+  "training_queue": "configs/training/voc_kitti_confirmatory_yolo11_nmx_queue_v1.json",
+  "training_queue_sha256": "72068d5f3fe22b5c955e91e4e50942e8b5f89249e2c0e84f20b68d91867d8fd3",
+  "supersedes_execution_config": "configs/confirmatory_execution_v1.json",
+  "supersedes_execution_config_sha256": "891d87fb477a84dd0c475c8784668d215a03e9072fbdfbbf1c8ff2091ba5a886",
+  "correction": "The scientific partition role remains final holdout; the machine-readable Ultralytics split key is test, matching the frozen clean manifests and class maps.",
+  "models": ["yolo11n", "yolo11m", "yolo11x"],
+  "precisions": ["fp32", "fp16", "int8-entropy", "fp8"],
+  "scientific_precisions": ["fp32", "int8-entropy", "fp8"],
+  "corruptions": ["gaussian_noise", "motion_blur", "fog", "jpeg"],
+  "severities": [1, 3, 5],
+  "corruption_config": "configs/corruptions.json",
+  "trt_root": "/home/thuan/traffic/third_party/TensorRT-11.1.0.106",
+  "workspace": "4096M",
+  "reference": {
+    "tf32_enabled": false,
+    "fp16_ap_tolerance_native": 0.01,
+    "required_parity_chain": ["PyTorch", "FP32 ONNX Runtime", "FP32 TensorRT", "FP16 TensorRT"]
+  },
+  "bootstrap": {
+    "draws": 2000,
+    "seed": 20260818,
+    "joint_schedule_per_dataset": true
+  },
+  "datasets": {
+    "voc": {
+      "split": "test",
+      "partition_role": "final",
+      "imgsz": 640,
+      "expected_images": 5823,
+      "annotation": "manifests/annotations/voc_confirmatory_final_v1_coco.json",
+      "clean_manifest": "manifests/images/voc_confirmatory_final_clean_v1.json",
+      "class_map": "manifests/classes/voc_confirmatory_final_v1.json",
+      "calibration": "manifests/calibration/voc_confirmatory_train_512_s20260818_v1.json",
+      "clean_root": "data/datasets/VOC",
+      "corruption_root": "data/confirmatory_corruptions/voc_kitti_confirmatory_v1/voc"
+    },
+    "kitti": {
+      "split": "test",
+      "partition_role": "final",
+      "imgsz": 640,
+      "expected_images": 1197,
+      "annotation": "manifests/annotations/kitti_confirmatory_final_v1_coco.json",
+      "clean_manifest": "manifests/images/kitti_confirmatory_final_clean_v1.json",
+      "class_map": "manifests/classes/kitti_confirmatory_final_v1.json",
+      "calibration": "manifests/calibration/kitti_confirmatory_train_512_s20260818_v1.json",
+      "clean_root": "data/datasets/kitti",
+      "corruption_root": "data/confirmatory_corruptions/voc_kitti_confirmatory_v1/kitti"
+    }
+  },
+  "config_sha256": "4be4e3b46d8a626006692012fae633710f7dab284b89ddc191203a44a187cb43"
+}

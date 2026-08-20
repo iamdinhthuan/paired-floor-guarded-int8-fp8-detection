@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "queue_id": "voc_kitti_yolo11_nmx_queue_v1",
+  "profile": "configs/training/voc_kitti_yolo11_nmx_v1.json",
+  "jobs": [
+    {"dataset": "voc", "model": "yolo11n", "run_id": "voc_yolo11n_train_v1"},
+    {"dataset": "voc", "model": "yolo11m", "run_id": "voc_yolo11m_train_v1"},
+    {"dataset": "voc", "model": "yolo11x", "run_id": "voc_yolo11x_train_v1"},
+    {"dataset": "kitti", "model": "yolo11n", "run_id": "kitti_yolo11n_train_v1"},
+    {"dataset": "kitti", "model": "yolo11m", "run_id": "kitti_yolo11m_train_v1"},
+    {"dataset": "kitti", "model": "yolo11x", "run_id": "kitti_yolo11x_train_v1"}
+  ]
+}

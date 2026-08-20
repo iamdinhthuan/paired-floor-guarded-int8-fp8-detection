@@ -1,0 +1,18 @@
+\begin{tabular}{llrrl}
+\toprule
+Analysis & Level & Cells & Mean $\Delta E$ (AP pt) & SD / IQR (AP pt) \\
+\midrule
+Cell distribution & all cells & 144 & -0.02 & 1.20 / [-0.39, +0.56] \\
+Weighting & equal cell & 144 & -0.02 & -- \\
+Weighting & image weighted & 144 & +0.00 & -- \\
+Weighting & object weighted & 144 & -0.09 & -- \\
+Leave-one-dataset-out & COCO & 108 & +0.03 & -- \\
+Leave-one-dataset-out & KITTI & 108 & +0.13 & -- \\
+Leave-one-dataset-out & TT100K & 108 & -0.23 & -- \\
+Leave-one-dataset-out & VOC & 108 & -0.01 & -- \\
+Leave-one-corruption-out & Fog & 108 & -0.16 & -- \\
+Leave-one-corruption-out & Gaussian noise & 108 & -0.02 & -- \\
+Leave-one-corruption-out & JPEG & 108 & +0.04 & -- \\
+Leave-one-corruption-out & Motion blur & 108 & +0.05 & -- \\
+\bottomrule
+\end{tabular}

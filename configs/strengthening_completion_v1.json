@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "attempt": "ivc_confirmatory_strengthening_v1",
+  "reports": {
+    "strict_reference_parity": "outputs/reports/voc_kitti_confirmatory_reference_parity_v2.json",
+    "confirmatory_analysis": "outputs/reports/voc_kitti_confirmatory_analysis_v1.json",
+    "realization_analysis": "outputs/reports/corruption_realization_analysis_v1.json",
+    "fixed_universe_sensitivity": "outputs/bootstrap/fixed_universe_sensitivity_v1/tt100k_yolo11m_motion_blur_s5_b10000.json"
+  },
+  "source_manifest": [
+    {"path": "src/finalize_strengthening.py", "sha256": "5f2d0005f66e761751774d20aeba419f1163c5f3bc89b5af1014fcd01d16393f"},
+    {"path": "src/run_fixed_universe_sensitivity.py", "sha256": "d2a60b6f145fb8f0342300feba377e405bc128b06a3e4ff6e61422affd0c4320"},
+    {"path": "src/fixed_universe_bootstrap.py", "sha256": "a81e4ebedaf733ee3e39e71918a8ac65e5f40bde947b5ab4b5d10bb9a91224cc"},
+    {"path": "src/analyze_confirmatory.py", "sha256": "96301c585d9d0eeb9abc67d65f172cea2e9b8f4a7355614aa7934be0203e082b"},
+    {"path": "src/analyze_corruption_realization.py", "sha256": "73c6741902e29a5f00a6c4afab98006ac97b3c39035da7a6e7143fb4d834b996"},
+    {"path": "src/run_corruption_realization_bootstrap.py", "sha256": "d80fb132509617d2bb911bfc822ba0b3e61eaef83e8825290c6a532a5dcfeb4d"},
+    {"path": "src/run_confirmatory_bootstrap.py", "sha256": "fec8240af0aaaa4abd5a3a8e6b752ed9d0476b5f794f29880155c63e52d1b573"},
+    {"path": "src/bootstrap_format_contrast.py", "sha256": "1bcfd3630fa75df46c450e635a7b5e8120ffa41973811565d7c9aae454a72b36"},
+    {"path": "src/pilot_registry.py", "sha256": "3d2bcbbd9ae09fa9ab4abbba510cc9bad6f56a4ba66f60c05ecd1946d53892f6"},
+    {"path": "src/topic_c/manifest.py", "sha256": "2704f5acb66eec6b4488fe402747f7b07f8b14e2d2576fbd3be4379a6a3758c7"}
+  ],
+  "config_sha256": "3c8c55572f793e05ebc0109ec8fcc781196a4e9a963124d2d988603c76b2fb98"
+}

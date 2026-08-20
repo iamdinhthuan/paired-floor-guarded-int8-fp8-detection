@@ -1,0 +1,58 @@
+{
+  "codec_sensitivity.csv": {
+    "codec_clean_ap": "native AP fraction; multiply by 100 for AP points",
+    "codec_minus_original": "JPEG-95 minus original-source clean AP in AP points",
+    "original_clean_ap": "native AP fraction; multiply by 100 for AP points"
+  },
+  "direct_absolute_guardrail.csv": {
+    "clean_ap_native": "native AP fraction; multiply by 100 for AP points",
+    "corrupt_ap_native": "native AP fraction; multiply by 100 for AP points",
+    "d_native": "clean AP minus corrupted AP in the native AP fraction",
+    "metric_sha256_columns": "SHA-256 of the exact validated clean/corrupted metric records"
+  },
+  "direct_deployment_conditions.csv": {
+    "engine_bytes": "bytes",
+    "latency_columns": "milliseconds",
+    "throughput_qps": "queries per second"
+  },
+  "direct_format_contrast_cells.csv": {
+    "ap_columns": [
+      "delta_q_all",
+      "delta_e_all",
+      "delta_e_ci_low",
+      "delta_e_ci_median",
+      "delta_e_ci_high",
+      "delta_e_small",
+      "delta_e_large",
+      "delta_psi",
+      "delta_psi_ci_low",
+      "delta_psi_ci_median",
+      "delta_psi_ci_high"
+    ],
+    "unit": "native AP fraction; multiply by 100 for AP points"
+  },
+  "direct_format_contrast_macro.csv": {
+    "ap_columns": [
+      "point",
+      "ci_low",
+      "ci_median",
+      "ci_high"
+    ],
+    "unit": "native AP fraction; multiply by 100 for AP points"
+  },
+  "direct_heterogeneity_sensitivity.csv": {
+    "leave_one_out": "mean of retained direct cells after the named exclusion",
+    "point_native": "native AP fraction; multiply by 100 for AP points",
+    "weighting": "equal-cell, image-count, or object-count descriptive weights"
+  },
+  "direct_runtime_sensitivity.csv": {
+    "ratios": "matched-condition latency ratios; table entries are median [Q1, Q3]",
+    "strata": "fixed input size or YOLO11 capacity"
+  },
+  "direct_size_guardrail.csv": {
+    "endpoint_types": "COCO area for COCO/VOC/KITTI; original-box height for TT100K",
+    "metric_sha256_columns": "same exact validated metrics as the overall absolute guardrail",
+    "unit": "native AP fraction; multiply by 100 for AP points"
+  },
+  "schema_version": 1
+}

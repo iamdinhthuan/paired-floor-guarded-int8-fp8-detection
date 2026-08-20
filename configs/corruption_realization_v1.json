@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "attempt": "corruption_realization_v1",
+  "realization_seeds": [202608181, 202608182, 202608183],
+  "conservative_cache_estimate_gib": 64,
+  "minimum_free_gib_after_estimate": 40,
+  "corruption_config": "configs/corruptions.json",
+  "corruption_config_sha256": "70d4dab238583f9de4e6f005810da97d94bc193617462ef99138585908ae6b9f",
+  "datasets": [
+    {
+      "dataset": "voc",
+      "split": "test",
+      "imgsz": 640,
+      "clean_root": "data/datasets/VOC",
+      "subset_registry": "outputs/reports/corruption_realization_v1/voc_subset512_registry.json",
+      "subset_registry_sha256": "9664c93859a547da22b9549594fc6c3d4e286d85aa8cc911a0364c7304bbcc56",
+      "class_map": "manifests/classes/corruption_realization_v1/voc_subset512.json",
+      "class_map_sha256": "444b6e4664e52b8c4b8886d86329376d7420d9200f3b87fc70103c4829b579eb",
+      "calibration_list": "manifests/calibration/voc_confirmatory_train_512_s20260818_v1.json",
+      "calibration_list_sha256": "722c53f8410590ef0cabd447665031961d88f64ac782bf5e06898279fc144388",
+      "engines": {
+        "int8-entropy": {
+          "registry": "manifests/engines/voc_kitti_confirmatory_v1/voc_yolo11m_int8-entropy.json",
+          "registry_sha256": "a123dd7b4fb45114384618d1c2e6839a8f7d41a53b9622ef643e8d039cfedd32"
+        },
+        "fp8": {
+          "registry": "manifests/engines/voc_kitti_confirmatory_v1/voc_yolo11m_fp8.json",
+          "registry_sha256": "c39af94b5349fc94e0af61edc3f020ba4e51eb7c5caee3b995f7bf079bd4cbd5"
+        }
+      }
+    },
+    {
+      "dataset": "kitti",
+      "split": "test",
+      "imgsz": 640,
+      "clean_root": "data/datasets/kitti",
+      "subset_registry": "outputs/reports/corruption_realization_v1/kitti_subset512_registry.json",
+      "subset_registry_sha256": "d24d0938aa57a418bce8faa482d36550b3e472497626ddbe83df872ce434e010",
+      "class_map": "manifests/classes/corruption_realization_v1/kitti_subset512.json",
+      "class_map_sha256": "9a2aac8ca8231c313dbc4c8f90b9e3d6261389e7637da2fa750cbef225fc3ebf",
+      "calibration_list": "manifests/calibration/kitti_confirmatory_train_512_s20260818_v1.json",
+      "calibration_list_sha256": "9ca260168ecec94f7645236559b6eaab26d88a00fd47f56ee8aad2be3f9af3c5",
+      "engines": {
+        "int8-entropy": {
+          "registry": "manifests/engines/voc_kitti_confirmatory_v1/kitti_yolo11m_int8-entropy.json",
+          "registry_sha256": "2f0d0240821f4675125eb83fe034aeec6ee787b0b468b422b95f18e8c462858b"
+        },
+        "fp8": {
+          "registry": "manifests/engines/voc_kitti_confirmatory_v1/kitti_yolo11m_fp8.json",
+          "registry_sha256": "eee959e4d32bb709e4ad6b0925e932a9d09a10fcfd7a877579b55b80e784e189"
+        }
+      }
+    },
+    {
+      "dataset": "tt100k",
+      "split": "test",
+      "imgsz": 1280,
+      "clean_root": "data/datasets/TT100K",
+      "subset_registry": "outputs/reports/corruption_realization_v1/tt100k_subset512_registry.json",
+      "subset_registry_sha256": "3a4158de666f7429b38a28251ca2ec54fa91cd3e646998f0b203acb9d0d4b208",
+      "class_map": "manifests/classes/corruption_realization_v1/tt100k_subset512.json",
+      "class_map_sha256": "b1bfbe988cbc3d32b9a562988e4f791b7705e0fa925d2e4d4ca018bd3563551e",
+      "calibration_list": "manifests/calibration/tt100k_train_clean_512_s20260807_v1.json",
+      "calibration_list_sha256": "22d52375bfa4c08fbed3431b963a46d1c74f91d9ef253173d1dc0b941fe0c744",
+      "engines": {
+        "int8-entropy": {
+          "registry": "manifests/engines/ivc_multiseed_yolo11m_s5_v1/tt100k__yolo11m__ts20260807__cs20260807__int8-entropy.json",
+          "registry_sha256": "4397d7a5bd5490b516348feeeba6b8d8ff609810b289009ce072f35fc93a82bc"
+        },
+        "fp8": {
+          "registry": "manifests/engines/ivc_multiseed_yolo11m_s5_v1/tt100k__yolo11m__ts20260807__cs20260807__fp8.json",
+          "registry_sha256": "25f675c4763492a4735382d6d76ed24b742e6d2f15a276ad9c1a0d1e8496047d"
+        }
+      }
+    }
+  ],
+  "source_manifest": [
+    {"path": "src/run_corruption_realization_sensitivity.py", "sha256": "ea31c267e72a8a4c58af757272f71e42a81759407f1d04705d996b69e8ac1599"},
+    {"path": "src/generate_corruption_realization.py", "sha256": "3f897138871956080d7c74cb86e0744bc452c0a36d33d1aa8cee394471a78ec5"},
+    {"path": "src/generate_corruption.py", "sha256": "8ed870a101fa71c51f943b0add8ea3c0fc1311e0c92feab73bde1fc4372acb7a"},
+    {"path": "src/coco_infer_trt.py", "sha256": "78c9d445915bd4e4474ecc643f60e169d04fd86edff114fca9b24f54c9f9ad5b"},
+    {"path": "src/coco_eval.py", "sha256": "fd8927b9073d02454de28b75eb0826d34e4b09001651364de2d070a1430d1021"},
+    {"path": "src/pilot_registry.py", "sha256": "3d2bcbbd9ae09fa9ab4abbba510cc9bad6f56a4ba66f60c05ecd1946d53892f6"},
+    {"path": "src/topic_c/manifest.py", "sha256": "2704f5acb66eec6b4488fe402747f7b07f8b14e2d2576fbd3be4379a6a3758c7"},
+    {"path": "src/topic_c/coco_data.py", "sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804"},
+    {"path": "src/topic_c/yolo_decode.py", "sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c"}
+  ],
+  "config_sha256": "10b8054a3acac9009bfa4985d9dc60538629ae6ab801a17b1524fc3b22611240"
+}

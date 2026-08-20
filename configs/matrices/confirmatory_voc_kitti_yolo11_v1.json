@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "purpose": "Prospectively locked final-partition confirmatory grid for VOC and KITTI.",
+  "models": ["yolo11n", "yolo11m", "yolo11x"],
+  "precisions": ["fp32", "int8-entropy", "fp8"],
+  "conditions": [
+    {"corruption": "clean", "severity": 0},
+    {"corruption": "gaussian_noise", "severity": 1},
+    {"corruption": "gaussian_noise", "severity": 3},
+    {"corruption": "gaussian_noise", "severity": 5},
+    {"corruption": "motion_blur", "severity": 1},
+    {"corruption": "motion_blur", "severity": 3},
+    {"corruption": "motion_blur", "severity": 5},
+    {"corruption": "fog", "severity": 1},
+    {"corruption": "fog", "severity": 3},
+    {"corruption": "fog", "severity": 5},
+    {"corruption": "jpeg", "severity": 1},
+    {"corruption": "jpeg", "severity": 3},
+    {"corruption": "jpeg", "severity": 5}
+  ],
+  "expected_runs_per_dataset": 117,
+  "bootstrap_replicates": 2000,
+  "bootstrap_seed": 20260818,
+  "dataset_protocols": {
+    "voc": {
+      "split": "final",
+      "size_metric": "COCO area ranges after immutable YOLO-to-COCO conversion"
+    },
+    "kitti": {
+      "split": "final",
+      "size_metric": "COCO area ranges after immutable YOLO-to-COCO conversion"
+    }
+  }
+}

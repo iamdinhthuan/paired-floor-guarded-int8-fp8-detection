@@ -1,0 +1,30 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.superpowers/
+data/coco_c/
+data/tt100k_c/
+engines/
+outputs/
+artifacts/
+
+# Local LaTeX build products and upload bundles
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+paper/main.abs
+paper/overleaf_upload_*/
+paper/overleaf_upload_*.zip
+
+# Local/editor/system state
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.tmp

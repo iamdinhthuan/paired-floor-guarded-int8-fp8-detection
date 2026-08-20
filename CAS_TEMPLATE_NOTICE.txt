@@ -1,0 +1,4 @@
+This directory contains unmodified local copies of the Elsevier CAS
+class files `cas-dc.cls`, `cas-common.sty`, and `cas-model2-names.bst` so that
+the Overleaf upload has its required class/style assets beside `main.tex`.
+They originate from the installed TeX Live els-cas-templates distribution.

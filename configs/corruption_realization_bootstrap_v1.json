@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "attempt": "corruption_realization_bootstrap_v1",
+  "n_boot": 2000,
+  "workers": 2,
+  "seed_namespace": "ivc-corruption-realization-image-bootstrap-v1",
+  "source_manifest": [
+    {"path": "src/run_corruption_realization_bootstrap.py", "sha256": "d80fb132509617d2bb911bfc822ba0b3e61eaef83e8825290c6a532a5dcfeb4d"},
+    {"path": "src/bootstrap_format_contrast.py", "sha256": "1bcfd3630fa75df46c450e635a7b5e8120ffa41973811565d7c9aae454a72b36"},
+    {"path": "src/paired_bootstrap.py", "sha256": "30d96c5e78aeb8054498c65f22c00828a5cb4fefc13fb81ca19b69a0c32653ef"},
+    {"path": "src/run_corruption_realization_sensitivity.py", "sha256": "ea31c267e72a8a4c58af757272f71e42a81759407f1d04705d996b69e8ac1599"},
+    {"path": "src/analyze_corruption_realization.py", "sha256": "73c6741902e29a5f00a6c4afab98006ac97b3c39035da7a6e7143fb4d834b996"},
+    {"path": "src/topic_c/manifest.py", "sha256": "2704f5acb66eec6b4488fe402747f7b07f8b14e2d2576fbd3be4379a6a3758c7"},
+    {"path": "src/pilot_registry.py", "sha256": "3d2bcbbd9ae09fa9ab4abbba510cc9bad6f56a4ba66f60c05ecd1946d53892f6"}
+  ],
+  "config_sha256": "ac8310916937ef32ad3fda34b8f7904f9d5632b62b3bb00698cd3c80784a9bd2"
+}

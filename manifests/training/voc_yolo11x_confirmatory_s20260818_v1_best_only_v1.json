@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "completed_at_utc": "2026-08-18T12:46:07.423876+00:00",
+  "run_id": "voc_yolo11x_confirmatory_s20260818_v1",
+  "training_registry": "/home/thuan/topic_c_ivc/manifests/training/voc_yolo11x_confirmatory_s20260818_v1.json",
+  "training_registry_sha256": "b33a8b446f90bcebc5b5e260af26e83c08a510406b9f97f7304cc47cd2f4e993",
+  "retained_best_weights": "/home/thuan/topic_c_ivc/outputs/training/voc/voc_yolo11x_confirmatory_s20260818_v1/weights/best.pt",
+  "retained_best_weights_sha256": "8118f728bade6fb3f6b18be9b6bed24072efcbfc8d6fba9ed7ff6c9dc2e84722",
+  "deleted_last_weights": "/home/thuan/topic_c_ivc/outputs/training/voc/voc_yolo11x_confirmatory_s20260818_v1/weights/last.pt",
+  "deleted_last_weights_sha256": "af01fe52dd63d042bb3d87ebafc65dd0150071d9ce13c3efedcd811b6f16aae0",
+  "recovery": "last.pt was intentionally deleted after hash validation; best.pt remains"
+}

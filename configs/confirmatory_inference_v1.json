@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "attempt": "voc_kitti_confirmatory_v1",
+  "execution_config": "configs/confirmatory_execution_v2.json",
+  "execution_config_sha256": "c1bf0427edf1750c20ff9114403c2343ca009de57bec43b199423118a573291e",
+  "prep_config": "configs/confirmatory_prep_v2.json",
+  "prep_config_sha256": "04424a56374721d7427f43a8ac1bc9ce0f843ee8b4bd7329fe2682bef26e0d24",
+  "reviewed_by": "project-owner-explicit-confirmatory-approval-2026-08-18",
+  "source_manifest": [
+    {
+      "path": "src/run_confirmatory_inference.py",
+      "sha256": "5f42b87f2307ab7d3fc8650996baf901ff57ae0c526cb2166ccf12e9597ce147"
+    },
+    {
+      "path": "src/execute_dataset_pilot.py",
+      "sha256": "aa04053adaf931a33c38a4d4e64f54ea484968723d1625e76b70e8a5ce89bf70"
+    },
+    {
+      "path": "src/evaluate_dataset_pilot.py",
+      "sha256": "9761cf0d6856e3e857ca4de3e03922519ecc18f05766de2ecdb0f0fbd1df7464"
+    },
+    {
+      "path": "src/coco_infer_trt.py",
+      "sha256": "78c9d445915bd4e4474ecc643f60e169d04fd86edff114fca9b24f54c9f9ad5b"
+    },
+    {
+      "path": "src/validate_predictions.py",
+      "sha256": "a08c14d9b03d9ddbf8a002d95afedcefe5d947ce5e81d47b512a7b918cd1f7c6"
+    },
+    {
+      "path": "src/coco_eval.py",
+      "sha256": "fd8927b9073d02454de28b75eb0826d34e4b09001651364de2d070a1430d1021"
+    },
+    {
+      "path": "src/validate_run_registry.py",
+      "sha256": "85ccf64e862fff5fb2e3a4563b0cfe4829d514ab04d3b08e2b702e066e257129"
+    },
+    {
+      "path": "src/topic_c/coco_data.py",
+      "sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804"
+    },
+    {
+      "path": "src/topic_c/yolo_decode.py",
+      "sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c"
+    }
+  ],
+  "config_sha256": "56de4e811e21477208e3a50019f9e4c945756d8dbbbd53731866b7e8fd464106"
+}

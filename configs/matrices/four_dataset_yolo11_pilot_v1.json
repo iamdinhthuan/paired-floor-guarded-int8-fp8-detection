@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "purpose": "Apply the reviewed COCO pilot matrix consistently to VOC, KITTI, and TT100K after dataset-specific FP16 parity.",
+  "models": ["yolo11n", "yolo11m", "yolo11x"],
+  "precisions": ["fp32", "int8-entropy", "fp8"],
+  "conditions": [
+    {"corruption": "clean", "severity": 0},
+    {"corruption": "gaussian_noise", "severity": 1},
+    {"corruption": "gaussian_noise", "severity": 3},
+    {"corruption": "gaussian_noise", "severity": 5},
+    {"corruption": "motion_blur", "severity": 1},
+    {"corruption": "motion_blur", "severity": 3},
+    {"corruption": "motion_blur", "severity": 5},
+    {"corruption": "fog", "severity": 1},
+    {"corruption": "fog", "severity": 3},
+    {"corruption": "fog", "severity": 5},
+    {"corruption": "jpeg", "severity": 1},
+    {"corruption": "jpeg", "severity": 3},
+    {"corruption": "jpeg", "severity": 5}
+  ],
+  "expected_runs_per_dataset": 117,
+  "fp16_parity_tolerance_ap": 0.01,
+  "pilot_bootstrap_replicates": 500,
+  "dataset_protocols": {
+    "coco": {"split": "val2017", "size_metric": "COCO native area"},
+    "voc": {"split": "val", "size_metric": "COCO area ranges after immutable YOLO-to-COCO conversion"},
+    "kitti": {"split": "val", "size_metric": "COCO area ranges after immutable YOLO-to-COCO conversion"},
+    "tt100k": {"split": "test", "size_metric": "original-image bbox height XS/S/M/L/XL"}
+  }
+}

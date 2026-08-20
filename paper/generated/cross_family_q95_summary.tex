@@ -1,0 +1,12 @@
+\begin{tabular}{llrrrrr}
+\toprule
+Dataset & Family & FP32 AP & INT8 AP & FP8 AP & $Q_{95}^{\mathrm{INT8}}$ & $Q_{95}^{\mathrm{FP8}}$ \\
+\midrule
+VOC & RT-DETR-L & 70.44 & 1.14 & 70.14 & 69.30 & 0.30 \\
+VOC & RetinaNet-R50-FPN-v2 & 57.22 & 33.69 & 56.17 & 23.53 & 1.05 \\
+KITTI & RT-DETR-L & 12.29 & 3.32 & 12.02 & 8.97 & 0.27 \\
+KITTI & RetinaNet-R50-FPN-v2 & 50.43 & 7.13 & 49.27 & 43.30 & 1.15 \\
+TT100K & RT-DETR-L & 43.17 & 5.46 & 42.13 & 37.71 & 1.04 \\
+TT100K & RetinaNet-R50-FPN-v2 & 3.37 & 2.60 & 3.38 & 0.77 & -0.01 \\
+\bottomrule
+\end{tabular}

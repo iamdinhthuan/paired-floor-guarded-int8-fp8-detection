@@ -1,0 +1,34 @@
+{
+  "floor_inventory_cells": {
+    "below_10_ap": 18,
+    "below_5_ap": 5
+  },
+  "formula": "raw_corrupt_gap=(FP8-INT8)_clean+DeltaE=(FP8-INT8)_corrupt",
+  "generated_sha256": {
+    "figures/fig_decision_impact.pdf": "a4c3dc15eab99d487504fe99a77ab7325550acfac5acedb1536c5507714aecf9",
+    "figures/fig_decision_impact.png": "710726a77f5b68b9c5f4e370885a6a61d1e72df6a89cc186dd475882020bbd33",
+    "generated/decision_impact_cells.csv": "53e15fba07c4cc268ba823b7963f016cf611ff718d1b4e860024dd6f11fe66d2",
+    "generated/decision_impact_summary.tex": "1d7fe7d022d8efd202b6caa49d46336069ffc57c64cdbcc3ef359094e6402330"
+  },
+  "rows": 144,
+  "schema_version": 1,
+  "scope": "manuscript-level decision-impact diagnostic",
+  "sign_inventory": {
+    "adjusted_negative": 66,
+    "adjusted_positive": 78,
+    "raw_negative": 10,
+    "raw_negative_to_adjusted_positive": 0,
+    "raw_positive": 134,
+    "raw_positive_to_adjusted_negative": 56
+  },
+  "source_sha256": {
+    "generated/direct_absolute_guardrail.csv": "534607d7d643b493fdd9b4db81cb6e42a4d0def4bd670978ed2ec672077ba32a",
+    "generated/direct_format_contrast_cells.csv": "e908252a29f534903366952c3cca222a1b8c8a090fcdea45f7df36e5d5e2acdd"
+  },
+  "status": "valid",
+  "summary_ap_points": {
+    "mean_adjusted_interaction": -0.020910940221622716,
+    "mean_clean_gap": 1.396212756223709,
+    "mean_raw_corrupt_gap": 1.3753018160020865
+  }
+}

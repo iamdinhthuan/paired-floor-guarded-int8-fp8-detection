@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying article when reusing this evaluation protocol or evidence package."
+title: "A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8 Object Detectors under Synthetic Image Corruptions"
+type: software
+version: 2.0.0
+date-released: 2026-08-20
+authors:
+  - family-names: Nguyen
+    given-names: Dinh Thuan
+    orcid: "https://orcid.org/0000-0001-9302-3129"
+  - family-names: Nguyen
+    given-names: Lam Phuong
+    orcid: "https://orcid.org/0009-0007-3439-5871"
+  - family-names: Nguyen
+    given-names: Vinh Huy
+    orcid: "https://orcid.org/0009-0006-0878-9714"
+  - family-names: Elara
+    given-names: Mohan Rajesh
+    orcid: "https://orcid.org/0000-0001-6504-1530"
+  - family-names: Le
+    given-names: Anh Vu
+    orcid: "https://orcid.org/0000-0002-4804-7540"
+keywords:
+  - post-training quantization
+  - object detection
+  - corruption robustness
+  - paired evaluation
+  - FP8
+  - INT8
+  - TensorRT
+abstract: >-
+  Source, manuscript-level evidence ledgers, deterministic validation scripts,
+  and supplementary material for a paired, floor-guarded comparison of recorded
+  TensorRT INT8 and FP8 detector treatments under selected synthetic image
+  corruptions.

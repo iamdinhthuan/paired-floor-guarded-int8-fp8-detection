@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__yolo11n__int8-entropy__jpeg-s5__5f6bf8ee__352f4027",
+  "dataset": "voc",
+  "split": "val",
+  "model": "yolo11n",
+  "precision": "int8-entropy",
+  "calibrator": "entropy",
+  "calibration_list_path": "/home/thuan/topic_c_ivc/manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "ea97698729ac9982292d66d6bc127be8db393cdb713b8f0546e04bf055318a29",
+  "calibration_provenance": "verified",
+  "corruption": "jpeg",
+  "severity": 5,
+  "engine_path": "/home/thuan/topic_c_ivc/engines/voc/yolo11n/int8-entropy.plan",
+  "engine_sha256": "5f6bf8ee37c2826b977215d08cec9dd6d66226a991c5db57acc08e282ca8f6a9",
+  "runner_sha256": "f2cd2300b1f227c46924c515edf824fead5f6f9afb5755376f88a3b75e4765d8",
+  "preprocess_sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+  "decoder_sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c",
+  "class_map_path": "/home/thuan/topic_c_ivc/manifests/classes/voc_val_ultralytics_v1.json",
+  "class_map_sha256": "2b4981e5637852f6e490f46bdf44d486d70f0bb3a7ef987608b251fe9267a51e",
+  "annotation_sha256": "e825593ef803aeedd611fb746de757f18074b96b46408a55b320dea01b7a62a1",
+  "input_manifest_sha256": "352f4027a146097cc9836217d7a80d466e783728bb0e6addb314b0aa8700ed62",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "prediction_sha256": "69ac1c7a26ffc33719a9641e540650b248ba04b76a69c7fa66253eaec1f5ae6d",
+  "n_images": 4952,
+  "n_detections": 206429,
+  "runtime_seconds": 16.444002628326416,
+  "runtime_environment": {
+    "python_executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "python_version": "3.11.15",
+    "tensorrt_version": "11.1.0.106",
+    "gpu": [
+      "NVIDIA GeForce RTX 5090, 610.43.02, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb"
+    ]
+  },
+  "command": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py --engine /home/thuan/topic_c_ivc/engines/voc/yolo11n/int8-entropy.plan --annotations /home/thuan/topic_c_ivc/manifests/annotations/voc_val_ultralytics_v1_coco.json --image-manifest /home/thuan/topic_c_ivc/manifests/images/voc_val_full_jpeg_s5.json --manifest-cache-root /home/thuan/topic_c_ivc/data/voc_c --out /home/thuan/topic_c_ivc/outputs/predictions/voc_pilot_117_v1/voc_val__yolo11n__int8-entropy__jpeg-s5__5f6bf8ee__352f4027.json --input-record /home/thuan/topic_c_ivc/outputs/inputs/voc_pilot_117_v1/voc_val__yolo11n__int8-entropy__jpeg-s5__5f6bf8ee__352f4027.json --run-record /home/thuan/topic_c_ivc/manifests/runs/voc_pilot_117_v1/voc_val__yolo11n__int8-entropy__jpeg-s5__5f6bf8ee__352f4027.json --condition-id voc_val__yolo11n__int8-entropy__jpeg-s5__5f6bf8ee__352f4027 --dataset voc --split val --class-map /home/thuan/topic_c_ivc/manifests/classes/voc_val_ultralytics_v1.json --imgsz 640 --model yolo11n --precision int8-entropy --calibrator entropy --corruption jpeg --severity 5 --calibration-list /home/thuan/topic_c_ivc/manifests/calibration/voc_train_clean_512_s20260807_v1.json --calibration-provenance verified"
+}

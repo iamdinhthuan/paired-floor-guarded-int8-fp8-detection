@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "dataset": "kitti",
+  "split": "test",
+  "annotation_sha256": "816e75bb99ed5bb7428b3fcd467771cf4729892f9d74d45f007e2b79791d0415",
+  "class_to_category_id": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "class_names": [
+    "car",
+    "van",
+    "truck",
+    "pedestrian",
+    "person_sitting",
+    "cyclist",
+    "tram",
+    "misc"
+  ],
+  "acquisition_registry_sha256": "89fdbf13833842ef058f2cab411fc7d5dfce015a879c38bdfae86e7219bc1f30",
+  "source_class_map_sha256": "9beb53076d454fc746269fe566bee7b6660e746c1bbb82f5a2ce072a3a34bc82",
+  "class_map_sha256": "20c933fdda84889e09cb8ab364d1632f981dbe4da96c1103d499936cb95d3a26",
+  "source_class_map_path": "/home/thuan/topic_c_ivc/manifests/classes/kitti_confirmatory_final_v1.json"
+}

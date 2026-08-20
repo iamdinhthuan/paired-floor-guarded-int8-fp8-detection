@@ -1,0 +1,15 @@
+{
+  "audit_sha256": "9026790775743a97de54186ad3233db324fed2ac4af4cdd5492e6b4a7a8e25ee",
+  "generated_artifacts_sha256": {
+    "quantization_graph_coverage.csv": "037b3077fb28b50dfd66849d9e2530c36f1f7b86cb6a33920af43aeff9735f27",
+    "quantization_graph_coverage.tex": "ff0d292be7848c7dbafae3974d562ec6fc49660cd00191a2f9bbc8985ab23047"
+  },
+  "graphs": 30,
+  "input_reports_sha256": {
+    "/data_nvme/paper/Quantization_Corruption_Object/outputs/reports/ivc_quantization_graph_coverage_cross_family_v1.json": "4d98a88c158aca0108d579cac7778112350d6820c048c95ebb62137e91e8107b",
+    "/data_nvme/paper/Quantization_Corruption_Object/outputs/reports/ivc_quantization_graph_coverage_transfer_v1.json": "0c1706bf3dcda40a9cf3dc72d889c79557b104a229abadfc35f0986e3668721e"
+  },
+  "rows": 10,
+  "schema_version": 1,
+  "scope": "ONNX graph-level Q/DQ coverage; not TensorRT kernel precision or fallback evidence"
+}

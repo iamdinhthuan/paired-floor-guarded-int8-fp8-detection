@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "purpose": "Resolve the matched-codec and legacy COCO FP8 provenance confounds.",
+  "seed": 20260807,
+  "calibration_images": 512,
+  "models": ["yolo11n", "yolo11m", "yolo11x"],
+  "precisions": ["fp32", "fp16", "int8-entropy", "fp8"],
+  "scientific_precisions": ["fp32", "int8-entropy", "fp8"],
+  "trt_root": "/home/thuan/traffic/third_party/TensorRT-11.1.0.106",
+  "workspace": "4096M",
+  "tolerance_ap": 0.01,
+  "matrix": "configs/matrices/four_dataset_yolo11_pilot_v1.json",
+  "datasets": [
+    {
+      "dataset": "coco",
+      "split": "val2017",
+      "imgsz": 640,
+      "expected_images": 5000,
+      "annotations": "/home/thuan/coco_journal/data/coco_src/annotations/instances_val2017.json",
+      "clean_root": "/home/thuan/coco_journal/data/coco/images/val2017",
+      "clean_manifest": "manifests/images/coco_val2017_clean_p0_v1.json"
+    }
+  ],
+  "coco": {
+    "dataset": "coco",
+    "split": "val2017",
+    "imgsz": 640,
+    "expected_images": 5000,
+    "annotations": "/home/thuan/coco_journal/data/coco_src/annotations/instances_val2017.json",
+    "clean_root": "/home/thuan/coco_journal/data/coco/images/val2017",
+    "clean_manifest": "manifests/images/coco_val2017_clean_p0_v1.json",
+    "corruption_root": "data/coco_c",
+    "corruption_manifest_template": "manifests/images/coco_val2017_full_{corruption}_s{severity}.json",
+    "calibration_dataset_root": "/home/thuan/hieuhoang/datasets/coco",
+    "calibration_train_dir": "images/train2017",
+    "calibration_list": "manifests/calibration/coco_train_clean_512_s20260807_p0_v1.json",
+    "attempt": "coco_uniform_p0_v1"
+  },
+  "codec_control": {
+    "attempt": "codec_control_p0_v1",
+    "bootstrap_attempt": "matched_codec_p0_v1",
+    "quality": 95,
+    "subsampling": 0,
+    "bootstrap_replicates": 500,
+    "bootstrap_jobs": 3,
+    "datasets": [
+      {
+        "dataset": "coco",
+        "split": "val2017",
+        "imgsz": 640,
+        "expected_images": 5000,
+        "annotations": "/home/thuan/coco_journal/data/coco_src/annotations/instances_val2017.json",
+        "clean_root": "/home/thuan/coco_journal/data/coco/images/val2017",
+        "cache_root": "data/codec_control/coco",
+        "manifest": "manifests/images/coco_val2017_codec_control_q95_p0_v1.json",
+        "engine_registry": "manifests/engines/coco_yolo11_nmx_ladder_v1.json",
+        "calibration_list": "manifests/calibration/coco_train_clean_512_s20260807_p0_v1.json",
+        "corruption_attempt": "coco_uniform_p0_v1"
+      },
+      {
+        "dataset": "voc",
+        "split": "val",
+        "imgsz": 640,
+        "expected_images": 4952,
+        "annotations": "manifests/annotations/voc_val_ultralytics_v1_coco.json",
+        "class_map": "manifests/classes/voc_val_ultralytics_v1.json",
+        "clean_root": "data/datasets/VOC",
+        "cache_root": "data/codec_control/voc",
+        "manifest": "manifests/images/voc_val_codec_control_q95_p0_v1.json",
+        "engine_registry": "manifests/engines/voc_yolo11_nmx_ladder_v1.json",
+        "calibration_list": "manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+        "corruption_attempt": "voc_pilot_117_v1"
+      },
+      {
+        "dataset": "kitti",
+        "split": "val",
+        "imgsz": 640,
+        "expected_images": 1496,
+        "annotations": "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "class_map": "manifests/classes/kitti_val_ultralytics_v1.json",
+        "clean_root": "data/datasets/kitti",
+        "cache_root": "data/codec_control/kitti",
+        "manifest": "manifests/images/kitti_val_codec_control_q95_p0_v1.json",
+        "engine_registry": "manifests/engines/kitti_yolo11_nmx_ladder_v1.json",
+        "calibration_list": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+        "corruption_attempt": "kitti_pilot_117_v1"
+      },
+      {
+        "dataset": "tt100k",
+        "split": "test",
+        "imgsz": 1280,
+        "expected_images": 3067,
+        "annotations": "manifests/annotations/tt100k_test_ultralytics_v1_coco.json",
+        "class_map": "manifests/classes/tt100k_test_ultralytics_v1.json",
+        "clean_root": "data/datasets/TT100K",
+        "cache_root": "data/codec_control/tt100k",
+        "manifest": "manifests/images/tt100k_test_codec_control_q95_p0_v1.json",
+        "engine_registry": "manifests/engines/tt100k_yolo11_nmx_ladder_v1.json",
+        "calibration_list": "manifests/calibration/tt100k_train_clean_512_s20260807_v1.json",
+        "corruption_attempt": "tt100k_pilot_117_v1"
+      }
+    ]
+  }
+}

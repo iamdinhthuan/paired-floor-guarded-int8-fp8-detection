@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "attempt": "voc_kitti_confirmatory_v1",
+  "n_boot": 2000,
+  "seed_namespace": "voc-kitti-confirmatory-final-b2000-20260818",
+  "jobs": 2,
+  "datasets": [
+    {
+      "dataset": "voc",
+      "annotations": "manifests/annotations/voc_confirmatory_final_v1_coco.json",
+      "annotations_sha256": "bc54c213ce5e7585402a8b15e64d2b169fb1356646e9815afcbb814d4b70916a",
+      "expected_images": 5823
+    },
+    {
+      "dataset": "kitti",
+      "annotations": "manifests/annotations/kitti_confirmatory_final_v1_coco.json",
+      "annotations_sha256": "3ac7970874a4a7400c1ea9494f3e0ebf1dbd7a6b0536a426a2abaa199f6b56c1",
+      "expected_images": 1197
+    }
+  ],
+  "source_manifest": [
+    {
+      "path": "src/run_confirmatory_bootstrap.py",
+      "sha256": "fec8240af0aaaa4abd5a3a8e6b752ed9d0476b5f794f29880155c63e52d1b573"
+    },
+    {
+      "path": "src/bootstrap_dataset_pilot.py",
+      "sha256": "327d340d991d10956698f1cda6092b9003893e929c2f9c9519d5c90a6b6b28e3"
+    },
+    {
+      "path": "src/paired_bootstrap.py",
+      "sha256": "30d96c5e78aeb8054498c65f22c00828a5cb4fefc13fb81ca19b69a0c32653ef"
+    },
+    {
+      "path": "src/execute_dataset_pilot.py",
+      "sha256": "aa04053adaf931a33c38a4d4e64f54ea484968723d1625e76b70e8a5ce89bf70"
+    },
+    {
+      "path": "src/pilot_registry.py",
+      "sha256": "3d2bcbbd9ae09fa9ab4abbba510cc9bad6f56a4ba66f60c05ecd1946d53892f6"
+    },
+    {
+      "path": "src/topic_c/manifest.py",
+      "sha256": "2704f5acb66eec6b4488fe402747f7b07f8b14e2d2576fbd3be4379a6a3758c7"
+    },
+    {
+      "path": "src/coco_eval.py",
+      "sha256": "fd8927b9073d02454de28b75eb0826d34e4b09001651364de2d070a1430d1021"
+    }
+  ],
+  "config_sha256": "21d57925ecbbb01bbe437dbf39d9cab9c21b3349bdad4de1c34e3c7e3c5d4b40"
+}

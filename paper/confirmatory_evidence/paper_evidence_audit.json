@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "confirmatory_analysis": {
+    "path": "/data_nvme/paper/Quantization_Corruption_Object/outputs/reports/voc_kitti_confirmatory_analysis_v1.json",
+    "sha256": "a5819e268a4af14f0e8cc4dd1f6ccbfd1255fb75e123864af54c542043bcb27a"
+  },
+  "realization_analysis": {
+    "path": "/data_nvme/paper/Quantization_Corruption_Object/outputs/reports/corruption_realization_analysis_v1.json",
+    "sha256": "7a744115ea1baad65bdd192dd644891a9586a788447980adb01ef63b4a1701cf"
+  },
+  "master_completion": {
+    "path": "/data_nvme/paper/Quantization_Corruption_Object/outputs/reports/ivc_confirmatory_strengthening_v1_complete.json",
+    "sha256": "2f7fdf95e1af0258c6f16443fa2d1d4c4799d27dfe988f191394f3fcbaba2790"
+  },
+  "fixed_universe_sensitivity": {
+    "path": "/data_nvme/paper/Quantization_Corruption_Object/outputs/bootstrap/fixed_universe_sensitivity_v1/tt100k_yolo11m_motion_blur_s5_b10000.json",
+    "sha256": "89462ea316389b8e734e6c688452b6a630d453ce80513ce0d3a12f98867c9512"
+  },
+  "generated": {
+    "confirmatory_methods.tex": {
+      "path": "/data_nvme/paper/Quantization_Corruption_Object/paper/generated/confirmatory_methods.tex",
+      "sha256": "7c6d8b4929babc831273d04f84c9acbe494e43ca2b422a52a4622eab8d4685e7"
+    },
+    "confirmatory_results.tex": {
+      "path": "/data_nvme/paper/Quantization_Corruption_Object/paper/generated/confirmatory_results.tex",
+      "sha256": "6cc4542a4fb2c68672ff8abec879c678401c8a9575e545321c1ffbd3d03df1a9"
+    },
+    "corruption_realization_results.tex": {
+      "path": "/data_nvme/paper/Quantization_Corruption_Object/paper/generated/corruption_realization_results.tex",
+      "sha256": "9db4e0df342dcc497af77843b49fe1985f251dc33172dd6120aeafcc272cffe9"
+    },
+    "confirmatory_conclusion.tex": {
+      "path": "/data_nvme/paper/Quantization_Corruption_Object/paper/generated/confirmatory_conclusion.tex",
+      "sha256": "54d05de8898126b14adab4ea3470d0ae99bebd82b3f1d04978b38f38a8588790"
+    },
+    "confirmatory_supplement.tex": {
+      "path": "/data_nvme/paper/Quantization_Corruption_Object/paper/generated/confirmatory_supplement.tex",
+      "sha256": "809ceb08d3012932721999361be7611ba40993c6cda31bb3097f8246e3e9bffe"
+    },
+    "fixed_universe_results.tex": {
+      "path": "/data_nvme/paper/Quantization_Corruption_Object/paper/generated/fixed_universe_results.tex",
+      "sha256": "3121c43ab70359a269c6ee279033504e63b56fed4a2e4f9c787759eef26cd8f6"
+    },
+    "confirmatory_abstract.tex": {
+      "path": "/data_nvme/paper/Quantization_Corruption_Object/paper/generated/confirmatory_abstract.tex",
+      "sha256": "ed784e9371d8d4784c68b21ec2da6ca316c5c60d516b5fa4a989ad5388316977"
+    },
+    "confirmatory_highlights.txt": {
+      "path": "/data_nvme/paper/Quantization_Corruption_Object/paper/generated/confirmatory_highlights.txt",
+      "sha256": "40c58e62090f6fba8d5c46c3a80a912e130d84a34a35b3cbd8f2364329e5aee5"
+    }
+  },
+  "unit_conversion": "native AP fraction multiplied by 100 for AP points; variance multiplied by 10000 for AP-points squared",
+  "audit_sha256": "19ee08adf91f998f79cc4db4eec18ef687daa088f43cfbb7c27c8706b76fceaf"
+}

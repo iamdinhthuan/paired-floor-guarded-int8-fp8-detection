@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-10T02:04:53.459096+00:00",
+  "dataset": "coco",
+  "model": "yolo11n",
+  "precision": "fp8",
+  "source_onnx_registry_sha256": "98dc55e8948bc1d697ef6ca38e984321ebf679e520b1023b06e648e25f16ac41",
+  "source_onnx_sha256": "a6acc67031650cf21c7ada994f1b467c1a725f61361ef05c3719c56f0afa5f48",
+  "output_onnx": "/home/thuan/topic_c_ivc/engines/coco/yolo11n/fp8.onnx",
+  "output_onnx_sha256": "1284823a900158a7634c30c947098b70c93bddc48cf1859d5543eee6e2d83dc9",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/coco_train_clean_512_s20260807_p0_v1.json",
+  "calibration_sha256": "826a77eac8848068592b8871090b07d5fbf45afedcc29f03428cb70470e244fe",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "fp8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "/home/thuan/topic_c_ivc/src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "/home/thuan/topic_c_ivc/manifests/onnx/coco_yolo11n_fp32_v1.json",
+    "--mode",
+    "fp8",
+    "--imgsz",
+    "640",
+    "--out",
+    "/home/thuan/topic_c_ivc/engines/coco/yolo11n/fp8.onnx",
+    "--registry-out",
+    "/home/thuan/topic_c_ivc/manifests/onnx/coco_yolo11n_fp8_v1.json",
+    "--calibration-list",
+    "/home/thuan/topic_c_ivc/manifests/calibration/coco_train_clean_512_s20260807_p0_v1.json"
+  ],
+  "registry_sha256": "1a90cda780e41c05b8cbbf57d709ddae1fd667077e12f58e72e48790c1b40fad"
+}

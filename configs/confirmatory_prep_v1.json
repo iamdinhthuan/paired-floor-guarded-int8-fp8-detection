@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "attempt": "voc_kitti_confirmatory_v1",
+  "execution_config": "configs/confirmatory_execution_v1.json",
+  "execution_config_sha256": "891d87fb477a84dd0c475c8784668d215a03e9072fbdfbbf1c8ff2091ba5a886",
+  "parity_config": "configs/confirmatory_reference_parity_v1.json",
+  "parity_config_sha256": "dfc2ee17d46eb84f2ba35496e4979f59dd222cef6144ac18c32deb69a02d00b2",
+  "matrix": "configs/matrices/confirmatory_voc_kitti_yolo11_v1.json",
+  "matrix_sha256": "40df1dee12925f2fde525d79a794a83aed7c892e11920609cd7ce6f686aae58e",
+  "minimum_free_gib_after_estimate": 50,
+  "source_manifest": [
+    {
+      "path": "src/run_confirmatory_prep.py",
+      "sha256": "ea37af4ed9082d5dd7e3342807f6f18152e04eb1d6b7597f76079e76d2c6d446"
+    },
+    {
+      "path": "src/generate_corruption.py",
+      "sha256": "8ed870a101fa71c51f943b0add8ea3c0fc1311e0c92feab73bde1fc4372acb7a"
+    },
+    {
+      "path": "src/build_dataset_pilot_plan.py",
+      "sha256": "075b0594dc2d8ec8bbad25d2c1639440904df06dfcea21f323527ec52bfda3ef"
+    },
+    {
+      "path": "src/freeze_pilot_plan.py",
+      "sha256": "25ce0efcec0ec07a616db07808c0898b05150835cc0f07ccbcad105d9f5938f4"
+    },
+    {
+      "path": "src/topic_c/manifest.py",
+      "sha256": "2704f5acb66eec6b4488fe402747f7b07f8b14e2d2576fbd3be4379a6a3758c7"
+    }
+  ],
+  "config_sha256": "63406fbd82f0a1b84132d3a2142de9b42cb4ac13d6de1b8892bf12ac74f5d7dc"
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "method": "paired fixed-category-universe Bayesian image bootstrap with positive image weights",
+  "scope": "TT100K sensitivity estimand; not a replacement for the ordinary multinomial image bootstrap",
+  "component": "outputs/bootstrap/ivc_format_contrast_v1/tt100k__yolo11m__motion_blur-s5.json",
+  "component_sha256": "134f2b3f2a776e82651705e032a15c65e99a6974a36bdbb123445069463cf327",
+  "annotation": {
+    "path": "manifests/annotations/tt100k_test_ultralytics_v1_coco.json",
+    "sha256": "aedb7cccb2135dd455ce8ee3a4b1feeb019670f029fee8cba5577b390e579a80"
+  },
+  "n_images": 3067,
+  "n_boot": 10000,
+  "seed": 20260818,
+  "schedule": {
+    "path": "outputs/work/fixed_universe_sensitivity_v1/tt100k_yolo11m_motion_blur_s5_b10000_weights.npz",
+    "sha256": "678d676ec70557f25d7866debd5b582c54df8fa1c374312a14d9d4fefcfed67e",
+    "weights_sha256": "c08ec5048d7a276698f8ff6c92af9d98b43a0cae039a4b68467f9cc01ebb3af6",
+    "schedule_identity_sha256": "a7f632418b91f39272919569b474c85ad4a5b7c032884fbf99fc5a88c9598f06",
+    "n_images": 3067,
+    "n_boot": 10000,
+    "seed": 20260818
+  },
+  "input_hashes": {
+    "int8_clean": {
+      "prediction_sha256": "8b59fdb7bc2af7583b014df935d512a23478932a5b13beb77365405a8075a250",
+      "input_record_sha256": "7077476374a19a87f38994931a7b14515aa12ddcf82827981b75ec8de34d51cd",
+      "input_manifest_sha256": "2e52424e0cddfc0e5675459528b477baf5bcb356b69de0ff12a18de41407804f",
+      "image_ids_sha256": "e074fcfcba3bfb0a9ae6c254c493b2a80f40fe81901a8ba94609d9de5d132099",
+      "run_record_sha256": "259d0f6f0ada8b0527509d114e204ec42c988829819ea83fe8948c0fabb752a9",
+      "prediction_path": "outputs/predictions/codec_control_p0_v1/tt100k_test__yolo11m__int8__codec-control-s0__3f508a45__2e52424e.json",
+      "input_record_path": "outputs/inputs/codec_control_p0_v1/tt100k_test__yolo11m__int8__codec-control-s0__3f508a45__2e52424e.json",
+      "run_record_path": "manifests/runs/codec_control_p0_v1/tt100k_test__yolo11m__int8__codec-control-s0__3f508a45__2e52424e.json"
+    },
+    "fp8_clean": {
+      "prediction_sha256": "f0ed99b540a5f77963768c6e66f4a590f00d291a1859a36253d301d55f685743",
+      "input_record_sha256": "7672ccd3e01c039f70f17ebe9cbb0390c5252541f2486151ad48992827480f64",
+      "input_manifest_sha256": "2e52424e0cddfc0e5675459528b477baf5bcb356b69de0ff12a18de41407804f",
+      "image_ids_sha256": "e074fcfcba3bfb0a9ae6c254c493b2a80f40fe81901a8ba94609d9de5d132099",
+      "run_record_sha256": "41343d2c18fa4b63f62e0b750fc1a9f99ff9352ddb5ed429ec78bd7272d43cac",
+      "prediction_path": "outputs/predictions/codec_control_p0_v1/tt100k_test__yolo11m__fp8__codec-control-s0__3c7b7080__2e52424e.json",
+      "input_record_path": "outputs/inputs/codec_control_p0_v1/tt100k_test__yolo11m__fp8__codec-control-s0__3c7b7080__2e52424e.json",
+      "run_record_path": "manifests/runs/codec_control_p0_v1/tt100k_test__yolo11m__fp8__codec-control-s0__3c7b7080__2e52424e.json"
+    },
+    "int8_corrupt": {
+      "prediction_sha256": "6fb26c08b37b7ffb5e68176cd5c16dfea135a2ab33318048ebe7f91c3a3ccdc8",
+      "input_record_sha256": "35ad5bd5a817e8596f0626561d208d97dfb31b0b220f1cc48fec70e235be286f",
+      "input_manifest_sha256": "af9e361bb8bbe3daebb7eb35656e2eac4f4cdb4a238137fed07d3a6dad1fb8f4",
+      "image_ids_sha256": "e074fcfcba3bfb0a9ae6c254c493b2a80f40fe81901a8ba94609d9de5d132099",
+      "run_record_sha256": "53a5b9c25d5ec2917b328326830e6e99ce8b933098f47eed4cb99b54f4c3e025",
+      "prediction_path": "outputs/predictions/tt100k_pilot_117_v1/tt100k_test__yolo11m__int8-entropy__motion_blur-s5__3f508a45__af9e361b.json",
+      "input_record_path": "outputs/inputs/tt100k_pilot_117_v1/tt100k_test__yolo11m__int8-entropy__motion_blur-s5__3f508a45__af9e361b.json",
+      "run_record_path": "manifests/runs/tt100k_pilot_117_v1/tt100k_test__yolo11m__int8-entropy__motion_blur-s5__3f508a45__af9e361b.json"
+    },
+    "fp8_corrupt": {
+      "prediction_sha256": "976337fd5fa9dabb9ba6c040e03a75ee562723fbdbdb6628fc485e0822b9ec7f",
+      "input_record_sha256": "c5f9ad5bc148e6aaa802edc8f8c4d38dca91cc08bf41086348ec325dc9c4321b",
+      "input_manifest_sha256": "af9e361bb8bbe3daebb7eb35656e2eac4f4cdb4a238137fed07d3a6dad1fb8f4",
+      "image_ids_sha256": "e074fcfcba3bfb0a9ae6c254c493b2a80f40fe81901a8ba94609d9de5d132099",
+      "run_record_sha256": "2b62f5a05319e6a85deb635b454b50a1bf282120e4ffefcf866bd940ca4352f7",
+      "prediction_path": "outputs/predictions/tt100k_pilot_117_v1/tt100k_test__yolo11m__fp8-none__motion_blur-s5__3c7b7080__af9e361b.json",
+      "input_record_path": "outputs/inputs/tt100k_pilot_117_v1/tt100k_test__yolo11m__fp8-none__motion_blur-s5__3c7b7080__af9e361b.json",
+      "run_record_path": "manifests/runs/tt100k_pilot_117_v1/tt100k_test__yolo11m__fp8-none__motion_blur-s5__3c7b7080__af9e361b.json"
+    }
+  },
+  "point": {
+    "delta_e_all": -0.002567356616060029,
+    "delta_psi_height": -0.039222603787106805
+  },
+  "fixed_universe": {
+    "delta_e_all": {
+      "n_boot": 10000,
+      "checkpoint_n_boot": 2000,
+      "percentiles": [
+        2.5,
+        50.0,
+        97.5
+      ],
+      "percentile_interval": [
+        -0.011886215843179069,
+        -0.0017341651900091813,
+        0.00875156703613298
+      ],
+      "checkpoint_percentile_interval": [
+        -0.011859324048974211,
+        -0.0018787325729276924,
+        0.008088800022101696
+      ],
+      "max_checkpoint_percentile_shift_native_ap": 0.0006627670140312847
+    },
+    "delta_psi_height": {
+      "n_boot": 10000,
+      "checkpoint_n_boot": 2000,
+      "percentiles": [
+        2.5,
+        50.0,
+        97.5
+      ],
+      "percentile_interval": [
+        -0.05691926809881664,
+        -0.04082553817434216,
+        -0.024849357096597906
+      ],
+      "checkpoint_percentile_interval": [
+        -0.05659305454889469,
+        -0.04058191678117373,
+        -0.023451254987038466
+      ],
+      "max_checkpoint_percentile_shift_native_ap": 0.0013981021095594397
+    }
+  },
+  "ordinary_reference": {
+    "n_boot": 2000,
+    "delta_e_all": [
+      -0.01788334373539018,
+      -0.0019666486553360785,
+      0.013446207584813099
+    ],
+    "delta_psi_height": [
+      -0.07222688171239983,
+      -0.04480532107422225,
+      -0.018105946782993865
+    ]
+  },
+  "draws": {
+    "path": "outputs/work/fixed_universe_sensitivity_v1/tt100k_yolo11m_motion_blur_s5_b10000_draws.npz",
+    "sha256": "16d4bde02c64bda9bc237ee1c3f3c3d2acafaa7e1e0d8a9f06cf47ca74b39ff0"
+  },
+  "runtime_seconds_draws_only": 8519.742679844145,
+  "artifact_sha256": "a3688d919766eb036d2db448f8174cbbfff2085e5701bd9aeb44bfb74a764e24"
+}

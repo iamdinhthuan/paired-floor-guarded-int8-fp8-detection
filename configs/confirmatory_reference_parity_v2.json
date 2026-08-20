@@ -1,0 +1,46 @@
+{
+  "schema_version": 2,
+  "attempt": "voc_kitti_confirmatory_v1",
+  "execution_config": "configs/confirmatory_execution_v2.json",
+  "execution_config_sha256": "c1bf0427edf1750c20ff9114403c2343ca009de57bec43b199423118a573291e",
+  "supersedes_parity_config": "configs/confirmatory_reference_parity_v1.json",
+  "supersedes_parity_config_sha256": "dfc2ee17d46eb84f2ba35496e4979f59dd222cef6144ac18c32deb69a02d00b2",
+  "backends": ["pytorch", "onnxruntime", "trt-fp32", "trt-fp16"],
+  "source_ap_tolerance_native": 0.001,
+  "fp16_ap_tolerance_native": 0.01,
+  "source_manifest": [
+    {
+      "path": "src/yolo_reference_infer.py",
+      "sha256": "c890ca01ab86bb5adff34eb9a46974884aaf400e2648176e8038d5ff4dcb5a24"
+    },
+    {
+      "path": "src/verify_reference_parity.py",
+      "sha256": "de9005a259f5d216af98cfdb274acbdf4c0958a7c1440373e6674d56e5324bcf"
+    },
+    {
+      "path": "src/run_confirmatory_parity.py",
+      "sha256": "406f3317e6b7415dd19a8ed2d3c5dc229fa0688444963647e1ee88f77d30399e"
+    },
+    {
+      "path": "src/run_confirmatory_ladder.py",
+      "sha256": "76cc21c30fb0e45572eed0baa30fb93b3ac7674dc9fc6deb905a07b04c06a78b"
+    },
+    {
+      "path": "src/coco_infer_trt.py",
+      "sha256": "78c9d445915bd4e4474ecc643f60e169d04fd86edff114fca9b24f54c9f9ad5b"
+    },
+    {
+      "path": "src/coco_eval.py",
+      "sha256": "fd8927b9073d02454de28b75eb0826d34e4b09001651364de2d070a1430d1021"
+    },
+    {
+      "path": "src/topic_c/coco_data.py",
+      "sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804"
+    },
+    {
+      "path": "src/topic_c/yolo_decode.py",
+      "sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c"
+    }
+  ],
+  "config_sha256": "de39b49954b9182cf0e2f2c90b6cab5041fbbcb38cda9a9cfd34f2931676dc7b"
+}

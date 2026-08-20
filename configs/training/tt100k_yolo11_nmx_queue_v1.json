@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "queue_id": "tt100k_yolo11_nmx_queue_v1",
+  "profile": "configs/training/tt100k_yolo11_nmx_v1.json",
+  "jobs": [
+    {"dataset": "tt100k", "model": "yolo11n", "run_id": "tt100k_yolo11n_train_v1"},
+    {"dataset": "tt100k", "model": "yolo11m", "run_id": "tt100k_yolo11m_train_v1"},
+    {"dataset": "tt100k", "model": "yolo11x", "run_id": "tt100k_yolo11x_train_v1"}
+  ]
+}

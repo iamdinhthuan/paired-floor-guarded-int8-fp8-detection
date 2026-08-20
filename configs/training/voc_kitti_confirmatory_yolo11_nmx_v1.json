@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "voc_kitti_confirmatory_yolo11_nmx_v1",
+  "purpose": "Prospectively locked VOC/KITTI confirmatory resplit; final partitions are excluded from this new training and checkpoint selection.",
+  "models": ["yolo11n", "yolo11m", "yolo11x"],
+  "epochs": 100,
+  "imgsz_by_dataset": {"voc": 640, "kitti": 640},
+  "batch_by_dataset": {"voc": 16, "kitti": 16},
+  "device": 0,
+  "workers": 4,
+  "seed": 20260818,
+  "deterministic": true,
+  "pretrained": true,
+  "optimizer": "auto",
+  "patience": 0,
+  "close_mosaic": 10,
+  "cache": false,
+  "amp": true,
+  "save_period": -1
+}

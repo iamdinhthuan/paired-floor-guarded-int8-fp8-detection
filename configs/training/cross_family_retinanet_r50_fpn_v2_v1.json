@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "purpose": "RetinaNet-R50-FPN-v2 cross-family transfer extension for IVC",
+  "epochs": 100,
+  "imgsz_by_dataset": {"voc": 640, "kitti": 640, "tt100k": 1280},
+  "batch_by_dataset": {"voc": 4, "kitti": 4, "tt100k": 1},
+  "workers": 4,
+  "seed": 20260807,
+  "deterministic": true,
+  "amp": true,
+  "lr": 0.0001,
+  "weight_decay": 0.0001
+}

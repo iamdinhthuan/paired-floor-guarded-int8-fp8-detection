@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "phase": "smoke",
+  "dataset": "coco_val2017",
+  "model": "yolo11m",
+  "image_count": 300,
+  "precisions": ["fp32", "fp16", "int8-entropy", "fp8"],
+  "conditions": [{"corruption": "clean", "severity": 0}, {"corruption": "gaussian_noise", "severity": 1}, {"corruption": "gaussian_noise", "severity": 3}, {"corruption": "gaussian_noise", "severity": 5}, {"corruption": "fog", "severity": 1}, {"corruption": "fog", "severity": 3}, {"corruption": "fog", "severity": 5}],
+  "gates": {"fp16_fp32_ap_absolute_tolerance": 0.01, "require_identical_ordered_ids": true, "require_manifest_sha256": true, "require_changed_corrupt_pixels": true, "forbid_full_pilot": true}
+}

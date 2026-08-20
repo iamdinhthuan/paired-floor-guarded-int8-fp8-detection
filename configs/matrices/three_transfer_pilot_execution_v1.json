@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "purpose": "Execution inputs for the approved 117-condition transfer pilots after clean FP16 parity.",
+  "datasets": [
+    {"dataset": "voc", "split": "val", "imgsz": 640, "expected_images": 4952, "annotations": "manifests/annotations/voc_val_ultralytics_v1_coco.json", "class_map": "manifests/classes/voc_val_ultralytics_v1.json", "clean_manifest": "manifests/images/voc_val_clean_ultralytics_v1.json", "clean_root": "data/datasets/VOC", "corruption_root": "data/voc_c", "calibration_list": "manifests/calibration/voc_train_clean_512_s20260807_v1.json"},
+    {"dataset": "kitti", "split": "val", "imgsz": 640, "expected_images": 1496, "annotations": "manifests/annotations/kitti_val_ultralytics_v1_coco.json", "class_map": "manifests/classes/kitti_val_ultralytics_v1.json", "clean_manifest": "manifests/images/kitti_val_clean_ultralytics_v1.json", "clean_root": "data/datasets/kitti", "corruption_root": "data/kitti_c", "calibration_list": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json"},
+    {"dataset": "tt100k", "split": "test", "imgsz": 1280, "expected_images": 3067, "annotations": "manifests/annotations/tt100k_test_ultralytics_v1_coco.json", "class_map": "manifests/classes/tt100k_test_ultralytics_v1.json", "clean_manifest": "manifests/images/tt100k_test_clean_ultralytics_v1.json", "clean_root": "data/datasets/TT100K", "corruption_root": "data/tt100k_c", "calibration_list": "manifests/calibration/tt100k_train_clean_512_s20260807_v1.json"}
+  ],
+  "matrix": "configs/matrices/four_dataset_yolo11_pilot_v1.json",
+  "corruption_config": "configs/corruptions.json",
+  "minimum_free_gib_after_estimate": 100
+}

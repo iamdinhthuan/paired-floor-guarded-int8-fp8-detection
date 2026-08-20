@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__yolo11x__fp8-none__motion_blur-s1__795dfeb4__ec9bb03e",
+  "dataset": "voc",
+  "split": "val",
+  "model": "yolo11x",
+  "precision": "fp8",
+  "calibrator": "none",
+  "calibration_list_path": null,
+  "calibration_sha256": null,
+  "calibration_provenance": "not_applicable",
+  "corruption": "motion_blur",
+  "severity": 1,
+  "engine_path": "/home/thuan/topic_c_ivc/engines/voc/yolo11x/fp8.plan",
+  "engine_sha256": "795dfeb46f41deb23b53ae431ab4b3fd4af2eca62aa36ecd280c34fa92f9ddbb",
+  "runner_sha256": "f2cd2300b1f227c46924c515edf824fead5f6f9afb5755376f88a3b75e4765d8",
+  "preprocess_sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+  "decoder_sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c",
+  "class_map_path": "/home/thuan/topic_c_ivc/manifests/classes/voc_val_ultralytics_v1.json",
+  "class_map_sha256": "2b4981e5637852f6e490f46bdf44d486d70f0bb3a7ef987608b251fe9267a51e",
+  "annotation_sha256": "e825593ef803aeedd611fb746de757f18074b96b46408a55b320dea01b7a62a1",
+  "input_manifest_sha256": "ec9bb03e4193706916a1cc873094a6921692d99d2c7914da0dc7ace782149a16",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "prediction_sha256": "d69c15d0b3c4908d884bb8eaab21dac2f74ffc039a656d60c2a0e5adba67b454",
+  "n_images": 4952,
+  "n_detections": 63449,
+  "runtime_seconds": 28.919251680374146,
+  "runtime_environment": {
+    "python_executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "python_version": "3.11.15",
+    "tensorrt_version": "11.1.0.106",
+    "gpu": [
+      "NVIDIA GeForce RTX 5090, 610.43.02, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb"
+    ]
+  },
+  "command": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py --engine /home/thuan/topic_c_ivc/engines/voc/yolo11x/fp8.plan --annotations /home/thuan/topic_c_ivc/manifests/annotations/voc_val_ultralytics_v1_coco.json --image-manifest /home/thuan/topic_c_ivc/manifests/images/voc_val_full_motion_blur_s1.json --manifest-cache-root /home/thuan/topic_c_ivc/data/voc_c --out /home/thuan/topic_c_ivc/outputs/predictions/voc_pilot_117_v1/voc_val__yolo11x__fp8-none__motion_blur-s1__795dfeb4__ec9bb03e.json --input-record /home/thuan/topic_c_ivc/outputs/inputs/voc_pilot_117_v1/voc_val__yolo11x__fp8-none__motion_blur-s1__795dfeb4__ec9bb03e.json --run-record /home/thuan/topic_c_ivc/manifests/runs/voc_pilot_117_v1/voc_val__yolo11x__fp8-none__motion_blur-s1__795dfeb4__ec9bb03e.json --condition-id voc_val__yolo11x__fp8-none__motion_blur-s1__795dfeb4__ec9bb03e --dataset voc --split val --class-map /home/thuan/topic_c_ivc/manifests/classes/voc_val_ultralytics_v1.json --imgsz 640 --model yolo11x --precision fp8 --calibrator none --corruption motion_blur --severity 1"
+}

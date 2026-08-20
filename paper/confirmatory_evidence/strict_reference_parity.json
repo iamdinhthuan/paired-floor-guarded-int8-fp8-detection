@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "completed_at_utc": "2026-08-18T18:42:31.330837+00:00",
+  "attempt": "voc_kitti_confirmatory_v1",
+  "parity_config": "/home/thuan/topic_c_ivc/configs/confirmatory_reference_parity_v2.json",
+  "parity_config_sha256": "edf53225b3ada0fc77e683567d647ed9a6b7c6f4a0f480ada064d1dda42e5e3e",
+  "execution_config": "/home/thuan/topic_c_ivc/configs/confirmatory_execution_v2.json",
+  "execution_config_sha256": "c1bf0427edf1750c20ff9114403c2343ca009de57bec43b199423118a573291e",
+  "ladder_report": "/home/thuan/topic_c_ivc/outputs/reports/voc_kitti_confirmatory_ladder_v2.json",
+  "ladder_report_sha256": "1aceb5a43e0a635fdbe35bd1d3c6d0e8493bbdb80857bd4c0b519d64bdcce593",
+  "reports": [
+    {
+      "dataset": "voc",
+      "model": "yolo11n",
+      "report": "/home/thuan/topic_c_ivc/outputs/reports/reference_parity/voc_kitti_confirmatory_v1/voc_yolo11n.json",
+      "report_sha256": "28b67eaf08ecd470cbc39601a057e3a79578c495308c5cca191519703cb1d8bc"
+    },
+    {
+      "dataset": "voc",
+      "model": "yolo11m",
+      "report": "/home/thuan/topic_c_ivc/outputs/reports/reference_parity/voc_kitti_confirmatory_v1/voc_yolo11m.json",
+      "report_sha256": "3ad61afc6eb1dfeac1d614f84b7d6618230a6791abd8358ecef41ef2f9870ad7"
+    },
+    {
+      "dataset": "voc",
+      "model": "yolo11x",
+      "report": "/home/thuan/topic_c_ivc/outputs/reports/reference_parity/voc_kitti_confirmatory_v1/voc_yolo11x.json",
+      "report_sha256": "7e7430fc9c38df8c2f22363872827ce551115202082014b0c16d63afbce8884d"
+    },
+    {
+      "dataset": "kitti",
+      "model": "yolo11n",
+      "report": "/home/thuan/topic_c_ivc/outputs/reports/reference_parity/voc_kitti_confirmatory_v1/kitti_yolo11n.json",
+      "report_sha256": "6edb146267ae7890a31df20ff9a2156bda4acf604841aa655cf976dd3c66773b"
+    },
+    {
+      "dataset": "kitti",
+      "model": "yolo11m",
+      "report": "/home/thuan/topic_c_ivc/outputs/reports/reference_parity/voc_kitti_confirmatory_v1/kitti_yolo11m.json",
+      "report_sha256": "f8d569d21f59f44d0a5300d34788fcf29c673a8dc3af773833898b837227354e"
+    },
+    {
+      "dataset": "kitti",
+      "model": "yolo11x",
+      "report": "/home/thuan/topic_c_ivc/outputs/reports/reference_parity/voc_kitti_confirmatory_v1/kitti_yolo11x.json",
+      "report_sha256": "3e6be92e728b3392ab302479b6ec170aaca3612b5071591e96c9d98d441d769a"
+    }
+  ],
+  "parity_completion_sha256": "f558e2205788c2a36d4f7e65dc1e8df8d375c7c8fe0877a3f055939614547bbc"
+}

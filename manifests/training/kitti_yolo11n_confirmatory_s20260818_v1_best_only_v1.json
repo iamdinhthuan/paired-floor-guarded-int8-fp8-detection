@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "completed_at_utc": "2026-08-18T13:06:55.787746+00:00",
+  "run_id": "kitti_yolo11n_confirmatory_s20260818_v1",
+  "training_registry": "/home/thuan/topic_c_ivc/manifests/training/kitti_yolo11n_confirmatory_s20260818_v1.json",
+  "training_registry_sha256": "0c1f26b3e00d8904ed287ac242bb85e0a465396bcf7e997141f8f5db3e97599b",
+  "retained_best_weights": "/home/thuan/topic_c_ivc/outputs/training/kitti/kitti_yolo11n_confirmatory_s20260818_v1/weights/best.pt",
+  "retained_best_weights_sha256": "f4fb45761e9ce108dc3e7815669589279679f5eff3bb3961115892cf8ca12843",
+  "deleted_last_weights": "/home/thuan/topic_c_ivc/outputs/training/kitti/kitti_yolo11n_confirmatory_s20260818_v1/weights/last.pt",
+  "deleted_last_weights_sha256": "891226cb5a1a96c072e95b9c30b910b71c35bf8b56c843ce75e4cc4d32c4b3cd",
+  "recovery": "last.pt was intentionally deleted after hash validation; best.pt remains"
+}

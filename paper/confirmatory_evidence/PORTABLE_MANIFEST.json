@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "purpose": "portable filename map for immutable confirmatory-strengthening evidence bytes",
+  "files": {
+    "confirmatory_analysis": {
+      "packaged_path": "untouched_holdout_analysis.json",
+      "sha256": "a5819e268a4af14f0e8cc4dd1f6ccbfd1255fb75e123864af54c542043bcb27a"
+    },
+    "fixed_universe_sensitivity": {
+      "packaged_path": "tt100k_fixed_universe_b10000.json",
+      "sha256": "89462ea316389b8e734e6c688452b6a630d453ce80513ce0d3a12f98867c9512"
+    },
+    "master_completion": {
+      "packaged_path": "master_completion.json",
+      "sha256": "2f7fdf95e1af0258c6f16443fa2d1d4c4799d27dfe988f191394f3fcbaba2790"
+    },
+    "paper_audit": {
+      "packaged_path": "paper_evidence_audit.json",
+      "sha256": "052e870eb469800a29211fe891fdf5e81319908f90ef7de5f5dc543f5d82e1f7"
+    },
+    "realization_analysis": {
+      "packaged_path": "corruption_realization_analysis.json",
+      "sha256": "7a744115ea1baad65bdd192dd644891a9586a788447980adb01ef63b4a1701cf"
+    },
+    "strengthening_completion_config": {
+      "packaged_path": "strengthening_completion_config.json",
+      "sha256": "f7cc4ae85c8bd7536556023bb5df99c6a4058d560a7d78fed516bd424d654d56"
+    },
+    "strict_parity_kitti_yolo11m": {
+      "packaged_path": "strict_parity_blocks/kitti_yolo11m.json",
+      "sha256": "f8d569d21f59f44d0a5300d34788fcf29c673a8dc3af773833898b837227354e"
+    },
+    "strict_parity_kitti_yolo11n": {
+      "packaged_path": "strict_parity_blocks/kitti_yolo11n.json",
+      "sha256": "6edb146267ae7890a31df20ff9a2156bda4acf604841aa655cf976dd3c66773b"
+    },
+    "strict_parity_kitti_yolo11x": {
+      "packaged_path": "strict_parity_blocks/kitti_yolo11x.json",
+      "sha256": "3e6be92e728b3392ab302479b6ec170aaca3612b5071591e96c9d98d441d769a"
+    },
+    "strict_parity_voc_yolo11m": {
+      "packaged_path": "strict_parity_blocks/voc_yolo11m.json",
+      "sha256": "3ad61afc6eb1dfeac1d614f84b7d6618230a6791abd8358ecef41ef2f9870ad7"
+    },
+    "strict_parity_voc_yolo11n": {
+      "packaged_path": "strict_parity_blocks/voc_yolo11n.json",
+      "sha256": "28b67eaf08ecd470cbc39601a057e3a79578c495308c5cca191519703cb1d8bc"
+    },
+    "strict_parity_voc_yolo11x": {
+      "packaged_path": "strict_parity_blocks/voc_yolo11x.json",
+      "sha256": "7e7430fc9c38df8c2f22363872827ce551115202082014b0c16d63afbce8884d"
+    },
+    "strict_reference_parity": {
+      "packaged_path": "strict_reference_parity.json",
+      "sha256": "1bd170001767a6e10d11c159abd3acd9797478fd70b020e58f6ecbcbbe9a375e"
+    }
+  },
+  "manifest_sha256": "88438c74eac423bb4cba232ce8a0079b205763566d8fa167e28cbdd60a1269bb"
+}

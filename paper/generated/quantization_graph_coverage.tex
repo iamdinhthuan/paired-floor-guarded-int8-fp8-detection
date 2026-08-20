@@ -1,0 +1,17 @@
+% Generated from hash-bound ONNX graphs; graph-level coverage, not TensorRT kernel precision.
+\begin{tabular}{lllrrrrrl}
+\toprule
+Family & Model & Format & Graphs & Q & Weight Q & Act. Q & Direct Q/DQ nodes & Zero point \\
+\midrule
+YOLO11 & YOLO11m & INT8 & 3 & 437--441 & 113 & 324--328 & 352--355/405 & INT8 \\
+YOLO11 & YOLO11m & FP8 & 3 & 213--219 & 101--104 & 112--115 & 133--136/405 & FLOAT8E4M3FN \\
+YOLO11 & YOLO11n & INT8 & 3 & 325--341 & 85--88 & 240--253 & 263--275/320 & INT8 \\
+YOLO11 & YOLO11n & FP8 & 3 & 152--158 & 69--72 & 83--86 & 99--102/320 & FLOAT8E4M3FN \\
+YOLO11 & YOLO11x & INT8 & 3 & 682--690 & 174 & 508--516 & 546--552/617 & INT8 \\
+YOLO11 & YOLO11x & FP8 & 3 & 346--352 & 161--164 & 185--188 & 215--218/617 & FLOAT8E4M3FN \\
+RT-DETR & RT-DETR-L & INT8 & 3 & 534--538 & 197--199 & 335--339 & 351--353/963 & INT8 \\
+RT-DETR & RT-DETR-L & FP8 & 3 & 398--401 & 167--169 & 231--232 & 251--253/963 & FLOAT8E4M3FN \\
+RetinaNet & R50-FPN-v2 & INT8 & 3 & 217 & 111 & 106 & 139/1076 & INT8 \\
+RetinaNet & R50-FPN-v2 & FP8 & 3 & 214 & 110 & 104 & 137/1076 & FLOAT8E4M3FN \\
+\bottomrule
+\end{tabular}

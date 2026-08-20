@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-10T01:58:58.260855+00:00",
+  "dataset": "coco",
+  "model": "yolo11n",
+  "training_registry_sha256": "dc8447cbbec06c19eaa0817653fc7559bf34c812bf4c077fe812062c29fee035",
+  "source_checkpoint": "/home/thuan/topic_c_ivc/engines/coco/yolo11n/fp32.pt",
+  "source_checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "onnx": "/home/thuan/topic_c_ivc/engines/coco/yolo11n/fp32.onnx",
+  "onnx_sha256": "a6acc67031650cf21c7ada994f1b467c1a725f61361ef05c3719c56f0afa5f48",
+  "imgsz": 640,
+  "opset": 19,
+  "dynamic": false,
+  "nms_embedded": false,
+  "half": false,
+  "input_name": "images",
+  "output_name": "output0",
+  "ultralytics_version": "8.4.95"
+}

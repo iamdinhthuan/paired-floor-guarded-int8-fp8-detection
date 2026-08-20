@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "generator": "topic_c_corruptions",
+  "generator_version": "1.0.0",
+  "output_encoding": {"format": "JPEG", "quality": 95, "subsampling": 0},
+  "corruptions": {
+    "gaussian_noise": {"severity": {"1": {"sigma_255": 8.0}, "3": {"sigma_255": 20.0}, "5": {"sigma_255": 40.0}}},
+    "fog": {"severity": {"1": {"strength": 0.18, "blur_radius": 6}, "3": {"strength": 0.38, "blur_radius": 12}, "5": {"strength": 0.62, "blur_radius": 20}}},
+    "motion_blur": {"severity": {"1": {"kernel": 5}, "3": {"kernel": 13}, "5": {"kernel": 23}}},
+    "jpeg": {"severity": {"1": {"quality": 70}, "3": {"quality": 40}, "5": {"quality": 15}}}
+  }
+}

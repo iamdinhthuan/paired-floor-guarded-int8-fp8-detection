@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "attempt": "ivc_deployment_benchmark_v1",
+  "purpose": "Immutable RTX 5090 TensorRT deployment evidence for the 36 scientific engine conditions.",
+  "models": [
+    "yolo11n",
+    "yolo11m",
+    "yolo11x"
+  ],
+  "precisions": [
+    "fp32",
+    "int8-entropy",
+    "fp8"
+  ],
+  "repetitions": 3,
+  "warmup_ms": 5000,
+  "duration_s": 30,
+  "required_gpu_name": "NVIDIA GeForce RTX 5090",
+  "required_hostname": "thuan-B860M-EAGLE-WIFI6",
+  "required_project_root": "/home/thuan/topic_c_ivc",
+  "required_engine_root": "/home/thuan/topic_c_ivc/engines",
+  "required_trtexec": "/home/thuan/traffic/third_party/TensorRT-11.1.0.106/bin/trtexec",
+  "expected_ssh_endpoint": "thuan@100.111.139.103",
+  "output_dir": "outputs/benchmarks/ivc_deployment_benchmark_v1",
+  "report": "outputs/reports/ivc_deployment_benchmark_v1_complete.json",
+  "engine_treatments": "outputs/benchmarks/ivc_deployment_benchmark_v1/engine_treatments.json",
+  "registry_sets": [
+    {
+      "dataset": "coco",
+      "ladder_registry": "manifests/engines/coco_yolo11_nmx_ladder_v1.json",
+      "engine_registry_dir": "manifests/engines",
+      "onnx_registry_dir": "manifests/onnx"
+    },
+    {
+      "dataset": "voc",
+      "ladder_registry": "manifests/engines/voc_yolo11_nmx_ladder_v1.json",
+      "engine_registry_dir": "manifests/engines",
+      "onnx_registry_dir": "manifests/onnx",
+      "local_mirror_ladder_registry": "artifacts/four_dataset_pilot_v1/manifests/engines/voc_yolo11_nmx_ladder_v1.json",
+      "local_mirror_engine_registry_dir": "artifacts/four_dataset_pilot_v1/manifests/engines",
+      "local_mirror_onnx_registry_dir": "artifacts/four_dataset_pilot_v1/manifests/onnx"
+    },
+    {
+      "dataset": "kitti",
+      "ladder_registry": "manifests/engines/kitti_yolo11_nmx_ladder_v1.json",
+      "engine_registry_dir": "manifests/engines",
+      "onnx_registry_dir": "manifests/onnx",
+      "local_mirror_ladder_registry": "artifacts/four_dataset_pilot_v1/manifests/engines/kitti_yolo11_nmx_ladder_v1.json",
+      "local_mirror_engine_registry_dir": "artifacts/four_dataset_pilot_v1/manifests/engines",
+      "local_mirror_onnx_registry_dir": "artifacts/four_dataset_pilot_v1/manifests/onnx"
+    },
+    {
+      "dataset": "tt100k",
+      "ladder_registry": "manifests/engines/tt100k_yolo11_nmx_ladder_v1.json",
+      "engine_registry_dir": "manifests/engines",
+      "onnx_registry_dir": "manifests/onnx",
+      "local_mirror_ladder_registry": "artifacts/four_dataset_pilot_v1/manifests/engines/tt100k_yolo11_nmx_ladder_v1.json",
+      "local_mirror_engine_registry_dir": "artifacts/four_dataset_pilot_v1/manifests/engines",
+      "local_mirror_onnx_registry_dir": "artifacts/four_dataset_pilot_v1/manifests/onnx"
+    }
+  ]
+}

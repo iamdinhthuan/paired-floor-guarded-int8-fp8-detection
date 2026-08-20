@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "purpose": "Required clean FP32-to-FP16 parity gates before each transfer-dataset pilot.",
+  "datasets": [
+    {"dataset": "voc", "split": "val", "imgsz": 640, "expected_images": 4952, "annotations": "manifests/annotations/voc_val_ultralytics_v1_coco.json", "class_map": "manifests/classes/voc_val_ultralytics_v1.json", "clean_manifest": "manifests/images/voc_val_clean_ultralytics_v1.json", "clean_root": "data/datasets/VOC"},
+    {"dataset": "kitti", "split": "val", "imgsz": 640, "expected_images": 1496, "annotations": "manifests/annotations/kitti_val_ultralytics_v1_coco.json", "class_map": "manifests/classes/kitti_val_ultralytics_v1.json", "clean_manifest": "manifests/images/kitti_val_clean_ultralytics_v1.json", "clean_root": "data/datasets/kitti"},
+    {"dataset": "tt100k", "split": "test", "imgsz": 1280, "expected_images": 3067, "annotations": "manifests/annotations/tt100k_test_ultralytics_v1_coco.json", "class_map": "manifests/classes/tt100k_test_ultralytics_v1.json", "clean_manifest": "manifests/images/tt100k_test_clean_ultralytics_v1.json", "clean_root": "data/datasets/TT100K"}
+  ],
+  "models": ["yolo11n", "yolo11m", "yolo11x"],
+  "tolerance_ap": 0.01
+}

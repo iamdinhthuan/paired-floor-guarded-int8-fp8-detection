@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "completed_at_utc": "2026-08-19T11:53:51.379417+00:00",
+  "attempt": "ivc_confirmatory_strengthening_v1",
+  "config": "/home/thuan/topic_c_ivc/configs/strengthening_completion_v1.json",
+  "config_sha256": "f7cc4ae85c8bd7536556023bb5df99c6a4058d560a7d78fed516bd424d654d56",
+  "status": "complete",
+  "validated_components": {
+    "strict_reference_parity": {
+      "path": "/home/thuan/topic_c_ivc/outputs/reports/voc_kitti_confirmatory_reference_parity_v2.json",
+      "sha256": "1bd170001767a6e10d11c159abd3acd9797478fd70b020e58f6ecbcbbe9a375e"
+    },
+    "confirmatory_analysis": {
+      "path": "/home/thuan/topic_c_ivc/outputs/reports/voc_kitti_confirmatory_analysis_v1.json",
+      "sha256": "a5819e268a4af14f0e8cc4dd1f6ccbfd1255fb75e123864af54c542043bcb27a"
+    },
+    "realization_analysis": {
+      "path": "/home/thuan/topic_c_ivc/outputs/reports/corruption_realization_analysis_v1.json",
+      "sha256": "7a744115ea1baad65bdd192dd644891a9586a788447980adb01ef63b4a1701cf"
+    },
+    "fixed_universe_sensitivity": {
+      "path": "/home/thuan/topic_c_ivc/outputs/bootstrap/fixed_universe_sensitivity_v1/tt100k_yolo11m_motion_blur_s5_b10000.json",
+      "sha256": "89462ea316389b8e734e6c688452b6a630d453ce80513ce0d3a12f98867c9512"
+    }
+  },
+  "scope": {
+    "strict_reference_parity_blocks": 6,
+    "untouched_holdout_direct_cells": 72,
+    "corruption_realization_cells": 108,
+    "corruption_realization_base_conditions": 36,
+    "fixed_universe_bootstrap_draws": 10000
+  },
+  "headline_native_ap": {
+    "confirmatory_delta_e": -0.0054980742156808295,
+    "confirmatory_delta_e_percentile95": [
+      -0.007843301641222924,
+      -0.005418199652543041,
+      -0.0029081568014355376
+    ],
+    "realization_delta_e": -0.0023363484142150197,
+    "realization_delta_e_percentile95": [
+      -0.00945191869503673,
+      -0.0027753002581818037,
+      0.0037450494848482153
+    ],
+    "fixed_universe_delta_e_percentile95": [
+      -0.011886215843179069,
+      -0.0017341651900091813,
+      0.00875156703613298
+    ],
+    "fixed_universe_delta_psi_percentile95": [
+      -0.05691926809881664,
+      -0.04082553817434216,
+      -0.024849357096597906
+    ]
+  },
+  "completion_sha256": "a9d651c7659eadfa6f1e6e7223234fd5c9774a320dec61090e1357d86e68665b"
+}

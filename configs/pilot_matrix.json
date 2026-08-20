@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "dataset": "coco",
+  "split": "val2017",
+  "models": ["yolo11n", "yolo11m", "yolo11x"],
+  "precisions": ["fp32", "int8-entropy", "fp8"],
+  "conditions": [
+    {"corruption": "clean", "severity": 0},
+    {"corruption": "gaussian_noise", "severity": 1},
+    {"corruption": "gaussian_noise", "severity": 3},
+    {"corruption": "gaussian_noise", "severity": 5},
+    {"corruption": "motion_blur", "severity": 1},
+    {"corruption": "motion_blur", "severity": 3},
+    {"corruption": "motion_blur", "severity": 5},
+    {"corruption": "fog", "severity": 1},
+    {"corruption": "fog", "severity": 3},
+    {"corruption": "fog", "severity": 5},
+    {"corruption": "jpeg", "severity": 1},
+    {"corruption": "jpeg", "severity": 3},
+    {"corruption": "jpeg", "severity": 5}
+  ],
+  "expected_runs": 117,
+  "bootstrap_replicates": 500,
+  "execution_policy": "proposal_only_until_human_review_of_full_corruption_manifests_and_plan"
+}

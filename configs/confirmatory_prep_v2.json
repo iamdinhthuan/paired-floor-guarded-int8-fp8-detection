@@ -1,0 +1,36 @@
+{
+  "schema_version": 2,
+  "attempt": "voc_kitti_confirmatory_v1",
+  "execution_config": "configs/confirmatory_execution_v2.json",
+  "execution_config_sha256": "c1bf0427edf1750c20ff9114403c2343ca009de57bec43b199423118a573291e",
+  "parity_config": "configs/confirmatory_reference_parity_v2.json",
+  "parity_config_sha256": "edf53225b3ada0fc77e683567d647ed9a6b7c6f4a0f480ada064d1dda42e5e3e",
+  "matrix": "configs/matrices/confirmatory_voc_kitti_yolo11_v2.json",
+  "matrix_sha256": "13b1fdc23e933aa2a70d89605bf139a361d5ff04181b7b6b1cf685497ba8a025",
+  "supersedes_prep_config": "configs/confirmatory_prep_v1.json",
+  "supersedes_prep_config_sha256": "fcc97f4533ab73b1d173bfbd9954d458c30b7895f6ee6507e5eb8d5d49e3a1a3",
+  "minimum_free_gib_after_estimate": 50,
+  "source_manifest": [
+    {
+      "path": "src/run_confirmatory_prep.py",
+      "sha256": "2dd7fadaaeff1aad23436404ea65c074270476256de232d11e8462073fbb2fb8"
+    },
+    {
+      "path": "src/generate_corruption.py",
+      "sha256": "8ed870a101fa71c51f943b0add8ea3c0fc1311e0c92feab73bde1fc4372acb7a"
+    },
+    {
+      "path": "src/build_dataset_pilot_plan.py",
+      "sha256": "075b0594dc2d8ec8bbad25d2c1639440904df06dfcea21f323527ec52bfda3ef"
+    },
+    {
+      "path": "src/freeze_pilot_plan.py",
+      "sha256": "25ce0efcec0ec07a616db07808c0898b05150835cc0f07ccbcad105d9f5938f4"
+    },
+    {
+      "path": "src/topic_c/manifest.py",
+      "sha256": "2704f5acb66eec6b4488fe402747f7b07f8b14e2d2576fbd3be4379a6a3758c7"
+    }
+  ],
+  "config_sha256": "7983be1102c417089c799dbe058d9a244babb4619ace5f8db2377c1c6329cacf"
+}

@@ -1,0 +1,87 @@
+{
+  "direct_summary": [
+    {
+      "cells": 36,
+      "max_delta_e_ap_points": 1.5071428379296814,
+      "mean_delta_e_ap_points": -6.793667872566029,
+      "min_delta_e_ap_points": -54.32910238608856,
+      "model": "rtdetr-l"
+    },
+    {
+      "cells": 36,
+      "max_delta_e_ap_points": 1.1633617139666597,
+      "mean_delta_e_ap_points": -6.227221546645143,
+      "min_delta_e_ap_points": -37.74534936907234,
+      "model": "retinanet-r50-fpn-v2"
+    }
+  ],
+  "limitations": [
+    "one recorded training seed",
+    "one recorded calibration sample",
+    "descriptive cells without bootstrap intervals",
+    "RT-DETR INT8 clean-fidelity gate failure",
+    "RetinaNet TT100K absolute-accuracy floor"
+  ],
+  "rows": {
+    "direct_interactions": 72,
+    "quantized_interactions": 144
+  },
+  "schema_version": 3,
+  "scope": "cross-family descriptive portability stress cases",
+  "sign_convention": {
+    "DeltaE": "E_INT8-E_FP8=(FP8-INT8)_corrupt-(FP8-INT8)_clean",
+    "E": "Q_corrupt-Q_clean",
+    "Q": "AP_FP32-AP_quantized"
+  },
+  "source_sha256": {
+    "generated/cross_family_cells.csv": "75f3addd0f503b7d111818010c14c3567d0762920b6ef157abeb210baddd7b41",
+    "generated/cross_family_q95_clean.csv": "57e0631a8a936b7c47139bf1c3d3d3b6e9d3d7df7e5bece849b5f904aa7ee4f2"
+  },
+  "status": "valid",
+  "summary": [
+    {
+      "cells": 36,
+      "corrupted_cells_below_5_ap": 34,
+      "max_e_ap_points": 1.2170713224581686,
+      "mean_corrupted_ap_points": 1.9735120015670424,
+      "mean_e_ap_points": -6.811576541336124,
+      "mean_q95_ap_points": 38.660223406030795,
+      "min_e_ap_points": -54.386720912680055,
+      "model": "rtdetr-l",
+      "precision": "int8-entropy"
+    },
+    {
+      "cells": 36,
+      "corrupted_cells_below_5_ap": 4,
+      "max_e_ap_points": 2.0066539815031925,
+      "mean_corrupted_ap_points": 33.30257210250057,
+      "mean_e_ap_points": -0.01790866877009539,
+      "mean_q95_ap_points": 0.5374954325312389,
+      "min_e_ap_points": -1.0621944218005552,
+      "model": "rtdetr-l",
+      "precision": "fp8"
+    },
+    {
+      "cells": 36,
+      "corrupted_cells_below_5_ap": 16,
+      "max_e_ap_points": 1.1447266694003089,
+      "mean_corrupted_ap_points": 11.34148165658412,
+      "mean_e_ap_points": -6.214841431638558,
+      "mean_q95_ap_points": 22.531544409440485,
+      "min_e_ap_points": -38.85902673495739,
+      "model": "retinanet-r50-fpn-v2",
+      "precision": "int8-entropy"
+    },
+    {
+      "cells": 36,
+      "corrupted_cells_below_5_ap": 12,
+      "max_e_ap_points": 0.6417119730768084,
+      "mean_corrupted_ap_points": 26.91484694991636,
+      "mean_e_ap_points": 0.0123801150065846,
+      "mean_q95_ap_points": 0.7309575694631014,
+      "min_e_ap_points": -1.1136773658850476,
+      "model": "retinanet-r50-fpn-v2",
+      "precision": "fp8"
+    }
+  ]
+}

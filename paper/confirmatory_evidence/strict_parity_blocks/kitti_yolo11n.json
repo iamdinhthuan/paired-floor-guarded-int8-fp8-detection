@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "dataset": "kitti",
+  "split": "test",
+  "model": "yolo11n",
+  "n_images": 1197,
+  "input_manifest_sha256": "cfb48c6d8272ce2ea454230232b9420803c64095c53fde927f0e3cf2342c612c",
+  "input_image_ids_sha256": "58db4d0a4c228e0cfc80d7a62759a745a22cc8754e375ed1b937e5e8b22ea1f5",
+  "source_tolerance": 0.001,
+  "fp16_tolerance": 0.01,
+  "ap": {
+    "pytorch": 0.6150829688531246,
+    "onnxruntime": 0.6153040412840665,
+    "trt-fp32": 0.615119006714671,
+    "trt-fp16": 0.6149963663668636
+  },
+  "absolute_ap_gaps": {
+    "pytorch_to_onnxruntime": 0.0002210724309418266,
+    "pytorch_to_trt_fp32": 3.603786154637856e-05,
+    "trt_fp32_to_trt_fp16": 0.00012264034780740118
+  },
+  "artifacts": {
+    "pytorch": {
+      "metric": "/home/thuan/topic_c_ivc/outputs/reference_parity/voc_kitti_confirmatory_v1/kitti/yolo11n/pytorch.metric.json",
+      "metric_sha256": "49d01da1c4a7b854d8de1d1263cb44cfad951f61f22b93f582f4be32005b2949",
+      "run_record": "/home/thuan/topic_c_ivc/outputs/reference_parity/voc_kitti_confirmatory_v1/kitti/yolo11n/pytorch.run.json",
+      "run_record_sha256": "184618a5771f8107e2573ea4136bd53d173f04ada0b56a3eb1f447933943649f"
+    },
+    "onnxruntime": {
+      "metric": "/home/thuan/topic_c_ivc/outputs/reference_parity/voc_kitti_confirmatory_v1/kitti/yolo11n/onnxruntime.metric.json",
+      "metric_sha256": "e200a1ec5521d2f39e78f0507649d033d12b06067a4b7e08bc25f1384a865583",
+      "run_record": "/home/thuan/topic_c_ivc/outputs/reference_parity/voc_kitti_confirmatory_v1/kitti/yolo11n/onnxruntime.run.json",
+      "run_record_sha256": "e9cf837398e4e6faa05b729f8695217abd5a46276110badfdb4c8049d381c4b1"
+    },
+    "trt-fp32": {
+      "metric": "/home/thuan/topic_c_ivc/outputs/reference_parity/voc_kitti_confirmatory_v1/kitti/yolo11n/trt-fp32.metric.json",
+      "metric_sha256": "0e96871f8268d8ea1d5cf8be4716eedc13cf45ebe7175dfb67db1fd14f9e559d",
+      "run_record": "/home/thuan/topic_c_ivc/outputs/reference_parity/voc_kitti_confirmatory_v1/kitti/yolo11n/trt-fp32.run.json",
+      "run_record_sha256": "6a9e5fea1fcc50e8d19328664bcf5e7cd8d8eb840988c9e28832a571f14707bc"
+    },
+    "trt-fp16": {
+      "metric": "/home/thuan/topic_c_ivc/outputs/reference_parity/voc_kitti_confirmatory_v1/kitti/yolo11n/trt-fp16.metric.json",
+      "metric_sha256": "e276e5f1336313deb563e10a99d7e798cc5bcf91c810f15a237d0b075d478748",
+      "run_record": "/home/thuan/topic_c_ivc/outputs/reference_parity/voc_kitti_confirmatory_v1/kitti/yolo11n/trt-fp16.run.json",
+      "run_record_sha256": "c071cbb4ee9d9258f7319d303a89d64630c39dc31dc7fd7f02c86beced2df08e"
+    }
+  },
+  "pass": true,
+  "errors": []
+}

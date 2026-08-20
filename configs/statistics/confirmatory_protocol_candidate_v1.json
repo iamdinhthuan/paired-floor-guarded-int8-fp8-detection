@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "protocol_id": "topic_c_ivc_confirmatory_candidate_v1",
+  "status": "candidate_requires_owner_freeze_before_transfer_metrics_are_inspected",
+  "scope": {
+    "discovery_dataset": "coco_val2017",
+    "confirmatory_datasets": [
+      "voc_val",
+      "kitti_val"
+    ],
+    "domain_transfer_dataset": "tt100k_test",
+    "models": [
+      "yolo11n",
+      "yolo11m",
+      "yolo11x"
+    ],
+    "formats": [
+      "fp32",
+      "int8-entropy",
+      "fp8"
+    ],
+    "parity_format": "fp16",
+    "corruptions": [
+      "gaussian_noise",
+      "motion_blur",
+      "fog",
+      "jpeg"
+    ],
+    "severities": [
+      1,
+      3,
+      5
+    ]
+  },
+  "estimands": {
+    "quantization_gap": "Q[d,m,q,s,c] = AP[d,m,fp32,s,c] - AP[d,m,q,s,c]",
+    "excess_corruption_damage": "E[d,m,q,s,c] = Q[d,m,q,s,c] - Q[d,m,q,s,clean]",
+    "size_interaction": "Psi[d,m,q,c] = E[d,m,q,small,c] - E[d,m,q,large,c]",
+    "primary_average": "Theta[q] = equal-weight mean of Psi over confirmatory datasets, models, corruptions, and severities",
+    "format_contrast": "Delta = Theta[int8-entropy] - Theta[fp8]"
+  },
+  "hypothesis_hierarchy": [
+    {
+      "order": 1,
+      "id": "H1_compound_small_object_damage",
+      "null": "Theta[int8-entropy] <= 0",
+      "alternative": "Theta[int8-entropy] > 0",
+      "alpha": 0.05,
+      "decision": "pass only when the one-sided BCa lower confidence bound is greater than 0"
+    },
+    {
+      "order": 2,
+      "id": "H2_fp8_less_amplification_than_int8",
+      "gate": "test only if H1 passes",
+      "null": "Delta <= 0",
+      "alternative": "Delta > 0",
+      "alpha": 0.05,
+      "decision": "pass only when the one-sided BCa lower confidence bound is greater than 0"
+    }
+  ],
+  "secondary_inference": {
+    "fp8_equivalence_estimand": "Theta[fp8]",
+    "tost_margin_ap": 0.01,
+    "tost_alpha": 0.05,
+    "dataset_specific_intervals": true,
+    "severity_trend": "ordered descriptive trend with uncertainty; not a replacement primary endpoint",
+    "individual_cells": "exploratory with BH-FDR q=0.05 within dataset and precision family"
+  },
+  "bootstrap": {
+    "replicates": 2000,
+    "interval": "BCa",
+    "confidence_level": 0.95,
+    "sampling_unit": "image",
+    "within_dataset_rule": "one shared image-index draw must be reused across every linked model-format-clean-corrupt cell contributing to a composite estimand",
+    "across_dataset_rule": "draw independently within each dataset, then combine with equal dataset weight",
+    "seed": 20260808,
+    "minimum_valid_replicates": 2000
+  },
+  "size_definitions": {
+    "coco_voc_kitti": "COCO original-pixel area bins: small < 32^2, medium [32^2, 96^2), large >= 96^2",
+    "tt100k": "original-image bbox-height bins; small-like = XS + S, large-like = L + XL",
+    "pooling_rule": "TT100K size interaction is a transfer endpoint and must not be numerically pooled with area-bin endpoints"
+  },
+  "hard_gates": {
+    "fp16_absolute_ap_tolerance": 0.01,
+    "same_ordered_image_ids": true,
+    "same_corrupted_bytes_across_formats": true,
+    "prediction_and_manifest_hashes_required": true,
+    "raw_predictions_required": true,
+    "no_validation_or_test_images_in_calibration": true,
+    "no_result_dependent_cell_exclusion": true
+  },
+  "collapse_policy": {
+    "rule": "A quantized rung with a near-floor clean result, pervasive empty output, or invalid decoder parity is excluded from normal interaction inference by a predeclared mechanical rule.",
+    "report": [
+      "clean AP",
+      "corrupt AP",
+      "detections per image",
+      "mean confidence",
+      "recall",
+      "empty-output fraction"
+    ],
+    "interpretation": "diagnostic case study only; never describe a floor-limited contrast as robustness"
+  },
+  "calibration_intervention": {
+    "status": "separate_phase_requires_its_own_frozen_plan",
+    "arms": [
+      "clean_train_only",
+      "balanced_clean_corrupt_train_only",
+      "severity_matched_train_only"
+    ],
+    "primary_tradeoff": "reduction in heavy-corruption E_small subject to clean AP loss not exceeding 0.01",
+    "minimum_calibration_lists": 3,
+    "evaluation_rule": "lists, engines, and evaluation images must be disjoint and hash-registered"
+  },
+  "interpretation_rules": [
+    "COCO pilot B=500 is discovery evidence and must not be relabelled confirmatory.",
+    "A larger bootstrap on the same observed COCO predictions does not create an independent confirmation sample.",
+    "Do not average raw AP across datasets with different class ontologies or size definitions.",
+    "Do not claim universal detector behavior from the YOLO11 family; state the architecture boundary explicitly.",
+    "Do not claim FP8 equivalence from failure to reject a difference; require both TOST bounds to pass.",
+    "Report effect sizes and uncertainty even when a directional hypothesis does not pass."
+  ]
+}

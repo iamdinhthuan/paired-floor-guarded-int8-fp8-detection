@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__yolo11n__fp8-none__gaussian_noise-s3__8b412d78__a75df647",
+  "dataset": "voc",
+  "split": "val",
+  "model": "yolo11n",
+  "precision": "fp8",
+  "calibrator": "none",
+  "calibration_list_path": null,
+  "calibration_sha256": null,
+  "calibration_provenance": "not_applicable",
+  "corruption": "gaussian_noise",
+  "severity": 3,
+  "engine_path": "/home/thuan/topic_c_ivc/engines/voc/yolo11n/fp8.plan",
+  "engine_sha256": "8b412d78d55da50e84016320324b404b7ad1a18d25985d63f955415868167208",
+  "runner_sha256": "f2cd2300b1f227c46924c515edf824fead5f6f9afb5755376f88a3b75e4765d8",
+  "preprocess_sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+  "decoder_sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c",
+  "class_map_path": "/home/thuan/topic_c_ivc/manifests/classes/voc_val_ultralytics_v1.json",
+  "class_map_sha256": "2b4981e5637852f6e490f46bdf44d486d70f0bb3a7ef987608b251fe9267a51e",
+  "annotation_sha256": "e825593ef803aeedd611fb746de757f18074b96b46408a55b320dea01b7a62a1",
+  "input_manifest_sha256": "a75df647853ae3fa02b66612b6131f6662099dac6b83788770ad3f5446620a99",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "prediction_sha256": "6d565ca4dadc055af634c5f6e97476e83965c21c0428fe9679991786768c2c6b",
+  "n_images": 4952,
+  "n_detections": 125834,
+  "runtime_seconds": 22.71921968460083,
+  "runtime_environment": {
+    "python_executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "python_version": "3.11.15",
+    "tensorrt_version": "11.1.0.106",
+    "gpu": [
+      "NVIDIA GeForce RTX 5090, 610.43.02, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb"
+    ]
+  },
+  "command": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py --engine /home/thuan/topic_c_ivc/engines/voc/yolo11n/fp8.plan --annotations /home/thuan/topic_c_ivc/manifests/annotations/voc_val_ultralytics_v1_coco.json --image-manifest /home/thuan/topic_c_ivc/manifests/images/voc_val_full_gaussian_noise_s3.json --manifest-cache-root /home/thuan/topic_c_ivc/data/voc_c --out /home/thuan/topic_c_ivc/outputs/predictions/voc_pilot_117_v1/voc_val__yolo11n__fp8-none__gaussian_noise-s3__8b412d78__a75df647.json --input-record /home/thuan/topic_c_ivc/outputs/inputs/voc_pilot_117_v1/voc_val__yolo11n__fp8-none__gaussian_noise-s3__8b412d78__a75df647.json --run-record /home/thuan/topic_c_ivc/manifests/runs/voc_pilot_117_v1/voc_val__yolo11n__fp8-none__gaussian_noise-s3__8b412d78__a75df647.json --condition-id voc_val__yolo11n__fp8-none__gaussian_noise-s3__8b412d78__a75df647 --dataset voc --split val --class-map /home/thuan/topic_c_ivc/manifests/classes/voc_val_ultralytics_v1.json --imgsz 640 --model yolo11n --precision fp8 --calibrator none --corruption gaussian_noise --severity 3"
+}

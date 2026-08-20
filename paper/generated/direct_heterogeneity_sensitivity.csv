@@ -1,0 +1,13 @@
+analysis,level,cells,point_native,sd_native,q25_native,median_native,q75_native
+distribution,all-cells,144,-0.0002091094022162223,0.011981429401881571,-0.00388573974718992,0.00039511599123129293,0.005649521395824697
+weighting,equal-cell,144,-0.0002091094022162223,,,,
+weighting,image-weighted,144,1.7277813256360154e-05,,,,
+weighting,object-weighted,144,-0.0009475052484358216,,,,
+leave-one-dataset-out,coco,108,0.00034423698862792577,,,,
+leave-one-dataset-out,kitti,108,0.00125638344553206,,,,
+leave-one-dataset-out,tt100k,108,-0.0023008048102777794,,,,
+leave-one-dataset-out,voc,108,-0.00013625323274709552,,,,
+leave-one-corruption-out,fog,108,-0.001574304031337106,,,,
+leave-one-corruption-out,gaussian_noise,108,-0.0001780505948140944,,,,
+leave-one-corruption-out,jpeg,108,0.0003978732666126424,,,,
+leave-one-corruption-out,motion_blur,108,0.0005180437506736688,,,,
