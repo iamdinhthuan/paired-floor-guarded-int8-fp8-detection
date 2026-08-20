@@ -5,7 +5,7 @@
   },
   "formula": "raw_corrupt_gap=(FP8-INT8)_clean+DeltaE=(FP8-INT8)_corrupt",
   "generated_sha256": {
-    "figures/fig_decision_impact.pdf": "23cc08ba01b7265441a3bc64c8d1a2a9ff1e0196a8c6871f17faf879093f0f48",
+    "figures/fig_decision_impact.pdf": "cc0bd69aaca1fa961f52aa2e504252ea33f57ddf3f68ce7ccb22adf904151a10",
     "figures/fig_decision_impact.png": "710726a77f5b68b9c5f4e370885a6a61d1e72df6a89cc186dd475882020bbd33",
     "generated/decision_impact_cells.csv": "53e15fba07c4cc268ba823b7963f016cf611ff718d1b4e860024dd6f11fe66d2",
     "generated/decision_impact_summary.tex": "1d7fe7d022d8efd202b6caa49d46336069ffc57c64cdbcc3ef359094e6402330"

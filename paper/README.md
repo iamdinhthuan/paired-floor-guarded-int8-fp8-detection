@@ -67,5 +67,6 @@ Under this convention, the mean INT8 `E` values in the architecture-portability 
 Release `v2.0.0` is archived at
 [https://doi.org/10.5281/zenodo.22031664](https://doi.org/10.5281/zenodo.22031664).
 Complete the remaining author-dependent items in `AUTHOR_CHECKLIST.md`,
-especially the funding statement and confirmation of the AI/graphical-abstract
-declarations, before uploading the final files.
+especially confirmation of the AI and graphical-abstract declarations, before
+uploading the final files. The manuscript includes the authors' confirmed
+no-specific-funding statement.

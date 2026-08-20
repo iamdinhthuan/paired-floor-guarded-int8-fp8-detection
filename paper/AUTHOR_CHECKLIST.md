@@ -2,8 +2,8 @@
 
 The scientific source is internally validated, but the following statements require confirmation by the authors and must not be inferred automatically.
 
-- [ ] **Funding:** confirm the correct funding declaration. Add either the exact funder/grant information or the journal-approved no-specific-funding statement to `main.tex` and the submission system.
-- [ ] **Authorship:** verify the author order, spelling, affiliations, corresponding-author email, ORCIDs, and CRediT roles.
+- [x] **Funding:** the authors confirmed that the research received no specific funding; copy the no-specific-grant statement from `main.tex` into the submission system.
+- [x] **Authorship:** the author order, spelling, affiliations, corresponding-author email, ORCIDs, and CRediT roles were confirmed by the submitting author.
 - [ ] **Generative-AI declaration:** verify that OpenAI Codex, OpenAI ChatGPT, and Anthropic Claude Code are the complete and accurate tool list, and that the described human review matches actual use.
 - [ ] **Graphical abstract:** confirm the creation workflow, rights to every component, and compliance with the journal's current policy on generative AI and image manipulation.
 - [ ] **Data/code availability:** confirm that the uploaded files match the availability statement and that no restricted dataset, checkpoint, engine, prediction, credential, or personal data is included.
