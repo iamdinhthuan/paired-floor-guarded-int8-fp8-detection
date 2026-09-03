@@ -1,30 +1,56 @@
 cff-version: 1.2.0
-message: "Please cite the accompanying article and this software release when reusing the evaluation protocol or compact evidence."
-title: "A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8 Object Detectors under Synthetic Image Corruptions"
+message: >-
+  If you use this software or its compact evidence package, please cite the
+  archived release using the Zenodo DOI below.
+title: >-
+  A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object
+  Detectors under Image Corruptions: Reproducibility Package
 type: software
-version: 2.0.0
-date-released: 2026-08-20
-repository-code: "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection"
-doi: "10.5281/zenodo.22031664"
-license: MIT
 authors:
-  - family-names: "Nguyen"
-    given-names: "Dinh Thuan"
-    affiliation: "Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam"
-  - family-names: "Nguyen"
-    given-names: "Lam Phuong"
-    affiliation: "Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam"
-  - family-names: "Nguyen"
-    given-names: "Vinh Huy"
-    affiliation: "Center of Visualization and Simulation, Duy Tan University, Da Nang, Vietnam"
-  - family-names: "Elara"
-    given-names: "Mohan Rajesh"
-    affiliation: "ROAR Lab, Engineering Product Development, Singapore University of Technology and Design, Singapore"
-  - family-names: "Le"
-    given-names: "Anh Vu"
-    affiliation: "Advanced Intelligent Technology Research Group, Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, 19 Nguyen Huu Tho Street, Tan Phong Ward, District 7, Ho Chi Minh City 700000, Vietnam"
+  - family-names: Nguyen
+    given-names: Dinh Thuan
+    email: nguyendinhthuan.st@tdtu.edu.vn
+    orcid: "https://orcid.org/0009-0008-6467-203X"
+    affiliation: Ton Duc Thang University
+  - family-names: Nguyen
+    given-names: Lam Phuong
+    email: nguyenphuonglam.st@tdtu.edu.vn
+    orcid: "https://orcid.org/0009-0007-3439-5871"
+    affiliation: Ton Duc Thang University
+  - family-names: Nguyen
+    given-names: Vinh Huy
+    email: nguyenvinhhuy@dtu.edu.vn
+    orcid: "https://orcid.org/0009-0006-0878-9714"
+    affiliation: Duy Tan University
+  - family-names: Quang
+    given-names: Sy Vu
+    email: vuquangsy@tdtu.edu.vn
+    affiliation: Ton Duc Thang University
+  - family-names: Elara
+    given-names: Mohan Rajesh
+    email: rajeshelara@sutd.edu.sg
+    orcid: "https://orcid.org/0000-0001-6504-1530"
+    affiliation: Singapore University of Technology and Design
+  - family-names: Le
+    given-names: Anh Vu
+    email: leanhvu@tdtu.edu.vn
+    orcid: "https://orcid.org/0000-0002-4804-7540"
+    affiliation: Ton Duc Thang University
+version: 2.1.0
+date-released: "2026-09-03"
+doi: 10.5281/zenodo.22031663
+repository-code: "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection"
+url: "https://doi.org/10.5281/zenodo.22031663"
+license: MIT
 keywords:
-  - "post-training quantization"
-  - "object detection"
-  - "corruption robustness"
-  - "TensorRT"
+  - object detection
+  - robustness evaluation
+  - post-training quantization
+  - image corruption
+  - paired evaluation
+  - INT8
+  - FP8
+abstract: >-
+  Code, deterministic evidence ledgers, validation audits, generated tables,
+  figures, and manuscript sources supporting a paired, floor-guarded evaluation
+  of executable INT8 and FP8 object-detector treatments under image corruptions.

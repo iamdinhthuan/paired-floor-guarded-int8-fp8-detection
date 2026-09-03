@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+import hashlib
+import json
 from pathlib import Path
 
 
@@ -7,49 +11,63 @@ PAPER = PROJECT_ROOT / "paper"
 
 def test_main_integrates_targeted_multiseed_evidence_without_overgeneralizing() -> None:
     main = (PAPER / "main.tex").read_text(encoding="utf-8")
-    discussion = (PAPER / "direct_discussion_template.tex").read_text(
-        encoding="utf-8"
-    )
-    fragment = (PAPER / "generated" / "multiseed_main.tex").read_text(
-        encoding="utf-8"
-    )
+    discussion = main.split(r"\section{Discussion}", 1)[1].split(
+        r"\section{Conclusion}", 1
+    )[0]
     normalized_main = " ".join(main.split())
 
-    assert r"\input{generated/multiseed_main.tex}" in main
-    assert "3\\times3\\times3\\times4=108" in normalized_main
-    assert "YOLO11m" in fragment
-    assert "severity~5" in fragment
-    assert "VOC, KITTI, and TT100K" in fragment
-    assert r"targeted $3\times3$ training--calibration seed experiment" in discussion
-    assert "engine-build variability" in discussion
-    assert "family-level replication" in discussion
-    assert "COCO" in discussion
-    assert "original-seed intersection" in main
-    assert "-1.214" in main
-    assert "-1.109" in main
-    assert "primary grid checkpoints were trained once" in main
-    assert "These transfer models were initialized from pretrained weights and trained once" not in main
-    assert "without replacement from the same frozen training split" in normalized_main
-    assert "subset overlap was permitted" in normalized_main
-    assert "same hash-bound JPEG-95 clean and corrupted inputs" in normalized_main
-    assert "Only the training seed and calibration-list seed varied" in normalized_main
+    assert r"$3\times3$ factorial design yields 54 TensorRT engines and 108" in normalized_main
+    assert "YOLO11m on VOC, KITTI, and TT100K at severity level 5" in normalized_main
+    assert "not treated as estimates of variance over a broader population" in normalized_main
+    assert "The targeted seed analysis fixes YOLO11m" in discussion
+    assert "We did not repeat engine builds" in discussion
+    assert "does not cover COCO" in main
+    assert "combination of the original seeds" in main
+    assert "-1.21" in main
+    assert "-1.11" in main
+    assert "one main training seed" in main
+    assert "All other elements of the experimental procedure remain fixed" in normalized_main
+    assert "variation is restricted to the training seed and the calibration-list seed" in normalized_main
 
 
 def test_supplement_integrates_hash_validated_seed_decomposition() -> None:
     supplement = (PAPER / "supplement.tex").read_text(encoding="utf-8")
 
-    assert r"\input{generated/multiseed_supplement.tex}" in supplement
-    assert "do not cover training seeds" not in supplement
+    assert r"\section{Training--calibration seed sensitivity}" in supplement
+    assert r"\label{tab:multiseed-decomposition}" in supplement
+    assert "Across 108 cells" in supplement
+    assert "do not extend to COCO" in supplement
+
+    evidence = PAPER / "multiseed_evidence"
+    analysis = json.loads((evidence / "analysis.json").read_text(encoding="utf-8"))
+    assert analysis["status"] == "complete"
+    assert analysis["counts"] == {
+        "direct_cells": 108,
+        "marginals": 14,
+        "variance_blocks": 12,
+    }
+    names = {
+        "cells_csv": "direct_cells.csv",
+        "decomposition_csv": "variance_decomposition.csv",
+        "marginals_csv": "marginals.csv",
+    }
+    for key, name in names.items():
+        digest = hashlib.sha256((evidence / name).read_bytes()).hexdigest()
+        assert digest == analysis["artifacts_sha256"][key]
 
 
-def test_multiseed_generated_fragments_are_packaged_for_overleaf() -> None:
-    creator = (PROJECT_ROOT / "analysis" / "create_overleaf_upload.py").read_text(
+def test_multiseed_public_evidence_is_separate_from_the_compact_cviu_source() -> None:
+    creator = (PROJECT_ROOT / "analysis" / "build_cviu_submission_package.py").read_text(
         encoding="utf-8"
     )
 
-    assert '"multiseed_main.tex"' in creator
-    assert '"multiseed_supplement.tex"' in creator
-    assert "_validate_multiseed_evidence(project_root)" in creator
-    assert "_copy_multiseed_evidence(project_root, staging)" in creator
-    assert '"analysis_complete.json"' in creator
-    assert '"direct_cells.csv"' in creator
+    assert "publication_dependencies(root)" in creator
+    assert "multiseed_evidence" not in creator
+    for name in (
+        "analysis.json",
+        "analysis_complete.json",
+        "direct_cells.csv",
+        "marginals.csv",
+        "variance_decomposition.csv",
+    ):
+        assert (PAPER / "multiseed_evidence" / name).is_file()

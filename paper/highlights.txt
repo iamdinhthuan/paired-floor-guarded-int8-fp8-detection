@@ -1,5 +1,5 @@
-A paired four-cell design isolates corruption-specific format interactions.
-Clean adjustment changes interpretation in 56 of 144 corruption cells.
-FP8 preserves 1.40 AP more matched-clean accuracy across 12 YOLO blocks.
-Untouched VOC/KITTI holdouts give a -0.55 AP interaction.
-Absolute AP guards against shared failure-floor convergence.
+- Paired evaluation separates clean gaps from corruption-specific changes.
+- Shared-image resampling preserves dependence across four evaluation arms.
+- Clean adjustment produces 56 point-estimate sign reversals in 144 cells.
+- Absolute AP guards against robustness claims near a shared accuracy floor.
+- Stress tests reveal dependence on quantization recipe and architecture.

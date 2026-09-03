@@ -1,14 +1,16 @@
-20 August 2026
+3 September 2026
 
-Dear Editors of Image and Vision Computing,
+Dear Editors of Computer Vision and Image Understanding,
 
-Please consider our manuscript, “A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8 Object Detectors under Synthetic Image Corruptions,” for publication as a Full-Length Research Paper in Image and Vision Computing.
+Please consider our manuscript, “A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions,” for publication as a research article in Computer Vision and Image Understanding.
 
-The manuscript addresses a recurring measurement problem in quantized computer vision: a raw accuracy difference on corrupted images combines the format discrepancy already present on matched-clean inputs with any additional corruption-specific interaction. We introduce a byte-matched, image-paired four-cell protocol that separates these components and requires the signed interaction to be interpreted alongside absolute corrupted accuracy. This design is evaluated across four datasets, three YOLO11 capacities, four synthetic corruption families, and three severities, with untouched VOC/KITTI final partitions and targeted sensitivity analyses for corruption realizations, training and calibration seeds, class-universe preservation, aggregation weights, and architecture transfer.
+Reliable evaluation of a deployed vision system requires separating a performance difference already present on nominal images from a change associated with visual degradation. We address this measurement problem for executable INT8 and FP8 object detectors. Our byte-matched, image-paired four-cell protocol subtracts the matched-clean treatment gap from the corrupted-input gap within common-image bootstrap samples. The resulting quantity is an algebraic interaction contrast, not a causal estimator, and is interpreted only after clean fidelity and absolute corrupted accuracy have been checked.
 
-The methodological distinction changes the empirical interpretation. Although the raw corrupted gap favors FP8 in 134 of 144 exploratory cells, subtracting the matched-clean gap changes the interpretation in 56 cells. FP8 preserves 1.40 more matched-clean AP on average, while the balanced clean-adjusted interaction is near zero in the broader grid and negative on the untouched VOC/KITTI holdout. Absolute AP nevertheless decreases in 282 of 288 corrupted arms. Architecture stress cases further show that a favorable interaction sign can occur after a clean-fidelity failure, underscoring why clean fidelity, absolute corrupted accuracy, and corruption-specific interaction must be reported separately.
+The exploratory grid contains 144 conditions across four datasets, three YOLO11 capacities, four synthetic corruptions, and three severities. We separately examine post-selection evaluation on final VOC/KITTI images excluded from checkpoint selection, interaction-scale and corruption-materialization sensitivities, training and calibration seeds, aggregation and class composition, matched engine runtime, and recipe-portability stress tests with RT-DETR and RetinaNet. Although the raw corrupted gap favors FP8 in 134 of 144 exploratory conditions, clean adjustment produces 56 point-estimate sign reversals; 17 adjusted intervals lie entirely below zero and 39 cross zero. FP8 outperforms INT8 by 1.40 matched-clean average-precision points on average, whereas the balanced adjusted interaction is -0.02 points in the broader grid and -0.55 points on the VOC/KITTI final holdouts. Absolute accuracy nevertheless decreases in 282 of 288 corrupted arms, demonstrating why scale-explicit interactions and remaining task performance must be reported together.
 
-We believe the paper fits Image and Vision Computing because its primary contribution is a general, auditable performance-evaluation protocol for executable object-detection systems, supported by extensive quantitative comparisons and reproducibility checks. The manuscript is original, is not under consideration elsewhere, and all authors have approved its submission. The research received no specific grant from funding agencies in the public, commercial, or not-for-profit sectors. The remaining disclosure and graphical-abstract confirmations will be completed in the journal submission system before final upload.
+The manuscript fits the journal’s focus on recognition and complete vision systems because its primary contribution is an auditable evaluation methodology under visual degradation, rather than a vendor-specific datatype leaderboard. The protocol generalizes to comparisons of quantizers, mixed-precision policies, compilers, calibration methods, and runtimes whenever a pre-existing clean difference can be confused with a degradation-specific effect.
+
+The manuscript is original, is not under consideration elsewhere, and all six authors have approved its submission. The research received no specific grant from funding agencies in the public, commercial, or not-for-profit sectors. Code and compact evidence are maintained under Zenodo concept DOI 10.5281/zenodo.22031663. The manuscript contains data-and-code, funding, competing-interest, CRediT, and generative-AI declarations.
 
 Thank you for your consideration.
 
@@ -16,7 +18,7 @@ Sincerely,
 
 Anh Vu Le
 Corresponding author
-Faculty of Electrical and Electronics Engineering
-Ton Duc Thang University
+Advanced Intelligent Technology Research Group
+Faculty of Electrical and Electronics Engineering, Ton Duc Thang University
 Ho Chi Minh City, Vietnam
 leanhvu@tdtu.edu.vn

@@ -377,13 +377,9 @@
     \tex_let:D \thefootnote \relax \footnotetext
     {
       \raggedright
-      \bool_if:NTF \g_stm_nologo_bool
-      { 
-        \int_compare:nTF { \g_ead_int = 1 }
-        { \textit{Email~address:\c_space_token} }
-        { \textit{Email~addresses:\c_space_token} }
-      }
-      { \includegraphics[height=8pt]{thumbnails/cas-email.jpeg}\c_space_token } 
+      \int_compare:nTF { \g_ead_int = 1 }
+        { \textit{E-mail~address:\c_space_token} }
+        { \textit{E-mail~addresses:\c_space_token} }
       \seq_use:Nn \g_stm_ead_seq { ;~ }
     }
   }
@@ -424,14 +420,17 @@
 
 \NewDocumentCommand \printorcid { }
 {
-  \group_begin:
-    \tex_let:D \thefootnote \relax \footnotetext
+  \seq_if_empty:NF \g_stm_orcid_seq
     {
-      \raggedright
-      \textsc{orcid}(s):\c_space_token 
-      \seq_use:Nn \g_stm_orcid_seq { ;~ }
+      \group_begin:
+      \tex_let:D \thefootnote \relax \footnotetext
+        {
+          \raggedright
+          \textsc{orcid}(s):\c_space_token
+          \seq_use:Nn \g_stm_orcid_seq { ;~ }
+        }
+      \group_end:
     }
-  \group_end:
 }
 
 %
@@ -1644,10 +1643,12 @@
      \bool_if:NTF \g_stm_blind_bool 
        { }
        { 
+         \group_begin:
+         \cs_set:Npn \footnotetext ##1 { }
          \printcornotes
+         \group_end:
          \printmaltese
          \printaddrinfoot
-         \printemails 
          \printurls
          \printorcid
          \printfacebook
@@ -1657,9 +1658,10 @@
          \printfnotes
        } 
      \bool_if:NTF \g_stm_longmktitle_bool
-       { 
+       {
          \if@twocolumn
-         \tex_let:D \columnwidth = \Columnwidth \fi
+           \tex_let:D \columnwidth = \Columnwidth
+         \fi
        }
        { }
        \normalcolor
@@ -1877,7 +1879,7 @@
   % \iow_term:x { ...~[tmpa-notedp:~ \dim_use:N \g_tmpa_dim ] }
   \dim_gsub:Nn \g_tmpa_dim { \g_tmpb_dim }  
   \vbox_set_split_to_ht:NNn \g_tmpb_box \g_stm_front_box { \g_tmpa_dim }
-  \noindent \vbox_unpack_clear:N \g_tmpb_box 
+  \noindent \vbox_unpack_drop:N \g_tmpb_box
   \printFirstPageNotes
   \dim_gzero:N \g_tmpa_dim
   \dim_gset:Nn \g_tmpa_dim { \box_ht:N \g_stm_front_box }
@@ -1887,15 +1889,15 @@
   \dim_compare:nNnTF { \dim_use:N \g_tmpa_dim } > { \the\textheight }
   {
     \vbox_set_split_to_ht:NNn \g_tmpb_box \g_stm_front_box { \textheight }
-    \vbox_unpack_clear:N \g_tmpb_box
+    \vbox_unpack_drop:N \g_tmpb_box
     \ifbool{dc}
-    { \twocolumn[{\vbox_unpack_clear:N \g_stm_front_box}] }
-    { \vbox_unpack_clear:N \g_stm_front_box }
+    { \twocolumn[{\vbox_unpack_drop:N \g_stm_front_box}] }
+    { \vbox_unpack_drop:N \g_stm_front_box }
   }
   {
     \ifbool{dc}
-    { \twocolumn[{\vbox_unpack_clear:N \g_stm_front_box}] }
-    { \vbox_unpack_clear:N \g_stm_front_box }
+    { \twocolumn[{\vbox_unpack_drop:N \g_stm_front_box}] }
+    { \vbox_unpack_drop:N \g_stm_front_box }
   } 
  \normalcolor \normalfont 
 }
@@ -2002,10 +2004,16 @@
 
 \cs_new:Npn \__first_foot: 
 { 
-  \parbox[t]{\textwidth}
-  { 
-     \rule{\textwidth}{.2pt}\\
-     \__first_footerline: \hfill Page~ \thepage {} ~of~ \lastpage }
+  \parbox[b]{\textwidth}
+  {
+    \cs_if_exist:NT \FirstPageCorrespondence
+      {
+        \FirstPageCorrespondence
+        \par\vspace{4pt}
+      }
+    \sffamily\small\centering
+    \thepage
+  }
 }   
 
 
@@ -2023,10 +2031,8 @@
 { 
   \parbox[t]{\textwidth}
   {
-   \rule{\textwidth}{.2pt}\\ 
-   \sffamily\small
-   \__first_footerline:
-   \hfill Page~\thepage {}~of~ \lastpage 
+    \sffamily\small\centering
+    \thepage
   }
 }   
 
@@ -2638,4 +2644,3 @@
 %  {}
 
 \endinput
-

@@ -1,23 +1,37 @@
-# Topic C documentation index
+# Documentation index
 
-Read in this order:
+## Authoritative CVIU release documents
 
-1. [IVC research contract](ivc_research_contract.md) — scientific scope, estimands, evidence roles, hard gates and submission-ready definition.
-2. [Confirmatory analysis candidate](../configs/statistics/confirmatory_protocol_candidate_v1.json) — machine-readable hypothesis hierarchy, bootstrap and interpretation rules. Owner freeze is required before transfer metrics are inspected.
-3. [Implementation gap register](ivc_implementation_gap_register.md) — what the current pipeline already proves, what it does not prove, and the exact work needed before each manuscript claim.
-4. [IVC manuscript blueprint](ivc_manuscript_blueprint.md) — title/positioning, section structure, figure/table plan, result scenarios and red-team checklist.
+For version `v2.1.0`, use these sources in this order:
 
-Source design documents outside this project:
+1. [Paper package guide](../paper/README.md) — canonical CVIU sources,
+   reproducibility boundary, build, validation, and upload-package commands.
+2. [Paired interaction method](paired_excess_gap_method.md) — estimand,
+   sign convention, pairing, and interpretation guardrails.
+3. [Main manuscript](../paper/main.tex) and
+   [Supplementary File S1](../paper/supplement.tex) — authoritative scientific
+   claims and evidence scope.
+4. [Final author checklist](../paper/AUTHOR_CHECKLIST_CVIU.txt) — the remaining
+   Zenodo DOI and Editorial Manager checks.
 
-- `../A_Capacity_Stratified_Analysis_of_INT8_and_FP8_Quantization_on_object_detection/docs/topic_c_quantization_corruption_ivc_handoff.md`
-- `../AETA2026_paper_1/topic_c_quantization_corruption_vibecode.md`
+Frozen configurations, manifests, execution reports, and dated plans document
+how the recorded experiments were produced. They do not override the active
+CVIU manuscript or its release validator.
 
-These files have different roles:
+## Historical IVC material
 
-- The source design explains the original idea and broad roadmap.
-- The research contract narrows that roadmap into defensible IVC claims.
-- The JSON candidate makes key statistical decisions machine-readable.
-- The gap register prevents implemented pilot checks from being mistaken for missing confirmatory methods.
-- The manuscript blueprint controls writing after results exist.
+Files whose names contain `ivc`, and dated documents under `plans/` or
+`superpowers/`, are retained solely as provenance for the earlier
+*Image and Vision Computing* development phase. Some include machine-specific
+paths, host gates, provisional citation constraints, or obsolete submission
+instructions. Do not use them to build or submit the CVIU revision.
 
-No document in this folder authorizes overwriting legacy artifacts or launching the full grid/calibration intervention without owner review.
+The authoritative release gate is:
+
+```bash
+cd paper
+./verify.sh
+```
+
+This command validates the compact paper package; it does not retrain models,
+rebuild TensorRT engines, or rerun detector inference.

@@ -1,14 +1,18 @@
-# Paired, Floor-Guarded INT8–FP8 Evaluation for Object Detection
+# A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions
 
 [![Manuscript](https://img.shields.io/badge/manuscript-PDF-b31b1b.svg)](paper/preview/main.pdf)
 [![Supplement](https://img.shields.io/badge/supplement-PDF-4c6ef5.svg)](paper/preview/supplement.pdf)
 [![Reproducibility](https://img.shields.io/badge/package-verified-2f9e44.svg)](paper/README.md)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22031664.svg)](https://doi.org/10.5281/zenodo.22031664)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22031663.svg)](https://doi.org/10.5281/zenodo.22031663)
 
 This repository accompanies the manuscript:
 
-> **A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8
-> Object Detectors under Synthetic Image Corruptions**
+> **A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object
+> Detectors under Image Corruptions**
+
+The manuscript is prepared for *Computer Vision and Image Understanding*
+(CVIU). Release `v2.1.0` aligns the software, compact evidence, manuscript
+sources, and publication metadata with that submission.
 
 The study evaluates recorded post-training-quantization treatments through
 executable TensorRT object detectors. Its central measurement is a paired
@@ -90,18 +94,21 @@ registries on the intended host.
 
 The self-contained paper package can be checked without retraining models or
 rerunning inference. It requires Python 3 and a TeX Live installation providing
-`pdflatex` and `bibtex`.
+`latexmk`, or `pdflatex` and `bibtex` as a fallback.
 
 ```bash
 cd paper
 ./verify.sh
 ```
 
-This command regenerates the manuscript-level summaries, rebuilds the main and
-supplementary PDFs, recreates Supplementary Data S2, writes and verifies the
-source manifest, and constructs the submission ZIP. See
+This command rebuilds the main and supplementary PDFs, validates the active
+CVIU source and upload assets, and writes and verifies the source manifest. It
+does not silently regenerate results from unavailable external artifacts. See
 [`paper/README.md`](paper/README.md) for the package contents and precise
 reproducibility boundary.
+
+To create the clean Overleaf and flat Editorial Manager source bundles, run
+the two CVIU submission builders documented in `paper/README.md`.
 
 For a PDF-only rebuild:
 
@@ -147,10 +154,12 @@ single command. Before running training or inference:
 8. evaluate the four paired arms with a shared image universe and bootstrap
    schedule.
 
-The research contract and execution details are documented in
-[`docs/ivc_research_contract.md`](docs/ivc_research_contract.md),
+The current publication scope and reproduction boundary are documented in
+[`paper/README.md`](paper/README.md),
 [`docs/paired_excess_gap_method.md`](docs/paired_excess_gap_method.md), and the
-experiment-specific notes under [`docs/`](docs/).
+experiment-specific records under [`docs/`](docs/). Dated IVC planning files
+are retained only as historical provenance; the CVIU source and release gates
+under `paper/` are authoritative for version 2.1.0.
 
 Do not silently substitute datasets, calibration lists, checkpoints, decoders,
 or TensorRT builds while retaining the original result labels. The validators
@@ -174,11 +183,27 @@ not include all of these sources of uncertainty.
 ## Citation
 
 Citation metadata are provided in [`CITATION.cff`](CITATION.cff). GitHub can
-render the corresponding citation through **Cite this repository**. The
-version-specific Zenodo archive for release `v2.0.0` is
-[https://doi.org/10.5281/zenodo.22031664](https://doi.org/10.5281/zenodo.22031664);
-the all-versions concept DOI is
+render the corresponding citation through **Cite this repository**. Until a
+version-specific DOI is minted for release `v2.1.0`, cite the all-versions
+concept DOI
 [https://doi.org/10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).
+After the GitHub release is archived, use the version DOI shown on that Zenodo
+record when referring to the exact deposited package.
+
+## Authors and research responsibility
+
+The six human authors are Dinh Thuan Nguyen, Lam Phuong Nguyen, Vinh Huy
+Nguyen, Sy Vu Quang, Mohan Rajesh Elara, and Anh Vu Le. They retain full
+responsibility for the study, manuscript, code, evidence, and release
+metadata. AI-assisted tools are neither authors nor contributors and are not
+listed in `CITATION.cff` or `.zenodo.json`; any use of such tools in manuscript
+preparation is disclosed separately in the paper in accordance with journal
+policy.
+
+## Funding
+
+This research did not receive any specific grant from funding agencies in the
+public, commercial, or not-for-profit sectors.
 
 ## Data, models, and third-party software
 

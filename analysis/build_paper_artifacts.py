@@ -1872,9 +1872,9 @@ def generate_codec_sensitivity(
     shown["Dataset"] = shown.dataset.map(DISPLAY)
     shown["Model"] = shown.model.map(DISPLAY)
     shown["Precision"] = shown.precision.map(DISPLAY)
-    shown["Original clean AP (%)"] = shown.original_clean_ap.map(fmt_ap)
-    shown["JPEG-95 clean AP (%)"] = shown.codec_clean_ap.map(fmt_ap)
-    shown["Codec minus original (AP pt)"] = shown.codec_minus_original.map(
+    shown["Original clean AP (points)"] = shown.original_clean_ap.map(fmt_ap)
+    shown["JPEG-95 clean AP (points)"] = shown.codec_clean_ap.map(fmt_ap)
+    shown["Codec minus original (AP points)"] = shown.codec_minus_original.map(
         lambda value: f"{value:+.3f}"
     )
     write_booktabs(
@@ -1884,9 +1884,9 @@ def generate_codec_sensitivity(
             "Dataset",
             "Model",
             "Precision",
-            "Original clean AP (%)",
-            "JPEG-95 clean AP (%)",
-            "Codec minus original (AP pt)",
+            "Original clean AP (points)",
+            "JPEG-95 clean AP (points)",
+            "Codec minus original (AP points)",
         ],
         "lllrrr",
     )
@@ -2402,13 +2402,13 @@ def generate_method_graphical_abstract(out: Path) -> None:
     ax.set_ylim(0, 1)
     ax.axis("off")
     fig.patch.set_facecolor("white")
-    fig.text(0.5, 0.93, "Paired excess-gap evaluation under image corruption", ha="center", va="center", fontsize=17, fontweight="bold", color="#172033")
-    fig.text(0.5, 0.875, "A matched four-cell comparison separates clean format cost from corruption-induced change", ha="center", va="center", fontsize=9.5, color="#475569")
+    fig.text(0.5, 0.93, "Paired, floor-guarded evaluation under image corruptions", ha="center", va="center", fontsize=17, fontweight="bold", color="#172033")
+    fig.text(0.5, 0.875, "Subtract the matched-clean INT8--FP8 gap before interpreting the corrupted-input gap", ha="center", va="center", fontsize=9.5, color="#475569")
 
     cards = [
-        (0.035, "1", "Match the four cells", "same ordered images\nmatched JPEG-95 bytes", "#EAF3FB", "#4F86B4"),
-        (0.362, "2", "Subtract clean cost", "excess gap removes\nthe clean discrepancy", "#FFF4E5", "#B7791F"),
-        (0.690, "3", "Preserve the evidence", "common image bootstrap\narea and height stay separate", "#EAF7F0", "#2F855A"),
+        (0.035, "1", "Match four treatment cells", "same ordered images\nmatched JPEG-95 bytes", "#EAF3FB", "#4F86B4"),
+        (0.362, "2", "Estimate the interaction", "subtract the matched-clean\ntreatment discrepancy", "#FFF4E5", "#B7791F"),
+        (0.690, "3", "Guard the conclusion", "check task accuracy before\ninterpreting gap contraction", "#EAF7F0", "#2F855A"),
     ]
     for x, number, title, subtitle, fill, edge in cards:
         ax.add_patch(FancyBboxPatch((x, 0.14), 0.275, 0.64, boxstyle="round,pad=0.012,rounding_size=0.022", facecolor=fill, edgecolor=edge, linewidth=1.2))
@@ -2417,26 +2417,26 @@ def generate_method_graphical_abstract(out: Path) -> None:
         ax.text(x + 0.1375, 0.635, subtitle, ha="center", va="center", fontsize=8, color="#475569")
 
     for index, (precision, condition, color) in enumerate((
-        ("FP32", "clean", "#5A6575"), ("INT8 / FP8", "clean", "#D97706"),
-        ("FP32", "corrupt", "#5A6575"), ("INT8 / FP8", "corrupt", "#D97706"),
+        ("INT8", "J95 clean", "#4F86B4"), ("FP8", "J95 clean", "#D97706"),
+        ("INT8", "corrupted", "#4F86B4"), ("FP8", "corrupted", "#D97706"),
     )):
         col, row = index % 2, index // 2
         x, y = 0.073 + col * 0.105, 0.455 - row * 0.145
         ax.add_patch(FancyBboxPatch((x, y), 0.093, 0.12, boxstyle="round,pad=0.006", facecolor="white", edgecolor=color, linewidth=1.0))
         ax.text(x + 0.0465, y + 0.073, precision, ha="center", va="center", fontsize=7.3, fontweight="bold", color=color)
         ax.text(x + 0.0465, y + 0.034, condition, ha="center", va="center", fontsize=6.7, color="#475569")
-    ax.text(0.172, 0.245, "one checkpoint · one decoder · same input IDs", ha="center", va="center", fontsize=7.1, color="#475569")
+    ax.text(0.172, 0.245, "one checkpoint · one decoder · identical bytes", ha="center", va="center", fontsize=7.1, color="#475569")
 
-    ax.text(0.500, 0.555, r"$E = (AP_{FP32}-AP_q)_{corrupt} - (AP_{FP32}-AP_q)_{clean}$", ha="center", va="center", fontsize=8.5, color="#172033")
-    ax.text(0.500, 0.448, r"$\Delta E = E_{INT8} - E_{FP8}$", ha="center", va="center", fontsize=15, fontweight="bold", color="#A65B08")
-    ax.text(0.500, 0.350, r"$\Delta\Psi = \Psi_{INT8} - \Psi_{FP8}$", ha="center", va="center", fontsize=10.5, color="#A65B08")
-    ax.text(0.500, 0.270, "FP32 cancels algebraically; positive means the INT8--FP8\ndiscrepancy widens under the named corruption", ha="center", va="center", fontsize=7.2, color="#475569")
+    ax.text(0.500, 0.550, r"$\Delta E=(AP_{FP8}-AP_{INT8})_{corrupt}$", ha="center", va="center", fontsize=11.5, color="#172033")
+    ax.text(0.500, 0.455, r"$\quad -(AP_{FP8}-AP_{INT8})_{J95}$", ha="center", va="center", fontsize=11.5, fontweight="bold", color="#A65B08")
+    ax.text(0.500, 0.350, "common-image bootstrap preserves all four dependencies", ha="center", va="center", fontsize=7.7, color="#475569")
+    ax.text(0.500, 0.270, "FP32 supports treatment diagnostics but cancels\nfrom the direct paired interaction", ha="center", va="center", fontsize=7.2, color="#475569")
 
-    for index, (label, detail) in enumerate((("2,000", "image-paired\nbootstrap draws"), ("SHA-256", "inputs, engines,\nschedules, artifacts"), ("4 datasets", "COCO / VOC /\nKITTI / TT100K"))):
+    for index, (label, detail) in enumerate((("1", "matched-clean\nfidelity"), ("2", "absolute corrupted\naccuracy"), ("3", "interaction, then\nruntime"))):
         y = 0.57 - index * 0.125
         ax.text(0.730, y, label, ha="left", va="center", fontsize=9.5, fontweight="bold", color="#24734B")
         ax.text(0.820, y, detail, ha="left", va="center", fontsize=7.2, color="#475569", linespacing=1.15)
-    ax.text(0.828, 0.217, "Report direct contrasts with absolute AP guardrails\n—not as a standalone deployment recommendation.", ha="center", va="center", fontsize=7.0, color="#475569")
+    ax.text(0.828, 0.217, "Gap contraction near a shared accuracy floor\nis not retained robustness.", ha="center", va="center", fontsize=7.0, color="#475569")
     for x_start, x_end in ((0.317, 0.352), (0.644, 0.680)):
         ax.add_patch(FancyArrowPatch((x_start, 0.46), (x_end, 0.46), arrowstyle="-|>", mutation_scale=13, linewidth=1.2, color="#64748B"))
     original_bbox = plt.rcParams["savefig.bbox"]
@@ -3668,8 +3668,8 @@ def _direct_accuracy_guardrail_summary(guardrail: pd.DataFrame, out: Path) -> No
         "% Generated from 312 hash-matched validated metric records; do not edit manually.\n"
         f"Across the 288 format-specific corrupted arms, {int((guardrail.d_native > 0).sum())} "
         f"had lower AP than their matched JPEG-95 clean arm, while "
-        f"{int((guardrail.d_native < 0).sum())} had a small negative loss. The median absolute "
-        f"loss was {100 * guardrail.d_native.median():.2f} AP points and the mean was "
+        f"{int((guardrail.d_native < 0).sum())} had a small gain. The median signed "
+        f"clean-to-corrupted AP loss was {100 * guardrail.d_native.median():.2f} AP points and the mean was "
         f"{100 * guardrail.d_native.mean():.2f} AP points, exposing the right-skewed "
         "severity of the loss distribution. Moreover, "
         f"{int((guardrail.corrupt_ap_native < 0.10).sum())} arms had corrupted AP below 10 AP points and "

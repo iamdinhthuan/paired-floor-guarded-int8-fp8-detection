@@ -27,6 +27,13 @@ paper/overleaf_upload_*.zip
 /overleaf_ivc/
 /overleaf_ivc.zip
 
+# Local CVIU hand-off directory (canonical tracked sources live in paper/)
+/Thuan_paper_3_CVIU_revised/
+/CVIU_SUBMISSION_READY/
+
+# User-provided setup screenshot; never include it in a software release
+/1787239511272_2287580973828769080_6622643280230127215_18ddea61e8357cfc296472d78364c691.jpg
+
 # Local/editor/system state
 .DS_Store
 .idea/

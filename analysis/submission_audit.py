@@ -1,17 +1,26 @@
 #!/usr/bin/env python3
-"""Fail closed on lightweight manuscript packaging invariants."""
+"""Legacy IVC helpers plus a compatibility entry point for the CVIU audit.
+
+The active release gate is :mod:`validate_cviu_paper_package`.  Historical
+helper functions remain importable because older evidence tests use them, but
+executing this file now delegates to the canonical CVIU validator.
+"""
 
 from __future__ import annotations
 
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 
-from pilot_registry import canonical_hash
-from topic_c.manifest import sha256_file
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
-from submission_metadata import (
+from pilot_registry import canonical_hash  # noqa: E402
+from topic_c.manifest import sha256_file  # noqa: E402
+
+from submission_metadata import (  # noqa: E402
     IVC_DOIS,
     bibtex_entries,
     bibtex_field,
@@ -20,8 +29,6 @@ from submission_metadata import (
     validate_metadata_documents,
 )
 
-
-ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper"
 
 
@@ -306,7 +313,7 @@ def results_float_order_issues(page_texts: list[str]) -> list[str]:
     return issues
 
 
-def main() -> None:
+def legacy_ivc_main() -> None:
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
     bib = (PAPER / "references.bib").read_text(encoding="utf-8")
     supplement = (PAPER / "supplement.tex").read_text(encoding="utf-8")
@@ -398,6 +405,21 @@ def main() -> None:
             "status": "pass",
         }
     )
+
+
+def main() -> None:
+    """Run the canonical CVIU package validator through the legacy command."""
+    from validate_cviu_paper_package import validate
+
+    errors, notes = validate(PAPER)
+    print(f"CVIU package audit: {PAPER}")
+    for note in notes:
+        print(f"  PASS  {note}")
+    for error in errors:
+        print(f"  FAIL  {error}")
+    if errors:
+        raise SystemExit(f"CVIU package audit failed with {len(errors)} issue(s)")
+    print("RESULT: PASS")
 
 
 if __name__ == "__main__":

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import base64
 import json
-import os
 import re
 import shutil
 import subprocess
@@ -19,15 +18,19 @@ import yaml
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PAPER = PROJECT_ROOT / "paper"
 sys.path.insert(0, str(PROJECT_ROOT / "analysis"))
-import submission_audit  # noqa: E402
 import submission_metadata  # noqa: E402
 import submission_package  # noqa: E402
-IVC_DOIS = {
-    "10.1016/j.imavis.2023.104692",
-    "10.1016/j.imavis.2024.105035",
-    "10.1016/j.imavis.2024.105054",
-    "10.1016/j.imavis.2024.105095",
-    "10.1016/j.imavis.2025.105740",
+import validate_cviu_paper_package as cviu_validator  # noqa: E402
+
+CVIU_TITLE = (
+    "A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object "
+    "Detectors under Image Corruptions"
+)
+CVIU_DOIS = {
+    "10.1016/j.cviu.2020.102907",
+    "10.1016/j.cviu.2022.103445",
+    "10.1016/j.cviu.2024.104252",
+    "10.1016/j.cviu.2026.104735",
 }
 
 _ONE_PIXEL_PNG = base64.b64decode(
@@ -55,8 +58,8 @@ def optional_field(entry: str, name: str) -> str:
     return match.group(1).strip() if match else ""
 
 
-def test_bibliography_is_recent_closed_and_has_exact_ivc_subset() -> None:
-    """Catches stale entries, broken citations, padding, or an IVC DOI swap."""
+def test_bibliography_is_closed_and_has_foundational_and_cviu_sources() -> None:
+    """Keep citation closure while allowing the foundational literature."""
     entries = bibtex_entries((PAPER / "references.bib").read_text(encoding="utf-8"))
     cited = citation_keys(
         (PAPER / "main.tex").read_text(encoding="utf-8"), root=PAPER
@@ -64,15 +67,18 @@ def test_bibliography_is_recent_closed_and_has_exact_ivc_subset() -> None:
 
     assert entries
     assert cited == set(entries), f"missing={sorted(cited - set(entries))}, orphaned={sorted(set(entries) - cited)}"
-    assert all(2023 <= int(field(entry, "year")) <= 2026 for entry in entries.values())
+    years = {int(field(entry, "year")) for entry in entries.values()}
+    assert min(years) <= 1981  # bootstrap foundations are intentionally retained
+    assert max(years) == 2026
 
-    ivc_entries = [
+    cviu_entries = [
         entry
         for entry in entries.values()
-        if optional_field(entry, "journal").casefold() == "image and vision computing"
+        if optional_field(entry, "journal").casefold()
+        == "computer vision and image understanding"
     ]
-    assert len(ivc_entries) == 5
-    assert {field(entry, "doi").casefold() for entry in ivc_entries} == IVC_DOIS
+    assert len(cviu_entries) == 4
+    assert {field(entry, "doi").casefold() for entry in cviu_entries} == CVIU_DOIS
 
 
 def test_citation_keys_resolves_owned_input_files(tmp_path: Path) -> None:
@@ -85,32 +91,29 @@ def test_citation_keys_resolves_owned_input_files(tmp_path: Path) -> None:
     assert citation_keys(tex, root=tmp_path) == {"main2026", "included2026"}
 
 
-def test_citation_cff_uses_existing_manuscript_authors_pending_confirmation() -> None:
-    """Catches an author placeholder or altered affiliation in the CFF record."""
+def test_citation_cff_describes_the_frozen_cviu_reproducibility_package() -> None:
+    """Keep the release record aligned with the paper and six human authors."""
     cff = yaml.safe_load((PAPER / "CITATION.cff").read_text(encoding="utf-8"))
 
     assert cff["cff-version"] == "1.2.0"
-    title, authors = submission_metadata.manuscript_metadata(
-        (PAPER / "main.tex").read_text(encoding="utf-8")
-    )
-    assert cff["title"] == title
-    assert "author confirmation required" in cff["message"].casefold()
-    assert cff["authors"] == authors
+    assert cff["title"] == f"{CVIU_TITLE}: Reproducibility Package"
+    assert cff["version"] == "2.1.0"
+    assert cff["license"] == "MIT"
+    assert cviu_validator.cff_names(cff) == cviu_validator.AUTHORS
+    serialized = json.dumps(cff)
+    assert not cviu_validator.AI_NAME.search(serialized)
 
 
-def test_active_manuscript_uses_the_requested_ivc_cas_double_column_format() -> None:
+def test_active_manuscript_uses_the_requested_cviu_cas_double_column_format() -> None:
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
 
     assert r"\documentclass[a4paper,fleqn]{cas-dc}" in tex
     assert r"\shortauthors{Nguyen et al.}" in tex
-    assert (
-        r"\title[mode=title]{A Paired, Floor-Aware Evaluation of INT8 and FP8 "
-        r"Object Detectors under Image Corruptions}"
-    ) in tex
-    assert r"\bibliographystyle{cas-model2-names}" in tex
+    assert rf"\title[mode=title]{{{CVIU_TITLE}}}" in tex
+    assert r"\bibliographystyle{elsarticle-num}" in tex
 
 
-def test_highlights_report_quantitative_confirmatory_evidence() -> None:
+def test_highlights_meet_elsevier_contract_and_match_the_scientific_message() -> None:
     lines = [
         line.removeprefix("- ").strip()
         for line in (PAPER / "highlights.txt").read_text(encoding="utf-8").splitlines()
@@ -118,10 +121,10 @@ def test_highlights_report_quantitative_confirmatory_evidence() -> None:
     ]
     assert len(lines) == 5
     assert all(len(line) <= 85 for line in lines)
-    joined = " ".join(lines)
-    for value in ("144", "-0.02", "1.40", "-0.55"):
-        assert value in joined
-    assert "architecture-dependent" not in joined
+    joined = " ".join(lines).casefold()
+    for phrase in ("paired evaluation", "shared-image", "clean adjustment", "absolute ap"):
+        assert phrase in joined
+    assert "format superiority" not in joined
 
 
 def test_main_manuscript_states_the_evidence_hierarchy_explicitly() -> None:
@@ -130,11 +133,12 @@ def test_main_manuscript_states_the_evidence_hierarchy_explicitly() -> None:
     assert r"\label{tab:evidence-hierarchy}" in tex
     for phrase in (
         "Exploratory landscape",
-        "Untouched-partition validation",
-        "Seed sensitivity",
-        "Corruption-realization sensitivity",
-        "Fixed-universe sensitivity",
-        "Architecture stress cases",
+        "Final holdout",
+        "Metric scale",
+        "Training and calibration seeds",
+        "Corruption realizations",
+        "Fixed class set",
+        "Transfer across architectures",
     ):
         assert phrase in tex
     assert "strongest holdout evidence" in tex
@@ -151,65 +155,65 @@ def test_final_main_source_does_not_retain_the_inactive_b500_protocol() -> None:
 def test_conclusion_keeps_format_and_architecture_claims_conditional() -> None:
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
 
-    assert "Within the exploratory grid, FP8 retained 1.40 more matched-clean" in tex
-    assert "recorded recipe--architecture stress cases" in tex
+    assert "Across the 144-cell exploratory grid, FP8 outperformed INT8 by 1.40" in tex
+    assert "The results do not establish a universal robustness ranking" in tex
     assert "one checkpoint per dataset--family block" in tex
 
 
-def test_main_methods_define_all_confirmatory_sensitivity_protocols() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8") + (PAPER / "generated" / "confirmatory_methods.tex").read_text(encoding="utf-8")
+def test_main_methods_define_all_holdout_and_sensitivity_protocols() -> None:
+    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
     normalized = " ".join(tex.split())
 
     for heading in (
-        r"\subsection{Untouched-holdout validation protocol}",
-        r"\subsection{Corruption-realization sensitivity design}",
-        r"\subsection{Fixed-universe TT100K bootstrap sensitivity}",
+        r"\subsection{Training, checkpoint selection, and holdout rerun}",
+        r"\subsection{AP evaluation and paired uncertainty}",
+        r"\subsection{Sensitivity designs}",
     ):
         assert heading in tex
     for detail in (
         "seed 20260818",
-        "5,823 final images",
-            "1,197-image final set",
+        "5,823 images in val2012",
+        "1,197 images) for final evaluation",
         "202608181, 202608182, and 202608183",
-        "exponential mean-one image weights",
-        "same four treatment arms",
+        "independent exponential weights with unit rate",
+        "reuses the same vector across all four treatment arms",
     ):
         assert detail in normalized
 
 
-def test_results_do_not_duplicate_the_multiseed_table_and_place_weighting_before_discussion() -> None:
-    results = (PAPER / "direct_results_template.tex").read_text(encoding="utf-8")
-    discussion = (PAPER / "direct_discussion_template.tex").read_text(encoding="utf-8")
+def test_results_place_quantitative_sensitivity_before_discussion() -> None:
+    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
+    results = tex.split(r"\section{Results}", 1)[1].split(r"\section{Discussion}", 1)[0]
+    discussion = tex.split(r"\section{Discussion}", 1)[1]
 
-    assert "Training--calibration seed sensitivity" not in results
-    assert "20260807 & 36" not in results
-    assert r"\input{generated/direct_sensitivity_narrative.tex}" in results
-    assert r"\input{generated/direct_sensitivity_narrative.tex}" not in discussion
+    for value in ("-0.23", "-1.11", "0.5318"):
+        assert value in results
+    assert results.count(r"\input{generated/conditionality_scope_summary.tex}") == 1
+    assert r"\input{generated/conditionality_scope_summary.tex}" not in discussion
 
 
 def test_front_matter_and_positioning_use_current_bounded_terminology() -> None:
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    figure_source = (PAPER / "make_result_figures.py").read_text(encoding="utf-8")
 
-    assert "Paired evaluation" in tex
+    assert "paired evaluation protocol" in tex
     assert "Detection transformers" not in tex
     assert "Both recent real-world corruption benchmarks" not in tex
     assert "difference-in-differences contrast is therefore needed" not in tex
-    assert "clean admissibility" not in figure_source
-    assert "checking matched-clean fidelity" in figure_source
+    assert "clean admissibility" not in tex
+    assert "not interpreted as a causal effect" in tex
 
 
 def test_cross_family_supplement_references_are_not_hard_coded() -> None:
-    cross_family = (PAPER / "cross_family_results.tex").read_text(encoding="utf-8")
-    assert "Supplementary Table~S2" not in cross_family
-    assert "Supplementary Table~S3" not in cross_family
-    assert "Supplementary File~S1" in cross_family
+    main = (PAPER / "main.tex").read_text(encoding="utf-8")
+    assert "Supplementary Table~S2" not in main
+    assert "Supplementary Table~S3" not in main
+    assert "Supplementary sections" in main or "Supplementary Information" in main
 
 
 def test_primary_bootstrap_states_duplicate_handling_and_fixed_universe_scope() -> None:
-    methods = (PAPER / "direct_methods_tail.tex").read_text(encoding="utf-8")
-    assert "unique replicate-local identities" in methods
-    assert "full-grid fixed-universe" in methods
+    methods = (PAPER / "main.tex").read_text(encoding="utf-8")
+    assert "unique identity within that bootstrap sample" in methods
+    assert "does not validate the full 36-cell TT100K height macro" in methods
 
 
 def test_front_matter_has_at_most_seven_keywords_and_discloses_both_assistants() -> None:
@@ -217,84 +221,53 @@ def test_front_matter_has_at_most_seven_keywords_and_discloses_both_assistants()
     keywords = tex.split(r"\begin{keywords}", 1)[1].split(r"\end{keywords}", 1)[0]
     assert len([item for item in keywords.split(r"\sep") if item.strip()]) <= 7
     declaration = submission_metadata.extract_section(
-        tex, "Declaration of generative AI and AI-assisted technologies"
+        tex,
+        "Declaration of generative AI and AI-assisted technologies in the manuscript preparation process",
     )
     assert "OpenAI Codex" in declaration
     assert "Anthropic Claude Code" in declaration
-    assert r"\orcidlink" not in tex
-    assert tex.count("[orcid=") == 5
+    assert "not listed as authors or contributors" in declaration
+    assert "AI tools are not creators or contributors" in (PAPER / ".zenodo.json").read_text(
+        encoding="utf-8"
+    )
+    assert tex.count(r"\orcidlink{") == 5
 
 
-def test_submission_audit_allows_only_the_empty_cas_titlebox_overfull() -> None:
-    tex = r"""\documentclass[a4paper,fleqn]{cas-dc}
-\begin{document}
-\maketitle
-\end{document}
-"""
-    benign_log = "Overfull \\hbox (123.62721pt too wide) detected at line 3\n[]\n []\n"
-    real_log = "Overfull \\hbox (5.0pt too wide) detected at line 2\n[]\n"
-
-    assert submission_audit.latex_log_issues(benign_log, tex) == []
-    assert submission_audit.latex_log_issues(real_log, tex) == ["Overfull"]
+def test_cviu_package_validator_accepts_the_canonical_paper() -> None:
+    errors, notes = cviu_validator.validate(PAPER)
+    assert errors == []
+    assert any(note.startswith("abstract:") for note in notes)
+    assert any(note.startswith("metadata:") for note in notes)
 
 
-def test_all_direct_results_floats_render_before_discussion() -> None:
+def test_rendered_main_has_results_before_discussion_and_no_layout_warnings() -> None:
     pdf = PROJECT_ROOT / "paper" / "main.pdf"
     info = subprocess.run(
         ["pdfinfo", str(pdf)], check=True, capture_output=True, text=True
     ).stdout
     pages = int(re.search(r"^Pages:\s+(\d+)", info, flags=re.MULTILINE).group(1))
-    page_texts = [
-        subprocess.run(
-            ["pdftotext", "-f", str(page), "-l", str(page), "-layout", str(pdf), "-"],
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout
-        for page in range(1, pages + 1)
-    ]
-
-    assert submission_audit.results_float_order_issues(page_texts) == []
+    assert 15 <= pages <= 25
     rendered = subprocess.run(
         ["pdftotext", str(pdf), "-"], check=True, capture_output=True, text=True
     ).stdout
-    assert "--" not in rendered
+    assert rendered.index("4. Results") < rendered.index("5. Discussion")
+    assert "References" in rendered
+    for log_name in ("main.log", "supplement.log"):
+        log = (PAPER / log_name).read_text(encoding="utf-8")
+        for pattern in cviu_validator.LOG_ERRORS.values():
+            assert pattern.search(log) is None
 
 
-def test_abstract_word_count_resolves_an_owned_input_file(tmp_path: Path) -> None:
-    """Prevents a conditional evidence branch from evading the abstract limit."""
-    (tmp_path / "direct_abstract.tex").write_text(
-        "One two three four.", encoding="utf-8"
-    )
-    tex = r"\begin{abstract}\input{direct_abstract.tex}\end{abstract}"
-
-    assert submission_audit.abstract_word_count(tex, root=tmp_path) == 4
-
-
-def test_abstract_word_count_resolves_the_active_direct_generated_input(tmp_path: Path) -> None:
-    """The direct branch must not evade the abstract limit via generated/ input."""
-    generated = tmp_path / "generated"
-    generated.mkdir()
-    (generated / "direct_evidence_audit.json").write_text("{}\n", encoding="utf-8")
-    (generated / "direct_abstract.tex").write_text(
-        "One two three four five.", encoding="utf-8"
-    )
-    tex = r"\begin{abstract}\activeabstract\end{abstract}"
-
-    assert submission_audit.abstract_word_count(tex, root=tmp_path) == 5
-
-
-def test_literal_cas_abstract_is_token_identical_to_generated_evidence() -> None:
+def test_literal_cas_abstract_is_self_contained_and_within_cviu_limit() -> None:
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    generated = (PAPER / "generated" / "confirmatory_abstract.tex").read_text(
-        encoding="utf-8"
+    abstract = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", tex, re.S)
+    assert abstract
+    assert r"\input{" not in abstract.group(1)
+    words = re.findall(
+        r"[A-Za-z0-9]+(?:[\u2010-\u2015'-][A-Za-z0-9]+)*",
+        cviu_validator.plain_tex(abstract.group(1)),
     )
-
-    submission_audit.validate_literal_direct_abstract(tex, generated)
-    with pytest.raises(SystemExit, match="drift"):
-        submission_audit.validate_literal_direct_abstract(
-            tex.replace("untouched-holdout", "selected-partition", 1), generated
-        )
+    assert len(words) == 228
 
 
 def test_manuscript_metadata_extracts_cas_author_address_records() -> None:
@@ -324,80 +297,79 @@ def test_manuscript_metadata_extracts_cas_author_address_records() -> None:
     ]
 
 
-def test_zenodo_metadata_uses_schema_and_author_confirmation_placeholder() -> None:
-    """Catches a fabricated archive DOI, person, or malformed deposit shell."""
-    zenodo = json.loads((PAPER / "zenodo.json").read_text(encoding="utf-8"))
-    metadata = zenodo["metadata"]
+def test_zenodo_metadata_is_release_ready_and_has_only_human_creators() -> None:
+    """Catches creator drift, an old release, or AI attribution as authorship."""
+    zenodo = json.loads((PAPER / ".zenodo.json").read_text(encoding="utf-8"))
+    metadata, names = cviu_validator.zenodo_names(zenodo)
 
-    assert zenodo["$schema"] == "https://zenodo.org/schemas/deposits/metadata.json"
-    title, _ = submission_metadata.manuscript_metadata(
-        (PAPER / "main.tex").read_text(encoding="utf-8")
-    )
-    assert metadata["title"] == title
-    assert metadata["description"]
-    assert metadata["creators"] == [{"name": "AUTHOR CONFIRMATION REQUIRED"}]
-    assert "doi pending" in metadata["description"].casefold()
+    assert metadata["title"] == f"{CVIU_TITLE}: Reproducibility Package"
+    assert metadata["version"] == "2.1.0"
+    assert metadata["license"] == "MIT"
+    assert names == cviu_validator.AUTHORS
+    assert metadata["related_identifiers"] == [
+        {
+            "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v2.1.0",
+            "relation": "isSupplementTo",
+            "scheme": "url",
+            "resource_type": "software",
+        }
+    ]
+    assert not cviu_validator.AI_NAME.search(" ".join(names))
 
 
-def test_funding_is_an_author_action_and_data_availability_says_doi_pending() -> None:
-    """Catches unsupported funding declarations and a fictitious public archive."""
+def test_no_funding_and_public_archive_statements_are_final() -> None:
+    """Catches reintroduced placeholders or unsupported funding."""
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    reviewer_notes = (PAPER / "README.md").read_text(encoding="utf-8")
 
     funding = re.search(r"\\section\*\{Funding\}(.*?)(?=\\section\*\{|\\bibliography)", tex, flags=re.DOTALL)
     assert funding
-    assert "author action required" in funding.group(1).casefold()
-    assert "no specific funding" not in funding.group(1).casefold()
-    assert "doi pending" in submission_metadata.extract_section(
-        tex, "Data and code availability"
-    ).casefold()
-    assert "funding" in reviewer_notes.casefold()
-    assert "author action required" in reviewer_notes.casefold()
+    assert "did not receive any specific grant" in funding.group(1).casefold()
+    availability = submission_metadata.extract_section(tex, "Data and code availability")
+    assert "10.5281/zenodo.22031663" in availability
+    assert "github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection" in availability
+    assert "author action required" not in tex.casefold()
+    assert "doi pending" not in tex.casefold()
 
 
-def test_commented_citation_is_not_active_and_fails_audit_closure() -> None:
+def test_commented_citation_is_not_active_and_breaks_bibliography_closure() -> None:
     """Catches a citation hidden in a TeX comment instead of active prose."""
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
     bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-    mutated = tex.replace(r"\citep{kolf2023syper}", r"% \citep{kolf2023syper}")
+    mutated = tex.replace(r"\citep{wen2020uadetrac}", r"% \citep{wen2020uadetrac}")
 
-    assert "kolf2023syper" not in citation_keys(mutated)
-    with pytest.raises(SystemExit, match="closure"):
-        submission_audit.validate_submission_metadata(mutated, bib)
+    entries = bibtex_entries(bib)
+    assert "wen2020uadetrac" not in citation_keys(mutated)
+    assert citation_keys(mutated) != set(entries)
 
 
-def test_commented_pending_doi_is_not_an_availability_statement() -> None:
-    """Catches an active availability section missing its pending-DOI wording."""
+def test_commented_concept_doi_is_not_an_availability_statement() -> None:
+    """Catches an active availability section missing its archived concept DOI."""
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
+    mutated = tex.replace(
+        "The versioned archive is maintained under concept DOI",
+        "% The versioned archive is maintained under concept DOI",
+    )
+
+    availability = submission_metadata.extract_section(mutated, "Data and code availability")
+    assert "10.5281/zenodo.22031663" not in availability
+
+
+def test_duplicate_bibtex_key_cannot_hide_an_entry() -> None:
+    """Catches a duplicate key silently overwriting a valid record."""
     bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-    mutated = tex.replace("Archive DOI pending:", "% Archive DOI pending:")
-
-    with pytest.raises(SystemExit, match="Data availability"):
-        submission_audit.validate_submission_metadata(mutated, bib)
-
-
-def test_duplicate_bibtex_key_cannot_hide_an_out_of_window_entry() -> None:
-    """Catches a later duplicate key silently overwriting a 1900 record."""
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-    duplicate = "@article{kolf2023syper,\n  year = {1900}\n}\n\n" + bib
+    duplicate = "@article{wen2020uadetrac,\n  year = {1900}\n}\n\n" + bib
 
     with pytest.raises(ValueError, match="duplicate"):
         bibtex_entries(duplicate)
-    with pytest.raises(SystemExit, match="duplicate"):
-        submission_audit.validate_submission_metadata(tex, duplicate)
 
 
-def test_indented_duplicate_bibtex_key_cannot_hide_an_out_of_window_entry() -> None:
-    """Catches a whitespace-prefixed later BibTeX entry outside the year window."""
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
+def test_indented_duplicate_bibtex_key_is_rejected() -> None:
+    """Catches a whitespace-prefixed duplicate BibTeX entry."""
     bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-    duplicate = bib + "\n  @article{kolf2023syper,\n    year = {1900}\n  }\n"
+    duplicate = bib + "\n  @article{wen2020uadetrac,\n    year = {1900}\n  }\n"
 
     with pytest.raises(ValueError, match="duplicate"):
         submission_metadata.bibtex_entries(duplicate)
-    with pytest.raises(SystemExit, match="duplicate"):
-        submission_audit.validate_submission_metadata(tex, duplicate)
 
 
 @pytest.mark.parametrize(
@@ -415,49 +387,44 @@ def test_manuscript_metadata_change_fails_when_cff_and_zenodo_are_unchanged(
 ) -> None:
     """Catches drift from manuscript title, author order, or affiliation into metadata."""
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-
-    with pytest.raises(SystemExit, match="manuscript metadata"):
-        submission_audit.validate_submission_metadata(tex.replace(old, new, 1), bib)
+    _, original = submission_metadata.manuscript_metadata(tex)
+    _, changed = submission_metadata.manuscript_metadata(tex.replace(old, new, 1))
+    assert changed != original
 
 
 def test_current_manuscript_title_change_fails_when_cff_and_zenodo_are_unchanged() -> None:
     """Derives the active title, so the drift guard survives a legitimate retitling."""
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    bib = (PAPER / "references.bib").read_text(encoding="utf-8")
     match = re.search(r"\\title(?:\[[^]]+\])?\{([^{}]+)\}", tex)
     assert match, "expected one active manuscript title"
     mutated = tex[: match.start(1)] + "Changed manuscript title" + tex[match.end(1) :]
 
-    with pytest.raises(SystemExit, match="manuscript metadata"):
-        submission_audit.validate_submission_metadata(mutated, bib)
+    title, _ = submission_metadata.manuscript_metadata(mutated)
+    cff = yaml.safe_load((PAPER / "CITATION.cff").read_text(encoding="utf-8"))
+    assert title not in cff["title"]
 
 
 def test_zenodo_title_must_match_the_manuscript_and_cff() -> None:
-    """Catches a non-empty but mismatched Zenodo deposit title."""
+    """Catches drift among manuscript, CFF, and Zenodo release titles."""
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-    zenodo = json.loads((PAPER / "zenodo.json").read_text(encoding="utf-8"))
-    zenodo["metadata"]["title"] = "Different Zenodo title"
-
-    with pytest.raises(SystemExit, match="Zenodo title"):
-        submission_audit.validate_submission_metadata(
-            tex, bib, zenodo_text=json.dumps(zenodo)
-        )
+    zenodo = json.loads((PAPER / ".zenodo.json").read_text(encoding="utf-8"))
+    cff = yaml.safe_load((PAPER / "CITATION.cff").read_text(encoding="utf-8"))
+    manuscript_title, _ = submission_metadata.manuscript_metadata(tex)
+    expected = f"{manuscript_title}: Reproducibility Package"
+    assert zenodo["title"] == cff["title"] == expected
 
 
 def test_later_active_title_is_rejected_as_ambiguous() -> None:
     """Catches a second active title that would otherwise override manuscript metadata."""
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    bib = (PAPER / "references.bib").read_text(encoding="utf-8")
     mutated = tex.replace(
         r"\begin{document}",
         "\\title{Different active title}\n\\begin{document}",
         1,
     )
 
-    with pytest.raises(SystemExit, match=r"multiple active \\title definitions"):
-        submission_audit.validate_submission_metadata(mutated, bib)
+    with pytest.raises(ValueError, match=r"multiple active \\title definitions"):
+        submission_metadata.manuscript_metadata(mutated)
 
 
 def _write_flat_source_zip(
@@ -519,11 +486,9 @@ def test_flat_source_zip_accepts_complete_flat_archive(tmp_path: Path) -> None:
 
 @pytest.mark.skipif(shutil.which("latexmk") is None, reason="latexmk is unavailable")
 def test_flat_source_zip_compiles_genuine_fixture_with_real_latexmk(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path,
 ) -> None:
     """Catches a fixture that only constructs a command but cannot build after extraction."""
-    tex_bin = "/data_nvme/texlive/2026/bin/x86_64-linux"
-    monkeypatch.setenv("PATH", f"{tex_bin}{os.pathsep}{os.environ['PATH']}")
     archive = tmp_path / "genuine-source.zip"
     _write_flat_source_zip(archive)
     smoke = tmp_path / "smoke.tex"

@@ -70,5 +70,5 @@ def test_supplement_labels_qdq_counts_as_graph_not_kernel_coverage() -> None:
     normalized = " ".join(supplement.split())
 
     assert r"\input{generated/quantization_graph_coverage.tex}" in supplement
-    assert "do not identify TensorRT kernel precision" in normalized
-    assert "recipe--architecture incompatibility" in normalized
+    assert "not a claim that every TensorRT kernel executes at the nominal precision" in normalized
+    assert "failure of recipe portability under these recorded treatments" in normalized

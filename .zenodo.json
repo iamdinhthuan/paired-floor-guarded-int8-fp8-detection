@@ -1,0 +1,57 @@
+{
+  "title": "A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions: Reproducibility Package",
+  "upload_type": "software",
+  "version": "2.1.0",
+  "publication_date": "2026-09-03",
+  "description": "<p>Reproducibility package accompanying the manuscript <em>A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions</em>, prepared for <em>Computer Vision and Image Understanding</em>.</p><p>The release contains analysis and validation code, frozen configurations and manifests, compact deterministic evidence ledgers, generated tables and figures, and manuscript and supplementary sources. It supports reproduction of reported summaries from retained evidence. Raw benchmark datasets, trained checkpoints, TensorRT engines, raw predictions, and machine-specific caches are not redistributed; their provenance and regeneration boundaries are documented in the package.</p><p>Project concept DOI: <a href=\"https://doi.org/10.5281/zenodo.22031663\">10.5281/zenodo.22031663</a>.</p><p>All scientific claims and metadata remain the responsibility of the six human authors. AI tools are not creators or contributors.</p>",
+  "creators": [
+    {
+      "name": "Nguyen, Dinh Thuan",
+      "affiliation": "Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam",
+      "orcid": "0009-0008-6467-203X"
+    },
+    {
+      "name": "Nguyen, Lam Phuong",
+      "affiliation": "Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam",
+      "orcid": "0009-0007-3439-5871"
+    },
+    {
+      "name": "Nguyen, Vinh Huy",
+      "affiliation": "Center of Visualization and Simulation, Duy Tan University, Da Nang, Vietnam",
+      "orcid": "0009-0006-0878-9714"
+    },
+    {
+      "name": "Quang, Sy Vu",
+      "affiliation": "Advanced Intelligent Technology Research Group, Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam"
+    },
+    {
+      "name": "Elara, Mohan Rajesh",
+      "affiliation": "ROAR Lab, Engineering Product Development, Singapore University of Technology and Design, Singapore",
+      "orcid": "0000-0001-6504-1530"
+    },
+    {
+      "name": "Le, Anh Vu",
+      "affiliation": "Advanced Intelligent Technology Research Group, Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam",
+      "orcid": "0000-0002-4804-7540"
+    }
+  ],
+  "keywords": [
+    "object detection",
+    "robustness evaluation",
+    "post-training quantization",
+    "image corruption",
+    "paired evaluation",
+    "INT8",
+    "FP8"
+  ],
+  "access_right": "open",
+  "license": "MIT",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v2.1.0",
+      "relation": "isSupplementTo",
+      "scheme": "url",
+      "resource_type": "software"
+    }
+  ]
+}

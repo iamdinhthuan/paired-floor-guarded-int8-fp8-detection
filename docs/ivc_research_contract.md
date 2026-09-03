@@ -1,6 +1,9 @@
-# Topic C IVC research contract
+# Archived pre-analysis IVC research contract
 
-Status: working scientific contract for owner review. This document strengthens the experiment design; it is not a results report and does not authorize a full grid by itself.
+Status: historical planning record, superseded by the CVIU v2.1.0 manuscript
+and `paper/README.md`. This file is retained only for provenance. Its planned
+hypotheses, terminology, journal target, and evidence gates must not be read as
+the methods or conclusions of the completed study.
 
 ## 1. Paper thesis
 

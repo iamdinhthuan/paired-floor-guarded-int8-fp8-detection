@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import copy
 import hashlib
 import inspect
 import json
@@ -1189,33 +1188,30 @@ def test_direct_metric_binding_rejects_a_semantically_wrong_arm() -> None:
         )
 
 
-def test_direct_results_template_references_only_direct_generated_artifacts() -> None:
-    template = (PROJECT_ROOT / "paper" / "direct_results_template.tex").read_text(
-        encoding="utf-8"
-    )
+def test_canonical_main_references_current_direct_generated_artifacts() -> None:
+    main = (PROJECT_ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
 
     for expected in (
-        r"\input{generated/direct_results_narrative.tex}",
-        r"\input{generated/direct_format_contrast_summary.tex}",
-        r"\input{generated/direct_heterogeneity_summary.tex}",
-        r"\input{generated/direct_deployment_summary.tex}",
-        r"\input{generated/direct_deployment_narrative.tex}",
-        r"\input{generated/direct_absolute_guardrail_narrative.tex}",
         r"\input{generated/direct_absolute_guardrail_summary.tex}",
+        r"\input{generated/direct_dataset_summary_compact.tex}",
+        r"\input{generated/relative_retention_sensitivity.tex}",
+        r"\input{generated/conditionality_scope_summary.tex}",
+        r"\input{generated/direct_deployment_summary.tex}",
         r"\includegraphics[width=\textwidth]{fig_paired_excess_gap.pdf}",
-        "do not measure memory, power, or energy",
+        r"\includegraphics[width=\textwidth]{fig_decision_impact.pdf}",
+        "exclude image decoding, preprocessing, data transfer",
     ):
-        assert expected in template
-    assert "interaction_summary.tex" not in template
-    assert "numbers.tex" not in template
+        assert expected in main
+    assert "interaction_summary.tex" not in main
+    assert "numbers.tex" not in main
     for label in (
-        "tab:direct-absolute-guardrail",
-        "fig:direct-paired-excess-gap",
-        "tab:direct-format-summary",
-        "tab:direct-heterogeneity",
-        "tab:direct-deployment-summary",
+        "tab:absolute-guardrail",
+        "fig:paired-results",
+        "fig:decision-impact",
+        "tab:conditionality-scope",
+        "tab:runtime",
     ):
-        assert rf"\ref{{{label}}}" in template
+        assert rf"\ref{{{label}}}" in main
 
 
 def test_active_supplement_exposes_codec_control_sensitivity() -> None:
@@ -1229,21 +1225,20 @@ def test_active_supplement_exposes_codec_control_sensitivity() -> None:
     assert r"\input{generated/direct_runtime_sensitivity.tex}" in supplement
     assert r"\input{generated/direct_size_guardrail_summary.tex}" in supplement
     assert "original-source clean" in supplement
-    assert "point sensitivity analysis" in supplement
+    assert "This point sensitivity quantifies the control choice" in supplement
 
 
-def test_direct_results_consumes_generated_sensitivity_narrative_once() -> None:
-    """Keep quantitative sensitivity in Results rather than introducing it in Discussion."""
-    results = (PROJECT_ROOT / "paper" / "direct_results_template.tex").read_text(
-        encoding="utf-8"
-    )
-    discussion = (PROJECT_ROOT / "paper" / "direct_discussion_template.tex").read_text(
-        encoding="utf-8"
-    )
+def test_main_results_consume_conditionality_summary_once() -> None:
+    """Keep quantitative sensitivity in Results rather than first adding it in Discussion."""
+    main = (PROJECT_ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
+    results = main.split(r"\section{Results}", 1)[1].split(r"\section{Discussion}", 1)[0]
+    discussion = main.split(r"\section{Discussion}", 1)[1]
 
-    marker = r"\input{generated/direct_sensitivity_narrative.tex}"
+    marker = r"\input{generated/conditionality_scope_summary.tex}"
     assert results.count(marker) == 1
     assert marker not in discussion
+    for value in ("-0.23", "-1.11", "0.5318"):
+        assert value in results
 
 
 def test_direct_heterogeneity_sensitivity_recomputes_weighting_and_leave_one_out() -> None:
@@ -1294,54 +1289,50 @@ def test_direct_runtime_sensitivity_stratifies_matched_ratios() -> None:
     assert summary.loc[("capacity", "yolo11n"), "conditions"] == 2
 
 
-def test_main_source_switches_every_result_bearing_block_to_direct_evidence() -> None:
-    """A completed direct chain must not leave stale P0 claims in the final PDF."""
+def test_main_source_uses_the_frozen_cviu_direct_evidence_structure() -> None:
+    """The canonical paper must be self-contained and free of deleted IVC templates."""
     main = (PROJECT_ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
 
     for expected in (
-        r"\IfFileExists{generated/direct_evidence_audit.json}",
-        r"\input{generated/numbers_direct.tex}",
-        r"\PackageError{ivc-direct}{Validated direct-evidence audit is missing}",
-        r"\Delta E=(\mathrm{FP8}-\mathrm{INT8})_{\mathrm{corrupt}}",
-        r"\input{direct_methods_tail.tex}",
-        r"\input{direct_results_template.tex}",
-        r"\input{direct_discussion_template.tex}",
-        r"\input{generated/direct_conclusion.tex}",
-        r"\input{direct_availability_template.tex}",
+        r"\label{eq:delta-e}",
+        r"\label{tab:evidence-hierarchy}",
+        r"\label{sec:uncertainty}",
+        r"\label{sec:sensitivities}",
+        r"\input{generated/direct_absolute_guardrail_summary.tex}",
+        r"\input{generated/conditionality_scope_summary.tex}",
     ):
         assert expected in main
 
-    direct_methods = (PROJECT_ROOT / "paper" / "direct_methods_tail.tex").read_text(
-        encoding="utf-8"
-    )
-    assert "2,000" in direct_methods
-    assert "144 corrupted" in direct_methods
-    assert "500" not in direct_methods
-    assert "136 observed classes" in direct_methods
-    direct_results = (PROJECT_ROOT / "paper" / "direct_results_template.tex").read_text(
-        encoding="utf-8"
-    )
+    assert "2,000 samples of image indices" in main
+    assert "=144$ direct cells" in main
+    assert "136 of them occur" in main
+    assert "500-replicate" not in main
     supplement = (PROJECT_ROOT / "paper" / "supplement.tex").read_text(encoding="utf-8")
-    assert "All 12 prespecified clean FP16 consistency gates passed" in direct_results
-    assert "historical COCO configuration digest is not byte-identically recoverable" in supplement
+    assert "All 12 FP16 consistency checks passed" in main
+    assert "does not validate the full 36-cell TT100K height macro" in main
+    assert "selection-disjoint" in supplement
     assert r"Table~\ref{tab:measurement-contract}" in main
-    assert (
-        r"\ifdirectevidence Original-source clean files are outside the direct paired analysis."
-        in main
-    )
+    for stale in (
+        "direct_methods_tail.tex",
+        "direct_results_template.tex",
+        "direct_discussion_template.tex",
+        "direct_availability_template.tex",
+    ):
+        assert stale not in main
 
 
-def test_direct_abstract_and_conclusion_disambiguate_guardrail_thresholds() -> None:
-    abstract = (PROJECT_ROOT / "paper" / "generated" / "direct_abstract.tex").read_text(
-        encoding="utf-8"
-    )
-    conclusion = (
-        PROJECT_ROOT / "paper" / "generated" / "direct_conclusion.tex"
-    ).read_text(encoding="utf-8")
+def test_abstract_and_conclusion_keep_the_floor_guard_descriptive() -> None:
+    main = (PROJECT_ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
+    abstract = main.split(r"\begin{abstract}", 1)[1].split(r"\end{abstract}", 1)[0]
+    conclusion = main.split(r"\section{Conclusion}", 1)[1].split(
+        r"\section*{Data and code availability}", 1
+    )[0]
     for text in (abstract, conclusion):
-        assert "median" in text and "mean" in text
-        assert "corrupted AP below 10 AP points" in text
-    assert "matched-clean AP" in abstract
+        assert "matched-clean" in text
+        assert "absolute corrupted" in text
+        assert "universal" in text
+    assert "floor detector" in main
+    assert "not statistically detected or application-specific failure thresholds" in main
     assert "architecture-dependent" not in abstract
 
 

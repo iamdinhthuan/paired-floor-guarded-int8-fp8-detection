@@ -1,72 +1,98 @@
-# IVC submission source package
+# CVIU manuscript and reproducibility-package metadata
 
-**Manuscript:** *A Paired, Floor-Guarded Evaluation Protocol for TensorRT INT8 and FP8 Object Detectors under Synthetic Image Corruptions*
+## Manuscript
 
-This package contains the revised source prepared for submission to **Image and Vision Computing**, the compiled manuscript and supplement, a graphical abstract, highlights, manuscript-level evidence ledgers, and deterministic consistency checks.
+**Title:** *A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions*
 
-## Core submission files
+**Target journal:** *Computer Vision and Image Understanding* (CVIU)
 
-| File | Purpose |
-|---|---|
-| `main.tex` | Main article source using Elsevier's `cas-dc` class |
-| `supplement.tex` | Standalone Supplementary Information source |
-| `references.bib` | Bibliography database |
-| `highlights.txt` | Five submission highlights, each no longer than 85 characters |
-| `graphical_abstract.png` | Graphical abstract, 3000 × 1200 pixels |
-| `preview/main.pdf` | Verified compiled manuscript |
-| `preview/supplement.pdf` | Verified compiled Supplementary Information |
-| `supplementary_data_s2.zip` | Compact evidence ledgers, audits, and regeneration scripts |
-| `cover_letter.txt` | Suggested cover letter for the journal submission system |
-| `AUTHOR_CHECKLIST.md` | Author-dependent checks that cannot be inferred from the source |
-| `CHANGELOG.md` | Scientific, editorial, and packaging changes in this revision |
+This study presents a paired evaluation protocol for separating an INT8--FP8
+difference already present on matched clean images from the change associated
+with image corruption. The reported TensorRT engines are executable treatment
+instances used to evaluate the protocol; they are not interpreted as a
+universal ranking of numerical formats. Clean fidelity and absolute corrupted
+accuracy are retained as guardrails against favorable relative comparisons near
+a shared accuracy floor.
 
-## Source layout
+## Authors
 
-- `sections/` contains the six rewritten article sections.
-- `figures/` contains the manuscript figures, including the new decision-impact diagnostic.
-- `generated/` contains manuscript-level CSV/JSON ledgers and generated LaTeX tables.
-- `confirmatory_evidence/`, `multiseed_evidence/`, and `cross_family_evidence/` contain compact retained evidence reports.
-- `scripts/` contains deterministic regeneration, validation, packaging, and manifest utilities.
-- `cas-dc.cls`, `cas-common.sty`, and `cas-model2-names.bst` are the local Elsevier CAS template components; see `CAS_TEMPLATE_NOTICE.txt`.
+1. Dinh Thuan Nguyen
+2. Lam Phuong Nguyen
+3. Vinh Huy Nguyen
+4. Sy Vu Quang
+5. Mohan Rajesh Elara
+6. Anh Vu Le (corresponding author)
 
-## Build
+Author order and contribution roles must remain synchronized with `main.tex`,
+`supplement.tex`, `.zenodo.json`, and `CITATION.cff`.
 
-A TeX Live installation with `pdflatex` and `bibtex` is required.
+## Local package map
+
+- `main.tex`, `main.pdf`: main manuscript source and current compiled preview.
+- `supplement.tex`, `supplement.pdf`: Supplementary File S1 source and preview.
+- `references.bib`: shared bibliography.
+- `figures/`: publication figures used by the LaTeX sources.
+- `generated/`: generated LaTeX tables used by the manuscript and supplement.
+- `graphical_abstract.tif`: preferred graphical-abstract submission file.
+- `graphical_abstract.png`: graphical-abstract preview.
+- `Highlights.docx`: Elsevier Highlights upload; `highlights.txt` is its text source.
+- `cover_letter.txt`: editable cover-letter source.
+- `AUTHOR_CHECKLIST_CVIU.txt`: author-controlled checks before submission.
+- `.zenodo.json`, `CITATION.cff`: release and citation metadata.
+
+For Overleaf, upload the LaTeX sources together with `figures/`, `generated/`,
+the bibliography, and the required Elsevier class/style files. If Editorial
+Manager requests LaTeX source, create a separate flat archive because Elsevier
+Editorial Manager does not process source subfolders.
+
+## Build and validation
+
+A TeX Live installation with `latexmk` is preferred; `pdflatex` plus `bibtex`
+is supported as a fallback.
 
 ```bash
+cd paper
 ./build.sh
-```
-
-The script builds `main.pdf` and `supplement.pdf`, copies verified previews to `preview/`, and runs package-level checks. On systems that expose the TeX binary as `bibtex.original`, the script uses it automatically.
-
-For a full evidence regeneration and manifest verification:
-
-```bash
 ./verify.sh
 ```
 
-This command regenerates the decision-impact and canonical cross-family artifacts, rebuilds both PDFs, recreates Supplementary Data S2, writes `SOURCE_MANIFEST.sha256`, verifies every listed digest, and creates `../IVC_submission_revised_20260820.zip`.
+`build.sh` compiles the article and Supplementary File S1 independently, copies
+the verified PDFs into `preview/`, and runs the CVIU package validator.
+`verify.sh` additionally refreshes and verifies `SOURCE_MANIFEST.sha256`. It
+does not retrain detectors or rerun TensorRT inference.
+
+From the repository root, the clean journal-upload directory can be created
+with:
+
+```bash
+python3 analysis/build_cviu_submission_docx.py --paper-root paper
+python3 analysis/build_cviu_submission_package.py \
+  --paper-root paper --output CVIU_SUBMISSION_READY
+```
 
 ## Reproducibility boundary
 
-The package reproduces the **manuscript-level summaries** from frozen ledgers and checks their internal consistency. It does not rerun training, TensorRT engine construction, corruption materialization, or detector inference. Raw benchmark datasets, checkpoints, engines, and per-image prediction payloads are not redistributed because of licensing and size constraints. External artifact paths recorded in audit JSON files are provenance labels; the packaged validators operate only on files included here.
+The compact evidence release is intended to reproduce manuscript summaries
+from frozen CSV/JSON ledgers and deterministic validation scripts. It does not
+redistribute third-party datasets, trained checkpoints, TensorRT engines, raw
+predictions, or machine-specific caches. Dataset licenses remain with their
+respective owners. The final release must document the regeneration or audit
+path for every omitted artifact on which a reported result depends.
 
-The canonical cross-family convention is
+The project is versioned through the Zenodo concept DOI:
+[10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663). Cite the
+version-specific DOI for the exact release used in an analysis. The v2.1.0
+release is the CVIU-aligned source and compact-evidence package.
 
-```text
-Q = AP_FP32 - AP_quantized
-E = Q_corrupt - Q_clean
-DeltaE = E_INT8 - E_FP8
-       = (FP8 - INT8)_corrupt - (FP8 - INT8)_clean
-```
+## License
 
-Under this convention, the mean INT8 `E` values in the architecture-portability stress cases are **−6.81 AP** for RT-DETR-L and **−6.21 AP** for RetinaNet-R50-FPN-v2.
+Original project software and documentation are released under the MIT License.
+Datasets, model weights, third-party code, and other external artifacts retain
+their original licenses and terms.
 
-## Submission note
+## AI transparency
 
-Release `v2.0.0` is archived at
-[https://doi.org/10.5281/zenodo.22031664](https://doi.org/10.5281/zenodo.22031664).
-Complete the remaining author-dependent items in `AUTHOR_CHECKLIST.md`,
-especially confirmation of the AI and graphical-abstract declarations, before
-uploading the final files. The manuscript includes the authors' confirmed
-no-specific-funding statement.
+AI tools are not authors, creators, or contributors to this package. Any actual
+AI assistance in manuscript preparation or the research workflow must be
+disclosed according to Elsevier policy and verified by the human authors. See
+`AUTHOR_CHECKLIST_CVIU.txt` for the required author confirmation.

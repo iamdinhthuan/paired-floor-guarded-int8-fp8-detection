@@ -78,16 +78,23 @@ def test_parity_child_resolves_canonical_local_copy_by_hash(tmp_path: Path) -> N
         _resolve_relocated_parity_child(tmp_path, row)
 
 
-def test_main_paper_gates_confirmatory_fragments_on_validated_audit() -> None:
+def test_main_paper_integrates_holdout_evidence_in_self_contained_cviu_source() -> None:
     main = (ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
 
-    assert r"\newif\ifconfirmatoryevidence" in main
-    assert r"\IfFileExists{generated/confirmatory_evidence_audit.json}" in main
-    assert r"\input{generated/confirmatory_methods.tex}" in main
-    assert r"\input{generated/confirmatory_results.tex}" in main
-    assert r"\input{generated/corruption_realization_results.tex}" in main
-    assert r"\input{generated/fixed_universe_results.tex}" in main
-    assert r"\input{generated/confirmatory_conclusion.tex}" in main
+    assert r"\subsection{Training, checkpoint selection, and holdout rerun}" in main
+    assert r"\subsection{Evidence from final VOC and KITTI holdouts}" in main
+    assert r"\input{generated/conditionality_scope_summary.tex}" in main
+    assert "72 cells" in main
+    assert "-0.55 AP points" in main
+    assert "final images excluded from checkpoint selection" in main
+    assert "strongest post-selection holdout evidence" in main
+    for stale in (
+        r"\newif\ifconfirmatoryevidence",
+        "confirmatory_methods.tex",
+        "confirmatory_results.tex",
+        "confirmatory_conclusion.tex",
+    ):
+        assert stale not in main
 
 
 def test_overleaf_builder_requires_and_copies_compact_confirmatory_evidence() -> None:
@@ -111,24 +118,33 @@ def test_overleaf_builder_requires_and_copies_compact_confirmatory_evidence() ->
         assert f'"{name}"' in builder
 
 
-def test_supplement_gates_detailed_confirmatory_design_on_same_audit() -> None:
+def test_supplement_integrates_detailed_holdout_and_realization_evidence() -> None:
     supplement = (ROOT / "paper" / "supplement.tex").read_text(encoding="utf-8")
+    normalized = " ".join(supplement.split())
 
-    assert r"\newif\ifconfirmatoryevidence" in supplement
-    assert r"\IfFileExists{generated/confirmatory_evidence_audit.json}" in supplement
-    assert r"\input{generated/confirmatory_supplement.tex}" in supplement
+    assert r"\section{Selection-disjoint holdout and corruption-realization sensitivities}" in supplement
+    for artifact in (
+        "holdout_split_summary.tex",
+        "holdout_reference_parity.tex",
+        "corruption_realization_seed_summary.tex",
+        "corruption_realization_variance.tex",
+        "conditionality_scope_summary.tex",
+    ):
+        assert rf"\input{{generated/{artifact}}}" in supplement
+    assert "does not convert the broader exploratory grid into a prospective confirmatory study" in normalized
 
 
-def test_discussion_distinguishes_historical_primary_from_confirmatory_rerun() -> None:
-    discussion = (ROOT / "paper" / "direct_discussion_template.tex").read_text(
-        encoding="utf-8"
-    )
+def test_discussion_distinguishes_exploratory_grid_from_final_holdout() -> None:
+    main = (ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
+    discussion = main.split(r"\section{Discussion}", 1)[1].split(
+        r"\section{Conclusion}", 1
+    )[0]
 
-    assert r"\ifconfirmatoryevidence" in discussion
-    assert "historical exploratory primary grid" in discussion
-    assert "untouched final partitions" in discussion
-    assert "explicitly disabled TF32" in discussion
-    assert "three fixed corruption realizations" in discussion
+    assert "different scopes" in discussion
+    assert "retrains six checkpoints" in discussion
+    assert "final image lists" in discussion
+    assert "should therefore not be treated as a failed replication" in discussion
+    assert "The final rerun covers only VOC and KITTI" in discussion
 
 
 def test_submission_gate_rejects_changed_confirmatory_fragment(tmp_path: Path) -> None:
