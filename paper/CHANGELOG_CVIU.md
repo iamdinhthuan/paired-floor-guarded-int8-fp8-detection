@@ -43,5 +43,5 @@
 - No new experimental results were invented.
 - Existing numerical results, tables, figures and reported intervals were retained.
 - The author-created graphical abstract was re-exported in journal-ready PNG, PDF, and TIFF formats; no generative-image system was used.
-- Prepared synchronized GitHub/Zenodo metadata for release `v2.1.0`; the
-  version-specific DOI is recorded only after Zenodo publishes the release.
+- Published GitHub release `v2.1.0` and archived it at version DOI
+  `10.5281/zenodo.22275640` under concept DOI `10.5281/zenodo.22031663`.

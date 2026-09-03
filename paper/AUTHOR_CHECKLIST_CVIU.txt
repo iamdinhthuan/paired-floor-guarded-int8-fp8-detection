@@ -23,15 +23,15 @@ Verified in the frozen v2.1.0 source
 [x] Funding statement records that this research received no specific grant.
 [x] Clean Overleaf and flat Elsevier source ZIP files compile independently.
 
-Required after the GitHub v2.1.0 release
-----------------------------------------
-[ ] On Zenodo, open the release created from GitHub tag v2.1.0, verify all six
-    creators and the MIT license, then publish it.
-[ ] Record the new version-specific Zenodo DOI in the Data and code availability
-    statement and submission metadata. The all-versions concept DOI remains
+Verified public release
+-----------------------
+[x] GitHub release v2.1.0 points to the frozen human-authored release commit.
+[x] Zenodo archived v2.1.0 with all six creators, the MIT license, and the
+    repository source archive.
+[x] The version DOI is 10.5281/zenodo.22275640; the all-versions concept DOI is
     10.5281/zenodo.22031663.
-[ ] Rebuild CVIU_SUBMISSION_READY and recheck SHA256SUMS.txt after inserting
-    the version DOI.
+[x] The version DOI is synchronized in the manuscript, cover letter, citation
+    metadata, README files, and CVIU_SUBMISSION_READY package.
 
 Final human/portal checks
 -------------------------

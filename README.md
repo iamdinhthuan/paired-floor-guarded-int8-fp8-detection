@@ -3,7 +3,7 @@
 [![Manuscript](https://img.shields.io/badge/manuscript-PDF-b31b1b.svg)](paper/preview/main.pdf)
 [![Supplement](https://img.shields.io/badge/supplement-PDF-4c6ef5.svg)](paper/preview/supplement.pdf)
 [![Reproducibility](https://img.shields.io/badge/package-verified-2f9e44.svg)](paper/README.md)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22031663.svg)](https://doi.org/10.5281/zenodo.22031663)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22275640.svg)](https://doi.org/10.5281/zenodo.22275640)
 
 This repository accompanies the manuscript:
 
@@ -183,12 +183,11 @@ not include all of these sources of uncertainty.
 ## Citation
 
 Citation metadata are provided in [`CITATION.cff`](CITATION.cff). GitHub can
-render the corresponding citation through **Cite this repository**. Until a
-version-specific DOI is minted for release `v2.1.0`, cite the all-versions
-concept DOI
-[https://doi.org/10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).
-After the GitHub release is archived, use the version DOI shown on that Zenodo
-record when referring to the exact deposited package.
+render the corresponding citation through **Cite this repository**. Cite
+release `v2.1.0` using its version DOI
+[10.5281/zenodo.22275640](https://doi.org/10.5281/zenodo.22275640). The
+all-versions concept DOI is
+[10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).
 
 ## Authors and research responsibility
 

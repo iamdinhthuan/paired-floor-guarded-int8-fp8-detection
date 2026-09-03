@@ -38,9 +38,9 @@ authors:
     affiliation: Ton Duc Thang University
 version: 2.1.0
 date-released: "2026-09-03"
-doi: 10.5281/zenodo.22031663
+doi: 10.5281/zenodo.22275640
 repository-code: "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection"
-url: "https://doi.org/10.5281/zenodo.22031663"
+url: "https://doi.org/10.5281/zenodo.22275640"
 license: MIT
 keywords:
   - object detection

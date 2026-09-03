@@ -153,8 +153,8 @@ def main() -> None:
         "Cover_Letter_CVIU.docx                Cover letter\n"
         "Overleaf_Source_CVIU.zip              Editable structured source\n"
         "Elsevier_Flat_LaTeX_Source_CVIU.zip   Flat Editorial Manager source\n\n"
-        "Author action: replace the concept DOI with the version DOI after the\n"
-        "CVIU-aligned Zenodo release is published, then rebuild these files.\n"
+        "Archived release: https://doi.org/10.5281/zenodo.22275640\n"
+        "All-versions concept DOI: https://doi.org/10.5281/zenodo.22031663\n"
     )
     (output / "README_UPLOAD.txt").write_text(readme, encoding="utf-8")
     checksums = []

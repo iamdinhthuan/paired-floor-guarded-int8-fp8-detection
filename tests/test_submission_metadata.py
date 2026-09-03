@@ -98,6 +98,7 @@ def test_citation_cff_describes_the_frozen_cviu_reproducibility_package() -> Non
     assert cff["cff-version"] == "1.2.0"
     assert cff["title"] == f"{CVIU_TITLE}: Reproducibility Package"
     assert cff["version"] == "2.1.0"
+    assert cff["doi"] == "10.5281/zenodo.22275640"
     assert cff["license"] == "MIT"
     assert cviu_validator.cff_names(cff) == cviu_validator.AUTHORS
     serialized = json.dumps(cff)
@@ -325,6 +326,7 @@ def test_no_funding_and_public_archive_statements_are_final() -> None:
     assert funding
     assert "did not receive any specific grant" in funding.group(1).casefold()
     availability = submission_metadata.extract_section(tex, "Data and code availability")
+    assert "10.5281/zenodo.22275640" in availability
     assert "10.5281/zenodo.22031663" in availability
     assert "github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection" in availability
     assert "author action required" not in tex.casefold()
@@ -342,16 +344,16 @@ def test_commented_citation_is_not_active_and_breaks_bibliography_closure() -> N
     assert citation_keys(mutated) != set(entries)
 
 
-def test_commented_concept_doi_is_not_an_availability_statement() -> None:
-    """Catches an active availability section missing its archived concept DOI."""
+def test_commented_version_doi_is_not_an_availability_statement() -> None:
+    """Catches an active availability section missing the exact release DOI."""
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
     mutated = tex.replace(
-        "The versioned archive is maintained under concept DOI",
-        "% The versioned archive is maintained under concept DOI",
+        "The CVIU-aligned release v2.1.0 is archived at",
+        "% The CVIU-aligned release v2.1.0 is archived at",
     )
 
     availability = submission_metadata.extract_section(mutated, "Data and code availability")
-    assert "10.5281/zenodo.22031663" not in availability
+    assert "10.5281/zenodo.22275640" not in availability
 
 
 def test_duplicate_bibtex_key_cannot_hide_an_entry() -> None:

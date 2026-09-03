@@ -79,10 +79,10 @@ predictions, or machine-specific caches. Dataset licenses remain with their
 respective owners. The final release must document the regeneration or audit
 path for every omitted artifact on which a reported result depends.
 
-The project is versioned through the Zenodo concept DOI:
-[10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663). Cite the
-version-specific DOI for the exact release used in an analysis. The v2.1.0
-release is the CVIU-aligned source and compact-evidence package.
+The CVIU-aligned `v2.1.0` source and compact-evidence package is archived at
+[10.5281/zenodo.22275640](https://doi.org/10.5281/zenodo.22275640). Its
+all-versions concept DOI is
+[10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).
 
 ## License
 

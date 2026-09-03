@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import io
+import zipfile
 from datetime import datetime
 from pathlib import Path
 
@@ -13,6 +15,7 @@ from docx.shared import Inches, Mm, Pt
 
 
 AUTHOR = "Dinh Thuan Nguyen"
+FIXED_ZIP_TIME = (2026, 9, 3, 8, 0, 0)
 
 
 def configure(document: Document) -> None:
@@ -35,6 +38,27 @@ def configure(document: Document) -> None:
     )
 
 
+def save_deterministic(document: Document, output: Path) -> None:
+    """Write stable OOXML bytes instead of retaining wall-clock ZIP metadata."""
+    buffer = io.BytesIO()
+    document.save(buffer)
+    buffer.seek(0)
+    with zipfile.ZipFile(buffer, "r") as source, zipfile.ZipFile(
+        output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
+    ) as destination:
+        for member in sorted(source.infolist(), key=lambda item: item.filename):
+            info = zipfile.ZipInfo(member.filename, FIXED_ZIP_TIME)
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.create_system = 3
+            info.external_attr = 0o100644 << 16
+            destination.writestr(
+                info,
+                source.read(member.filename),
+                compress_type=zipfile.ZIP_DEFLATED,
+                compresslevel=9,
+            )
+
+
 def build_highlights(source: Path, output: Path) -> None:
     items = [line[2:].strip() for line in source.read_text(encoding="utf-8").splitlines() if line.startswith("- ")]
     if not 3 <= len(items) <= 5:
@@ -54,7 +78,7 @@ def build_highlights(source: Path, output: Path) -> None:
         paragraph = document.add_paragraph(style="List Bullet")
         paragraph.paragraph_format.space_after = Pt(6)
         paragraph.add_run(item)
-    document.save(output)
+    save_deterministic(document, output)
 
 
 def build_cover_letter(source: Path, output: Path) -> None:
@@ -70,7 +94,7 @@ def build_cover_letter(source: Path, output: Path) -> None:
             if line_index:
                 paragraph.add_run().add_break()
             paragraph.add_run(line)
-    document.save(output)
+    save_deterministic(document, output)
 
 
 def main() -> None:

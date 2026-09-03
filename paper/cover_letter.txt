@@ -10,7 +10,7 @@ The exploratory grid contains 144 conditions across four datasets, three YOLO11 
 
 The manuscript fits the journal’s focus on recognition and complete vision systems because its primary contribution is an auditable evaluation methodology under visual degradation, rather than a vendor-specific datatype leaderboard. The protocol generalizes to comparisons of quantizers, mixed-precision policies, compilers, calibration methods, and runtimes whenever a pre-existing clean difference can be confused with a degradation-specific effect.
 
-The manuscript is original, is not under consideration elsewhere, and all six authors have approved its submission. The research received no specific grant from funding agencies in the public, commercial, or not-for-profit sectors. Code and compact evidence are maintained under Zenodo concept DOI 10.5281/zenodo.22031663. The manuscript contains data-and-code, funding, competing-interest, CRediT, and generative-AI declarations.
+The manuscript is original, is not under consideration elsewhere, and all six authors have approved its submission. The research received no specific grant from funding agencies in the public, commercial, or not-for-profit sectors. Code and compact evidence for release v2.1.0 are archived at DOI 10.5281/zenodo.22275640 under concept DOI 10.5281/zenodo.22031663. The manuscript contains data-and-code, funding, competing-interest, CRediT, and generative-AI declarations.
 
 Thank you for your consideration.
 
