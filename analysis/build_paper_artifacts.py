@@ -3536,14 +3536,14 @@ def _direct_tex_summary(contrast: pd.DataFrame, deployment: pd.DataFrame, out: P
     )
     shown_deploy = deploy_summary.copy()
     shown_deploy["Precision"] = shown_deploy.precision.map(DISPLAY)
-    shown_deploy["Conditions"] = shown_deploy.conditions.astype(str)
-    shown_deploy["Median engine (MiB)"] = shown_deploy.median_engine_mib.map(lambda value: f"{value:.2f}")
-    shown_deploy["Median latency (ms)"] = shown_deploy.median_latency_ms.map(lambda value: f"{value:.3f}")
-    shown_deploy["Median throughput (qps)"] = shown_deploy.median_throughput_qps.map(lambda value: f"{value:.1f}")
+    shown_deploy["n"] = shown_deploy.conditions.astype(str)
+    shown_deploy["Size (MiB)"] = shown_deploy.median_engine_mib.map(lambda value: f"{value:.2f}")
+    shown_deploy["Latency (ms)"] = shown_deploy.median_latency_ms.map(lambda value: f"{value:.3f}")
+    shown_deploy["Throughput (qps)"] = shown_deploy.median_throughput_qps.map(lambda value: f"{value:.1f}")
     write_booktabs(
         out / "direct_deployment_summary.tex",
         shown_deploy,
-        ["Precision", "Conditions", "Median engine (MiB)", "Median latency (ms)", "Median throughput (qps)"],
+        ["Precision", "n", "Size (MiB)", "Latency (ms)", "Throughput (qps)"],
         "lrrrr",
     )
 

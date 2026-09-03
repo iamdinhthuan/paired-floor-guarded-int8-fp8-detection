@@ -18,6 +18,7 @@
 
 ## CVIU literature added
 
+- Thacker et al. (2008), best practices for computer-vision performance characterization, DOI `10.1016/j.cviu.2007.04.006`.
 - Wen et al. (2020), UA-DETRAC benchmark and protocol, DOI `10.1016/j.cviu.2020.102907`.
 - Bonnaerens et al. (2022), Anchor pruning for object detection, DOI `10.1016/j.cviu.2022.103445`.
 - Cheng et al. (2025), Adversarial intensity awareness for robust object detection, DOI `10.1016/j.cviu.2024.104252`.

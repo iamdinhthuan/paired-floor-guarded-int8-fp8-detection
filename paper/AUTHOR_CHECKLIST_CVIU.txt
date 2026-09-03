@@ -1,8 +1,8 @@
 CVIU FINAL AUTHOR CHECKLIST
 ===========================
 
-Verified in the frozen v2.1.0 source
-------------------------------------
+Verified submission source (derived from archived v2.1.0)
+---------------------------------------------------------
 [x] Journal target: Computer Vision and Image Understanding (CVIU).
 [x] Title is synchronized across the manuscript, supplement, metadata, cover
     letter, graphical abstract, and repository.
@@ -13,7 +13,7 @@ Verified in the frozen v2.1.0 source
 [x] Main manuscript and supplement compile independently to 20 and 11 pages.
 [x] Final logs contain no undefined references/citations, TeX errors,
     overfull/underfull boxes, clipping, or overlap; all PDF fonts are embedded.
-[x] Bibliography contains 36 resolved DOI records and four CVIU articles.
+[x] Bibliography contains 37 resolved DOI records and five CVIU articles.
 [x] Highlights contain five items, each no longer than 85 characters.
 [x] The author-created graphical abstract is 3000 x 1200 pixels, RGB, 300 dpi.
 [x] Six human authors are synchronized in LaTeX, CITATION.cff, Zenodo metadata,

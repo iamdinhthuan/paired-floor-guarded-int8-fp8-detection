@@ -27,6 +27,7 @@ CVIU_TITLE = (
     "Detectors under Image Corruptions"
 )
 CVIU_DOIS = {
+    "10.1016/j.cviu.2007.04.006",
     "10.1016/j.cviu.2020.102907",
     "10.1016/j.cviu.2022.103445",
     "10.1016/j.cviu.2024.104252",
@@ -77,7 +78,7 @@ def test_bibliography_is_closed_and_has_foundational_and_cviu_sources() -> None:
         if optional_field(entry, "journal").casefold()
         == "computer vision and image understanding"
     ]
-    assert len(cviu_entries) == 4
+    assert len(cviu_entries) == 5
     assert {field(entry, "doi").casefold() for entry in cviu_entries} == CVIU_DOIS
 
 
@@ -156,7 +157,7 @@ def test_final_main_source_does_not_retain_the_inactive_b500_protocol() -> None:
 def test_conclusion_keeps_format_and_architecture_claims_conditional() -> None:
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
 
-    assert "Across the 144-cell exploratory grid, FP8 outperformed INT8 by 1.40" in tex
+    assert "Across the 144-cell exploratory grid, FP8 had 1.40 AP points higher" in tex
     assert "The results do not establish a universal robustness ranking" in tex
     assert "one checkpoint per dataset--family block" in tex
 
@@ -268,7 +269,8 @@ def test_literal_cas_abstract_is_self_contained_and_within_cviu_limit() -> None:
         r"[A-Za-z0-9]+(?:[\u2010-\u2015'-][A-Za-z0-9]+)*",
         cviu_validator.plain_tex(abstract.group(1)),
     )
-    assert len(words) == 228
+    assert len(words) == 232
+    assert len(words) <= 250
 
 
 def test_manuscript_metadata_extracts_cas_author_address_records() -> None:
@@ -337,10 +339,11 @@ def test_commented_citation_is_not_active_and_breaks_bibliography_closure() -> N
     """Catches a citation hidden in a TeX comment instead of active prose."""
     tex = (PAPER / "main.tex").read_text(encoding="utf-8")
     bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-    mutated = tex.replace(r"\citep{wen2020uadetrac}", r"% \citep{wen2020uadetrac}")
+    citation = r"\citep{thacker2008performance,wen2020uadetrac}"
+    mutated = tex.replace(citation, "% " + citation)
 
     entries = bibtex_entries(bib)
-    assert "wen2020uadetrac" not in citation_keys(mutated)
+    assert "thacker2008performance" not in citation_keys(mutated)
     assert citation_keys(mutated) != set(entries)
 
 
