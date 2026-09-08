@@ -2402,12 +2402,12 @@ def generate_method_graphical_abstract(out: Path) -> None:
     ax.set_ylim(0, 1)
     ax.axis("off")
     fig.patch.set_facecolor("white")
-    fig.text(0.5, 0.93, "Paired, floor-guarded evaluation under image corruptions", ha="center", va="center", fontsize=17, fontweight="bold", color="#172033")
-    fig.text(0.5, 0.875, "Subtract the matched-clean INT8--FP8 gap before interpreting the corrupted-input gap", ha="center", va="center", fontsize=9.5, color="#475569")
+    fig.text(0.5, 0.93, "Separating clean accuracy from corruption sensitivity", ha="center", va="center", fontsize=17, fontweight="bold", color="#172033")
+    fig.text(0.5, 0.875, "Clean control: exploratory JPEG-95 / final-holdout original; retain absolute corrupted accuracy", ha="center", va="center", fontsize=9.5, color="#475569")
 
     cards = [
-        (0.035, "1", "Match four treatment cells", "same ordered images\nmatched JPEG-95 bytes", "#EAF3FB", "#4F86B4"),
-        (0.362, "2", "Estimate the interaction", "subtract the matched-clean\ntreatment discrepancy", "#FFF4E5", "#B7791F"),
+        (0.035, "1", "Match four cells", "same ordered image IDs\nrecorded clean control", "#EAF3FB", "#4F86B4"),
+        (0.362, "2", "Estimate the interaction", "subtract the recorded-clean\ntreatment discrepancy", "#FFF4E5", "#B7791F"),
         (0.690, "3", "Guard the conclusion", "check task accuracy before\ninterpreting gap contraction", "#EAF7F0", "#2F855A"),
     ]
     for x, number, title, subtitle, fill, edge in cards:
@@ -2417,7 +2417,7 @@ def generate_method_graphical_abstract(out: Path) -> None:
         ax.text(x + 0.1375, 0.635, subtitle, ha="center", va="center", fontsize=8, color="#475569")
 
     for index, (precision, condition, color) in enumerate((
-        ("INT8", "J95 clean", "#4F86B4"), ("FP8", "J95 clean", "#D97706"),
+        ("INT8", "clean control", "#4F86B4"), ("FP8", "clean control", "#D97706"),
         ("INT8", "corrupted", "#4F86B4"), ("FP8", "corrupted", "#D97706"),
     )):
         col, row = index % 2, index // 2
@@ -2425,11 +2425,11 @@ def generate_method_graphical_abstract(out: Path) -> None:
         ax.add_patch(FancyBboxPatch((x, y), 0.093, 0.12, boxstyle="round,pad=0.006", facecolor="white", edgecolor=color, linewidth=1.0))
         ax.text(x + 0.0465, y + 0.073, precision, ha="center", va="center", fontsize=7.3, fontweight="bold", color=color)
         ax.text(x + 0.0465, y + 0.034, condition, ha="center", va="center", fontsize=6.7, color="#475569")
-    ax.text(0.172, 0.245, "one checkpoint · one decoder · identical bytes", ha="center", va="center", fontsize=7.1, color="#475569")
+    ax.text(0.172, 0.245, "Identical bytes across formats in each row;\nclean and corrupted bytes differ.", ha="center", va="center", fontsize=7.1, color="#475569")
 
     ax.text(0.500, 0.550, r"$\Delta E=(AP_{FP8}-AP_{INT8})_{corrupt}$", ha="center", va="center", fontsize=11.5, color="#172033")
-    ax.text(0.500, 0.455, r"$\quad -(AP_{FP8}-AP_{INT8})_{J95}$", ha="center", va="center", fontsize=11.5, fontweight="bold", color="#A65B08")
-    ax.text(0.500, 0.350, "common-image bootstrap preserves all four dependencies", ha="center", va="center", fontsize=7.7, color="#475569")
+    ax.text(0.500, 0.455, r"$\quad -(AP_{FP8}-AP_{INT8})_{clean}$", ha="center", va="center", fontsize=11.5, fontweight="bold", color="#A65B08")
+    ax.text(0.500, 0.350, "Common image draws preserve pairing\nacross the four AP components.", ha="center", va="center", fontsize=7.7, color="#475569")
     ax.text(0.500, 0.270, "FP32 supports treatment diagnostics but cancels\nfrom the direct paired interaction", ha="center", va="center", fontsize=7.2, color="#475569")
 
     for index, (label, detail) in enumerate((("1", "matched-clean\nfidelity"), ("2", "absolute corrupted\naccuracy"), ("3", "interaction, then\nruntime"))):
@@ -2446,6 +2446,11 @@ def generate_method_graphical_abstract(out: Path) -> None:
         plt.rcParams["savefig.pad_inches"] = 0.0
         fig.savefig(out / "graphical_abstract.png", dpi=300, bbox_inches=None, pad_inches=0.0)
         fig.savefig(out / "graphical_abstract.pdf", bbox_inches=None, pad_inches=0.0)
+        from PIL import Image
+        fig.canvas.draw()
+        Image.fromarray(np.asarray(fig.canvas.buffer_rgba())).convert("RGB").save(
+            out / "graphical_abstract.tif", dpi=(300, 300), compression="tiff_lzw"
+        )
     finally:
         plt.rcParams["savefig.bbox"] = original_bbox
         plt.rcParams["savefig.pad_inches"] = original_pad
@@ -3481,11 +3486,11 @@ def _direct_size_guardrail_summary(size_guardrail: pd.DataFrame, out: Path) -> N
     shown["Clean AP"] = shown.mean_clean_ap.map(fmt_ap)
     shown["Corrupted AP"] = shown.mean_corrupt_ap.map(fmt_ap)
     shown[r"Mean $D$ (AP pt)"] = shown.mean_d.map(fmt_effect)
-    shown["AP<5"] = shown.corrupt_below_5.astype(str)
+    shown[r"$\mathrm{AP}<5$"] = shown.corrupt_below_5.astype(str)
     write_booktabs(
         out / "direct_size_guardrail_summary.tex",
         shown,
-        ["Dataset", "Format", "Endpoint", "Cells", "Clean AP", "Corrupted AP", r"Mean $D$ (AP pt)", "AP<5"],
+        ["Dataset", "Format", "Endpoint", "Cells", "Clean AP", "Corrupted AP", r"Mean $D$ (AP pt)", r"$\mathrm{AP}<5$"],
         "lllrrrrr",
     )
 

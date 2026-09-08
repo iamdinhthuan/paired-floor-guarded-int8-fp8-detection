@@ -155,6 +155,19 @@ def main() -> None:
         "Elsevier_Flat_LaTeX_Source_CVIU.zip   Flat Editorial Manager source\n\n"
         "Archived release: https://doi.org/10.5281/zenodo.22275640\n"
         "All-versions concept DOI: https://doi.org/10.5281/zenodo.22031663\n"
+        "The cited archive predates the attachment, policy-matched rebuild, full\n"
+        "TT100K bootstrap, corrected TIDE, covariance audit and V4 controlled\n"
+        "clean-input study, recovered holdout intervals and final-holdout example.\n"
+        "These source ZIPs are publication\n"
+        "sources, not the new research-evidence archive.\n"
+        "Separate reviewer evidence: artifacts/CVIU_Reviewer_Evidence.zip at\n"
+        "the project root (not included in this nine-file publication folder).\n"
+        "After rights checks, attach it as research evidence or supply private\n"
+        "reviewer access; do not upload it as Overleaf/LaTeX source. Check\n"
+        "KITTI-derived annotation redistribution terms before sharing the\n"
+        "full example. The archive has not been publicly deposited by this build.\n"
+        "Cover letter is a draft pending all-author approval and exclusivity/COI\n"
+        "confirmation. Do not submit it before those author-controlled checks.\n"
     )
     (output / "README_UPLOAD.txt").write_text(readme, encoding="utf-8")
     checksums = []

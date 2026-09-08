@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "attempt": "cviu_novelty_v2",
+  "purpose": "Staged novelty audit: TIDE error diagnostics followed by controlled quantization-coverage pilots.",
+  "tide": {
+    "workers": 8,
+    "required_tidecv_version": "1.0.1",
+    "precisions": [
+      "int8",
+      "fp8"
+    ],
+    "models": [
+      "yolo11n",
+      "yolo11m",
+      "yolo11x"
+    ],
+    "corruptions": [
+      "gaussian_noise",
+      "motion_blur",
+      "fog",
+      "jpeg"
+    ],
+    "severities": [
+      1,
+      3,
+      5
+    ],
+    "expected_records": 312,
+    "expected_direct_cells": 144,
+    "parameters": {
+      "positive_iou": 0.5,
+      "background_iou": 0.1
+    },
+    "datasets": [
+      {
+        "name": "coco",
+        "split": "val2017",
+        "filename_prefix": "coco_val2017",
+        "annotations": "/home/thuan/hieuhoang/datasets/coco/annotations/instances_val2017.json",
+        "expected_clean_files": 6,
+        "expected_corrupted_files": 72,
+        "clean_source": {
+          "prediction_dir": "outputs/predictions/codec_control_p0_v1",
+          "run_dir": "manifests/runs/codec_control_p0_v1",
+          "input_dir": "outputs/inputs/codec_control_p0_v1",
+          "metric_dir": "outputs/metrics/codec_control_p0_v1"
+        },
+        "corruption_source": {
+          "prediction_dir": "outputs/predictions/coco_uniform_p0_v1",
+          "run_dir": "manifests/runs/coco_uniform_p0_v1",
+          "input_dir": "outputs/inputs/coco_uniform_p0_v1",
+          "metric_dir": "outputs/metrics/coco_uniform_p0_v1"
+        }
+      },
+      {
+        "name": "voc",
+        "split": "val",
+        "filename_prefix": "voc_val",
+        "annotations": "manifests/annotations/voc_val_ultralytics_v1_coco.json",
+        "expected_clean_files": 6,
+        "expected_corrupted_files": 72,
+        "clean_source": {
+          "prediction_dir": "outputs/predictions/codec_control_p0_v1",
+          "run_dir": "manifests/runs/codec_control_p0_v1",
+          "input_dir": "outputs/inputs/codec_control_p0_v1",
+          "metric_dir": "outputs/metrics/codec_control_p0_v1"
+        },
+        "corruption_source": {
+          "prediction_dir": "outputs/predictions/voc_pilot_117_v1",
+          "run_dir": "manifests/runs/voc_pilot_117_v1",
+          "input_dir": "outputs/inputs/voc_pilot_117_v1",
+          "metric_dir": "outputs/metrics/voc_pilot_117_v1"
+        }
+      },
+      {
+        "name": "kitti",
+        "split": "val",
+        "filename_prefix": "kitti_val",
+        "annotations": "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "expected_clean_files": 6,
+        "expected_corrupted_files": 72,
+        "clean_source": {
+          "prediction_dir": "outputs/predictions/codec_control_p0_v1",
+          "run_dir": "manifests/runs/codec_control_p0_v1",
+          "input_dir": "outputs/inputs/codec_control_p0_v1",
+          "metric_dir": "outputs/metrics/codec_control_p0_v1"
+        },
+        "corruption_source": {
+          "prediction_dir": "outputs/predictions/kitti_pilot_117_v1",
+          "run_dir": "manifests/runs/kitti_pilot_117_v1",
+          "input_dir": "outputs/inputs/kitti_pilot_117_v1",
+          "metric_dir": "outputs/metrics/kitti_pilot_117_v1"
+        }
+      },
+      {
+        "name": "tt100k",
+        "split": "test",
+        "filename_prefix": "tt100k_test",
+        "annotations": "manifests/annotations/tt100k_test_ultralytics_v1_coco.json",
+        "expected_clean_files": 6,
+        "expected_corrupted_files": 72,
+        "clean_source": {
+          "prediction_dir": "outputs/predictions/codec_control_p0_v1",
+          "run_dir": "manifests/runs/codec_control_p0_v1",
+          "input_dir": "outputs/inputs/codec_control_p0_v1",
+          "metric_dir": "outputs/metrics/codec_control_p0_v1"
+        },
+        "corruption_source": {
+          "prediction_dir": "outputs/predictions/tt100k_pilot_117_v1",
+          "run_dir": "manifests/runs/tt100k_pilot_117_v1",
+          "input_dir": "outputs/inputs/tt100k_pilot_117_v1",
+          "metric_dir": "outputs/metrics/tt100k_pilot_117_v1"
+        }
+      }
+    ]
+  }
+}

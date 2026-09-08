@@ -1,0 +1,18 @@
+\begin{tabular}{llrrrrl}
+\toprule
+Dataset & Model & $\delta_{\rm INT8}$ & $\delta_{\rm FP8}$ & $\Delta E_{J95}$ & $\Delta E_{orig}$ & Binding\\
+\midrule
+COCO & yolo11n & +0.014 & +0.072 & -0.401 & -0.344 & same components\\
+COCO & yolo11m & -0.025 & -0.028 & +0.332 & +0.328 & same components\\
+COCO & yolo11x & -0.197 & -0.056 & -0.492 & -0.351 & same components\\
+VOC & yolo11n & +0.090 & +0.125 & +0.309 & +0.344 & runner differs\\
+VOC & yolo11m & -0.089 & +0.044 & -0.575 & -0.442 & runner differs\\
+VOC & yolo11x & -0.047 & -0.060 & +0.138 & +0.125 & runner differs\\
+KITTI & yolo11n & +0.170 & +0.147 & -0.007 & -0.030 & runner differs\\
+KITTI & yolo11m & +0.124 & -0.016 & -0.680 & -0.820 & runner differs\\
+KITTI & yolo11x & -0.053 & +0.061 & -0.695 & -0.581 & runner differs\\
+TT100K & yolo11n & +0.191 & -0.709 & +0.366 & -0.533 & runner differs\\
+TT100K & yolo11m & -0.074 & -0.350 & +0.485 & +0.208 & runner differs\\
+TT100K & yolo11x & +0.521 & -0.667 & +0.969 & -0.219 & runner differs\\
+\bottomrule
+\end{tabular}

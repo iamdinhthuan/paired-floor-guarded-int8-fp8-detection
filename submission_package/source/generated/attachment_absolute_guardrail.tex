@@ -1,0 +1,19 @@
+% Audited against outputs/analysis/shared_mask_pilot_v3/point_summary.json.
+% Clean blocks are unique; corrupted means use 12 cells per block.
+\begin{tabular}{llrr}
+\toprule
+Block & Treatment & Clean AP & Mean corrupted AP \\
+\midrule
+VOC--YOLO11m & Default INT8 & 66.659 & 50.674 \\
+ & Aligned INT8 & 67.201 & 51.383 \\
+ & Reused FP8 & 68.356 & 51.796 \\
+\addlinespace
+VOC--RT-DETR-L & Default INT8 & 1.140 & 0.611 \\
+ & Aligned INT8 & 1.489 & 0.942 \\
+ & Reused FP8 & 70.144 & 58.276 \\
+\addlinespace
+KITTI--RetinaNet & Default INT8 & 7.129 & 7.432 \\
+ & Aligned INT8 & 14.826 & 12.072 \\
+ & Reused FP8 & 49.273 & 36.479 \\
+\bottomrule
+\end{tabular}

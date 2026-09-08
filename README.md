@@ -1,222 +1,165 @@
-# A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions
+# A Paired Evaluation of Clean Accuracy and Corruption Sensitivity in Quantized Object Detection
 
-[![Manuscript](https://img.shields.io/badge/manuscript-PDF-b31b1b.svg)](paper/preview/main.pdf)
-[![Supplement](https://img.shields.io/badge/supplement-PDF-4c6ef5.svg)](paper/preview/supplement.pdf)
-[![Reproducibility](https://img.shields.io/badge/package-verified-2f9e44.svg)](paper/README.md)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22275640.svg)](https://doi.org/10.5281/zenodo.22275640)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22664869.svg)](https://doi.org/10.5281/zenodo.22664869)
 
-This repository accompanies the manuscript:
+Research software and evidence accompanying the manuscript prepared for
+*Computer Vision and Image Understanding* (CVIU). Version **2.2.0** aligns this
+repository with the revised manuscript in `submission_package/`.
 
-> **A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object
-> Detectors under Image Corruptions**
+- [Main manuscript](submission_package/01_CVIU_main_revised.pdf)
+- [Supplementary Information](submission_package/02_CVIU_supplement_revised.pdf)
+- [Archived software, source ZIPs and evidence](https://doi.org/10.5281/zenodo.22664869)
+- [Evidence verification instructions and licensing](submission_package/REVIEWER_EVIDENCE_README.md)
 
-The manuscript is prepared for *Computer Vision and Image Understanding*
-(CVIU). Release `v2.1.0` aligns the software, compact evidence, manuscript
-sources, and publication metadata with that submission.
+## Research question and scope
 
-The study evaluates recorded post-training-quantization treatments through
-executable TensorRT object detectors. Its central measurement is a paired
-four-cell interaction contrast that asks whether corruption changes the
-FP8–INT8 accuracy gap after accounting for the matched-clean gap. The protocol
-uses identical encoded image bytes and common image-resampling draws across the
-four clean/corrupted and INT8/FP8 arms.
-
-The repository is intended as research software and a compact audit package.
-It does not introduce a new quantization algorithm, and its results should not
-be interpreted as a universal ranking of numerical formats.
-
-## Scientific scope
-
-The primary exploratory evaluation covers:
-
-- COCO, Pascal VOC, KITTI, and TT100K;
-- YOLO11n, YOLO11m, and YOLO11x;
-- TensorRT FP32 reference, INT8-entropy, and FP8 treatments;
-- Gaussian noise, motion blur, fog, and JPEG corruption at three severities;
-- deterministic JPEG-95 matched-clean controls; and
-- 2,000 common image-bootstrap draws for paired interaction analysis.
-
-Additional evidence layers examine untouched VOC/KITTI holdouts, corruption
-realizations, training and calibration seeds, a fixed-universe TT100K stress
-cell, engine-only runtime, and portability stress cases using RT-DETR-L and
-RetinaNet-R50-FPN-v2. These layers have different image universes and
-replication axes; they are conditionality checks rather than repeated estimates
-of one population parameter.
-
-The direct contrast is
+The study separates clean accuracy, remaining corrupted accuracy, and the
+corruption-associated change in the gap between two recorded executable
+ModelOpt/TensorRT treatments. It does not propose a new quantizer or identify a
+universal causal effect of INT8 versus FP8.
 
 ```text
-DeltaE = (AP_FP8 - AP_INT8)_corrupt
-       - (AP_FP8 - AP_INT8)_matched-clean
+clean gap     = AP_FP8,clean - AP_INT8,clean
+corrupted gap = AP_FP8,corrupt - AP_INT8,corrupt
+DeltaE        = corrupted gap - clean gap
 ```
 
-Positive `DeltaE` means that the FP8-minus-INT8 gap widens under corruption;
-negative `DeltaE` means that it contracts. Neither sign alone establishes
-absolute corruption robustness. Matched-clean fidelity and absolute corrupted
-AP must be inspected before interpreting the interaction.
+All four arms use the same image universe and common image-bootstrap draws.
+A negative interaction denotes gap contraction, not necessarily usable
+corrupted accuracy or greater robustness. Absolute AP and clean fidelity must
+be inspected alongside the interaction.
 
-## Repository layout
+The evidence layers are deliberately not pooled as replications of one
+population parameter:
 
-| Path | Contents |
-|---|---|
-| [`paper/`](paper/) | LaTeX sources, verified PDF previews, figures, compact evidence, and submission-package checks |
-| [`src/`](src/) | Data preparation, corruption generation, training, export, quantization, inference, evaluation, and bootstrap programs |
-| [`configs/`](configs/) | Frozen experiment and analysis configurations |
-| [`manifests/`](manifests/) | Ordered image universes, split registries, calibration lists, and provenance records |
-| [`analysis/`](analysis/) | Evidence aggregation and manuscript-artifact utilities |
-| [`tests/`](tests/) | Unit and integration tests for the experiment contracts |
-| [`docs/`](docs/) | Estimand definitions, execution notes, and research-design documentation |
+- Exploratory grid: four datasets (COCO, VOC, KITTI, TT100K), three YOLO11
+  capacities, four corruptions, three severities, 144 direct cells, and JPEG-95
+  matched-clean controls.
+- Selection-disjoint VOC/KITTI holdouts: six retrained dataset–capacity blocks,
+  72 direct cells, and **original-source clean** inputs.
+- Controlled clean-input substitution: the same engines and runner compare
+  original-source and JPEG-95 clean controls in six holdout blocks; two selected
+  TT100K blocks remain separate diagnostics.
+- Additional checks: common-draw covariance, aggregation and metric-scale
+  sensitivity, training/calibration seeds, three corruption materializations,
+  full-grid TT100K fixed-universe bootstrap, and recorded recipe-portability
+  stress cases using RT-DETR-L and RetinaNet.
 
-Large datasets, checkpoints, TensorRT engines, raw predictions, and local
-runtime outputs are intentionally excluded from Git. Their omission reflects
-dataset licensing, artifact size, and hardware-specific engine portability.
+On the six holdout blocks, the mean FP8–INT8 clean gap is +1.60 AP points,
+the corrupted gap is +1.05, and the interaction is −0.55. The controlled
+clean-input shift averages +0.0574 AP, with an interval crossing zero; this
+does not establish codec equivalence. The four-dataset exploratory interaction
+is approximately −0.02 AP. These summaries concern different conditional scopes.
 
-## Environment
+## One active manuscript source
 
-The recorded experiments used Linux, an NVIDIA RTX 5090, TensorRT, CUDA, and a
-Conda environment named `qtsd`. Exact package and framework identities are
-retained in the provenance manifests and run records. A lightweight dependency
-list for remote experiment utilities is provided in
-[`requirements-remote.txt`](requirements-remote.txt).
+| Path | Purpose |
+| --- | --- |
+| `submission_package/source/` | Current main/Supplement LaTeX, figures and generated tables |
+| `submission_package/` | Current PDF previews, ancillary sources and upload instructions |
+| `src/` | Training, export, inference, corruption and evaluator programs |
+| `analysis/` | Scientific analysis, validation and evidence packaging |
+| `configs/`, `manifests/` | Experimental settings and retained provenance |
+| `tests/` | Contract and regression tests |
+| `paper/` | Historical release sources and evidence; not the current editable manuscript |
+
+The Overleaf and flat-source ZIPs are generated deliverables on Zenodo, not
+parallel editable sources. Do not run the historical `paper/build.sh` workflow
+to overwrite the revised manuscript.
+
+## Recompute evidence without a GPU
+
+Download `CVIU_Reviewer_Evidence.zip` from the versioned Zenodo record and
+extract it into a new directory. With Python 3.11 and NumPy installed:
 
 ```bash
-conda create -n qtsd python=3.10
-conda activate qtsd
-python -m pip install -r requirements-remote.txt
+export PYTHONDONTWRITEBYTECODE=1
+python analysis/build_reviewer_evidence.py --root . --verify --include-v4 --submission-package submission_package
+python analysis/build_v4_publication_tables.py --output-dir /tmp/cviu-v4-table-check
 ```
 
-TensorRT, CUDA, PyTorch, ModelOpt, and detector-specific dependencies must be
-installed for the target NVIDIA platform. TensorRT engines are not portable
-across arbitrary software and GPU configurations; rebuild them from the frozen
-registries on the intended host.
+Keep generated outputs outside the sealed extraction. Verification checks its
+exact hash inventory, current-manuscript binding and retained numerical inputs.
+Hashes establish internal integrity, not independent execution or timestamps.
 
-## Reproducing the manuscript package
-
-The self-contained paper package can be checked without retraining models or
-rerunning inference. It requires Python 3 and a TeX Live installation providing
-`latexmk`, or `pdflatex` and `bibtex` as a fallback.
+For the full prediction-level example, enter
+`outputs/analysis/cviu_v4/holdout_example/package/` inside that extraction:
 
 ```bash
-cd paper
-./verify.sh
+python -m pip install -r requirements.txt
+python reproduce_v4_four_arm.py --manifest manifest.json --out /tmp/cviu-example-report.json --workers 4
+python package_v4_holdout_example.py --verify-report /tmp/cviu-example-report.json --expected expected.json
 ```
 
-This command rebuilds the main and supplementary PDFs, validates the active
-CVIU source and upload assets, and writes and verifies the source manifest. It
-does not silently regenerate results from unavailable external artifacts. See
-[`paper/README.md`](paper/README.md) for the package contents and precise
-reproducibility boundary.
+Use a fresh output filename. This example evaluates KITTI final/YOLO11m/fog-1
+from predictions and annotations, with 1,197 images and 2,000 paired draws,
+without AP caches, images, checkpoints, engines or inference. The all-object
+interaction is approximately −0.280484 AP with percentile endpoints
+[−1.269237, +0.784413]. It tests implementation, not 95% interval coverage.
 
-To create the clean Overleaf and flat Editorial Manager source bundles, run
-the two CVIU submission builders documented in `paper/README.md`.
+## Compile the manuscript
 
-For a PDF-only rebuild:
+Upload `06_Overleaf_Source_CVIU.zip` to Overleaf. Compile `main.tex` with
+pdfLaTeX/BibTeX; compile `supplement.tex` separately. Alternatively, from
+`submission_package/source/` with TeX Live:
 
 ```bash
-cd paper
-./build.sh
+latexmk -pdf main.tex supplement.tex
 ```
 
-Verified previews are available as the
-[`main manuscript`](paper/preview/main.pdf) and
-[`Supplementary Information`](paper/preview/supplement.pdf).
+The flat source ZIP is a separate journal-upload alternative. The large
+research-evidence ZIP is not an Overleaf project.
 
-## Running tests
-
-The repository contains tests for the experiment registries, paired estimands,
-bootstrap schedules, inference/evaluation contracts, and evidence builders.
-
-For example, the self-contained estimand tests can be run with:
+## Tests and experimental reproduction
 
 ```bash
-PYTHONPATH=src python -m pytest -q tests/test_bootstrap_estimand.py
+PYTHONPATH=src python -m pytest -q
 ```
 
-The complete development suite is `PYTHONPATH=src python -m pytest -q`, but
-some integration gates require frozen external artifacts that are not stored in
-Git. A missing external completion report is therefore not equivalent to a
-failed manuscript-package check. The self-contained `paper/verify.sh` command
-is the authoritative release gate for the deposited paper artifact.
+The complete development suite needs the recorded scientific dependencies.
+Some integration tests require retained artifacts distributed separately.
+A checkout alone is not equivalent to the evidence extraction.
 
-## Full experimental reproduction
+Full training/inference reproduction additionally requires licensed datasets,
+checkpoints or retraining, calibration inputs, framework-specific dependencies,
+and appropriate NVIDIA software/hardware. The historical executions used an
+RTX 5090 and TensorRT; rebuilding engines on another stack is not a guarantee
+of byte-identical results. Read the frozen registries before running workload
+scripts. The lightweight `requirements-remote.txt` is not a complete locked
+environment for every experiment.
 
-Full reproduction is deliberately staged rather than exposed as an unsafe
-single command. Before running training or inference:
+## Reproducibility and licensing boundaries
 
-1. acquire each dataset from its official source and preserve its license;
-2. resolve the paths referenced by the frozen dataset and calibration
-   manifests;
-3. record the software environment, hardware identity, and input hashes;
-4. train or restore the specified checkpoints;
-5. export the reference ONNX models and pass the reference-parity gates;
-6. build the recorded INT8 and FP8 Q/DQ graphs and TensorRT engines;
-7. materialize and validate corruption manifests before inference; and
-8. evaluate the four paired arms with a shared image universe and bootstrap
-   schedule.
+Version 2.2.0 provides summary/draw-level evidence and one complete
+prediction-level example. It does not reproduce every historical training,
+engine build, prediction run or kernel-precision choice. Bootstrap uncertainty
+is conditional on the stated artifacts and sampling law.
 
-The current publication scope and reproduction boundary are documented in
-[`paper/README.md`](paper/README.md),
-[`docs/paired_excess_gap_method.md`](docs/paired_excess_gap_method.md), and the
-experiment-specific records under [`docs/`](docs/). Dated IVC planning files
-are retained only as historical provenance; the CVIU source and release gates
-under `paper/` are authoritative for version 2.1.0.
+Original software is [MIT licensed](LICENSE). This does **not** relicense
+third-party material. KITTI-derived annotations in the separate evidence
+archive remain **CC BY-NC-SA 3.0**, with attribution and transformation details
+in [the evidence README](submission_package/REVIEWER_EVIDENCE_README.md).
+Elsevier CAS files retain their original notices. No dataset images, trained
+checkpoints, engines or credentials are published in this release.
 
-Do not silently substitute datasets, calibration lists, checkpoints, decoders,
-or TensorRT builds while retaining the original result labels. The validators
-are designed to fail closed when required identities or hashes are missing.
+Historical evidence files retain their original bytes and dated statements;
+their former “local/unpublished” notes describe their creation-time status.
+Current release availability is defined by this README and its version DOI,
+not by those historical notes.
 
-## Reproducibility boundary
+## Citation, authors and funding
 
-The public repository reproduces the manuscript-level tables, figures, and
-internal consistency checks from compact frozen ledgers. It does not currently
-redistribute the raw datasets, trained checkpoints, hardware-specific engines,
-or all per-image prediction payloads. Consequently, it supports transparent
-inspection and deterministic regeneration of the deposited summaries, but it
-does not yet constitute independent end-to-end reproduction of every training
-and inference result.
-
-All conclusions are conditional on the recorded datasets, partitions,
-checkpoints, calibration lists, quantization recipes, corruption realizations,
-decoder settings, TensorRT build, and hardware. Image-bootstrap intervals do
-not include all of these sources of uncertainty.
-
-## Citation
-
-Citation metadata are provided in [`CITATION.cff`](CITATION.cff). GitHub can
-render the corresponding citation through **Cite this repository**. Cite
-release `v2.1.0` using its version DOI
-[10.5281/zenodo.22275640](https://doi.org/10.5281/zenodo.22275640). The
-all-versions concept DOI is
+Use [CITATION.cff](CITATION.cff) and version DOI
+[10.5281/zenodo.22664869](https://doi.org/10.5281/zenodo.22664869).
+The all-versions concept DOI remains
 [10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).
-
-## Authors and research responsibility
+Version [2.1.0](https://doi.org/10.5281/zenodo.22275640) is historical and does
+not contain the subsequent V4 follow-ups.
 
 The six human authors are Dinh Thuan Nguyen, Lam Phuong Nguyen, Vinh Huy
-Nguyen, Sy Vu Quang, Mohan Rajesh Elara, and Anh Vu Le. They retain full
-responsibility for the study, manuscript, code, evidence, and release
-metadata. AI-assisted tools are neither authors nor contributors and are not
-listed in `CITATION.cff` or `.zenodo.json`; any use of such tools in manuscript
-preparation is disclosed separately in the paper in accordance with journal
-policy.
-
-## Funding
+Nguyen, Sy Vu Quang, Mohan Rajesh Elara and Anh Vu Le. They retain scientific
+responsibility. AI-assisted tools are not listed as authors, archive creators,
+or Git commit co-authors; use in preparing the work is disclosed in the paper.
 
 This research did not receive any specific grant from funding agencies in the
 public, commercial, or not-for-profit sectors.
-
-## Data, models, and third-party software
-
-Users must obtain COCO, Pascal VOC, KITTI, and TT100K from their official
-distribution channels and comply with the applicable licenses and terms.
-Elsevier CAS template files included with the submission source retain their
-original notices; see [`CAS_TEMPLATE_NOTICE.txt`](CAS_TEMPLATE_NOTICE.txt) and
-[`paper/CAS_TEMPLATE_NOTICE.txt`](paper/CAS_TEMPLATE_NOTICE.txt).
-
-## License and contact
-
-Original software and documentation in this repository are released under the
-[`MIT License`](LICENSE). Dataset assets, Elsevier CAS files, and other
-third-party components remain under their respective licenses and notices.
-
-For questions about the study or archived evidence, use the corresponding
-author details in the manuscript or open a GitHub issue.

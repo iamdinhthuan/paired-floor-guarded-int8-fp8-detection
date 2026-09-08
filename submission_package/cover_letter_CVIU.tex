@@ -1,0 +1,38 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{CharisSIL}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.75em}
+\setlength{\emergencystretch}{2em}
+\begin{document}
+\thispagestyle{empty}
+
+\textbf{9 September 2026}
+
+Editor-in-Chief\\
+\textit{Computer Vision and Image Understanding}
+
+Dear Editor,
+
+We submit the manuscript entitled \textbf{``A Paired Evaluation of Clean Accuracy and Corruption Sensitivity in Quantized Object Detection''} for consideration as a research article in \textit{Computer Vision and Image Understanding}.
+
+The paper addresses a measurement problem that arises when quantized object detectors are compared under degraded visual inputs. A raw corrupted-input accuracy gap combines any difference already present on clean images with the additional change associated with corruption. We therefore formulate an executable paired four-arm evaluation that reports clean treatment fidelity, remaining corrupted accuracy, and the change in the between-treatment gap under shared inputs and common image resampling.
+
+The strongest experiment uses six selection-disjoint VOC/KITTI holdout blocks. FP8 exceeds INT8 by 1.60 AP points on original-clean images and by 1.05 AP points under corruption, while the clean-adjusted interaction is $-0.55$ AP with a paired 95\% percentile interval of $[-0.78,-0.29]$. This result shows why absolute corrupted performance and corruption sensitivity can support different, non-contradictory interpretations. A broader 144-cell exploratory study across COCO, VOC, KITTI, and TT100K finds 56 conditions in which the raw corrupted gap and clean-adjusted interaction have opposite point signs. Controlled clean-input substitution, covariance audits, metric-scale sensitivity, seed/realization analyses, runtime measurements, and cross-family recipe-portability stress tests define the scope of the conclusion.
+
+We believe the work fits CVIU because it concerns rigorous evaluation and understanding of deployed computer-vision systems under numerical and image-quality perturbations. The contribution is methodological and empirical: it provides an auditable comparison protocol for fixed quantized detector treatments and demonstrates the practical consequences of clean-baseline mixing, pairing, and absolute-accuracy reporting.
+
+The manuscript is accompanied by Supplementary Information, reproducibility materials, highlights, and a graphical abstract. The authors retain full responsibility for the study and manuscript; use of generative-AI and AI-assisted tools is disclosed in the manuscript in accordance with Elsevier policy.
+
+Thank you for considering our work.
+
+Sincerely,\\[0.8em]
+\textbf{Anh Vu Le}\\
+Corresponding author\\
+Advanced Intelligent Technology Research Group\\
+Faculty of Electrical and Electronics Engineering\\
+Ton Duc Thang University, Ho Chi Minh City, Vietnam\\
+\href{mailto:leanhvu@tdtu.edu.vn}{leanhvu@tdtu.edu.vn}
+
+\end{document}

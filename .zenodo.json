@@ -1,9 +1,9 @@
 {
-  "title": "A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions: Reproducibility Package",
+  "title": "A Paired Evaluation of Clean Accuracy and Corruption Sensitivity in Quantized Object Detection: Reproducibility Package",
   "upload_type": "software",
-  "version": "2.1.0",
-  "publication_date": "2026-09-03",
-  "description": "<p>Reproducibility package accompanying the manuscript <em>A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions</em>, prepared for <em>Computer Vision and Image Understanding</em>.</p><p>The release contains analysis and validation code, frozen configurations and manifests, compact deterministic evidence ledgers, generated tables and figures, and manuscript and supplementary sources. It supports reproduction of reported summaries from retained evidence. Raw benchmark datasets, trained checkpoints, TensorRT engines, raw predictions, and machine-specific caches are not redistributed; their provenance and regeneration boundaries are documented in the package.</p><p>Project concept DOI: <a href=\"https://doi.org/10.5281/zenodo.22031663\">10.5281/zenodo.22031663</a>.</p><p>All scientific claims and metadata remain the responsibility of the six human authors. AI tools are not creators or contributors.</p>",
+  "version": "2.2.0",
+  "publication_date": "2026-09-09",
+  "description": "<p>Research software and evidence for <em>A Paired Evaluation of Clean Accuracy and Corruption Sensitivity in Quantized Object Detection</em>, prepared for Computer Vision and Image Understanding.</p><p>Version 2.2.0 includes the revised 13-page main manuscript and 19-page supplement, compact Overleaf/flat sources, controlled clean-input results, recovered holdout paired intervals, full-grid TT100K fixed-universe sensitivity, covariance and recipe-portability audits, and one complete KITTI final prediction-level AP/bootstrap example. It does not provide complete historical training or detector-inference regeneration.</p><p>Original software is MIT licensed. Third-party exceptions apply: KITTI-derived annotations remain under Creative Commons Attribution-NonCommercial-ShareAlike 3.0, and Elsevier CAS files retain their original terms. See the accompanying evidence README for attribution, transformations and exact licensing scope. No images, trained checkpoints, TensorRT engines or credentials are distributed.</p><p>The six human authors retain responsibility; AI tools are not creators or contributors.</p>",
   "creators": [
     {
       "name": "Nguyen, Dinh Thuan",
@@ -48,7 +48,7 @@
   "license": "MIT",
   "related_identifiers": [
     {
-      "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v2.1.0",
+      "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v2.2.0",
       "relation": "isSupplementTo",
       "scheme": "url",
       "resource_type": "software"

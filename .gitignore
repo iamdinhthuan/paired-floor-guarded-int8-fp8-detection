@@ -40,3 +40,12 @@ paper/overleaf_upload_*.zip
 .vscode/
 *.swp
 *.tmp
+
+# Local publication credentials: never stage or archive
+/git_token.txt
+/zenodo_key.txt
+
+# Generated release assets are distributed separately, not stored in Git
+/submission_package/*.zip
+/submission_package/review_notes/
+/submission_package/SHA256SUMS.txt

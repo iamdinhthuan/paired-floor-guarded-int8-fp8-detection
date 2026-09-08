@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "attempt": "shared_mask_pilot_v3",
+  "description": "Bounded-parallel mechanistic coverage-policy pilot. It preserves the V2 scientific design, permits unrelated resident GPU services, runs at most two CPU quantizers or three accuracy-inference workers, serializes TensorRT builds, and declares all concurrent runtime measurements inadmissible.",
+  "mask_policy": "frozen_baseline_fp8_compute_attachment_contract_v3",
+  "parent_failure": {
+    "attempt": "shared_mask_pilot_v1",
+    "status": "terminal_scientific_gate_failure",
+    "failure_manifest": "outputs/quarantine/shared_mask_pilot_v1_failed/failure_manifest.json",
+    "failure_manifest_file_sha256": "759380731f11f426e034f0987ef3571698b5c0fec1c50f1703635e86374b53c2",
+    "failure_manifest_canonical_sha256": "de9f8f60bd7ebbe2f3a4995127ee10fa0ec6e2492b42d6a2baf3bad4f891a2d2",
+    "execution_sources_archive": "outputs/quarantine/shared_mask_pilot_v1_failed/execution_sources.tar.gz",
+    "execution_sources_archive_sha256": "badf87386e66885b2059a2f85b0e5beebb565f60a2c0516419b98684c34dce6f"
+  },
+  "superseded_preflight": {
+    "attempt": "shared_mask_pilot_v2",
+    "status": "abandoned_after_preflight",
+    "reason": "execution_policy_changed_to_bounded_shared_gpu_parallelism_by_user_request",
+    "execution_package": "outputs/reports/shared_mask_pilot_v2/execution_package.json",
+    "execution_package_file_sha256": "cceeb271bc4755a5ce15008a3e2ae08187ab4ecad506eed908a8d32d86398b62",
+    "execution_package_canonical_sha256": "db8d1312b1d80fea9610c1ce1a1511b3c103c366859cea7f4690bdce45ff556f",
+    "config": "configs/shared_mask_pilot_v2.json",
+    "config_file_sha256": "7fc84968392615292932a59bb246bfc256f1ef74465047f1106c3902c080ade9",
+    "config_canonical_sha256": "b6c9e114a2fffbb2e220b0798c264d3aa834f105accdf0e042ad932450ac6427",
+    "execution_sources_archive": "outputs/quarantine/shared_mask_pilot_v2_preflight_abandoned/execution_sources.tar.gz",
+    "execution_sources_archive_sha256": "ab877ace598b54ef21f1eec751a26b005a80c91d4ad403001a34904e88339db1",
+    "execution_sources_member_count": 20,
+    "preservation_report": "outputs/quarantine/shared_mask_pilot_v2_preflight_abandoned/preservation_report.json",
+    "preservation_report_file_sha256": "cddd46e784afcf131faaf324e04b3703881ca7f93709a5288e5bc94235d49a98",
+    "preservation_report_canonical_sha256": "3ae722ae6dcc85385814589c9b757be0750f3372ab6ebd8b027d851ddbbf9a2e",
+    "abandonment_manifest": "outputs/quarantine/shared_mask_pilot_v2_preflight_abandoned/abandonment_manifest.json",
+    "abandonment_manifest_file_sha256": "35b98c775481a3dd4a569871194f7b22cefd5c5f0e719407e84e30d3bb0b8ee8",
+    "abandonment_manifest_canonical_sha256": "91e5e79f4cfa0bdf7bc20fefc985b32dc53651617479565a621a90e5a84ba156"
+  },
+  "formats": [
+    "int8-entropy",
+    "fp8"
+  ],
+  "corruptions": [
+    "fog",
+    "gaussian_noise",
+    "jpeg",
+    "motion_blur"
+  ],
+  "severities": [
+    1,
+    3,
+    5
+  ],
+  "bootstrap_replicates": 2000,
+  "execution": {
+    "quantization_workers": 2,
+    "cpu_threads_per_quantizer": 4,
+    "engine_build_workers": 1,
+    "inference_workers": 3,
+    "evaluation_workers": 3,
+    "gpu_admission": {
+      "allow_unrelated_compute_processes": true,
+      "maximum_concurrent_pilot_processes": 3,
+      "safety_margin_mib": 4096,
+      "quantization_reservation_mib": 8192,
+      "engine_build_reservation_mib": 8192,
+      "inference_reservation_mib": 4096,
+      "poll_seconds": 30
+    },
+    "timing_evidence": {
+      "status": "inadmissible",
+      "reason": "shared_gpu_and_concurrent_accuracy_inference",
+      "required_remeasurement": "isolated_gpu_separate_attempt"
+    },
+    "phase_order": [
+      "bind_parent_failure",
+      "bind_v2_preflight_abandonment",
+      "freeze_masks",
+      "materialize_aligned_int8",
+      "verify_int8_against_frozen_fp8_topology",
+      "build_int8_engines",
+      "bind_default_fp8_artifacts",
+      "matched_clean_int8",
+      "corrupted_int8",
+      "paired_bootstrap"
+    ]
+  },
+  "blocks": [
+    {
+      "id": "voc_yolo11m",
+      "dataset": "voc",
+      "split": "val",
+      "model": "yolo11m",
+      "family": "yolo",
+      "imgsz": 640,
+      "source_onnx_registry": "manifests/onnx/voc_yolo11m_fp32_v1.json",
+      "baseline_int8_registry": "manifests/onnx/voc_yolo11m_int8-entropy_v1.json",
+      "baseline_fp8_registry": "manifests/onnx/voc_yolo11m_fp8_v1.json",
+      "baseline_fp8_engine_registry": "manifests/engines/voc_yolo11m_fp8_v1.json",
+      "calibration_list": "manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+      "annotations": "manifests/annotations/voc_val_ultralytics_v1_coco.json",
+      "class_map": "manifests/classes/voc_val_ultralytics_v1.json",
+      "matched_clean_manifest": "manifests/images/voc_val_codec_control_q95_p0_v1.json",
+      "matched_clean_cache_root": "data/codec_control/voc",
+      "corruption_manifest_template": "manifests/images/voc_val_full_{corruption}_s{severity}.json",
+      "corruption_cache_root": "data/voc_c"
+    },
+    {
+      "id": "voc_rtdetr_l",
+      "dataset": "voc",
+      "split": "val",
+      "model": "rtdetr-l",
+      "model_slug": "rtdetr_l",
+      "family": "cross_family",
+      "imgsz": 640,
+      "source_onnx_registry": "manifests/onnx/cross_family_v1/voc_rtdetr_l_fp32.json",
+      "baseline_int8_registry": "manifests/onnx/cross_family_v1/voc_rtdetr_l_int8-entropy.json",
+      "baseline_fp8_registry": "manifests/onnx/cross_family_v1/voc_rtdetr_l_fp8.json",
+      "baseline_fp8_engine_registry": "manifests/engines/cross_family_v1/voc_rtdetr_l_fp8.json",
+      "calibration_list": "manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+      "annotations": "manifests/annotations/voc_val_ultralytics_v1_coco.json",
+      "matched_clean_manifest": "manifests/images/voc_val_codec_control_q95_p0_v1.json",
+      "matched_clean_cache_root": "data/codec_control/voc",
+      "corruption_manifest_template": "manifests/images/voc_val_full_{corruption}_s{severity}.json",
+      "corruption_cache_root": "data/voc_c"
+    },
+    {
+      "id": "kitti_retinanet_r50_fpn_v2",
+      "dataset": "kitti",
+      "split": "val",
+      "model": "retinanet-r50-fpn-v2",
+      "model_slug": "retinanet_r50_fpn_v2",
+      "family": "cross_family",
+      "imgsz": 640,
+      "source_onnx_registry": "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json",
+      "baseline_int8_registry": "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_int8-entropy.json",
+      "baseline_fp8_registry": "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json",
+      "baseline_fp8_engine_registry": "manifests/engines/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json",
+      "calibration_list": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+      "annotations": "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+      "matched_clean_manifest": "manifests/images/kitti_val_codec_control_q95_p0_v1.json",
+      "matched_clean_cache_root": "data/codec_control/kitti",
+      "corruption_manifest_template": "manifests/images/kitti_val_full_{corruption}_s{severity}.json",
+      "corruption_cache_root": "data/kitti_c"
+    }
+  ],
+  "config_sha256": "904fb5aef600dfbd15302b16a2e3189743f0b142a9d3020f258bd3dae4e64efe"
+}

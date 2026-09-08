@@ -1,0 +1,7 @@
+Highlights
+
+• Paired evaluation separates clean accuracy from corruption sensitivity.
+• FP8 leads INT8 by 1.60 AP clean and 1.05 AP under corruption.
+• Clean adjustment yields a -0.55 AP interaction on final VOC/KITTI.
+• Raw and adjusted signs disagree in 56 of 144 exploratory conditions.
+• Shared-image resampling preserves covariance in four-arm comparisons.

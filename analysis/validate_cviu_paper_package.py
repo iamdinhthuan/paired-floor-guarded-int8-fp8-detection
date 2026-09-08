@@ -22,6 +22,18 @@ TITLE = (
     "Detectors under Image Corruptions"
 )
 JOURNAL = "Computer Vision and Image Understanding"
+CURRENT_MANUSCRIPT_TITLE = (
+    "Separating Clean Accuracy from Corruption Sensitivity in Quantized Object Detection"
+)
+
+
+def manuscript_title_matches(tex: str) -> bool:
+    """Accept the archived or current title, never a mention outside active title."""
+    uncommented = re.sub(r"(?<!\\)%[^\n]*", "", tex)
+    titles = re.findall(r"\\title(?:\[[^]]*\])?\{([^{}]+)\}", uncommented)
+    return len(titles) == 1 and titles[0] in {TITLE, CURRENT_MANUSCRIPT_TITLE}
+
+
 AUTHORS = [
     "Dinh Thuan Nguyen",
     "Lam Phuong Nguyen",
@@ -303,8 +315,9 @@ def check_metadata(root: Path, errors: list[str], notes: list[str]) -> None:
         errors.append("AI tool/provider appears among CITATION.cff authors")
     if cff.get("license") != "MIT":
         errors.append("CITATION.cff license is not MIT")
-    if TITLE not in str(cff.get("title", "")) or TITLE not in main:
-        errors.append("main/CITATION title does not match the CVIU title")
+    if TITLE not in str(cff.get("title", "")) or not manuscript_title_matches(main):
+        errors.append("current manuscript or archived CITATION title is invalid")
+    notes.append("title: current manuscript distinguished from immutable v2.1.0 software-release title")
 
     for path, value in parsed:
         metadata, names = zenodo_names(value)

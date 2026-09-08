@@ -1,0 +1,1979 @@
+{
+  "schema_version": 1,
+  "attempt": "controlled_retinanet_tf32off_v1_20260906",
+  "created_at": "2026-09-06",
+  "purpose": "Same-policy TF32-off rebuild of retained default/aligned INT8 graphs, KITTI RetinaNet. Source FP32 clean diagnostic; frozen existing FP8. No pure datatype, population, causal localization, or latency claim.",
+  "status_at_creation": "GPU capacity blocked; queued, not running inference",
+  "gpu_policy": "Serial GPU jobs; no unrelated compute except display context; >=12288 MiB free; >=20 GiB free disk",
+  "accuracy_policy": "Report all 12 corrupted conditions for both INT8 graphs irrespective of clean outcome; no AP-driven selection",
+  "reference_boundary": "New strict TRT FP32 clean AP is a reference diagnostic only. Source-PyTorch/ORT parity is not established by this queue.",
+  "block": {
+    "id": "kitti_retinanet_r50_fpn_v2",
+    "dataset": "kitti",
+    "split": "val",
+    "model": "retinanet-r50-fpn-v2",
+    "model_slug": "retinanet_r50_fpn_v2",
+    "family": "cross_family",
+    "imgsz": 640,
+    "source_onnx_registry": "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json",
+    "baseline_int8_registry": "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_int8-entropy.json",
+    "baseline_fp8_registry": "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json",
+    "baseline_fp8_engine_registry": "manifests/engines/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json",
+    "calibration_list": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+    "annotations": "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+    "matched_clean_manifest": "manifests/images/kitti_val_codec_control_q95_p0_v1.json",
+    "matched_clean_cache_root": "data/codec_control/kitti",
+    "corruption_manifest_template": "manifests/images/kitti_val_full_{corruption}_s{severity}.json",
+    "corruption_cache_root": "data/kitti_c"
+  },
+  "files": {
+    "/home/thuan/topic_c_ivc/configs/shared_mask_pilot_v3.json": "ce64b1c5fb2e950eb6d015566455ec1177f80571559a6f2e1e8a53f3a554c243",
+    "/home/thuan/topic_c_ivc/manifests/annotations/kitti_val_ultralytics_v1_coco.json": "79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+    "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json": "e1ad0e0bc759601a191debc46cd8c5da885aa4ecf3d2f063826716d2d0b8d581",
+    "/home/thuan/topic_c_ivc/manifests/engines/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json": "a686f78654bab8de7051365386e05a972625018915a50e75246de1d1db94226e",
+    "/home/thuan/topic_c_ivc/manifests/engines/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json.complete": "a023383ff9c52fbd5c1960eb48a2992ad96f5843b42ce953e9d2a3a421e8d8c0",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_codec_control_q95_p0_v1.json": "e4c45f09d2cac9b62a124c83b1db3585c31983d32f0bb30e394cce7b8ee3e327",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_codec_control_q95_p0_v1.json.complete": "3e0715d5e51078cc1d5240c5f7acbb944b5c2fab4783616eb66f0c3861c7a0e0",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_fog_s1.json": "86cf1943aa31c6263b4f021b39d55f3d2cbb0a75d137f61d1751bc4eedfd58f4",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_fog_s1.json.complete": "4309e20265e6e15d94bcef3f54b228cbcb066e47312f0fec3ac99c86744129f3",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_fog_s3.json": "089f6cda53f0242be247f5a726d55f959a2be71d34bdb71b9deabdb8173bcf74",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_fog_s3.json.complete": "66eb7c1c2decf89bb575b0a8f6adcd5ebf37ab66b5a31111c908a3884d6fe54c",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_fog_s5.json": "6306745228c460407cba3cfd85b89d85bde6856a24c50f2b36b1be3291fba6d1",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_fog_s5.json.complete": "4b4c74d185e59101b04d2d78607a0ee73c64cd64247c89012d67094290440d47",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_gaussian_noise_s1.json": "6a95505a27b7ed428af59fcd53d39ec5206bdc7e215134d7793b758bc2b07861",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_gaussian_noise_s1.json.complete": "866fce2a8670ca63ae5684589bba1715c43394b546f8ad04fb6255654fdfd371",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_gaussian_noise_s3.json": "8bb49b75fa3ba26a37e93983b13ccf8c7fca3db90980b8a0642239b025d2d99c",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_gaussian_noise_s3.json.complete": "4488da72c51e420a864eb85e2159a55c1f56f2643aabb12f621e0377c487ccd5",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_gaussian_noise_s5.json": "c0a13f8bf81ceb1346d530fe70f22eab264f841462aa8b514de0c1295bea4266",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_gaussian_noise_s5.json.complete": "ac7cd859f7a857f8233de606c14e298978a4983ba9bf4b7fc77d9ca66827b400",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_jpeg_s1.json": "6410f221b7395242a592befc4e1bbc0033008a74b356e272f9897819251c0858",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_jpeg_s1.json.complete": "508bd32205deace49f5a90512ceb98d1829aa888b44b2f10d634f51231e743ce",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_jpeg_s3.json": "707d1a4fa1c602f779e7349b7222a4060765dab2ade09cbf197d276dc5058713",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_jpeg_s3.json.complete": "8c76fb09904d9d726ef1ebfb5e57c03368b17972cccd0df42600019b06c1a093",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_jpeg_s5.json": "19c89a169ef8e406b4440ce09e7417a462588f219646cfdd90d4d56f8d9d1db1",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_jpeg_s5.json.complete": "b0c7b48aa8c9879626e37a4f1806cf0f6a53c123e3d2a1a77b585bfc88b22a64",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_motion_blur_s1.json": "78f4be4e89a139a8e12c1c957e28408823f8888b5fffadd499b1d7f6b7d471e4",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_motion_blur_s1.json.complete": "bbfa6c69c924d57388d4be7059b82d9275f988bfb6d836e0b0b09f29939091a7",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_motion_blur_s3.json": "67f576acbfa2b912f0b0add5d43c684ea28c214fac3bd6db6281f8e30366f887",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_motion_blur_s3.json.complete": "51f7944e54798b1a1d3dfff8cf0c8fd0ba20832c2bbfeab7552ef0ec733aabd4",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_motion_blur_s5.json": "d8899879c03fe92a17e64ed5d470c57f5f2788e2520e769421a3b712d0b33ab0",
+    "/home/thuan/topic_c_ivc/manifests/images/kitti_val_full_motion_blur_s5.json.complete": "9bdaa4026a01b9894b9d24f97cea2f38ab4037e5913483e922f30cea82dd2c5e",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json": "40ebb242b46952e6cbbda0ea32571fb698aade900a901f71a195b9a5ad91fad9",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json.complete": "c8dc45c023a5e4cc15dbabee0db2a3581825470a31ab26773cb343524b0b527e",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json": "81260039566d09ca3698e2f868dfd9a7ce7f8e6b0c364dd55a0966996ee9b82c",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json.complete": "2f51ca837a3d4f9d66d25c61bdf84dac920c57c8db6e167eac1c7aac3a99a415",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_int8-entropy.json": "95f4e76f4d98a4788a4bdef3a3a49997fb55c249837f73f2ce37f4171d9aca5e",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_int8-entropy.json.complete": "4ed6b0fe62d1ad7e170797c2b72c7d43d2e40f2cdd6d3287e283f7a8ee15f438",
+    "/home/thuan/topic_c_ivc/manifests/onnx/shared_mask_pilot_v3/kitti_retinanet_r50_fpn_v2__int8-entropy.json": "09d87b3a8247686d31b2fda622e8198a5e025b8a635fcd63102ae7b9151e35e2",
+    "/home/thuan/topic_c_ivc/manifests/onnx/shared_mask_pilot_v3/kitti_retinanet_r50_fpn_v2__int8-entropy.json.complete": "617dc2215e9f1d2f18692856d7eb55d564497643a8efdf2640709cb8106ef3bd",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_q95_clean_v1/kitti_val__retinanet_r50_fpn_v2__fp8__q95-clean-s0.json": "237a2158cbe3682404b093ea512b2d2203c15ae0e20512ed09ddfb66093da713",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s1.json": "618975c2b814108b55f4736bf4ce4de4b8f98fd2c41fa07554226565b3cfb0d2",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s3.json": "f54a507b23a411bf0aac0d32bce79382525bb58344ecd94b6ecb80ed6fa91e0b",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s5.json": "dad7b3007b5f6f63bac66740365ce619abaa4f98fc56e1e63892aa86cf2576b1",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s1.json": "9c5eee0c0a78f8874c43d83f7bbc82a346db3fdbf2a3e6084f8a28067313d2ea",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s3.json": "d17c1882d18231367240e966cdf2f3fcc1aad50d1459ae43edc46c00d1b852c3",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s5.json": "85cceb8fbe4ad229b538b11673abed8cf3ef264f3819c1bc8c467db0e1b1360b",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s1.json": "01841bbe829aaa70251265eed0ec1b68a94f7f9057461e71eb39a2c4948d6146",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s3.json": "a15bd08e1450cdc39745a4d9ce074fc59956c201c1888b9c72a59e97b5d86fba",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s5.json": "ad3d3623d077b30cfc33dd11a87b873e395b1abacf48f2783ab6b51c6be67b26",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s1.json": "8d0ae1235eda9f16f1b6871161e28f67b902016bf8f94a0137d55a8b7c79277a",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s3.json": "7df3a9f5adfd9783999cdc5f0746d41a97d145f6054296202b7d10838104df47",
+    "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s5.json": "7871c967eed290f582cf94c29ff431ccb12df49393ab6c1979f110a584bcce29",
+    "/home/thuan/topic_c_ivc/outputs/engines/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.engine": "3b44e56bef9b9a24ecad73edec50a12e70d3f590217a57fd32d0cfaffb11d6ce",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_q95_clean_v1/kitti_val__retinanet_r50_fpn_v2__fp8__q95-clean-s0.json": "94d2560b254ff3d89348d342b8e6f8c7ef3bd7df43aef4f2cd29032cf61661b8",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s1.json": "f83e3a4bd91abfe5c9351ae71b1c9b8e4ac32d389c2b6b30e4d16c5b51b2513b",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s3.json": "0761c68a0e6e352917c2e5c49113497605fcc362560b7ed1de84815633f2c83d",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s5.json": "4118e8b5900c343aa18e5dfba3287a0a18492f28e115efda87d93e0863d361f5",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s1.json": "08946233af8a29dc17acb51900dafed8ce5c65bfe535e0dcbc158290d4cd2264",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s3.json": "ce192d64010593e8fc5a117bd383aa94120be0dd9e8bffafaceb6e8f5279ec4e",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s5.json": "ceb4dba76222fd6eb48dd9081c25339dfe9db44c97571f346e38bed8c3582d70",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s1.json": "7d6087ab7a8b9aeddf88e629e7dcd423e7d918a15431e90a6f4c44dc60c1bde4",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s3.json": "54cb92ee7690fc72ea01899a856564f864d6346c6ab6782d56126cf7775f0474",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s5.json": "f0488af5af935f7d1b0618ddf738f69524c38eb44961918c6559d37daee0ead4",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s1.json": "b8a629d4c12b822ccc6cd05a62a4d974017689cf0bbddd0a30f38765b769ac07",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s3.json": "c4effbd3c02eb9f858a03d31465720bbd26f726736017da7a6dffb121d48b217",
+    "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s5.json": "2a97510d8e9ef13f6b963926008e6df09a0b7c4fcdf6088326595875918c36e3",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_q95_clean_v1/kitti_val__retinanet_r50_fpn_v2__fp8__q95-clean-s0.json": "e0e67ec520360b9565c0bade26362460ba8b45132de0657073f249280ab79762",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s1.json": "544754695d7b0497b4c6a5011a43326c826ad56573af4cb4bcb7da31ec17323d",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s3.json": "fc33f5f60b9a2da10f7951ea009d8cc926934e0c19c1af66c4b1a129c0618bf1",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s5.json": "1bce3b3da0380877c98e29e2b019801330495a013b46df01288bc4978e6d2055",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s1.json": "d4dd7a550100bfe7540ef5abfa1f739f9ed8e87ee81237afb773b964bc2d2c7d",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s3.json": "a187a87c50211ef7e984166c19b326f7c0a893a0194a62bc2ef47b1a8f4db6b1",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s5.json": "33dcf2b2981d2e03ccc7149bc1292641ca89e7bae58a23cb5a63c7abf9e3cd61",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s1.json": "522a294bba0f7e01a6ea9696d58fbcbe1eb85e875cf9daafc0e4d41001ba5969",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s3.json": "3c3698a32f7a9bf72fc8228c6c7b5d1287aefbc65dd73c5aa7f0d6740dabc76e",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s5.json": "717989acae896b547072482a583b45714d1094628525818abdc49462bef9d718",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s1.json": "d498d6dddf4034e6832c7fd300e9777723e77a1182ef8eea6a99a85606c0198f",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s3.json": "23d782adc49b349827a3f4b418c2c4809ab72686f58ab97699f71f860dafe97d",
+    "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s5.json": "3e3ad3db392ea44ebbf86c85d2a9864b01285c5a7141120c3ba838b11ad78dc3",
+    "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.onnx": "5c522b7711017f7506a2096e046596be33861715ba0c415f393580ad8bc59941",
+    "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.onnx": "21066e65bc2e522c9af9c999374a5debde167925e9875c41605acfc458632642",
+    "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_int8-entropy.onnx": "1e7c4378f34e437e9dfe56a950e1f9eefff1095c3580e9a38a7fa1e2361e24cb",
+    "/home/thuan/topic_c_ivc/outputs/onnx/shared_mask_pilot_v3/kitti_retinanet_r50_fpn_v2__int8-entropy.onnx": "b0c3072cc4e46a7804589f6889b19351b93f897fca14902664bc69ee1339700e",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_q95_clean_v1/kitti_val__retinanet_r50_fpn_v2__fp8__q95-clean-s0.json": "361391f9490dc1c159c35f020153baeee67637d847947e01915972f0dacd980e",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s1.json": "b3270817039af45d6ac133a077fd1d24a87f67e75fa37fa231c02d8405e9fbed",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s3.json": "4b14b71a73e77cd6731e0be783c8bdb18d66dfe4cbe6cda38482f4777a7912d6",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s5.json": "0ba76464afad26ff6c1eeb3eeb5084cc54695f7e677ff1f563647385633f8687",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s1.json": "c16b4ac0dd363b2598cd4e5b76553ce94b7c08799c5a2faf783869af5bb7f380",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s3.json": "d0ad8384a74cec743fcffbe9f8da90b2fdad9cc86016fcf508706f48ecdf2c03",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s5.json": "37836d3ead6f236c0c910e8c405f6f363202daa099291c89446b4d78bd8cda6e",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s1.json": "0b99611b41e06a5b7006ba51154a07ac0726dd14808d79e6c1d11474150e590a",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s3.json": "1345ab73f1aab8862e719bb633b49e06d5b53336622a0b9e36cdb768abaa37e7",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s5.json": "096e7b6551552d9a04d9f5708b30046ffee04324c56d48766e3e35931ede9a90",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s1.json": "cf3c15af1017583546041a30f08b16cd4b3f68e154c7689f6c9971eb8fc14ee2",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s3.json": "fad802cf75f39f1772571970b3ed11ebe41733c2b44db85cc6eca91a764d252a",
+    "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s5.json": "c1cb2e26d9ebfaea9f9be583acf301c0df319523c0065253136e7ce66f25ecf2",
+    "/home/thuan/topic_c_ivc/src/build_yolo_trt_engine.py": "18db7eff0f30698c1081972bd6e6c49feda308700c3920950c696fb28a258bfc",
+    "/home/thuan/topic_c_ivc/src/coco_eval.py": "fd8927b9073d02454de28b75eb0826d34e4b09001651364de2d070a1430d1021",
+    "/home/thuan/topic_c_ivc/src/cross_family_infer_trt.py": "6998b593ad82e7fb86a34e9d90a9f84fc540f103967dac2aa881e6f5e54ca779",
+    "/home/thuan/topic_c_ivc/src/topic_c/coco_data.py": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+    "/home/thuan/topic_c_ivc/src/topic_c/cross_family.py": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+    "/home/thuan/topic_c_ivc/src/topic_c/manifest.py": "2704f5acb66eec6b4488fe402747f7b07f8b14e2d2576fbd3be4379a6a3758c7",
+    "/home/thuan/topic_c_ivc/src/topic_c/shared_mask_pilot.py": "a105ab232d9c46202ebb264721604a3aea0a908616644548819df2c2569d2c47"
+  },
+  "fp8_bundles": {
+    "clean-s0": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_q95_clean_v1/kitti_val__retinanet_r50_fpn_v2__fp8__q95-clean-s0.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_q95_clean_v1/kitti_val__retinanet_r50_fpn_v2__fp8__q95-clean-s0.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_q95_clean_v1/kitti_val__retinanet_r50_fpn_v2__fp8__q95-clean-s0.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_q95_clean_v1/kitti_val__retinanet_r50_fpn_v2__fp8__q95-clean-s0.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "226b7b2a7be03fb0245561233194d84da6d670fba0e3dbc9268df8ef02f79489"
+    },
+    "fog-s1": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s1.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s1.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s1.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s1.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "7354d4113ddff5fbe2a32c689bf8a9f2bf988c6b33513bd3d8ae177652d6a0b8"
+    },
+    "fog-s3": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s3.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s3.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s3.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s3.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "ba36930f1bb7bf10f0fae7427375ecfc7df0881d807dd35973d7bf7d13727c6d"
+    },
+    "fog-s5": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s5.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s5.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s5.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__fog-s5.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "310fdb7163cf4fb5945623c8efba3b33d350e9e58a69b046137a3f6e408cb7d4"
+    },
+    "gaussian_noise-s1": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s1.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s1.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s1.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s1.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "65d36c9ba0edaf031e4fcbc62e7ef6f76dce850a9b8d0aebc313c12acdcef11a"
+    },
+    "gaussian_noise-s3": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s3.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s3.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s3.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s3.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "c196c339cb26f981efb3d055bc03546e4d5057df7ce678ff3b1c53042d2a5cbb"
+    },
+    "gaussian_noise-s5": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s5.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s5.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s5.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__gaussian_noise-s5.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "f5b853fed944a9e30ecd4392e253cf544f0496bb366120089442b340ab2ea987"
+    },
+    "jpeg-s1": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s1.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s1.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s1.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s1.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "256d6fbda63e19b514d60678fd83b236f31913b5b0a257a0241fd02662f08637"
+    },
+    "jpeg-s3": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s3.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s3.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s3.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s3.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "1bab6f1348582f37dd66fae4c85f94692d2a1182c13ac7eb7863079b2fe3c813"
+    },
+    "jpeg-s5": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s5.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s5.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s5.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__jpeg-s5.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "f732977ac9f4db2e1ff5dcdc657be60077627051c6ff6efccc1fbad88918e32c"
+    },
+    "motion_blur-s1": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s1.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s1.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s1.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s1.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "e4a0dd6a010ea4df1d37771ab812a3592838abd512f35fd9aeb8f5cadd6acc07"
+    },
+    "motion_blur-s3": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s3.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s3.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s3.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s3.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "611f4bda564e410f4789a27d3ccf85206291a8f10bdcd11e39f5501a787e45c4"
+    },
+    "motion_blur-s5": {
+      "paths": {
+        "prediction": "/home/thuan/topic_c_ivc/outputs/predictions/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s5.json",
+        "input_record": "/home/thuan/topic_c_ivc/outputs/inputs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s5.json",
+        "run_record": "/home/thuan/topic_c_ivc/manifests/runs/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s5.json",
+        "metric": "/home/thuan/topic_c_ivc/outputs/metrics/cross_family_v1/kitti_val__retinanet_r50_fpn_v2__fp8__motion_blur-s5.json"
+      },
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+      "input_manifest_sha256": "3e0f9f1c5dc35c07929795ad225a2a24cc2e108ecbc04d62770b356f26fd8ee2"
+    }
+  },
+  "steps": [
+    {
+      "name": "build_fp32",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/build_yolo_trt_engine.py",
+        "--onnx-registry",
+        "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json",
+        "--precision",
+        "fp32",
+        "--trt-root",
+        "/home/thuan/traffic/third_party/TensorRT-11.1.0.106",
+        "--engine",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32.engine",
+        "--build-log",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32.build.log",
+        "--registry-out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32.engine.json"
+      ]
+    },
+    {
+      "name": "build_default",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/build_yolo_trt_engine.py",
+        "--onnx-registry",
+        "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_int8-entropy.json",
+        "--precision",
+        "int8-entropy",
+        "--trt-root",
+        "/home/thuan/traffic/third_party/TensorRT-11.1.0.106",
+        "--engine",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine",
+        "--build-log",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.build.log",
+        "--registry-out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json"
+      ]
+    },
+    {
+      "name": "build_aligned",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/build_yolo_trt_engine.py",
+        "--onnx-registry",
+        "manifests/onnx/shared_mask_pilot_v3/kitti_retinanet_r50_fpn_v2__int8-entropy.json",
+        "--precision",
+        "int8-entropy",
+        "--trt-root",
+        "/home/thuan/traffic/third_party/TensorRT-11.1.0.106",
+        "--engine",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine",
+        "--build-log",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.build.log",
+        "--registry-out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json"
+      ]
+    },
+    {
+      "name": "infer_fp32_clean_s0",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_codec_control_q95_p0_v1.json",
+        "--manifest-cache-root",
+        "data/codec_control/kitti",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32__clean-s0.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32__clean-s0.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32__clean-s0.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__fp32__clean-s0",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "clean",
+        "--severity",
+        "0"
+      ]
+    },
+    {
+      "name": "eval_fp32_clean_s0",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32__clean-s0.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32__clean-s0.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32__clean-s0.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32__clean-s0.metric.json"
+      ]
+    },
+    {
+      "name": "validate_fp32_clean_s0",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32__clean-s0\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/fp32.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"fp32\",corruption=\"clean\",severity=0,expected_manifest_sha256=\"226b7b2a7be03fb0245561233194d84da6d670fba0e3dbc9268df8ef02f79489\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_clean_s0",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_codec_control_q95_p0_v1.json",
+        "--manifest-cache-root",
+        "data/codec_control/kitti",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__clean-s0.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__clean-s0.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__clean-s0.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__clean-s0",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "clean",
+        "--severity",
+        "0"
+      ]
+    },
+    {
+      "name": "eval_default_clean_s0",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__clean-s0.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__clean-s0.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__clean-s0.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__clean-s0.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_clean_s0",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__clean-s0\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"clean\",severity=0,expected_manifest_sha256=\"226b7b2a7be03fb0245561233194d84da6d670fba0e3dbc9268df8ef02f79489\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_fog_s1",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_fog_s1.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s1.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__fog-s1",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "fog",
+        "--severity",
+        "1"
+      ]
+    },
+    {
+      "name": "eval_default_fog_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s1.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s1.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_fog_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s1\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"fog\",severity=1,expected_manifest_sha256=\"7354d4113ddff5fbe2a32c689bf8a9f2bf988c6b33513bd3d8ae177652d6a0b8\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_fog_s3",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_fog_s3.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s3.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__fog-s3",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "fog",
+        "--severity",
+        "3"
+      ]
+    },
+    {
+      "name": "eval_default_fog_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s3.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s3.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_fog_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s3\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"fog\",severity=3,expected_manifest_sha256=\"ba36930f1bb7bf10f0fae7427375ecfc7df0881d807dd35973d7bf7d13727c6d\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_fog_s5",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_fog_s5.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s5.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__fog-s5",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "fog",
+        "--severity",
+        "5"
+      ]
+    },
+    {
+      "name": "eval_default_fog_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s5.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s5.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_fog_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__fog-s5\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"fog\",severity=5,expected_manifest_sha256=\"310fdb7163cf4fb5945623c8efba3b33d350e9e58a69b046137a3f6e408cb7d4\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_gaussian_noise_s1",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_gaussian_noise_s1.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s1.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__gaussian_noise-s1",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "gaussian_noise",
+        "--severity",
+        "1"
+      ]
+    },
+    {
+      "name": "eval_default_gaussian_noise_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s1.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s1.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_gaussian_noise_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s1\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"gaussian_noise\",severity=1,expected_manifest_sha256=\"65d36c9ba0edaf031e4fcbc62e7ef6f76dce850a9b8d0aebc313c12acdcef11a\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_gaussian_noise_s3",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_gaussian_noise_s3.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s3.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__gaussian_noise-s3",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "gaussian_noise",
+        "--severity",
+        "3"
+      ]
+    },
+    {
+      "name": "eval_default_gaussian_noise_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s3.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s3.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_gaussian_noise_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s3\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"gaussian_noise\",severity=3,expected_manifest_sha256=\"c196c339cb26f981efb3d055bc03546e4d5057df7ce678ff3b1c53042d2a5cbb\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_gaussian_noise_s5",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_gaussian_noise_s5.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s5.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__gaussian_noise-s5",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "gaussian_noise",
+        "--severity",
+        "5"
+      ]
+    },
+    {
+      "name": "eval_default_gaussian_noise_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s5.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s5.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_gaussian_noise_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__gaussian_noise-s5\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"gaussian_noise\",severity=5,expected_manifest_sha256=\"f5b853fed944a9e30ecd4392e253cf544f0496bb366120089442b340ab2ea987\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_jpeg_s1",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_jpeg_s1.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s1.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__jpeg-s1",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "jpeg",
+        "--severity",
+        "1"
+      ]
+    },
+    {
+      "name": "eval_default_jpeg_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s1.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s1.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_jpeg_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s1\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"jpeg\",severity=1,expected_manifest_sha256=\"256d6fbda63e19b514d60678fd83b236f31913b5b0a257a0241fd02662f08637\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_jpeg_s3",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_jpeg_s3.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s3.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__jpeg-s3",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "jpeg",
+        "--severity",
+        "3"
+      ]
+    },
+    {
+      "name": "eval_default_jpeg_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s3.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s3.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_jpeg_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s3\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"jpeg\",severity=3,expected_manifest_sha256=\"1bab6f1348582f37dd66fae4c85f94692d2a1182c13ac7eb7863079b2fe3c813\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_jpeg_s5",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_jpeg_s5.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s5.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__jpeg-s5",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "jpeg",
+        "--severity",
+        "5"
+      ]
+    },
+    {
+      "name": "eval_default_jpeg_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s5.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s5.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_jpeg_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__jpeg-s5\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"jpeg\",severity=5,expected_manifest_sha256=\"f732977ac9f4db2e1ff5dcdc657be60077627051c6ff6efccc1fbad88918e32c\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_motion_blur_s1",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_motion_blur_s1.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s1.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__motion_blur-s1",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "motion_blur",
+        "--severity",
+        "1"
+      ]
+    },
+    {
+      "name": "eval_default_motion_blur_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s1.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s1.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_motion_blur_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s1\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"motion_blur\",severity=1,expected_manifest_sha256=\"e4a0dd6a010ea4df1d37771ab812a3592838abd512f35fd9aeb8f5cadd6acc07\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_motion_blur_s3",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_motion_blur_s3.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s3.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__motion_blur-s3",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "motion_blur",
+        "--severity",
+        "3"
+      ]
+    },
+    {
+      "name": "eval_default_motion_blur_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s3.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s3.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_motion_blur_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s3\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"motion_blur\",severity=3,expected_manifest_sha256=\"611f4bda564e410f4789a27d3ccf85206291a8f10bdcd11e39f5501a787e45c4\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_default_motion_blur_s5",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_motion_blur_s5.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s5.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__default__motion_blur-s5",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "motion_blur",
+        "--severity",
+        "5"
+      ]
+    },
+    {
+      "name": "eval_default_motion_blur_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s5.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s5.metric.json"
+      ]
+    },
+    {
+      "name": "validate_default_motion_blur_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default__motion_blur-s5\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/default.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"motion_blur\",severity=5,expected_manifest_sha256=\"3e0f9f1c5dc35c07929795ad225a2a24cc2e108ecbc04d62770b356f26fd8ee2\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_clean_s0",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_codec_control_q95_p0_v1.json",
+        "--manifest-cache-root",
+        "data/codec_control/kitti",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__clean-s0.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__clean-s0.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__clean-s0.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__clean-s0",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "clean",
+        "--severity",
+        "0"
+      ]
+    },
+    {
+      "name": "eval_aligned_clean_s0",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__clean-s0.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__clean-s0.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__clean-s0.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__clean-s0.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_clean_s0",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__clean-s0\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"clean\",severity=0,expected_manifest_sha256=\"226b7b2a7be03fb0245561233194d84da6d670fba0e3dbc9268df8ef02f79489\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_fog_s1",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_fog_s1.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s1.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__fog-s1",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "fog",
+        "--severity",
+        "1"
+      ]
+    },
+    {
+      "name": "eval_aligned_fog_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s1.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s1.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_fog_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s1\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"fog\",severity=1,expected_manifest_sha256=\"7354d4113ddff5fbe2a32c689bf8a9f2bf988c6b33513bd3d8ae177652d6a0b8\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_fog_s3",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_fog_s3.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s3.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__fog-s3",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "fog",
+        "--severity",
+        "3"
+      ]
+    },
+    {
+      "name": "eval_aligned_fog_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s3.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s3.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_fog_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s3\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"fog\",severity=3,expected_manifest_sha256=\"ba36930f1bb7bf10f0fae7427375ecfc7df0881d807dd35973d7bf7d13727c6d\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_fog_s5",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_fog_s5.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s5.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__fog-s5",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "fog",
+        "--severity",
+        "5"
+      ]
+    },
+    {
+      "name": "eval_aligned_fog_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s5.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s5.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_fog_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__fog-s5\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"fog\",severity=5,expected_manifest_sha256=\"310fdb7163cf4fb5945623c8efba3b33d350e9e58a69b046137a3f6e408cb7d4\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_gaussian_noise_s1",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_gaussian_noise_s1.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s1.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__gaussian_noise-s1",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "gaussian_noise",
+        "--severity",
+        "1"
+      ]
+    },
+    {
+      "name": "eval_aligned_gaussian_noise_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s1.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s1.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_gaussian_noise_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s1\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"gaussian_noise\",severity=1,expected_manifest_sha256=\"65d36c9ba0edaf031e4fcbc62e7ef6f76dce850a9b8d0aebc313c12acdcef11a\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_gaussian_noise_s3",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_gaussian_noise_s3.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s3.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__gaussian_noise-s3",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "gaussian_noise",
+        "--severity",
+        "3"
+      ]
+    },
+    {
+      "name": "eval_aligned_gaussian_noise_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s3.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s3.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_gaussian_noise_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s3\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"gaussian_noise\",severity=3,expected_manifest_sha256=\"c196c339cb26f981efb3d055bc03546e4d5057df7ce678ff3b1c53042d2a5cbb\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_gaussian_noise_s5",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_gaussian_noise_s5.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s5.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__gaussian_noise-s5",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "gaussian_noise",
+        "--severity",
+        "5"
+      ]
+    },
+    {
+      "name": "eval_aligned_gaussian_noise_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s5.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s5.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_gaussian_noise_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__gaussian_noise-s5\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"gaussian_noise\",severity=5,expected_manifest_sha256=\"f5b853fed944a9e30ecd4392e253cf544f0496bb366120089442b340ab2ea987\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_jpeg_s1",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_jpeg_s1.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s1.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__jpeg-s1",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "jpeg",
+        "--severity",
+        "1"
+      ]
+    },
+    {
+      "name": "eval_aligned_jpeg_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s1.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s1.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_jpeg_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s1\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"jpeg\",severity=1,expected_manifest_sha256=\"256d6fbda63e19b514d60678fd83b236f31913b5b0a257a0241fd02662f08637\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_jpeg_s3",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_jpeg_s3.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s3.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__jpeg-s3",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "jpeg",
+        "--severity",
+        "3"
+      ]
+    },
+    {
+      "name": "eval_aligned_jpeg_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s3.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s3.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_jpeg_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s3\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"jpeg\",severity=3,expected_manifest_sha256=\"1bab6f1348582f37dd66fae4c85f94692d2a1182c13ac7eb7863079b2fe3c813\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_jpeg_s5",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_jpeg_s5.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s5.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__jpeg-s5",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "jpeg",
+        "--severity",
+        "5"
+      ]
+    },
+    {
+      "name": "eval_aligned_jpeg_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s5.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s5.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_jpeg_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__jpeg-s5\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"jpeg\",severity=5,expected_manifest_sha256=\"f732977ac9f4db2e1ff5dcdc657be60077627051c6ff6efccc1fbad88918e32c\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_motion_blur_s1",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_motion_blur_s1.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s1.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__motion_blur-s1",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "motion_blur",
+        "--severity",
+        "1"
+      ]
+    },
+    {
+      "name": "eval_aligned_motion_blur_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s1.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s1.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s1.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s1.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_motion_blur_s1",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s1\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"motion_blur\",severity=1,expected_manifest_sha256=\"e4a0dd6a010ea4df1d37771ab812a3592838abd512f35fd9aeb8f5cadd6acc07\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_motion_blur_s3",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_motion_blur_s3.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s3.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__motion_blur-s3",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "motion_blur",
+        "--severity",
+        "3"
+      ]
+    },
+    {
+      "name": "eval_aligned_motion_blur_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s3.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s3.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s3.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s3.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_motion_blur_s3",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s3\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"motion_blur\",severity=3,expected_manifest_sha256=\"611f4bda564e410f4789a27d3ccf85206291a8f10bdcd11e39f5501a787e45c4\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    },
+    {
+      "name": "infer_aligned_motion_blur_s5",
+      "gpu": true,
+      "argv": [
+        "python",
+        "-u",
+        "src/cross_family_infer_trt.py",
+        "--engine-registry",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--image-manifest",
+        "manifests/images/kitti_val_full_motion_blur_s5.json",
+        "--manifest-cache-root",
+        "data/kitti_c",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s5.run.json",
+        "--condition-id",
+        "controlled_retinanet_tf32off_v1_20260906__aligned__motion_blur-s5",
+        "--dataset",
+        "kitti",
+        "--split",
+        "val",
+        "--corruption",
+        "motion_blur",
+        "--severity",
+        "5"
+      ]
+    },
+    {
+      "name": "eval_aligned_motion_blur_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-u",
+        "src/coco_eval.py",
+        "--annotations",
+        "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+        "--predictions",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s5.predictions.json",
+        "--input-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s5.inputs.json",
+        "--run-record",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s5.run.json",
+        "--out",
+        "outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s5.metric.json"
+      ]
+    },
+    {
+      "name": "validate_aligned_motion_blur_s5",
+      "gpu": false,
+      "argv": [
+        "python",
+        "-c",
+        "import json; from pathlib import Path; from topic_c.shared_mask_pilot import EvidenceBundle,validate_bundle; r=Path(\"/home/thuan/topic_c_ivc\"); b=json.loads((r/\"configs/shared_mask_pilot_v3.json\").read_text())[\"blocks\"][-1]; p=r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned__motion_blur-s5\"; e=json.loads((r/\"outputs/controlled_build/controlled_retinanet_tf32off_v1_20260906/aligned.engine.json\").read_text()); v=validate_bundle(EvidenceBundle(*[Path(str(p)+s) for s in [\".predictions.json\",\".inputs.json\",\".run.json\",\".metric.json\"]]),root=r,block=b,precision=\"int8-entropy\",corruption=\"motion_blur\",severity=5,expected_manifest_sha256=\"3e0f9f1c5dc35c07929795ad225a2a24cc2e108ecbc04d62770b356f26fd8ee2\",expected_engine_sha256=e[\"engine_sha256\"]); assert v[\"input_image_ids_sha256\"]==\"47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474\"; print(\"BUNDLE VERIFIED\",v[\"n_detections\"],v[\"stats\"][\"AP\"])"
+      ]
+    }
+  ],
+  "launch_shell": "set -euo pipefail\ncd /home/thuan/topic_c_ivc\nsource /home/thuan/miniconda3/etc/profile.d/conda.sh\nconda activate qtsd\nexport PYTHONPATH=src OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMEXPR_NUM_THREADS=2 PYTHONUNBUFFERED=1\npython -u -c 'import json,subprocess,time,shutil\nfrom pathlib import Path\nfrom datetime import datetime\nfrom topic_c.manifest import sha256_file\nroot=Path(\"/home/thuan/topic_c_ivc\")\npath=root/\"configs/controlled_retinanet_tf32off_v1_20260906.json\"\nfrozen_config=sha256_file(path)\nplan=json.loads(path.read_text())\nout=root/\"outputs/controlled_build\"/plan[\"attempt\"]\nout.mkdir(parents=True,exist_ok=False)\ndef log(text):\n print(datetime.now().isoformat(timespec=\"seconds\"),text,flush=True)\ndef verify():\n assert sha256_file(path)==frozen_config,\"execution config changed\"\n bad=[p for p,h in plan[\"files\"].items() if not Path(p).is_file() or sha256_file(p)!=h]\n assert not bad,(\"frozen input changed\",bad)\ndef ready():\n mem=subprocess.check_output([\"nvidia-smi\",\"--query-gpu=memory.free\",\"--format=csv,noheader,nounits\"],text=True).strip().splitlines()\n rows=subprocess.check_output([\"nvidia-smi\",\"--query-compute-apps=pid,process_name\",\"--format=csv,noheader,nounits\"],text=True).strip().splitlines()\n busy=[r for r in rows if r.strip() and Path(r.split(\",\",1)[1].strip()).name!=\"sunshine\"]\n return len(mem)==1 and int(mem[0])>=12288 and not busy\ntry:\n log(\"QUEUE_START 3 builds; 27 inference/evaluation/validation bundles; no training\")\n verify()\n for step in plan[\"steps\"]:\n  if step[\"gpu\"]:\n   while not ready():\n    log(\"WAIT_GPU: requires idle compute GPU and 12288 MiB free\")\n    time.sleep(30)\n   assert shutil.disk_usage(root).free>=20*1024**3,\"less than 20 GiB disk free\"\n   verify()\n  log(\"START \"+step[\"name\"])\n  with (out/(step[\"name\"]+\".log\")).open(\"x\") as f:\n   subprocess.run(step[\"argv\"],cwd=root,stdout=f,stderr=subprocess.STDOUT,check=True)\n  log(\"DONE \"+step[\"name\"])\n log(\"QUEUE_COMPLETE: 3 engines and 27 validated metric bundles; paired analysis pending\")\nexcept BaseException as e:\n log(\"QUEUE_FAILED \"+repr(e))\n raise\n'\n"
+}

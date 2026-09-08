@@ -1,0 +1,102 @@
+{
+  "attempt": "cviu_v4_clean_control_v1",
+  "analysis_plan": "configs/cviu_v4_analysis_plan.md",
+  "n_boot": 2000,
+  "seed_mapping": {
+    "voc": 202609071,
+    "kitti": 202609072,
+    "tt100k": 202609073
+  },
+  "datasets": {
+    "voc": {
+      "n_images": 5823,
+      "imgsz": 640,
+      "annotation": "manifests/annotations/voc_confirmatory_final_v1_coco.json",
+      "class_map": "manifests/classes/voc_confirmatory_final_v1.json",
+      "original_manifest": "manifests/images/voc_confirmatory_final_clean_v1.json",
+      "original_root": "data/datasets/VOC"
+    },
+    "kitti": {
+      "n_images": 1197,
+      "imgsz": 640,
+      "annotation": "manifests/annotations/kitti_confirmatory_final_v1_coco.json",
+      "class_map": "manifests/classes/kitti_confirmatory_final_v1.json",
+      "original_manifest": "manifests/images/kitti_confirmatory_final_clean_v1.json",
+      "original_root": "data/datasets/kitti"
+    },
+    "tt100k": {
+      "n_images": 3067,
+      "imgsz": 1280,
+      "annotation": "manifests/annotations/tt100k_test_ultralytics_v1_coco.json",
+      "class_map": "manifests/classes/tt100k_test_ultralytics_v1.json",
+      "original_manifest": "manifests/images/tt100k_test_clean_ultralytics_v1.json",
+      "original_root": "data/datasets/TT100K"
+    }
+  },
+  "blocks": [
+    {
+      "dataset": "voc",
+      "model": "yolo11n",
+      "engine_registries": {
+        "int8-entropy": "manifests/engines/voc_kitti_confirmatory_v1/voc_yolo11n_int8-entropy.json",
+        "fp8": "manifests/engines/voc_kitti_confirmatory_v1/voc_yolo11n_fp8.json"
+      }
+    },
+    {
+      "dataset": "voc",
+      "model": "yolo11m",
+      "engine_registries": {
+        "int8-entropy": "manifests/engines/voc_kitti_confirmatory_v1/voc_yolo11m_int8-entropy.json",
+        "fp8": "manifests/engines/voc_kitti_confirmatory_v1/voc_yolo11m_fp8.json"
+      }
+    },
+    {
+      "dataset": "voc",
+      "model": "yolo11x",
+      "engine_registries": {
+        "int8-entropy": "manifests/engines/voc_kitti_confirmatory_v1/voc_yolo11x_int8-entropy.json",
+        "fp8": "manifests/engines/voc_kitti_confirmatory_v1/voc_yolo11x_fp8.json"
+      }
+    },
+    {
+      "dataset": "kitti",
+      "model": "yolo11n",
+      "engine_registries": {
+        "int8-entropy": "manifests/engines/voc_kitti_confirmatory_v1/kitti_yolo11n_int8-entropy.json",
+        "fp8": "manifests/engines/voc_kitti_confirmatory_v1/kitti_yolo11n_fp8.json"
+      }
+    },
+    {
+      "dataset": "kitti",
+      "model": "yolo11m",
+      "engine_registries": {
+        "int8-entropy": "manifests/engines/voc_kitti_confirmatory_v1/kitti_yolo11m_int8-entropy.json",
+        "fp8": "manifests/engines/voc_kitti_confirmatory_v1/kitti_yolo11m_fp8.json"
+      }
+    },
+    {
+      "dataset": "kitti",
+      "model": "yolo11x",
+      "engine_registries": {
+        "int8-entropy": "manifests/engines/voc_kitti_confirmatory_v1/kitti_yolo11x_int8-entropy.json",
+        "fp8": "manifests/engines/voc_kitti_confirmatory_v1/kitti_yolo11x_fp8.json"
+      }
+    },
+    {
+      "dataset": "tt100k",
+      "model": "yolo11n",
+      "engine_registries": {
+        "int8-entropy": "manifests/engines/tt100k_yolo11n_int8-entropy_v1.json",
+        "fp8": "manifests/engines/tt100k_yolo11n_fp8_v1.json"
+      }
+    },
+    {
+      "dataset": "tt100k",
+      "model": "yolo11x",
+      "engine_registries": {
+        "int8-entropy": "manifests/engines/tt100k_yolo11x_int8-entropy_v1.json",
+        "fp8": "manifests/engines/tt100k_yolo11x_fp8_v1.json"
+      }
+    }
+  ]
+}

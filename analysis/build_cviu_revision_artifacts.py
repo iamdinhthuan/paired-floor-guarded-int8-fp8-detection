@@ -375,12 +375,12 @@ def tt100k_combined_endpoint_guardrail_table(root: Path, out: Path) -> None:
 
     # Values were recomputed from the 72 hash-bound corrupted prediction
     # payloads plus the three retained JPEG-95 clean-arm caches by applying the
-    # exact combined original-height endpoints [0,24) and [48,infinity).  They
+    # exact combined original-height endpoints [0,24] and [48,infinity). They
     # must not be obtained by averaging the separately evaluated XS/S or L/XL AP.
     guardrail = {
-        ("int8-entropy", "small-like [0,24)"): (37.7415, 25.2526, 12.4889, 8, 9),
+        ("int8-entropy", "small-like [0,24]"): (37.7415, 25.2526, 12.4889, 8, 9),
         ("int8-entropy", r"large-like [48,$\infty$)"): (55.6112, 41.5734, 14.0378, 1, 2),
-        ("fp8", "small-like [0,24)"): (39.9199, 26.9140, 13.0058, 8, 9),
+        ("fp8", "small-like [0,24]"): (39.9199, 26.9140, 13.0058, 8, 9),
         ("fp8", r"large-like [48,$\infty$)"): (56.2881, 43.1112, 13.1769, 0, 2),
     }
     for clean_ap, corrupt_ap, loss, _, _ in guardrail.values():
@@ -388,8 +388,8 @@ def tt100k_combined_endpoint_guardrail_table(root: Path, out: Path) -> None:
         # in the last printed decimal even when the unrounded identity holds.
         if not math.isclose(clean_ap - corrupt_ap, loss, abs_tol=1.5e-4):
             raise RuntimeError("TT100K combined-endpoint loss identity failed")
-    small_from_guardrail = guardrail[("int8-entropy", "small-like [0,24)")][2] - guardrail[
-        ("fp8", "small-like [0,24)")
+    small_from_guardrail = guardrail[("int8-entropy", "small-like [0,24]")][2] - guardrail[
+        ("fp8", "small-like [0,24]")
     ][2]
     large_from_guardrail = guardrail[("int8-entropy", r"large-like [48,$\infty$)")][2] - guardrail[
         ("fp8", r"large-like [48,$\infty$)")
@@ -402,9 +402,9 @@ def tt100k_combined_endpoint_guardrail_table(root: Path, out: Path) -> None:
         raise RuntimeError("combined guardrail does not reproduce retained mean Delta Psi")
 
     row_order = (
-        ("int8-entropy", "small-like [0,24)"),
+        ("int8-entropy", "small-like [0,24]"),
         ("int8-entropy", r"large-like [48,$\infty$)"),
-        ("fp8", "small-like [0,24)"),
+        ("fp8", "small-like [0,24]"),
         ("fp8", r"large-like [48,$\infty$)"),
     )
     rows = []
@@ -656,7 +656,7 @@ def holdout_tables(root: Path, out: Path) -> None:
     )
 
 
-def realization_tables(root: Path, out: Path) -> None:
+def realization_tables(root: Path, out: Path, *, seed_only: bool = False) -> None:
     report = read_json(root / "outputs/reports/corruption_realization_analysis_v1.json")
     cells = report.get("realization_cells", [])
     conditions = report.get("conditions", [])
@@ -666,29 +666,50 @@ def realization_tables(root: Path, out: Path) -> None:
     by_seed: dict[int, list[dict[str, Any]]] = defaultdict(list)
     for row in cells:
         by_seed[int(row["realization_seed"])].append(row)
+    expected = {(dataset, corruption, severity)
+                for dataset in ("voc", "kitti", "tt100k")
+                for corruption in ("gaussian_noise", "motion_blur", "fog", "jpeg")
+                for severity in (1, 3, 5)}
+    if len(by_seed) != 3 or any(
+        len(rows) != 36 or {(r["dataset"], r["corruption"], r["severity"]) for r in rows} != expected
+        for rows in by_seed.values()
+    ):
+        raise RuntimeError("three complete unique realization-seed grids required")
+    if any(not math.isfinite(float(row[field])) for row in cells for field in ("delta_e", "delta_psi")):
+        raise RuntimeError("nonfinite realization endpoint")
     seed_rows = []
     delta_e_seed_means = []
-    delta_psi_seed_means = []
+    area_seed_means = []
+    height_seed_means = []
     for seed in sorted(by_seed):
         rows = by_seed[seed]
         de = 100.0 * statistics.fmean(float(row["delta_e"]) for row in rows)
-        dp = 100.0 * statistics.fmean(float(row["delta_psi"]) for row in rows)
+        area = 100.0 * statistics.fmean(float(row["delta_psi"]) for row in rows
+                                       if row["dataset"] in ("voc", "kitti"))
+        height = 100.0 * statistics.fmean(float(row["delta_psi"]) for row in rows
+                                         if row["dataset"] == "tt100k")
         delta_e_seed_means.append(de)
-        delta_psi_seed_means.append(dp)
-        seed_rows.append([str(seed), str(len(rows)), fmt(de), fmt(dp)])
+        area_seed_means.append(area)
+        height_seed_means.append(height)
+        seed_rows.append([str(seed), str(len(rows)), fmt(de), fmt(area), fmt(height)])
     seed_rows.append(
         [
             "Across-seed summary",
             "108",
             f"{fmt(statistics.fmean(delta_e_seed_means))}; SD {statistics.stdev(delta_e_seed_means):.2f}",
-            f"{fmt(statistics.fmean(delta_psi_seed_means))}; SD {statistics.stdev(delta_psi_seed_means):.2f}",
+            f"{fmt(statistics.fmean(area_seed_means))}; SD {statistics.stdev(area_seed_means):.2f}",
+            f"{fmt(statistics.fmean(height_seed_means))}; SD {statistics.stdev(height_seed_means):.2f}",
         ]
     )
     write_text(
         out / "corruption_realization_seed_summary.tex",
         "% Generated by analysis/build_cviu_revision_artifacts.py.\n"
-        + tex_table(["Realization seed", "Cells", r"Mean $\Delta E$ (AP)", r"Mean $\Delta\Psi$ (AP)"], seed_rows, "lrrr"),
+        + "% Area: 24 VOC/KITTI cells per seed; height: 12 TT100K cells per seed. Endpoints never pooled.\n"
+        + tex_table(["Realization seed", "Cells", r"Mean $\Delta E$ (AP)",
+                     r"Area $\Delta\Psi$ (AP)", r"Height $\Delta\Psi$ (AP)"], seed_rows, "lrrrr"),
     )
+    if seed_only:
+        return
 
     by_corruption: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in conditions:
