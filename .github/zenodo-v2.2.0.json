@@ -1,0 +1,133 @@
+{
+  "repository": "iamdinhthuan/paired-floor-guarded-int8-fp8-detection",
+  "release_commit": "c9899eace4725f9f7fc41af4afda58698235ad07",
+  "staging_release_id": 385228196,
+  "deposition_id": 22664869,
+  "doi": "10.5281/zenodo.22664869",
+  "version": "2.2.0",
+  "conceptrecid": "22031663",
+  "metadata": {
+    "title": "A Paired Evaluation of Clean Accuracy and Corruption Sensitivity in Quantized Object Detection: Reproducibility Package",
+    "publication_date": "2026-09-09",
+    "description": "<p>Research software and evidence for <em>A Paired Evaluation of Clean Accuracy and Corruption Sensitivity in Quantized Object Detection</em>, prepared for Computer Vision and Image Understanding.</p><p>Version 2.2.0 includes the revised 13-page main manuscript and 19-page supplement, compact Overleaf/flat sources, controlled clean-input results, recovered holdout paired intervals, full-grid TT100K fixed-universe sensitivity, covariance and recipe-portability audits, and one complete KITTI final prediction-level AP/bootstrap example. It does not provide complete historical training or detector-inference regeneration.</p><p>Original software is MIT licensed. Third-party exceptions apply: KITTI-derived annotations remain under Creative Commons Attribution-NonCommercial-ShareAlike 3.0, and Elsevier CAS files retain their original terms. See the accompanying evidence README for attribution, transformations and exact licensing scope. No images, trained checkpoints, TensorRT engines or credentials are distributed.</p><p>The six human authors retain responsibility; AI tools are not creators or contributors.</p>",
+    "access_right": "open",
+    "creators": [
+      {
+        "name": "Nguyen, Dinh Thuan",
+        "affiliation": "Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam",
+        "orcid": "0009-0008-6467-203X"
+      },
+      {
+        "name": "Nguyen, Lam Phuong",
+        "affiliation": "Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam",
+        "orcid": "0009-0007-3439-5871"
+      },
+      {
+        "name": "Nguyen, Vinh Huy",
+        "affiliation": "Center of Visualization and Simulation, Duy Tan University, Da Nang, Vietnam",
+        "orcid": "0009-0006-0878-9714"
+      },
+      {
+        "name": "Quang, Sy Vu",
+        "affiliation": "Advanced Intelligent Technology Research Group, Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam"
+      },
+      {
+        "name": "Elara, Mohan Rajesh",
+        "affiliation": "ROAR Lab, Engineering Product Development, Singapore University of Technology and Design, Singapore",
+        "orcid": "0000-0001-6504-1530"
+      },
+      {
+        "name": "Le, Anh Vu",
+        "affiliation": "Advanced Intelligent Technology Research Group, Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam",
+        "orcid": "0000-0002-4804-7540"
+      }
+    ],
+    "keywords": [
+      "object detection",
+      "robustness evaluation",
+      "post-training quantization",
+      "image corruption",
+      "paired evaluation",
+      "INT8",
+      "FP8"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v2.2.0",
+        "relation": "isSupplementTo",
+        "resource_type": "software",
+        "scheme": "url"
+      }
+    ],
+    "version": "2.2.0",
+    "license": "mit-license",
+    "imprint_publisher": "Zenodo",
+    "upload_type": "software",
+    "prereserve_doi": {
+      "doi": "10.5281/zenodo.22664869",
+      "recid": 22664869
+    }
+  },
+  "files": {
+    "Source_Code_v2.2.0.zip": {
+      "asset_id": 551989696,
+      "bytes": 9911327,
+      "sha256": "bc5268d5b33be70013429c4b4e7f4e68f1faa5598756b8fe8854ffd4132ad4c0",
+      "md5": "b7106627dec966b9c9a0e23ab66a5035"
+    },
+    "01_CVIU_main_revised.pdf": {
+      "asset_id": 551989691,
+      "bytes": 480366,
+      "sha256": "56b3e4c279df2d7743999a588ba5cadbd6f65cc31077a9f9b39378295f06e41b",
+      "md5": "f6c70d6c705c721ff7408af8f74fcdb6"
+    },
+    "02_CVIU_supplement_revised.pdf": {
+      "asset_id": 551989695,
+      "bytes": 396687,
+      "sha256": "4deed38366fe387927b41422d5b2c40382aea6bf1c2497d266b7180fe806da77",
+      "md5": "b6bd939a0a21f0a056d0870ff47ba6fc"
+    },
+    "03_highlights_CVIU.txt": {
+      "asset_id": 551989720,
+      "bytes": 372,
+      "sha256": "0ad3cd8f61569e7b0b3d0ee62d575b6f2d0e2d7160c9bc622d6c62e5e29c6155",
+      "md5": "0a0b543c79dc913fe2b3ec060c2d0d8e"
+    },
+    "04_graphical_abstract_CVIU.pdf": {
+      "asset_id": 551989728,
+      "bytes": 73242,
+      "sha256": "ee6fc49cb6b359f2a7b32d5e166dd99efc88c874edf18f37dda089e2b89411fa",
+      "md5": "8271356e7067f7d41f152cc112df1f51"
+    },
+    "06_Overleaf_Source_CVIU.zip": {
+      "asset_id": 551989739,
+      "bytes": 327276,
+      "sha256": "97d01212bd05504bfbcb46f1209bd9b42f2eadff62fc97e235850518e96d877a",
+      "md5": "d1cf39ffdb4ef4056889b6dcfe528621"
+    },
+    "07_Elsevier_Flat_Source_CVIU.zip": {
+      "asset_id": 551989748,
+      "bytes": 326507,
+      "sha256": "a8d519c59859b9d73585e10285aaf47be420354f89c4eda2244c9bed67d99601",
+      "md5": "071ace76569ad8b2eda54c64c73320e6"
+    },
+    "CVIU_Reviewer_Evidence.zip": {
+      "asset_id": 551994945,
+      "bytes": 117367503,
+      "sha256": "5d9536e4e38c5f8b5a7fd52ce5261a711673ec636ae75167fda0f090a858eade",
+      "md5": "5a1283c75c1ca4c5649e03ee49c54a74"
+    },
+    "REVIEWER_EVIDENCE_README.md": {
+      "asset_id": 551989765,
+      "bytes": 5519,
+      "sha256": "8b230792ccc6a1a2ba6b2b595f03e2131814b47ece30cdc2eef3fc22e91b7e4e",
+      "md5": "61ab0de067e490e3c1e35371dc08c031"
+    },
+    "RELEASE_SHA256SUMS.txt": {
+      "asset_id": 551989767,
+      "bytes": 843,
+      "sha256": "6fb6111e5dab0da84d1e7e4747ac372e2051f42e355b5b021817848fdb027eac",
+      "md5": "e9bacc7a4e2f33d299bc32741a8e6bce"
+    }
+  }
+}

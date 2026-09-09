@@ -2,6 +2,18 @@ name: Zenodo publication
 
 on:
   workflow_dispatch:
+    inputs:
+      operation:
+        description: Credential-free probe or resume the approved existing deposit
+        type: choice
+        options:
+          - probe
+          - publish
+        default: probe
+      attempts:
+        description: Maximum publication attempts (1–12, five-minute backoff)
+        default: '6'
+        type: string
 
 permissions:
   contents: read
@@ -12,6 +24,7 @@ concurrency:
 
 jobs:
   connectivity:
+    if: inputs.operation != 'publish'
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
@@ -26,3 +39,33 @@ jobs:
           assert str(record['id']) == '22275640'
           print('Zenodo public API reachable; prior record verified.')
           PY
+
+  publish:
+    if: inputs.operation == 'publish' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install publication client dependency (before exposing Zenodo secret)
+        run: python3 -m pip install requests==2.32.5
+      - name: Download the frozen transfer assets and verify all SHA-256 checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python3 scripts/publish_zenodo_archive.py
+          --plan .github/zenodo-v2.2.0.json
+          --download-only
+      - name: Resume, verify all ten files, and publish existing Zenodo draft
+        env:
+          ZENODO_PUBLICATION_TOKEN: ${{ secrets.ZENODO_PUBLICATION_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          ATTEMPTS: ${{ inputs.attempts }}
+          PYTHONUNBUFFERED: '1'
+        run: >-
+          python3 scripts/publish_zenodo_archive.py
+          --plan .github/zenodo-v2.2.0.json
+          --attempts "$ATTEMPTS"
+          --retry-delay 300
+          --publish
