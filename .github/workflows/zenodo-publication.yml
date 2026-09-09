@@ -1,0 +1,28 @@
+name: Zenodo publication
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zenodo-22664869
+  cancel-in-progress: false
+
+jobs:
+  connectivity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check Zenodo from a GitHub-hosted runner (no credentials)
+        run: |
+          python3 - <<'PY'
+          import json
+          import urllib.request
+          url = 'https://zenodo.org/api/records/22275640'
+          with urllib.request.urlopen(url, timeout=45) as response:
+              record = json.load(response)
+          assert str(record['id']) == '22275640'
+          print('Zenodo public API reachable; prior record verified.')
+          PY
