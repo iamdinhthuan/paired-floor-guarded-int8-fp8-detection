@@ -42,6 +42,10 @@ jobs:
 
   publish:
     if: inputs.operation == 'publish' && github.ref == 'refs/heads/main'
+    # GitHub restricts unpublished release assets to callers with push access.
+    # The client only GETs assets; it never publishes/edits the GitHub release.
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:

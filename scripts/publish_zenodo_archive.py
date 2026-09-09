@@ -45,7 +45,7 @@ def request(method, url, token=None, host='zenodo.org', **kwargs):
     if response.status_code == 429 or response.status_code >= 500:
         raise TransientError('HTTP ' + str(response.status_code))
     require(response.ok or response.status_code in (302, 307),
-            'API rejected request: HTTP ' + str(response.status_code))
+            'API rejected request: HTTP ' + str(response.status_code) + ' at ' + parsed.path)
     return response
 
 

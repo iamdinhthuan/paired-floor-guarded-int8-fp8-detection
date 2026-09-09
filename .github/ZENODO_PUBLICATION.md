@@ -19,7 +19,11 @@ Changed metadata, unexpected files, and checksum mismatches stop immediately
 without deleting or overwriting them. Concurrent runs are serialized.
 
 `ZENODO_PUBLICATION_TOKEN` is a repository Actions secret. The GitHub token is
-the short-lived workflow token. Tokens are not stored in files, artifacts,
+the short-lived workflow token. The publication job grants it `contents: write`
+because GitHub restricts unpublished release assets to callers with push
+access; the client only reads those assets and never writes GitHub releases.
+The credential-free probe retains `contents: read`.
+Tokens are not stored in files, artifacts,
 commits, or command-line arguments. The Zenodo secret is exposed only to the
 publication step, not dependency installation or third-party actions. Revoke
 or remove the repository secret after publication if it is no longer needed.
