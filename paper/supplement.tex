@@ -65,8 +65,10 @@ $\Jclean$ denotes the codec-matched clean control: the $\Jclean$ clean control
 and every corrupted input are terminally encoded as JPEG quality 95 with
 chroma subsampling disabled, so the clean control and the corrupted inputs
 differ only in the named corruption transform, not in container encoding; the
-separate original-clean cell keeps the dataset-native bytes and is used only
-to check control fidelity. $\Delta E > 0$ means the A-minus-B gap widens under
+separate original-clean cell keeps the dataset-native bytes; it checks
+control fidelity and anchors the clean-accuracy comparisons behind the
+RetinaNet collapse and recovery claims, while the paired interaction uses
+the $\Jclean$ basis. $\Delta E > 0$ means the A-minus-B gap widens under
 corruption; $\Delta E < 0$ means it narrows. A narrowing gap near a shared
 accuracy floor is not read as robustness: absolute corrupted AP is reported
 alongside every interaction (main text, \S4.1--\S4.3).
@@ -74,8 +76,8 @@ alongside every interaction (main text, \S4.1--\S4.3).
 \section{Frozen condition schedule}
 
 Each dataset$\times$model block evaluates 14 conditions on identical image
-ordering for quantized arms (13 for FP32 and INT8-legacy arms that predate
-codec control):
+ordering for quantized arms (13 for the RetinaNet FP32 and INT8-legacy arms
+that predate codec control):
 
 \begin{itemize}
   \item clean (original bytes) and $\Jclean$ (JPEG-95 clean control);
@@ -255,7 +257,8 @@ main text's no-multiplicity caveat.
 \texttt{5f2d122ae0a52d5f\ldots} (full hashes in the archive manifest).\par}
 Freeze timing is established by local-file evidence rather than an external
 registry: the versioned configuration files' modification times and the
-\texttt{created\_at\_utc} fields in the calibration and engine manifests
+\texttt{created\_at\_utc} fields in the calibration and quantized-ONNX
+manifests
 place the configurations before their arms' first inference (run manifests
 carry no timestamp field, and the git history records joint archival of
 configs and outcomes, not pre-inference ordering). The fold-1
@@ -317,9 +320,11 @@ transparency: corrupted and codec-control cells bind each run to a
 content-addressed input manifest covering the encoded bytes, whereas the
 original-clean cells bind the frozen dataset split through its annotation
 SHA-256 (\texttt{clean-root:<hash>}). Per-image clean manifests exist in
-the archive (e.g.\ \texttt{kitti\_val\_clean\_ultralytics\_v1}) but are not
-bound into the clean run records, so clean-image byte identity is recovered
-through the frozen split manifest rather than the run's own hash field.
+the archive (e.g.\ \texttt{kitti\_val\_clean\_ultralytics\_v1}) and establish
+the reference bytes of each frozen split, but they are not bound into the
+clean run records; the runs therefore do not carry an execution-time
+byte-level binding for the clean inputs, only the annotation-level
+identifier.
 
 \section{Minimum reporting checklist for paired corruption studies}
 
