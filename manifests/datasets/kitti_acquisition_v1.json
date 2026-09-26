@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "dataset": "kitti",
+  "acquired_at_utc": "2026-08-06T17:28:18.458140+00:00",
+  "project_root": "/home/thuan/topic_c_ivc",
+  "dataset_root": "/home/thuan/topic_c_ivc/data/datasets/kitti",
+  "upstream_yaml": "/home/thuan/miniconda3/envs/qtsd/lib/python3.11/site-packages/ultralytics/cfg/datasets/kitti.yaml",
+  "upstream_yaml_sha256": "3d1c8317a6e47c6dd7e1a62fe8f4d44d218788252c5400368bd8bc28ef4e1252",
+  "vendored_yaml": "/home/thuan/topic_c_ivc/configs/datasets/kitti_ultralytics_v1.yaml",
+  "vendored_yaml_sha256": "0c52e669d39eb0f9cd5596df037a3275606046417cb20d56624a5cc68851a7b0",
+  "ultralytics_version": "8.4.95",
+  "class_names": {
+    "0": "car",
+    "1": "van",
+    "2": "truck",
+    "3": "pedestrian",
+    "4": "person_sitting",
+    "5": "cyclist",
+    "6": "tram",
+    "7": "misc"
+  },
+  "splits": {
+    "train": {
+      "images": 5985,
+      "file_list_sha256": "6532c269ae0f40f7ae328a6f204f6b164fc8fd51d03eb023855acc0217946c53"
+    },
+    "val": {
+      "images": 1496,
+      "file_list_sha256": "d982942067731578efc173197fd7c1f5f0a31836bd87a1e2672037de10e7bdf7"
+    }
+  },
+  "all_labeled_files_sha256": "0aa2698787e60adeee2d2b0764a9d4b584acc0498a28b56006337c50b858fa20"
+}

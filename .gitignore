@@ -7,6 +7,7 @@ data/coco_c/
 data/tt100k_c/
 engines/
 outputs/
+!outputs/metrics/
 artifacts/
 
 # Local LaTeX build products and upload bundles

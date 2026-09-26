@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-17T09:15:31.522055+00:00",
+  "dataset": "voc",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "fp8",
+  "source_onnx_registry_sha256": "b44e47de76d59313c4f88b210b07abe9f3b24223c8714829349e73b979b89991",
+  "source_onnx_sha256": "513380d10c73bbdd0909626c62784cfab7b3718b91df95bae3c4716e02f05d82",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/voc_retinanet_r50_fpn_v2_fp8.onnx",
+  "output_onnx_sha256": "51364952c37289309590d12a7775842be5f74f0b92251b68548247387c15a6af",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "ea97698729ac9982292d66d6bc127be8db393cdb713b8f0546e04bf055318a29",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "fp8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "anchors"
+  ],
+  "decoder": "torchvision_retinanet_raw_v1",
+  "num_classes_excluding_background": 20,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "manifests/onnx/cross_family_v1/voc_retinanet_r50_fpn_v2_fp32.json",
+    "--mode",
+    "fp8",
+    "--imgsz",
+    "640",
+    "--calibration-list",
+    "manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+    "--out",
+    "outputs/onnx/cross_family_v1/voc_retinanet_r50_fpn_v2_fp8.onnx",
+    "--registry-out",
+    "manifests/onnx/cross_family_v1/voc_retinanet_r50_fpn_v2_fp8.json"
+  ],
+  "registry_sha256": "02e70e7567a36629592282ee3e9db9996aba178241db1f0596892117599d5543"
+}

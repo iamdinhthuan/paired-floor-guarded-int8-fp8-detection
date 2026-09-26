@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "dataset": "voc",
+  "acquired_at_utc": "2026-08-06T17:25:53.060570+00:00",
+  "project_root": "/home/thuan/topic_c_ivc",
+  "dataset_root": "/home/thuan/topic_c_ivc/data/datasets/VOC",
+  "upstream_yaml": "/home/thuan/miniconda3/envs/qtsd/lib/python3.11/site-packages/ultralytics/cfg/datasets/VOC.yaml",
+  "upstream_yaml_sha256": "ab7727c6ffa21aa89b8a8550d149299a5f044ae9b8700649ddf08c577ceacde7",
+  "vendored_yaml": "/home/thuan/topic_c_ivc/configs/datasets/voc_ultralytics_v1.yaml",
+  "vendored_yaml_sha256": "9d75ee5f774a7b56eb462f8f0e20194a6a2bd88f9f1f06bdb8c48839abf1467c",
+  "ultralytics_version": "8.4.95",
+  "class_names": {
+    "0": "aeroplane",
+    "1": "bicycle",
+    "2": "bird",
+    "3": "boat",
+    "4": "bottle",
+    "5": "bus",
+    "6": "car",
+    "7": "cat",
+    "8": "chair",
+    "9": "cow",
+    "10": "diningtable",
+    "11": "dog",
+    "12": "horse",
+    "13": "motorbike",
+    "14": "person",
+    "15": "pottedplant",
+    "16": "sheep",
+    "17": "sofa",
+    "18": "train",
+    "19": "tvmonitor"
+  },
+  "splits": {
+    "train": {
+      "images": 16551,
+      "file_list_sha256": "0882b9fd139d9ab626b468efadd60fc4607b1ab6e842f9144f33405851288ae8"
+    },
+    "val": {
+      "images": 4952,
+      "file_list_sha256": "6b58088d234e0bc531036d3668f12bdaa7cd1577e1448139d070490e606db073"
+    }
+  },
+  "all_labeled_files_sha256": "d7674fb44574d2f4eb27d8c5f071feea8188159f26d1f8abbc590e972fcbd735"
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "condition_id": "tt100k__clean__yolo11m__int8-entropy__clean-s0",
+  "dataset": "tt100k",
+  "split": "test",
+  "model": "yolo11m",
+  "precision": "int8-entropy",
+  "calibrator": "entropy",
+  "calibration_list_path": "/home/thuan/topic_c_ivc/manifests/calibration/tt100k_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "c303eac8bc9a66c2e0592cddea8933a8aee8dd53c5527cb1e3d606efa7dbca9c",
+  "calibration_method": "entropy",
+  "calibration_provenance": "verified",
+  "corruption": "clean",
+  "severity": 0,
+  "engine_path": "/home/thuan/topic_c_ivc/outputs/engines/ivc_multiseed_yolo11m_s5_v1/tt100k__yolo11m__ts20260807__cs20260807__int8-entropy.plan",
+  "engine_sha256": "6f583aed2f4fff29fb50850b7fa01aa065ac02929d7fc93e3d80007f3d53657c",
+  "runner_sha256": "78c9d445915bd4e4474ecc643f60e169d04fd86edff114fca9b24f54c9f9ad5b",
+  "preprocess_sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+  "decoder_sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c",
+  "class_map_path": "/home/thuan/topic_c_ivc/manifests/classes/corruption_realization_v1/tt100k_subset512.json",
+  "class_map_sha256": "b1bfbe988cbc3d32b9a562988e4f791b7705e0fa925d2e4d4ca018bd3563551e",
+  "annotation_sha256": "efa56e1cbbf01e9f3404bac291d1b39ce243aa9b4a2f6e4a6ac9d9629363c1d9",
+  "input_manifest_sha256": "1196298e44793f40a92bbaf34d52b6309af959877eff6020794059b76e104a38",
+  "input_image_ids_sha256": "158132b9160d68411b8109c346d54acca4a495c3510aad2b885738fc71b6c1af",
+  "prediction_sha256": "6437cd1c2af9adb2da8dd9ca289c0124085c9d6c79c9c60dd0714bcb1e9d911f",
+  "n_images": 512,
+  "n_detections": 2558,
+  "runtime_seconds": 14.67420506477356,
+  "runtime_environment": {
+    "python_executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "python_version": "3.11.15",
+    "tensorrt_version": "11.1.0.106",
+    "gpu": [
+      "NVIDIA GeForce RTX 5090, 610.43.02, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb"
+    ]
+  },
+  "command": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py --engine /home/thuan/topic_c_ivc/outputs/engines/ivc_multiseed_yolo11m_s5_v1/tt100k__yolo11m__ts20260807__cs20260807__int8-entropy.plan --annotations /home/thuan/topic_c_ivc/manifests/annotations/corruption_realization_v1/tt100k_subset512.json --image-manifest /home/thuan/topic_c_ivc/manifests/images/corruption_realization_v1/tt100k_subset512_clean.json --manifest-cache-root /home/thuan/topic_c_ivc/data/datasets/TT100K --out /home/thuan/topic_c_ivc/outputs/predictions/corruption_realization_v1/tt100k__clean__yolo11m__int8-entropy__clean-s0.json --input-record /home/thuan/topic_c_ivc/outputs/inputs/corruption_realization_v1/tt100k__clean__yolo11m__int8-entropy__clean-s0.json --run-record /home/thuan/topic_c_ivc/manifests/runs/corruption_realization_v1/tt100k__clean__yolo11m__int8-entropy__clean-s0.json --condition-id tt100k__clean__yolo11m__int8-entropy__clean-s0 --dataset tt100k --split test --model yolo11m --precision int8-entropy --calibrator entropy --calibration-list /home/thuan/topic_c_ivc/manifests/calibration/tt100k_train_clean_512_s20260807_v1.json --calibration-method entropy --calibration-provenance verified --corruption clean --severity 0 --class-map /home/thuan/topic_c_ivc/manifests/classes/corruption_realization_v1/tt100k_subset512.json --imgsz 1280"
+}

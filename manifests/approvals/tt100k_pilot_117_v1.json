@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "approved_at_utc": "2026-08-09T06:22:04.849933+00:00",
+  "reviewed_by": "project-owner-explicit-pilot-approval-in-active-session",
+  "plan_sha256": "740a1024480d3cd52e5afa6cc2b2f6d31976882e0f9195826a2ac9528b963993",
+  "attempt": "tt100k_pilot_117_v1",
+  "runs": 117
+}

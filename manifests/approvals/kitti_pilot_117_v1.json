@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "approved_at_utc": "2026-08-09T06:03:13.432100+00:00",
+  "reviewed_by": "project-owner-explicit-pilot-approval-in-active-session",
+  "plan_sha256": "2ce77eed2fe52ef5affc5807c776643449ad1521bc3b865213970050e1a6f6a6",
+  "attempt": "kitti_pilot_117_v1",
+  "runs": 117
+}

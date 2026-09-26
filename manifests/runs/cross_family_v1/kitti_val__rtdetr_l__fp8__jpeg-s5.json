@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__rtdetr_l__fp8__jpeg-s5",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "fp8",
+  "decoder": "ultralytics_rtdetr_raw_v1",
+  "decoder_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "engine_registry": "/home/thuan/topic_c_ivc/manifests/engines/cross_family_v1/kitti_rtdetr_l_fp8.json",
+  "engine_registry_sha256": "dfb9a18e3e88b06aef374ea5f856208583ff2d2f08abf7ebe7d67c3d6ad70225",
+  "engine_sha256": "f11831029b80041c57cab4988cdb096600b5596d8229e8bc166549158aea6489",
+  "corruption": "jpeg",
+  "severity": 5,
+  "annotation_sha256": "79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "confidence": 0.001,
+  "input_manifest_sha256": "f732977ac9f4db2e1ff5dcdc657be60077627051c6ff6efccc1fbad88918e32c",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "prediction_sha256": "ac517f790e8f1b23fa2d249767c404662379afae27589b7f95b5a4bbb3a63d0f",
+  "n_images": 1496,
+  "n_detections": 408439,
+  "runtime_seconds": 9.552895307540894
+}

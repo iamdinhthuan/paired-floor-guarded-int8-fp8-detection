@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-18T18:09:21.660973+00:00",
+  "dataset": "kitti",
+  "model": "yolo11x",
+  "precision": "fp8",
+  "source_onnx_registry_sha256": "d6b83e76d59f5ba2055a88aaf57920bc1710f3e3467657c9c204a8b056803059",
+  "source_onnx_sha256": "99d0381c0490378935b0df79e4df5d1f4a4e22718173861e625d2e172939526a",
+  "output_onnx": "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/kitti/yolo11x/fp8.onnx",
+  "output_onnx_sha256": "d0398dba187b22fde12faeb763f8618bdc7723647b34de6a0d6fda41c0fe24a1",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_confirmatory_train_512_s20260818_v1.json",
+  "calibration_sha256": "e6a689efd166e8df6a3673f906da1935775a61da07200d6de673cd59500412ad",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "fp8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "op_types_to_quantize": null,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "output0"
+  ],
+  "decoder": null,
+  "num_classes_excluding_background": null,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "/home/thuan/topic_c_ivc/src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "/home/thuan/topic_c_ivc/manifests/onnx/voc_kitti_confirmatory_v1/kitti_yolo11x_fp32.json",
+    "--mode",
+    "fp8",
+    "--imgsz",
+    "640",
+    "--out",
+    "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/kitti/yolo11x/fp8.onnx",
+    "--registry-out",
+    "/home/thuan/topic_c_ivc/manifests/onnx/voc_kitti_confirmatory_v1/kitti_yolo11x_fp8.json",
+    "--calibration-list",
+    "/home/thuan/topic_c_ivc/manifests/calibration/kitti_confirmatory_train_512_s20260818_v1.json"
+  ],
+  "registry_sha256": "6fb78abbafaa5e2a5f5680869968ab7468b04b1a9ee5922dc0875252fec69362"
+}

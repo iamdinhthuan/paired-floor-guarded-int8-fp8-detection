@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-18T16:59:07.933382+00:00",
+  "dataset": "kitti",
+  "model": "yolo11n",
+  "training_registry_sha256": "0c1f26b3e00d8904ed287ac242bb85e0a465396bcf7e997141f8f5db3e97599b",
+  "source_checkpoint": "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/kitti/yolo11n/fp32.pt",
+  "source_checkpoint_sha256": "f4fb45761e9ce108dc3e7815669589279679f5eff3bb3961115892cf8ca12843",
+  "onnx": "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/kitti/yolo11n/fp32.onnx",
+  "onnx_sha256": "cbab0d534f978500b7afd2826d7a73c7856a0a93038cce3d403ec9dedb8eb5c4",
+  "imgsz": 640,
+  "opset": 19,
+  "dynamic": false,
+  "nms_embedded": false,
+  "half": false,
+  "input_name": "images",
+  "output_name": "output0",
+  "ultralytics_version": "8.4.95"
+}

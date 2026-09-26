@@ -87,7 +87,8 @@ codec control):
 
 {\sloppy Corruption parameters and the JPEG-95 terminal encoding are frozen in
 versioned configuration \texttt{corruptions.json}, whose SHA-256 is recorded
-as \texttt{generator\_config\_sha256} in every calibration manifest; the
+as \texttt{generator\_config\_sha256} in the corruption-aware and codec-control
+calibration manifests; the
 frozen protocol file \texttt{nn\_paired\_protocol\_v1\_20260924} fixes the
 condition list and evaluation contract on top of that generator. The same
 transform code produces both the evaluation caches and the
@@ -303,8 +304,11 @@ Manuscript tables and figures are generated deterministically from frozen
 ledgers by \texttt{analysis/build\_nn\_tables.py}. Engine registries,
 calibration manifests (including the corrupt-calibration cell-assignment
 schedule), input manifests, prediction manifests, metric records, and paired-bootstrap
-draw caches are SHA-256 hash-bound and retained in the versioned research
-archive (concept DOI \url{https://doi.org/10.5281/zenodo.22031663}). Raw
+draw caches are SHA-256 hash-bound and retained in the accompanying
+compact-evidence package, deposited in the versioned research archive
+under the concept DOI \url{https://doi.org/10.5281/zenodo.22031663}
+(currently resolving to the prior release v2.1.0; the Neural Networks
+release mints on publication). Raw
 benchmark datasets, trained checkpoints, built TensorRT engines, and raw
 predictions are not redistributed; their provenance and regeneration path is
 documented in the archive.

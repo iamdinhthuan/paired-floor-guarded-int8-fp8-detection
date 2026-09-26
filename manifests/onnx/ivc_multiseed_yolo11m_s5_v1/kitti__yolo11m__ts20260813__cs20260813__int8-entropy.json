@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-13T18:21:18.128213+00:00",
+  "dataset": "kitti",
+  "model": "yolo11m",
+  "precision": "int8-entropy",
+  "source_onnx_registry_sha256": "709be8c229ea17242998a1ce760784d50caac0a20a5706d50fd9d4c8aa98c2e9",
+  "source_onnx_sha256": "c513dddc4cfdcaa31d1b04884298c7b32cf29b518fc3366e425ca61c38082f70",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/onnx/ivc_multiseed_yolo11m_s5_v1/kitti__yolo11m__ts20260813__cs20260813__int8-entropy.onnx",
+  "output_onnx_sha256": "36e9f54709b19d97d39edfcdaf6dcf222d8dabc75d91889fbcd54ee94b84a817",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260813_ivc_multiseed_yolo11m_s5_v1.json",
+  "calibration_sha256": "24931c80673553a297a321cc80865ef33b3f765c8fc596cb7d78d9b2d859a4cf",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "int8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "/home/thuan/topic_c_ivc/src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "/home/thuan/topic_c_ivc/manifests/onnx/ivc_multiseed_yolo11m_s5_v1/kitti__yolo11m__ts20260813__fp32.json",
+    "--mode",
+    "int8-entropy",
+    "--imgsz",
+    "640",
+    "--calibration-list",
+    "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260813_ivc_multiseed_yolo11m_s5_v1.json",
+    "--out",
+    "/home/thuan/topic_c_ivc/outputs/onnx/ivc_multiseed_yolo11m_s5_v1/kitti__yolo11m__ts20260813__cs20260813__int8-entropy.onnx",
+    "--registry-out",
+    "/home/thuan/topic_c_ivc/manifests/onnx/ivc_multiseed_yolo11m_s5_v1/kitti__yolo11m__ts20260813__cs20260813__int8-entropy.json"
+  ],
+  "registry_sha256": "ee0f43a248b8fe0b4b8850622cd4d9ccc3f9d08c0a0915a014ffd1714dfeb2d3"
+}

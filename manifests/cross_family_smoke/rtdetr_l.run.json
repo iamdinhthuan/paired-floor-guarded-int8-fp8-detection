@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "condition_id": "smoke_voc_rtdetr_l_fp32",
+  "dataset": "voc",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "fp32",
+  "decoder": "ultralytics_rtdetr_raw_v1",
+  "decoder_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "engine_registry": "/home/thuan/topic_c_ivc/manifests/engines/cross_family_v1/voc_rtdetr_l_fp32.json",
+  "engine_registry_sha256": "239b6b3db209167297333271e006f33c096a6f56a27a9b09a6b62fe7139d461b",
+  "engine_sha256": "5dd43ba279d000c88a9ec6d202db75f6e821746578c0bb3aa2d4b95662a2e6b5",
+  "corruption": "clean",
+  "severity": 0,
+  "confidence": 0.001,
+  "input_manifest_sha256": "clean-root:e825593ef803aeedd611fb746de757f18074b96b46408a55b320dea01b7a62a1",
+  "input_image_ids_sha256": "ef58d7c6937c627ace93d94e1045c06ff884c23bbb9f4aa5c1bb276842be4629",
+  "prediction_sha256": "95cced14adcfee2894d03c9dda5f882d898ac1ff970d5f517a3c6adcabc2d284",
+  "n_images": 10,
+  "n_detections": 2641,
+  "runtime_seconds": 0.16189217567443848
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-08T16:53:40.897407+00:00",
+  "dataset": "tt100k",
+  "model": "yolo11x",
+  "precision": "fp8",
+  "source_onnx_registry_sha256": "78b6a47c7d5de0a05ed863a567b5cf5e42a6837cbeabd115050a25b4293a1e07",
+  "source_onnx_sha256": "8a6ca117a42e531bfc3d45bd2ea73489afc90cc21e3297693c60262851462c85",
+  "output_onnx": "/home/thuan/topic_c_ivc/engines/tt100k/yolo11x/fp8.onnx",
+  "output_onnx_sha256": "4fcb416a98c16469573be9c68f988c5f4c95b5e93d6ce0845ef2e791fe147adf",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/tt100k_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "c303eac8bc9a66c2e0592cddea8933a8aee8dd53c5527cb1e3d606efa7dbca9c",
+  "calibration_method": "entropy",
+  "imgsz": 1280,
+  "registry_sha256": "1b327f3585a1182f7914280b5e5c08302178e363d28626508a91096288925e40"
+}

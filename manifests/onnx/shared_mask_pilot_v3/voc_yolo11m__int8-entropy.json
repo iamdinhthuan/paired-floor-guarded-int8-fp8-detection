@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-04T07:55:36.719178+00:00",
+  "dataset": "voc",
+  "model": "yolo11m",
+  "precision": "int8-entropy",
+  "source_onnx_registry_sha256": "33ef80841baa64701c3c2f2ec4ae5202b8dbc312212bc78783ef88c47c192b2f",
+  "source_onnx_sha256": "4c00b447c665d64667b02cd195d43afeb1888f8f4b03b70b2f78c812386a8f26",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/onnx/shared_mask_pilot_v3/voc_yolo11m__int8-entropy.onnx",
+  "output_onnx_sha256": "2ce3cf2dc29de93c1da092d411364d5e3c56b34198c7f0d4a765bc152b80c877",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "ea97698729ac9982292d66d6bc127be8db393cdb713b8f0546e04bf055318a29",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "int8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "op_types_to_quantize": [
+    "Add",
+    "Conv",
+    "MatMul"
+  ],
+  "node_mask": "/home/thuan/topic_c_ivc/manifests/quantization_masks/shared_mask_pilot_v3/voc_yolo11m.json",
+  "node_mask_file_sha256": "a9a46e3f4f4e5c9fca4f942b94e634ce2dc27a427336f8d282b6f78dfc4dc27e",
+  "node_mask_sha256": "54e101516a40282b8b1589074ea7817ce96cf2bc85a5734ed2cb45e6715a80be",
+  "nodes_to_quantize_count": 125,
+  "no_quantize_inputs_count": 14,
+  "edge_policy_sha256": "7d8a470bd31c023e7f35c4c188034c24cc91068ac3caaf35dffee849b0280da9",
+  "compute_input_policy_sha256": "74cacc1a220fadb162161d6ebca55c1521bcc9695ccd33d6d0bb7094f46d76cb",
+  "baseline_fp8_onnx_sha256": "abb655540f692994ef86b6ab76d8198e7af6e7b947ac0f5657e8f3d40440623f",
+  "fp8_baseline_byte_replay": false,
+  "shared_mask_role": "int8_aligned_to_frozen_fp8_compute_inputs",
+  "pre_enforcement_compute_attachment_sha256": "25aed61bfdef39d96b22ae2a66f842bc1620ceb5cd85e50adeb41aba265d4213",
+  "post_enforcement_compute_attachment_sha256": "ee55a1fe46ee42735d85b70c42a5f6b8c90cc2b4b9578b94d7a02532554c71c8",
+  "bypassed_compute_inputs_count": 6,
+  "bypassed_compute_inputs": [
+    {
+      "node_name": "/model.10/m/m.0/Add",
+      "op_type": "Add",
+      "input_index": 1,
+      "input_name": "/model.10/m/m.0/attn/proj/conv/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.10/m/m.0/Add_1",
+      "op_type": "Add",
+      "input_index": 1,
+      "input_name": "/model.10/m/m.0/ffn/ffn.1/conv/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.10/m/m.0/attn/Add",
+      "op_type": "Add",
+      "input_index": 1,
+      "input_name": "/model.10/m/m.0/attn/pe/conv/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv",
+      "op_type": "Conv",
+      "input_index": 0,
+      "input_name": "/model.16/cv2/act/Mul_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv",
+      "op_type": "Conv",
+      "input_index": 0,
+      "input_name": "/model.19/cv2/act/Mul_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv",
+      "op_type": "Conv",
+      "input_index": 0,
+      "input_name": "/model.22/cv2/act/Mul_output_0",
+      "anchor_kind": "node_output"
+    }
+  ],
+  "removed_orphan_qdq_nodes": 6,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "output0"
+  ],
+  "decoder": null,
+  "num_classes_excluding_background": null,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "/home/thuan/topic_c_ivc/src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "/home/thuan/topic_c_ivc/manifests/onnx/voc_yolo11m_fp32_v1.json",
+    "--mode",
+    "int8-entropy",
+    "--imgsz",
+    "640",
+    "--calibration-list",
+    "/home/thuan/topic_c_ivc/manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+    "--node-mask",
+    "/home/thuan/topic_c_ivc/manifests/quantization_masks/shared_mask_pilot_v3/voc_yolo11m.json",
+    "--out",
+    "/home/thuan/topic_c_ivc/outputs/onnx/shared_mask_pilot_v3/voc_yolo11m__int8-entropy.onnx",
+    "--registry-out",
+    "/home/thuan/topic_c_ivc/manifests/onnx/shared_mask_pilot_v3/voc_yolo11m__int8-entropy.json"
+  ],
+  "registry_sha256": "00b693c2ae1a9bc0b73c66ecf57dd89be9047e39bcc67c8b00bf983f2f94e83b"
+}

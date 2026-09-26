@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__rtdetr_l__int8-entropy__fog-s3",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "int8-entropy",
+  "decoder": "ultralytics_rtdetr_raw_v1",
+  "decoder_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "engine_registry": "/home/thuan/topic_c_ivc/manifests/engines/cross_family_v1/kitti_rtdetr_l_int8-entropy.json",
+  "engine_registry_sha256": "b0e9dcd8784644389e4535041044ea43811094d7455d5db6868ab1ec97133418",
+  "engine_sha256": "ad42abc306f64b82a7443beaca9d34f99d0560e2f35d705a30d0b68177e600ad",
+  "corruption": "fog",
+  "severity": 3,
+  "annotation_sha256": "79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "confidence": 0.001,
+  "input_manifest_sha256": "ba36930f1bb7bf10f0fae7427375ecfc7df0881d807dd35973d7bf7d13727c6d",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "prediction_sha256": "60f9333e7ddbb7400886d2c43222deeec869ae335f2fb6500524df36531c232e",
+  "n_images": 1496,
+  "n_detections": 283221,
+  "runtime_seconds": 9.825122356414795
+}

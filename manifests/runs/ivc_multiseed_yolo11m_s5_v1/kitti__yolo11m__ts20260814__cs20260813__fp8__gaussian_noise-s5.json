@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "condition_id": "kitti__yolo11m__ts20260814__cs20260813__fp8__gaussian_noise-s5",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "yolo11m",
+  "precision": "fp8",
+  "calibrator": "entropy",
+  "calibration_list_path": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260813_ivc_multiseed_yolo11m_s5_v1.json",
+  "calibration_sha256": "24931c80673553a297a321cc80865ef33b3f765c8fc596cb7d78d9b2d859a4cf",
+  "calibration_method": "entropy",
+  "calibration_provenance": "verified",
+  "corruption": "gaussian_noise",
+  "severity": 5,
+  "engine_path": "/home/thuan/topic_c_ivc/outputs/engines/ivc_multiseed_yolo11m_s5_v1/kitti__yolo11m__ts20260814__cs20260813__fp8.plan",
+  "engine_sha256": "7d856a4ec6710636f4816dedcd4ba6a6993928068c04bfd7433bcacc7c917ec8",
+  "runner_sha256": "78c9d445915bd4e4474ecc643f60e169d04fd86edff114fca9b24f54c9f9ad5b",
+  "preprocess_sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+  "decoder_sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c",
+  "class_map_path": "/home/thuan/topic_c_ivc/manifests/classes/kitti_val_ultralytics_v1.json",
+  "class_map_sha256": "de3ad7968658bdaf7b3f73e070ae1c1f9bba8e8efb4982c3d22f780a5a6ec770",
+  "annotation_sha256": "79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "input_manifest_sha256": "f5b853fed944a9e30ecd4392e253cf544f0496bb366120089442b340ab2ea987",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "prediction_sha256": "49eff645cbaf8a7cae5a484be4d071b9494a4f12e2547810d9242906a930625c",
+  "n_images": 1496,
+  "n_detections": 4197,
+  "runtime_seconds": 10.72065544128418,
+  "runtime_environment": {
+    "python_executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "python_version": "3.11.15",
+    "tensorrt_version": "11.1.0.106",
+    "gpu": [
+      "NVIDIA GeForce RTX 5090, 610.43.02, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb"
+    ]
+  },
+  "command": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py --engine /home/thuan/topic_c_ivc/outputs/engines/ivc_multiseed_yolo11m_s5_v1/kitti__yolo11m__ts20260814__cs20260813__fp8.plan --annotations /home/thuan/topic_c_ivc/manifests/annotations/kitti_val_ultralytics_v1_coco.json --image-manifest /home/thuan/topic_c_ivc/manifests/images/kitti_val_full_gaussian_noise_s5.json --manifest-cache-root /home/thuan/topic_c_ivc/data/kitti_c --out /home/thuan/topic_c_ivc/outputs/predictions/ivc_multiseed_yolo11m_s5_v1/kitti__yolo11m__ts20260814__cs20260813__fp8__gaussian_noise-s5.json --input-record /home/thuan/topic_c_ivc/outputs/inputs/ivc_multiseed_yolo11m_s5_v1/kitti__yolo11m__ts20260814__cs20260813__fp8__gaussian_noise-s5.json --run-record /home/thuan/topic_c_ivc/manifests/runs/ivc_multiseed_yolo11m_s5_v1/kitti__yolo11m__ts20260814__cs20260813__fp8__gaussian_noise-s5.json --condition-id kitti__yolo11m__ts20260814__cs20260813__fp8__gaussian_noise-s5 --dataset kitti --split val --model yolo11m --precision fp8 --calibrator entropy --calibration-list /home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260813_ivc_multiseed_yolo11m_s5_v1.json --calibration-method entropy --calibration-provenance verified --corruption gaussian_noise --severity 5 --class-map /home/thuan/topic_c_ivc/manifests/classes/kitti_val_ultralytics_v1.json --imgsz 640"
+}

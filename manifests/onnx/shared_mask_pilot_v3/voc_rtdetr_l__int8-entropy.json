@@ -1,0 +1,289 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-04T08:28:48.605173+00:00",
+  "dataset": "voc",
+  "model": "rtdetr-l",
+  "precision": "int8-entropy",
+  "source_onnx_registry_sha256": "53965f3a7de64ee14641b06d2e49920f16200170f58ab3fbf9c214a965dea46c",
+  "source_onnx_sha256": "13d10af20ead8bda2fd5f8d5f802b4a9dff9c590ba088001e3b47d8a0a585ff6",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/onnx/shared_mask_pilot_v3/voc_rtdetr_l__int8-entropy.onnx",
+  "output_onnx_sha256": "a27302780daf505ba1430b05d4ad3945c8654c62d40cd4e9826e9ad58582d80c",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "ea97698729ac9982292d66d6bc127be8db393cdb713b8f0546e04bf055318a29",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "int8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "op_types_to_quantize": [
+    "Add",
+    "Conv",
+    "Gemm",
+    "MatMul"
+  ],
+  "node_mask": "/home/thuan/topic_c_ivc/manifests/quantization_masks/shared_mask_pilot_v3/voc_rtdetr_l.json",
+  "node_mask_file_sha256": "e6cf940e256315d11aeea124ceaf13f30805ef1c35ef7c63db4215a998b57681",
+  "node_mask_sha256": "951cfc76d1a3c13b2fa6de7365a558c34e23ff75fb05af573f9ca05f2b095461",
+  "nodes_to_quantize_count": 228,
+  "no_quantize_inputs_count": 85,
+  "edge_policy_sha256": "f1bea877ec5b6e95385fcd81b8a6c7913c4f8898db347f11f6ed8d702bfc1d44",
+  "compute_input_policy_sha256": "8dd012f379029c61d4844a7c1c81cf17b524a9ecb4a73b2645c50185f632ab8a",
+  "baseline_fp8_onnx_sha256": "fe2135e53eb64d906756519c03c143e1ff42d74edb1dd4f0b0b713a4411baf1b",
+  "fp8_baseline_byte_replay": false,
+  "shared_mask_role": "int8_aligned_to_frozen_fp8_compute_inputs",
+  "pre_enforcement_compute_attachment_sha256": "10cba55f85dd8560d0483195b1c23931f698003a4a4e0cab7e78c29305996b60",
+  "post_enforcement_compute_attachment_sha256": "63d37eb564180dbae69b8557a462647973ee18fc2ad258efc3d78075d90f3462",
+  "bypassed_compute_inputs_count": 31,
+  "bypassed_compute_inputs": [
+    {
+      "node_name": "/model.11/Add",
+      "op_type": "Add",
+      "input_index": 1,
+      "input_name": "/model.11/Cast_8_output_0",
+      "anchor_kind": "initializer"
+    },
+    {
+      "node_name": "/model.11/Add_1",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.11/Transpose_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.11/Add_2",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.11/norm1/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.0/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/Reshape_7_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.0/Add_2",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.0/norm1/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.0/Add_4",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.0/norm2/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.0/cross_attn/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.0/cross_attn/Slice_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.1/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.0/norm3/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.1/Add_2",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.1/norm1/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.1/Add_4",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.1/norm2/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.1/cross_attn/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.1/cross_attn/Slice_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.2/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.1/norm3/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.2/Add_2",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.2/norm1/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.2/Add_4",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.2/norm2/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.2/cross_attn/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.2/cross_attn/Slice_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.3/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.2/norm3/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.3/Add_2",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.3/norm1/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.3/Add_4",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.3/norm2/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.3/cross_attn/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.3/cross_attn/Slice_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.4/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.3/norm3/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.4/Add_2",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.4/norm1/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.4/Add_4",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.4/norm2/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.4/cross_attn/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.4/cross_attn/Slice_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.5/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.4/norm3/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.5/Add_2",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.5/norm1/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.5/Add_4",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.5/norm2/LayerNormalization_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.28/decoder/layers.5/cross_attn/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.28/decoder/layers.5/cross_attn/Slice_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.4/conv/Conv",
+      "op_type": "Conv",
+      "input_index": 0,
+      "input_name": "/model.3/ec/act/Relu_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.6/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.6/ec/act/Relu_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.7/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/model.7/ec/act/Relu_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/model.8/conv/Conv",
+      "op_type": "Conv",
+      "input_index": 0,
+      "input_name": "/model.7/Add_output_0",
+      "anchor_kind": "node_output"
+    }
+  ],
+  "removed_orphan_qdq_nodes": 18,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "output0"
+  ],
+  "decoder": "ultralytics_rtdetr_raw_v1",
+  "num_classes_excluding_background": 20,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "/home/thuan/topic_c_ivc/src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/voc_rtdetr_l_fp32.json",
+    "--mode",
+    "int8-entropy",
+    "--imgsz",
+    "640",
+    "--calibration-list",
+    "/home/thuan/topic_c_ivc/manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+    "--node-mask",
+    "/home/thuan/topic_c_ivc/manifests/quantization_masks/shared_mask_pilot_v3/voc_rtdetr_l.json",
+    "--out",
+    "/home/thuan/topic_c_ivc/outputs/onnx/shared_mask_pilot_v3/voc_rtdetr_l__int8-entropy.onnx",
+    "--registry-out",
+    "/home/thuan/topic_c_ivc/manifests/onnx/shared_mask_pilot_v3/voc_rtdetr_l__int8-entropy.json"
+  ],
+  "registry_sha256": "0d93dd27a757d831bdb0550ac9ebc6f3176d3cf521ecd63cacbfb1230406794c"
+}

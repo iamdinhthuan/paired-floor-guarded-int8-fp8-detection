@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-17T10:03:48.406759+00:00",
+  "dataset": "kitti",
+  "model": "rtdetr-l",
+  "precision": "fp8",
+  "source_onnx_registry_sha256": "639e95fbd4a2fc4558f57f4d28f7fedefa8ec261a73464244ee1b12f52623990",
+  "source_onnx_sha256": "37d06473a797f95f0571b344bee3171c7930ab83461aab90847171c12c246952",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/kitti_rtdetr_l_fp8.onnx",
+  "output_onnx_sha256": "54fe36775868c9947aba1c2e5e5d93c76a7f086ff2aa7fc21df3109a71b96789",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "f0cfb861d1c8846d3aa66f266ac8c9e41150f8b2cf66525ad12efca19ad58be7",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "fp8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "output0"
+  ],
+  "decoder": "ultralytics_rtdetr_raw_v1",
+  "num_classes_excluding_background": 8,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "manifests/onnx/cross_family_v1/kitti_rtdetr_l_fp32.json",
+    "--mode",
+    "fp8",
+    "--imgsz",
+    "640",
+    "--calibration-list",
+    "manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+    "--out",
+    "outputs/onnx/cross_family_v1/kitti_rtdetr_l_fp8.onnx",
+    "--registry-out",
+    "manifests/onnx/cross_family_v1/kitti_rtdetr_l_fp8.json"
+  ],
+  "registry_sha256": "78bfc3026805cb054191fc8c2416ee43d71a8b78f07c46996a77c14a6aa82363"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-17T10:04:13.608071+00:00",
+  "dataset": "kitti",
+  "model": "retinanet-r50-fpn-v2",
+  "training_registry": "/home/thuan/topic_c_ivc/manifests/training/kitti_retinanet_r50_fpn_v2_s20260807_v1.json",
+  "training_registry_sha256": "91bbef6ce42bad015a639692459db32661836dc4b87d27e9af2f8487ad61c3ac",
+  "source_checkpoint": "/home/thuan/topic_c_ivc/outputs/training/kitti/cross_family_retinanet_r50_fpn_v2_kitti_s20260807_v1/weights/best.pt",
+  "source_checkpoint_sha256": "e9beb44d7ff7d822ed9a835a31d38bcdfa3e44bd4316449c499767fec850295a",
+  "onnx": "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.onnx",
+  "onnx_sha256": "5c522b7711017f7506a2096e046596be33861715ba0c415f393580ad8bc59941",
+  "imgsz": 640,
+  "num_classes_excluding_background": 8,
+  "opset": 19,
+  "dynamic": false,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "anchors"
+  ],
+  "decoder": "torchvision_retinanet_raw_v1"
+}

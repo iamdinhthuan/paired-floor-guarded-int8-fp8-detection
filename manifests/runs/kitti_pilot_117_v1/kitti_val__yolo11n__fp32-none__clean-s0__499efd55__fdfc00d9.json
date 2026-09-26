@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__yolo11n__fp32-none__clean-s0__499efd55__fdfc00d9",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "yolo11n",
+  "precision": "fp32",
+  "calibrator": "none",
+  "calibration_list_path": null,
+  "calibration_sha256": null,
+  "calibration_provenance": "not_applicable",
+  "corruption": "clean",
+  "severity": 0,
+  "engine_path": "/home/thuan/topic_c_ivc/engines/kitti/yolo11n/fp32.plan",
+  "engine_sha256": "499efd55887efa0cfb9a711a1e44325c3f101f2a940e6f5570b44c516ccdcee7",
+  "runner_sha256": "f2cd2300b1f227c46924c515edf824fead5f6f9afb5755376f88a3b75e4765d8",
+  "preprocess_sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+  "decoder_sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c",
+  "class_map_path": "/home/thuan/topic_c_ivc/manifests/classes/kitti_val_ultralytics_v1.json",
+  "class_map_sha256": "de3ad7968658bdaf7b3f73e070ae1c1f9bba8e8efb4982c3d22f780a5a6ec770",
+  "annotation_sha256": "79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "input_manifest_sha256": "fdfc00d917728411c174abdf6642159311758ae156aa2607a4e4648f09ed87d8",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "prediction_sha256": "c18cb479428144f37c1b5f9e896d68937add29942eb0995ab61279651f55ac22",
+  "n_images": 1496,
+  "n_detections": 37134,
+  "runtime_seconds": 5.049410343170166,
+  "runtime_environment": {
+    "python_executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "python_version": "3.11.15",
+    "tensorrt_version": "11.1.0.106",
+    "gpu": [
+      "NVIDIA GeForce RTX 5090, 610.43.02, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb"
+    ]
+  },
+  "command": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py --engine /home/thuan/topic_c_ivc/engines/kitti/yolo11n/fp32.plan --annotations /home/thuan/topic_c_ivc/manifests/annotations/kitti_val_ultralytics_v1_coco.json --image-manifest /home/thuan/topic_c_ivc/manifests/images/kitti_val_clean_ultralytics_v1.json --manifest-cache-root /home/thuan/topic_c_ivc/data/datasets/kitti --out /home/thuan/topic_c_ivc/outputs/predictions/kitti_pilot_117_v1/kitti_val__yolo11n__fp32-none__clean-s0__499efd55__fdfc00d9.json --input-record /home/thuan/topic_c_ivc/outputs/inputs/kitti_pilot_117_v1/kitti_val__yolo11n__fp32-none__clean-s0__499efd55__fdfc00d9.json --run-record /home/thuan/topic_c_ivc/manifests/runs/kitti_pilot_117_v1/kitti_val__yolo11n__fp32-none__clean-s0__499efd55__fdfc00d9.json --condition-id kitti_val__yolo11n__fp32-none__clean-s0__499efd55__fdfc00d9 --dataset kitti --split val --class-map /home/thuan/topic_c_ivc/manifests/classes/kitti_val_ultralytics_v1.json --imgsz 640 --model yolo11n --precision fp32 --calibrator none --corruption clean --severity 0"
+}

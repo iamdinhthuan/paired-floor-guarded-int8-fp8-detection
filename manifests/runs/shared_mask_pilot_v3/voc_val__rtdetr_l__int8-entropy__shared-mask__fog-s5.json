@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__rtdetr_l__int8-entropy__shared-mask__fog-s5",
+  "dataset": "voc",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "int8-entropy",
+  "decoder": "ultralytics_rtdetr_raw_v1",
+  "decoder_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "engine_registry": "/home/thuan/topic_c_ivc/manifests/engines/shared_mask_pilot_v3/voc_rtdetr_l__int8-entropy.json",
+  "engine_registry_sha256": "d409ef2c1e189356fdae6db57c9fa82cb139b5d77901672bf028a7bffb98999f",
+  "engine_sha256": "9f1de822818e86c554cf84c27d2ee4d9f4b1dc239d03287d3b58a26706a3ba80",
+  "corruption": "fog",
+  "severity": 5,
+  "annotation_sha256": "e825593ef803aeedd611fb746de757f18074b96b46408a55b320dea01b7a62a1",
+  "confidence": 0.001,
+  "input_manifest_sha256": "b1fad0ae727a1f31c65d683ed1258c1f52137b302b5f218415e21984457f3bc7",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "prediction_sha256": "eb9e9bf1d5bcda55c1cce1971383dc22f9f5df4f6b9b9c6d63bab0c1255274cc",
+  "n_images": 4952,
+  "n_detections": 1115863,
+  "runtime_seconds": 44.10257601737976
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-17T07:53:37.665182+00:00",
+  "dataset": "voc",
+  "model": "rtdetr-l",
+  "training_registry": "/home/thuan/topic_c_ivc/manifests/training/voc_rtdetr_l_s20260807_v1.json",
+  "training_registry_sha256": "c3428c715835c12af7466faae1ab7571f9288e45d2372c5cf2edd4678d516892",
+  "source_checkpoint": "/home/thuan/topic_c_ivc/outputs/training/voc/cross_family_rtdetr_l_voc_s20260807_v1/weights/best.pt",
+  "source_checkpoint_sha256": "8d0c49c9db734171c862534b6f4eb8523356240911d74addb19b3f3d290b9fe9",
+  "onnx": "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/voc_rtdetr_l_fp32.onnx",
+  "onnx_sha256": "13d10af20ead8bda2fd5f8d5f802b4a9dff9c590ba088001e3b47d8a0a585ff6",
+  "imgsz": 640,
+  "num_classes_excluding_background": 20,
+  "opset": 19,
+  "dynamic": false,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "output0"
+  ],
+  "decoder": "ultralytics_rtdetr_raw_v1"
+}

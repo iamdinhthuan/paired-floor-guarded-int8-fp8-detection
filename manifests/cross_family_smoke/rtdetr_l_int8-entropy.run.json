@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "condition_id": "smoke_voc_rtdetr_l_int8-entropy",
+  "dataset": "voc",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "int8-entropy",
+  "decoder": "ultralytics_rtdetr_raw_v1",
+  "decoder_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "engine_registry": "/home/thuan/topic_c_ivc/manifests/engines/cross_family_v1/voc_rtdetr_l_int8-entropy.json",
+  "engine_registry_sha256": "3fb97ef59340320e5269a5b6df2f8364db67d25116defe99a71ebf5515799c35",
+  "engine_sha256": "8fe30d717f3013817b8f897703a966a555b4af5e9f218cc3e482498f2710467f",
+  "corruption": "clean",
+  "severity": 0,
+  "confidence": 0.001,
+  "input_manifest_sha256": "clean-root:e825593ef803aeedd611fb746de757f18074b96b46408a55b320dea01b7a62a1",
+  "input_image_ids_sha256": "ef58d7c6937c627ace93d94e1045c06ff884c23bbb9f4aa5c1bb276842be4629",
+  "prediction_sha256": "1368c6a2ea46223f2992bfc4361a9e1e65226be9020094964f70cc305b740490",
+  "n_images": 10,
+  "n_detections": 2201,
+  "runtime_seconds": 0.13882064819335938
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-17T15:13:41.041717+00:00",
+  "dataset": "tt100k",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "fp8",
+  "source_onnx_registry_sha256": "e547bb0defe7ee8efde0b068921cf6ab116da941c0f87e863d140be99e4590b0",
+  "source_onnx_sha256": "8d3e7ef751a91ac645261e73d13641970579b0cc23db702a0d5e459f588e897e",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/tt100k_retinanet_r50_fpn_v2_fp8.onnx",
+  "output_onnx_sha256": "d9abf39161ab22369769979bc4181c3af3559f6f0f61d0087bc943e5a943a217",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/tt100k_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "c303eac8bc9a66c2e0592cddea8933a8aee8dd53c5527cb1e3d606efa7dbca9c",
+  "calibration_method": "entropy",
+  "imgsz": 1280,
+  "quantize_mode": "fp8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "anchors"
+  ],
+  "decoder": "torchvision_retinanet_raw_v1",
+  "num_classes_excluding_background": 221,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "manifests/onnx/cross_family_v1/tt100k_retinanet_r50_fpn_v2_fp32.json",
+    "--mode",
+    "fp8",
+    "--imgsz",
+    "1280",
+    "--calibration-list",
+    "manifests/calibration/tt100k_train_clean_512_s20260807_v1.json",
+    "--out",
+    "outputs/onnx/cross_family_v1/tt100k_retinanet_r50_fpn_v2_fp8.onnx",
+    "--registry-out",
+    "manifests/onnx/cross_family_v1/tt100k_retinanet_r50_fpn_v2_fp8.json"
+  ],
+  "registry_sha256": "f73efa82bd6117391644d2e7e92f9c44887c2460f74db985401c2a89589f9b17"
+}

@@ -15,8 +15,8 @@ model-scale cells. A matched-recipe decomposition of RetinaNet localizes a
 severe INT8 collapse to regression-head quantization, and a two-fold
 corruption-aware calibration intervention with held-out families finds its
 own effect context-dependent across fold-by-dataset cells---a
-corruption-specific benefit in one cell, a significant harm in another---so clean-only
-calibration ranges are not supported as a reliable repair. Selective
+corruption-specific benefit in one cell, a significant harm in another---so
+corruption-aware calibration is not supported as a reliable repair. Selective
 precision (regression head in floating point) is the validated
 retraining-free fix.
 

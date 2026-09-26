@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__retinanet_r50_fpn_v2__fp8__clean-s0",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "fp8",
+  "decoder": "torchvision_retinanet_raw_v1",
+  "decoder_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "engine_registry": "/home/thuan/topic_c_ivc/manifests/engines/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json",
+  "engine_registry_sha256": "a686f78654bab8de7051365386e05a972625018915a50e75246de1d1db94226e",
+  "engine_sha256": "3b44e56bef9b9a24ecad73edec50a12e70d3f590217a57fd32d0cfaffb11d6ce",
+  "corruption": "clean",
+  "severity": 0,
+  "confidence": 0.05,
+  "input_manifest_sha256": "clean-root:79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "prediction_sha256": "cdd8144e5d09eb249e944fbe5df05dabc54ca06238c7a5c50ff53a4893441cc3",
+  "n_images": 1496,
+  "n_detections": 62583,
+  "runtime_seconds": 12.153330326080322
+}

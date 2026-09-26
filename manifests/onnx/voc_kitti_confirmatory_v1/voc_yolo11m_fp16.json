@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-18T15:57:25.046739+00:00",
+  "dataset": "voc",
+  "model": "yolo11m",
+  "precision": "fp16",
+  "source_onnx_registry_sha256": "171c0c9a321e9b6415f69bd04d2265cb167df5d299b12886dc8dcbd1659409e9",
+  "source_onnx_sha256": "6abff26079327a69d072d53a2b23dd9bd2f98f548c2fb8bafe40bb0bdaa9f4a3",
+  "output_onnx": "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/voc/yolo11m/fp16.onnx",
+  "output_onnx_sha256": "956dc651581478b9c1ed1a8da0551d0144debea59acca7efcbf0aa545182ba36",
+  "calibration_list": null,
+  "calibration_sha256": null,
+  "calibration_method": "not_applicable",
+  "imgsz": 640,
+  "quantize_mode": "fp16_autocast",
+  "calibration_eps": [],
+  "op_types_to_exclude": [],
+  "op_types_to_quantize": null,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "output0"
+  ],
+  "decoder": null,
+  "num_classes_excluding_background": null,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "/home/thuan/topic_c_ivc/src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "/home/thuan/topic_c_ivc/manifests/onnx/voc_kitti_confirmatory_v1/voc_yolo11m_fp32.json",
+    "--mode",
+    "fp16",
+    "--imgsz",
+    "640",
+    "--out",
+    "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/voc/yolo11m/fp16.onnx",
+    "--registry-out",
+    "/home/thuan/topic_c_ivc/manifests/onnx/voc_kitti_confirmatory_v1/voc_yolo11m_fp16.json"
+  ],
+  "registry_sha256": "e34392a792e0b995607b1b10bb2c8eb65d37fe49ab92c49b31f2bb9f94835d9d"
+}

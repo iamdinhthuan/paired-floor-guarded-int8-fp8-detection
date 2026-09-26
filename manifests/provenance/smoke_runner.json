@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-08-06T14:32:35.908166+00:00",
+  "python": {
+    "executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "version": "3.11.15 (main, Jun 11 2026, 15:20:16) [GCC 14.3.0]"
+  },
+  "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+  "packages": {
+    "tensorrt": "11.1.0.106",
+    "numpy": "2.4.4",
+    "opencv-python": "5.0.0.93",
+    "Pillow": "12.2.0",
+    "pycocotools": "2.0.11",
+    "ultralytics": "8.4.95",
+    "scipy": "1.17.1",
+    "cuda-python": null
+  },
+  "nvidia_smi": {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=index,name,uuid,driver_version,memory.total",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "stdout": "0, NVIDIA GeForce RTX 5090, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb, 610.43.02, 32607 MiB",
+    "stderr": ""
+  },
+  "trtexec": {
+    "path": null,
+    "version": null
+  },
+  "assets": [
+    {
+      "path": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py",
+      "bytes": 8899,
+      "sha256": "038dcc8b53638e9a1536349aafbbcf960b050f8ed35a0d367a8c5a56e1f85384"
+    },
+    {
+      "path": "/home/thuan/topic_c_ivc/src/topic_c/coco_data.py",
+      "bytes": 2619,
+      "sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804"
+    },
+    {
+      "path": "/home/thuan/topic_c_ivc/src/topic_c/yolo_decode.py",
+      "bytes": 2302,
+      "sha256": "65249c9cec671954ba0a8a4ff0c7fef30797d7252952b60f468793e7bdc1b386"
+    },
+    {
+      "path": "/home/thuan/topic_c_ivc/configs/corruptions.json",
+      "bytes": 657,
+      "sha256": "70d4dab238583f9de4e6f005810da97d94bc193617462ef99138585908ae6b9f"
+    },
+    {
+      "path": "/home/thuan/coco_journal/exports/coco_pilot/yolo11m_fp32.plan",
+      "bytes": 84002764,
+      "sha256": "26e03abb02863aa8534ab83b3a144a2aaecd5c9f567cc7ec2c8609ece6da7ef3"
+    },
+    {
+      "path": "/home/thuan/coco_journal/exports/coco_pilot/yolo11m_fp16.plan",
+      "bytes": 43364044,
+      "sha256": "42660a2f4ca9b999bfd8b8e678110627f3cde6f7b690be012db75a018926ad8f"
+    },
+    {
+      "path": "/home/thuan/coco_journal/exports/coco_pilot/yolo11m_int8_entropy.plan",
+      "bytes": 25272404,
+      "sha256": "9412b0bd18133f1aefff4920cd1e59ed9d5e227a1409b5165890c6f797cb2b43"
+    },
+    {
+      "path": "/home/thuan/coco_journal/exports/coco_pilot/yolo11m_fp8.plan",
+      "bytes": 22936844,
+      "sha256": "3997baea5596617fa12b22534393212361fcf52a7915d6489f8f2657d77a13d2"
+    },
+    {
+      "path": "/home/thuan/coco_journal/data/coco/calib/calib_list.json",
+      "bytes": 11304,
+      "sha256": "fe0bc140a873998d71ba70d736306d8183292aebc1a33698a78a3e1479f8e343"
+    }
+  ]
+}

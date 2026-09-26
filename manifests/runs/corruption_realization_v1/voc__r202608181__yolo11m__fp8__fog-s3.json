@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "condition_id": "voc__r202608181__yolo11m__fp8__fog-s3",
+  "dataset": "voc",
+  "split": "test",
+  "model": "yolo11m",
+  "precision": "fp8",
+  "calibrator": "entropy",
+  "calibration_list_path": "/home/thuan/topic_c_ivc/manifests/calibration/voc_confirmatory_train_512_s20260818_v1.json",
+  "calibration_sha256": "5a7e6fd45831ddc19efd97a423b06e0d7fdd2eb12c3806d563f051835c91a979",
+  "calibration_method": "entropy",
+  "calibration_provenance": "verified",
+  "corruption": "fog",
+  "severity": 3,
+  "engine_path": "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/voc/yolo11m/fp8.plan",
+  "engine_sha256": "bdaac129fefca60e9e73b1d08398ae6ddb240212587578a7e1afbf02180d805c",
+  "runner_sha256": "78c9d445915bd4e4474ecc643f60e169d04fd86edff114fca9b24f54c9f9ad5b",
+  "preprocess_sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+  "decoder_sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c",
+  "class_map_path": "/home/thuan/topic_c_ivc/manifests/classes/corruption_realization_v1/voc_subset512.json",
+  "class_map_sha256": "444b6e4664e52b8c4b8886d86329376d7420d9200f3b87fc70103c4829b579eb",
+  "annotation_sha256": "8cfca6d9a45fa6afa9dc1a558aaddef9f6ed9dadf17682d1ad642368c4b3b098",
+  "input_manifest_sha256": "69f7d096d0a75b26c8403cf6f03f81822b9e62892eff4592bceee7b4be8b927e",
+  "input_image_ids_sha256": "74600c1387f1dac7c406b7d0ad8112b71eb1dddcbe95db24707254fb60841a2e",
+  "prediction_sha256": "ffcafc053631829b6964c23907f752f149f066031a19618d58766d8c0aa1d61f",
+  "n_images": 512,
+  "n_detections": 6957,
+  "runtime_seconds": 1.79264497756958,
+  "runtime_environment": {
+    "python_executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "python_version": "3.11.15",
+    "tensorrt_version": "11.1.0.106",
+    "gpu": [
+      "NVIDIA GeForce RTX 5090, 610.43.02, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb"
+    ]
+  },
+  "command": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py --engine /home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/voc/yolo11m/fp8.plan --annotations /home/thuan/topic_c_ivc/manifests/annotations/corruption_realization_v1/voc_subset512.json --image-manifest /home/thuan/topic_c_ivc/manifests/images/corruption_realization_v1/voc_r202608181_fog_s3.json --manifest-cache-root /home/thuan/topic_c_ivc/data/corruption_realization_v1/voc/r202608181 --out /home/thuan/topic_c_ivc/outputs/predictions/corruption_realization_v1/voc__r202608181__yolo11m__fp8__fog-s3.json --input-record /home/thuan/topic_c_ivc/outputs/inputs/corruption_realization_v1/voc__r202608181__yolo11m__fp8__fog-s3.json --run-record /home/thuan/topic_c_ivc/manifests/runs/corruption_realization_v1/voc__r202608181__yolo11m__fp8__fog-s3.json --condition-id voc__r202608181__yolo11m__fp8__fog-s3 --dataset voc --split test --model yolo11m --precision fp8 --calibrator entropy --calibration-list /home/thuan/topic_c_ivc/manifests/calibration/voc_confirmatory_train_512_s20260818_v1.json --calibration-method entropy --calibration-provenance verified --corruption fog --severity 3 --class-map /home/thuan/topic_c_ivc/manifests/classes/corruption_realization_v1/voc_subset512.json --imgsz 640"
+}

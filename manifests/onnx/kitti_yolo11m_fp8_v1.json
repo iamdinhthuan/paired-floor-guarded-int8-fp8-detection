@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-08T12:02:59.240522+00:00",
+  "dataset": "kitti",
+  "model": "yolo11m",
+  "precision": "fp8",
+  "source_onnx_registry_sha256": "2dd1d34214ead06a7fbf21dd4a79e268a38b299a9ad78581c9be19e84b6881d8",
+  "source_onnx_sha256": "00e5f0836e4131454ccb56a909ee3e00992f1e18c61d386d4161d917530059a8",
+  "output_onnx": "/home/thuan/topic_c_ivc/engines/kitti/yolo11m/fp8.onnx",
+  "output_onnx_sha256": "b366866c35fdbe89b90108e174e2979fa51de827ae5377d780cb0f4a67656c79",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "f0cfb861d1c8846d3aa66f266ac8c9e41150f8b2cf66525ad12efca19ad58be7",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "registry_sha256": "09b28d6656d5c01c001fd1c8682e5b89147f2e42edf467ad3698d14d6c92a760"
+}

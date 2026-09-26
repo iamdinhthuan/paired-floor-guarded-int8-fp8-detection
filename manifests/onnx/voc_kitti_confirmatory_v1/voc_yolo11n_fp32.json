@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-18T15:50:51.528987+00:00",
+  "dataset": "voc",
+  "model": "yolo11n",
+  "training_registry_sha256": "936b86441653db809779b545ae33fa34dda0c5650ee63ccc85dc71d528ff3ddb",
+  "source_checkpoint": "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/voc/yolo11n/fp32.pt",
+  "source_checkpoint_sha256": "fe896bd71946dfb9b0c03133484509829d7d9a93792631acf42b1604ffd1d9ef",
+  "onnx": "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/voc/yolo11n/fp32.onnx",
+  "onnx_sha256": "3822515ad78879e74c5e04b4b2a28000fe8032f7b2a11a176994254e44cf9e73",
+  "imgsz": 640,
+  "opset": 19,
+  "dynamic": false,
+  "nms_embedded": false,
+  "half": false,
+  "input_name": "images",
+  "output_name": "output0",
+  "ultralytics_version": "8.4.95"
+}

@@ -1,0 +1,4138 @@
+{
+  "attempt": "shared_mask_pilot_v1",
+  "baseline_fp8": {
+    "onnx": "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.onnx",
+    "onnx_sha256": "21066e65bc2e522c9af9c999374a5debde167925e9875c41605acfc458632642",
+    "registry": "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp8.json",
+    "registry_file_sha256": "81260039566d09ca3698e2f868dfd9a7ce7f8e6b0c364dd55a0966996ee9b82c",
+    "selected_compute_sites": 128
+  },
+  "baseline_fp8_normalized_topology": {
+    "compute_attachment_sha256": "0a5d52dbe947c7e4b6fab4e7208baadc9c4dbacfec6ea56bd66cd883082968f2",
+    "dequantize_linear_nodes": 214,
+    "graph_input_attachments": [],
+    "initializer_attachments": [
+      "model.backbone.fpn.extra_blocks.p6.weight",
+      "model.backbone.fpn.extra_blocks.p7.weight",
+      "model.backbone.fpn.inner_blocks.0.0.weight",
+      "model.backbone.fpn.inner_blocks.1.0.weight",
+      "model.backbone.fpn.inner_blocks.2.0.weight",
+      "model.backbone.fpn.layer_blocks.0.0.weight",
+      "model.backbone.fpn.layer_blocks.1.0.weight",
+      "model.backbone.fpn.layer_blocks.2.0.weight",
+      "model.head.classification_head.cls_logits.weight_1",
+      "model.head.classification_head.cls_logits.weight_2",
+      "model.head.classification_head.cls_logits.weight_3",
+      "model.head.classification_head.cls_logits.weight_4",
+      "model.head.classification_head.cls_logits.weight_5",
+      "model.head.classification_head.conv.0.0.weight_1",
+      "model.head.classification_head.conv.0.0.weight_2",
+      "model.head.classification_head.conv.0.0.weight_3",
+      "model.head.classification_head.conv.0.0.weight_4",
+      "model.head.classification_head.conv.0.0.weight_5",
+      "model.head.classification_head.conv.1.0.weight_1",
+      "model.head.classification_head.conv.1.0.weight_2",
+      "model.head.classification_head.conv.1.0.weight_3",
+      "model.head.classification_head.conv.1.0.weight_4",
+      "model.head.classification_head.conv.1.0.weight_5",
+      "model.head.classification_head.conv.2.0.weight_1",
+      "model.head.classification_head.conv.2.0.weight_2",
+      "model.head.classification_head.conv.2.0.weight_3",
+      "model.head.classification_head.conv.2.0.weight_4",
+      "model.head.classification_head.conv.2.0.weight_5",
+      "model.head.classification_head.conv.3.0.weight_1",
+      "model.head.classification_head.conv.3.0.weight_2",
+      "model.head.classification_head.conv.3.0.weight_3",
+      "model.head.classification_head.conv.3.0.weight_4",
+      "model.head.classification_head.conv.3.0.weight_5",
+      "model.head.regression_head.bbox_reg.weight_1",
+      "model.head.regression_head.bbox_reg.weight_2",
+      "model.head.regression_head.bbox_reg.weight_3",
+      "model.head.regression_head.bbox_reg.weight_4",
+      "model.head.regression_head.bbox_reg.weight_5",
+      "model.head.regression_head.conv.0.0.weight_1",
+      "model.head.regression_head.conv.0.0.weight_2",
+      "model.head.regression_head.conv.0.0.weight_3",
+      "model.head.regression_head.conv.0.0.weight_4",
+      "model.head.regression_head.conv.0.0.weight_5",
+      "model.head.regression_head.conv.1.0.weight_1",
+      "model.head.regression_head.conv.1.0.weight_2",
+      "model.head.regression_head.conv.1.0.weight_3",
+      "model.head.regression_head.conv.1.0.weight_4",
+      "model.head.regression_head.conv.1.0.weight_5",
+      "model.head.regression_head.conv.2.0.weight_1",
+      "model.head.regression_head.conv.2.0.weight_2",
+      "model.head.regression_head.conv.2.0.weight_3",
+      "model.head.regression_head.conv.2.0.weight_4",
+      "model.head.regression_head.conv.2.0.weight_5",
+      "model.head.regression_head.conv.3.0.weight_1",
+      "model.head.regression_head.conv.3.0.weight_2",
+      "model.head.regression_head.conv.3.0.weight_3",
+      "model.head.regression_head.conv.3.0.weight_4",
+      "model.head.regression_head.conv.3.0.weight_5",
+      "onnx::Conv_1752",
+      "onnx::Conv_1755",
+      "onnx::Conv_1758",
+      "onnx::Conv_1761",
+      "onnx::Conv_1764",
+      "onnx::Conv_1767",
+      "onnx::Conv_1770",
+      "onnx::Conv_1773",
+      "onnx::Conv_1776",
+      "onnx::Conv_1779",
+      "onnx::Conv_1782",
+      "onnx::Conv_1785",
+      "onnx::Conv_1788",
+      "onnx::Conv_1791",
+      "onnx::Conv_1794",
+      "onnx::Conv_1797",
+      "onnx::Conv_1800",
+      "onnx::Conv_1803",
+      "onnx::Conv_1806",
+      "onnx::Conv_1809",
+      "onnx::Conv_1812",
+      "onnx::Conv_1815",
+      "onnx::Conv_1818",
+      "onnx::Conv_1821",
+      "onnx::Conv_1824",
+      "onnx::Conv_1827",
+      "onnx::Conv_1830",
+      "onnx::Conv_1833",
+      "onnx::Conv_1836",
+      "onnx::Conv_1839",
+      "onnx::Conv_1842",
+      "onnx::Conv_1845",
+      "onnx::Conv_1848",
+      "onnx::Conv_1851",
+      "onnx::Conv_1854",
+      "onnx::Conv_1857",
+      "onnx::Conv_1860",
+      "onnx::Conv_1863",
+      "onnx::Conv_1866",
+      "onnx::Conv_1869",
+      "onnx::Conv_1872",
+      "onnx::Conv_1875",
+      "onnx::Conv_1878",
+      "onnx::Conv_1881",
+      "onnx::Conv_1884",
+      "onnx::Conv_1887",
+      "onnx::Conv_1890",
+      "onnx::Conv_1893",
+      "onnx::Conv_1896",
+      "onnx::Conv_1899",
+      "onnx::Conv_1902",
+      "onnx::Conv_1905"
+    ],
+    "input_attachments": [
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.0/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.0/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.0/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.0/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.0/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.0/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.0/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.1/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.1/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.1/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.1/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.1/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.1/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.1/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.2/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.2/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.2/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.2/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.2/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer1/layer1.2/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer1/layer1.2/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.0/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.0/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.0/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.0/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.0/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.0/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.0/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.1/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.1/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.1/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.1/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.1/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.1/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.1/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.2/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.2/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.2/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.2/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.2/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.2/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.2/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.3/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.3/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.3/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.3/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.3/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer2/layer2.3/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer2/layer2.3/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.0/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.0/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.0/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.0/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.0/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.0/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.0/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.1/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.1/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.1/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.1/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.1/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.1/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.1/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.2/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.2/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.2/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.2/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.2/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.2/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.2/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.3/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.3/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.3/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.3/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.3/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.3/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.3/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.4/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.4/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.4/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.4/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.4/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.4/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.4/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.5/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.5/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.5/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.5/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.5/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer3/layer3.5/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer3/layer3.5/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.0/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.0/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.0/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.0/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.0/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.0/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.0/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.1/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.1/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.1/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.1/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.1/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.1/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.1/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.2/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.2/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.2/conv1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.2/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.2/conv2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/body/layer4/layer4.2/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/body/layer4/layer4.2/conv3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/Add",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/Add_1",
+        "op_type": "Add",
+        "origin": "activation"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/fpn/extra_blocks/p6/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/extra_blocks/p6/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/fpn/extra_blocks/p7/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/extra_blocks/p7/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/fpn/inner_blocks.0/inner_blocks.0.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/inner_blocks.0/inner_blocks.0.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/fpn/inner_blocks.1/inner_blocks.1.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/inner_blocks.1/inner_blocks.1.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/fpn/inner_blocks.2/inner_blocks.2.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/inner_blocks.2/inner_blocks.2.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/fpn/layer_blocks.0/layer_blocks.0.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/layer_blocks.0/layer_blocks.0.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/fpn/layer_blocks.1/layer_blocks.1.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/layer_blocks.1/layer_blocks.1.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/backbone/fpn/layer_blocks.2/layer_blocks.2.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/backbone/fpn/layer_blocks.2/layer_blocks.2.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/cls_logits/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/cls_logits/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/cls_logits_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/cls_logits_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/cls_logits_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/cls_logits_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/cls_logits_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/cls_logits_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/cls_logits_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/cls_logits_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.0/conv.0.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.1/conv.1.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.2/conv.2.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/classification_head/conv/conv.3/conv.3.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/bbox_reg/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/bbox_reg/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/bbox_reg_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/bbox_reg_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/bbox_reg_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/bbox_reg_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/bbox_reg_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/bbox_reg_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/bbox_reg_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/bbox_reg_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.0/conv.0.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.1/conv.1.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.2/conv.2.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0_1/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0_2/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0_3/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      },
+      {
+        "input_index": 0,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "activation"
+      },
+      {
+        "input_index": 1,
+        "node_name": "/head/regression_head/conv/conv.3/conv.3.0_4/Conv",
+        "op_type": "Conv",
+        "origin": "weight_initializer"
+      }
+    ],
+    "output_attachments": [
+      {
+        "node_name": "/backbone/body/layer1/layer1.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/body/layer2/layer2.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/body/layer3/layer3.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/body/layer4/layer4.0/downsample/downsample.0/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/fpn/Add",
+        "op_type": "Add",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/fpn/Add_1",
+        "op_type": "Add",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/fpn/extra_blocks/p6/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/fpn/extra_blocks/p7/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/fpn/inner_blocks.2/inner_blocks.2.0/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/fpn/layer_blocks.0/layer_blocks.0.0/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/fpn/layer_blocks.1/layer_blocks.1.0/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      },
+      {
+        "node_name": "/backbone/fpn/layer_blocks.2/layer_blocks.2.0/Conv",
+        "op_type": "Conv",
+        "output_index": 0,
+        "quantizer_count": 1
+      }
+    ],
+    "quantize_linear_nodes": 214,
+    "topology_sha256": "a79c1638f3057419b937be3b31e473f5134b8145ecab1064f87dd8f418345d01",
+    "unanchored_q_inputs": [
+      "/backbone/body/layer1/layer1.0/relu/Relu_output_0",
+      "/backbone/body/layer1/layer1.0/relu_1/Relu_output_0",
+      "/backbone/body/layer1/layer1.0/relu_2/Relu_output_0",
+      "/backbone/body/layer1/layer1.1/relu/Relu_output_0",
+      "/backbone/body/layer1/layer1.1/relu_1/Relu_output_0",
+      "/backbone/body/layer1/layer1.1/relu_2/Relu_output_0",
+      "/backbone/body/layer1/layer1.2/relu/Relu_output_0",
+      "/backbone/body/layer1/layer1.2/relu_1/Relu_output_0",
+      "/backbone/body/layer1/layer1.2/relu_2/Relu_output_0",
+      "/backbone/body/layer2/layer2.0/relu/Relu_output_0",
+      "/backbone/body/layer2/layer2.0/relu_1/Relu_output_0",
+      "/backbone/body/layer2/layer2.0/relu_2/Relu_output_0",
+      "/backbone/body/layer2/layer2.1/relu/Relu_output_0",
+      "/backbone/body/layer2/layer2.1/relu_1/Relu_output_0",
+      "/backbone/body/layer2/layer2.1/relu_2/Relu_output_0",
+      "/backbone/body/layer2/layer2.2/relu/Relu_output_0",
+      "/backbone/body/layer2/layer2.2/relu_1/Relu_output_0",
+      "/backbone/body/layer2/layer2.2/relu_2/Relu_output_0",
+      "/backbone/body/layer2/layer2.3/relu/Relu_output_0",
+      "/backbone/body/layer2/layer2.3/relu_1/Relu_output_0",
+      "/backbone/body/layer2/layer2.3/relu_2/Relu_output_0",
+      "/backbone/body/layer3/layer3.0/relu/Relu_output_0",
+      "/backbone/body/layer3/layer3.0/relu_1/Relu_output_0",
+      "/backbone/body/layer3/layer3.0/relu_2/Relu_output_0",
+      "/backbone/body/layer3/layer3.1/relu/Relu_output_0",
+      "/backbone/body/layer3/layer3.1/relu_1/Relu_output_0",
+      "/backbone/body/layer3/layer3.1/relu_2/Relu_output_0",
+      "/backbone/body/layer3/layer3.2/relu/Relu_output_0",
+      "/backbone/body/layer3/layer3.2/relu_1/Relu_output_0",
+      "/backbone/body/layer3/layer3.2/relu_2/Relu_output_0",
+      "/backbone/body/layer3/layer3.3/relu/Relu_output_0",
+      "/backbone/body/layer3/layer3.3/relu_1/Relu_output_0",
+      "/backbone/body/layer3/layer3.3/relu_2/Relu_output_0",
+      "/backbone/body/layer3/layer3.4/relu/Relu_output_0",
+      "/backbone/body/layer3/layer3.4/relu_1/Relu_output_0",
+      "/backbone/body/layer3/layer3.4/relu_2/Relu_output_0",
+      "/backbone/body/layer3/layer3.5/relu/Relu_output_0",
+      "/backbone/body/layer3/layer3.5/relu_1/Relu_output_0",
+      "/backbone/body/layer3/layer3.5/relu_2/Relu_output_0",
+      "/backbone/body/layer4/layer4.0/relu/Relu_output_0",
+      "/backbone/body/layer4/layer4.0/relu_1/Relu_output_0",
+      "/backbone/body/layer4/layer4.0/relu_2/Relu_output_0",
+      "/backbone/body/layer4/layer4.1/relu/Relu_output_0",
+      "/backbone/body/layer4/layer4.1/relu_1/Relu_output_0",
+      "/backbone/body/layer4/layer4.1/relu_2/Relu_output_0",
+      "/backbone/body/layer4/layer4.2/relu/Relu_output_0",
+      "/backbone/body/layer4/layer4.2/relu_1/Relu_output_0",
+      "/backbone/body/layer4/layer4.2/relu_2/Relu_output_0",
+      "/backbone/body/maxpool/MaxPool_output_0",
+      "/backbone/fpn/Resize_1_output_0",
+      "/backbone/fpn/Resize_output_0",
+      "/backbone/fpn/extra_blocks/Relu_output_0",
+      "/head/classification_head/conv/conv.0/conv.0.2/Relu_output_0",
+      "/head/classification_head/conv/conv.0/conv.0.2_1/Relu_output_0",
+      "/head/classification_head/conv/conv.0/conv.0.2_2/Relu_output_0",
+      "/head/classification_head/conv/conv.0/conv.0.2_3/Relu_output_0",
+      "/head/classification_head/conv/conv.0/conv.0.2_4/Relu_output_0",
+      "/head/classification_head/conv/conv.1/conv.1.2/Relu_output_0",
+      "/head/classification_head/conv/conv.1/conv.1.2_1/Relu_output_0",
+      "/head/classification_head/conv/conv.1/conv.1.2_2/Relu_output_0",
+      "/head/classification_head/conv/conv.1/conv.1.2_3/Relu_output_0",
+      "/head/classification_head/conv/conv.1/conv.1.2_4/Relu_output_0",
+      "/head/classification_head/conv/conv.2/conv.2.2/Relu_output_0",
+      "/head/classification_head/conv/conv.2/conv.2.2_1/Relu_output_0",
+      "/head/classification_head/conv/conv.2/conv.2.2_2/Relu_output_0",
+      "/head/classification_head/conv/conv.2/conv.2.2_3/Relu_output_0",
+      "/head/classification_head/conv/conv.2/conv.2.2_4/Relu_output_0",
+      "/head/classification_head/conv/conv.3/conv.3.2/Relu_output_0",
+      "/head/classification_head/conv/conv.3/conv.3.2_1/Relu_output_0",
+      "/head/classification_head/conv/conv.3/conv.3.2_2/Relu_output_0",
+      "/head/classification_head/conv/conv.3/conv.3.2_3/Relu_output_0",
+      "/head/classification_head/conv/conv.3/conv.3.2_4/Relu_output_0",
+      "/head/regression_head/conv/conv.0/conv.0.2/Relu_output_0",
+      "/head/regression_head/conv/conv.0/conv.0.2_1/Relu_output_0",
+      "/head/regression_head/conv/conv.0/conv.0.2_2/Relu_output_0",
+      "/head/regression_head/conv/conv.0/conv.0.2_3/Relu_output_0",
+      "/head/regression_head/conv/conv.0/conv.0.2_4/Relu_output_0",
+      "/head/regression_head/conv/conv.1/conv.1.2/Relu_output_0",
+      "/head/regression_head/conv/conv.1/conv.1.2_1/Relu_output_0",
+      "/head/regression_head/conv/conv.1/conv.1.2_2/Relu_output_0",
+      "/head/regression_head/conv/conv.1/conv.1.2_3/Relu_output_0",
+      "/head/regression_head/conv/conv.1/conv.1.2_4/Relu_output_0",
+      "/head/regression_head/conv/conv.2/conv.2.2/Relu_output_0",
+      "/head/regression_head/conv/conv.2/conv.2.2_1/Relu_output_0",
+      "/head/regression_head/conv/conv.2/conv.2.2_2/Relu_output_0",
+      "/head/regression_head/conv/conv.2/conv.2.2_3/Relu_output_0",
+      "/head/regression_head/conv/conv.2/conv.2.2_4/Relu_output_0",
+      "/head/regression_head/conv/conv.3/conv.3.2/Relu_output_0",
+      "/head/regression_head/conv/conv.3/conv.3.2_1/Relu_output_0",
+      "/head/regression_head/conv/conv.3/conv.3.2_2/Relu_output_0",
+      "/head/regression_head/conv/conv.3/conv.3.2_3/Relu_output_0",
+      "/head/regression_head/conv/conv.3/conv.3.2_4/Relu_output_0"
+    ]
+  },
+  "baseline_int8": {
+    "extra_compute_sites": [
+      {
+        "name": "/backbone/body/conv1/Conv",
+        "op_type": "Conv"
+      }
+    ],
+    "onnx": "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_int8-entropy.onnx",
+    "onnx_sha256": "1e7c4378f34e437e9dfe56a950e1f9eefff1095c3580e9a38a7fa1e2361e24cb",
+    "registry": "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_int8-entropy.json",
+    "registry_file_sha256": "95f4e76f4d98a4788a4bdef3a3a49997fb55c249837f73f2ce37f4171d9aca5e",
+    "selected_compute_sites": 129
+  },
+  "block_id": "kitti_retinanet_r50_fpn_v2",
+  "calibration": {
+    "calibration_sha256": "f0cfb861d1c8846d3aa66f266ac8c9e41150f8b2cf66525ad12efca19ad58be7",
+    "list": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+    "method": "entropy"
+  },
+  "created_at_utc": "2026-09-04T03:10:03.302133+00:00",
+  "dataset": "kitti",
+  "edge_policy": {
+    "edge_policy_sha256": "80284b55ea0ed523e9c638395839947acd6e303be7e2351514b6a2c54c4ca392",
+    "no_quantize_inputs": [
+      {
+        "input_name": "/backbone/body/layer1/layer1.0/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer1/layer1.0/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer1/layer1.0/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer1/layer1.1/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer1/layer1.1/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer1/layer1.1/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer1/layer1.2/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer1/layer1.2/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer1/layer1.2/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer2/layer2.0/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer2/layer2.0/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer2/layer2.0/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer2/layer2.1/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer2/layer2.1/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer2/layer2.1/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer2/layer2.2/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer2/layer2.2/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer2/layer2.2/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer2/layer2.3/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer2/layer2.3/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer2/layer2.3/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer3/layer3.0/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer3/layer3.0/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer3/layer3.0/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer3/layer3.1/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer3/layer3.1/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer3/layer3.1/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer3/layer3.2/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer3/layer3.2/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer3/layer3.2/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer3/layer3.3/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer3/layer3.3/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer3/layer3.3/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer3/layer3.4/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer3/layer3.4/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer3/layer3.4/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer3/layer3.5/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer3/layer3.5/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer3/layer3.5/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer4/layer4.0/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer4/layer4.0/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer4/layer4.0/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer4/layer4.1/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer4/layer4.1/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer4/layer4.1/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/body/layer4/layer4.2/conv3/Conv_output_0",
+        "source_node": "/backbone/body/layer4/layer4.2/conv3/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/body/layer4/layer4.2/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/fpn/inner_blocks.1/inner_blocks.1.0/Conv_output_0",
+        "source_node": "/backbone/fpn/inner_blocks.1/inner_blocks.1.0/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/fpn/Add",
+        "target_op": "Add"
+      },
+      {
+        "input_name": "/backbone/fpn/inner_blocks.0/inner_blocks.0.0/Conv_output_0",
+        "source_node": "/backbone/fpn/inner_blocks.0/inner_blocks.0.0/Conv",
+        "source_op": "Conv",
+        "source_output_index": 0,
+        "target_input_index": 0,
+        "target_node": "/backbone/fpn/Add_1",
+        "target_op": "Add"
+      }
+    ],
+    "raw_inputs": []
+  },
+  "generator": {
+    "path": "/home/thuan/topic_c_ivc/src/freeze_shared_quantization_mask.py",
+    "sha256": "5021ccf1d83331fa428f8d824d8ed0d94ce6f4f88c63c7993e14530fe53bd4bb"
+  },
+  "imgsz": 640,
+  "mask_sha256": "0102688aa12a5271493eb54322b2776f7dddc5a0ee3b76d0e7b4685ae6e96a2c",
+  "model": "retinanet-r50-fpn-v2",
+  "node_type_counts": {
+    "Add": 18,
+    "Conv": 110
+  },
+  "nodes": [
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.0/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.0/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.0/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.0/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.0/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.0/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.0/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.0/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.0/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.0/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.0/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.0/downsample/downsample.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.0/downsample/downsample.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.0/downsample/downsample.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.1/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.1/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.1/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.1/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.1/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.1/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.1/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.1/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.1/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.1/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.1/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.2/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.2/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.2/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.2/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.2/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.2/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.2/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.2/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer1/layer1.2/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer1/layer1.2/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer1/layer1.2/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.0/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.0/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.0/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.0/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.0/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.0/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.0/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.0/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.0/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.0/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.0/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.0/downsample/downsample.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.0/downsample/downsample.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.0/downsample/downsample.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.1/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.1/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.1/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.1/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.1/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.1/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.1/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.1/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.1/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.1/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.1/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.2/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.2/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.2/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.2/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.2/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.2/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.2/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.2/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.2/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.2/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.2/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.3/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.3/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.3/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.3/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.3/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.3/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.3/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.3/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer2/layer2.3/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer2/layer2.3/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer2/layer2.3/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.0/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.0/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.0/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.0/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.0/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.0/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.0/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.0/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.0/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.0/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.0/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.0/downsample/downsample.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.0/downsample/downsample.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.0/downsample/downsample.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.1/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.1/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.1/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.1/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.1/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.1/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.1/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.1/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.1/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.1/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.1/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.2/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.2/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.2/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.2/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.2/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.2/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.2/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.2/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.2/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.2/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.2/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.3/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.3/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.3/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.3/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.3/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.3/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.3/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.3/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.3/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.3/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.3/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.4/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.4/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.4/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.4/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.4/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.4/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.4/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.4/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.4/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.4/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.4/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.5/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.5/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.5/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.5/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.5/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.5/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.5/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.5/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer3/layer3.5/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer3/layer3.5/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer3/layer3.5/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.0/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.0/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.0/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.0/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.0/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.0/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.0/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.0/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.0/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.0/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.0/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.0/downsample/downsample.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.0/downsample/downsample.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.0/downsample/downsample.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.1/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.1/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.1/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.1/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.1/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.1/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.1/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.1/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.1/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.1/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.1/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.2/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.2/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.2/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.2/conv1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.2/conv1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.2/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.2/conv2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.2/conv2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/body/layer4/layer4.2/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/body/layer4/layer4.2/conv3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/body/layer4/layer4.2/conv3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/Add",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/fpn/Add",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/Add_1",
+          "op_type": "Add",
+          "origin": "activation"
+        }
+      ],
+      "name": "/backbone/fpn/Add_1",
+      "op_type": "Add"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/fpn/extra_blocks/p6/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/extra_blocks/p6/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/fpn/extra_blocks/p6/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/fpn/extra_blocks/p7/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/extra_blocks/p7/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/fpn/extra_blocks/p7/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/fpn/inner_blocks.0/inner_blocks.0.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/inner_blocks.0/inner_blocks.0.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/fpn/inner_blocks.0/inner_blocks.0.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/fpn/inner_blocks.1/inner_blocks.1.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/inner_blocks.1/inner_blocks.1.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/fpn/inner_blocks.1/inner_blocks.1.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/fpn/inner_blocks.2/inner_blocks.2.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/inner_blocks.2/inner_blocks.2.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/fpn/inner_blocks.2/inner_blocks.2.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/fpn/layer_blocks.0/layer_blocks.0.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/layer_blocks.0/layer_blocks.0.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/fpn/layer_blocks.0/layer_blocks.0.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/fpn/layer_blocks.1/layer_blocks.1.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/layer_blocks.1/layer_blocks.1.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/fpn/layer_blocks.1/layer_blocks.1.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/backbone/fpn/layer_blocks.2/layer_blocks.2.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/backbone/fpn/layer_blocks.2/layer_blocks.2.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/backbone/fpn/layer_blocks.2/layer_blocks.2.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/cls_logits/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/cls_logits/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/cls_logits/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/cls_logits_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/cls_logits_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/cls_logits_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/cls_logits_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/cls_logits_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/cls_logits_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/cls_logits_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/cls_logits_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/cls_logits_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/cls_logits_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/cls_logits_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/cls_logits_4/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.0/conv.0.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.0/conv.0.0_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.0/conv.0.0_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.0/conv.0.0_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.0/conv.0.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.0/conv.0.0_4/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.1/conv.1.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.1/conv.1.0_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.1/conv.1.0_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.1/conv.1.0_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.1/conv.1.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.1/conv.1.0_4/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.2/conv.2.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.2/conv.2.0_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.2/conv.2.0_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.2/conv.2.0_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.2/conv.2.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.2/conv.2.0_4/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.3/conv.3.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.3/conv.3.0_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.3/conv.3.0_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.3/conv.3.0_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/classification_head/conv/conv.3/conv.3.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/classification_head/conv/conv.3/conv.3.0_4/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/bbox_reg/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/bbox_reg/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/bbox_reg/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/bbox_reg_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/bbox_reg_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/bbox_reg_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/bbox_reg_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/bbox_reg_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/bbox_reg_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/bbox_reg_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/bbox_reg_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/bbox_reg_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/bbox_reg_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/bbox_reg_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/bbox_reg_4/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.0/conv.0.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.0/conv.0.0_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.0/conv.0.0_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.0/conv.0.0_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.0/conv.0.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.0/conv.0.0_4/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.1/conv.1.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.1/conv.1.0_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.1/conv.1.0_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.1/conv.1.0_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.1/conv.1.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.1/conv.1.0_4/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.2/conv.2.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.2/conv.2.0_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.2/conv.2.0_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.2/conv.2.0_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.2/conv.2.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.2/conv.2.0_4/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.3/conv.3.0/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0_1/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.3/conv.3.0_1/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0_2/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.3/conv.3.0_2/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0_3/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.3/conv.3.0_3/Conv",
+      "op_type": "Conv"
+    },
+    {
+      "input_attachments": [
+        {
+          "input_index": 0,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "activation"
+        },
+        {
+          "input_index": 1,
+          "node_name": "/head/regression_head/conv/conv.3/conv.3.0_4/Conv",
+          "op_type": "Conv",
+          "origin": "weight_initializer"
+        }
+      ],
+      "name": "/head/regression_head/conv/conv.3/conv.3.0_4/Conv",
+      "op_type": "Conv"
+    }
+  ],
+  "op_types_to_quantize": [
+    "Add",
+    "Conv"
+  ],
+  "policy": "baseline_fp8_compute_attachment_replay_v2",
+  "schema_version": 2,
+  "scope": "post-hoc mechanistic pilot; exact baseline-FP8 source-compute Q/DQ attachment replay, not TensorRT kernel precision",
+  "source": {
+    "onnx": "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.onnx",
+    "onnx_sha256": "5c522b7711017f7506a2096e046596be33861715ba0c415f393580ad8bc59941",
+    "registry": "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json",
+    "registry_file_sha256": "40ebb242b46952e6cbbda0ea32571fb698aade900a901f71a195b9a5ad91fad9"
+  }
+}

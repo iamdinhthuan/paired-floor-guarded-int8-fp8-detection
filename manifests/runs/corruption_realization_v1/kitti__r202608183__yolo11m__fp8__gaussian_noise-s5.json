@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "condition_id": "kitti__r202608183__yolo11m__fp8__gaussian_noise-s5",
+  "dataset": "kitti",
+  "split": "test",
+  "model": "yolo11m",
+  "precision": "fp8",
+  "calibrator": "entropy",
+  "calibration_list_path": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_confirmatory_train_512_s20260818_v1.json",
+  "calibration_sha256": "e6a689efd166e8df6a3673f906da1935775a61da07200d6de673cd59500412ad",
+  "calibration_method": "entropy",
+  "calibration_provenance": "verified",
+  "corruption": "gaussian_noise",
+  "severity": 5,
+  "engine_path": "/home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/kitti/yolo11m/fp8.plan",
+  "engine_sha256": "3ee73a8d3ea4f6e843e0fa29a3c524015d4143168eca97412fd1fa14971db78d",
+  "runner_sha256": "78c9d445915bd4e4474ecc643f60e169d04fd86edff114fca9b24f54c9f9ad5b",
+  "preprocess_sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804",
+  "decoder_sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c",
+  "class_map_path": "/home/thuan/topic_c_ivc/manifests/classes/corruption_realization_v1/kitti_subset512.json",
+  "class_map_sha256": "9a2aac8ca8231c313dbc4c8f90b9e3d6261389e7637da2fa750cbef225fc3ebf",
+  "annotation_sha256": "816e75bb99ed5bb7428b3fcd467771cf4729892f9d74d45f007e2b79791d0415",
+  "input_manifest_sha256": "309add44c877656d589b9c4335e13ac56954cbe187212b10f7248c774a1c1aa9",
+  "input_image_ids_sha256": "c8f46bb5961636e63f2f58486053158dd764368273aaa9ab580a1042da4cf7ec",
+  "prediction_sha256": "551c0ef4ab6a012ca4cf989710778b0d83b48a59474c001001850712212534c4",
+  "n_images": 512,
+  "n_detections": 3029,
+  "runtime_seconds": 3.6972670555114746,
+  "runtime_environment": {
+    "python_executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "python_version": "3.11.15",
+    "tensorrt_version": "11.1.0.106",
+    "gpu": [
+      "NVIDIA GeForce RTX 5090, 610.43.02, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb"
+    ]
+  },
+  "command": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py --engine /home/thuan/topic_c_ivc/engines/voc_kitti_confirmatory_v1/kitti/yolo11m/fp8.plan --annotations /home/thuan/topic_c_ivc/manifests/annotations/corruption_realization_v1/kitti_subset512.json --image-manifest /home/thuan/topic_c_ivc/manifests/images/corruption_realization_v1/kitti_r202608183_gaussian_noise_s5.json --manifest-cache-root /home/thuan/topic_c_ivc/data/corruption_realization_v1/kitti/r202608183 --out /home/thuan/topic_c_ivc/outputs/predictions/corruption_realization_v1/kitti__r202608183__yolo11m__fp8__gaussian_noise-s5.json --input-record /home/thuan/topic_c_ivc/outputs/inputs/corruption_realization_v1/kitti__r202608183__yolo11m__fp8__gaussian_noise-s5.json --run-record /home/thuan/topic_c_ivc/manifests/runs/corruption_realization_v1/kitti__r202608183__yolo11m__fp8__gaussian_noise-s5.json --condition-id kitti__r202608183__yolo11m__fp8__gaussian_noise-s5 --dataset kitti --split test --model yolo11m --precision fp8 --calibrator entropy --calibration-list /home/thuan/topic_c_ivc/manifests/calibration/kitti_confirmatory_train_512_s20260818_v1.json --calibration-method entropy --calibration-provenance verified --corruption gaussian_noise --severity 5 --class-map /home/thuan/topic_c_ivc/manifests/classes/corruption_realization_v1/kitti_subset512.json --imgsz 640"
+}

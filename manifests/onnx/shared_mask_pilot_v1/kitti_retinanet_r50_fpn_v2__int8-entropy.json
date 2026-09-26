@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-04T05:54:42.528224+00:00",
+  "dataset": "kitti",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "int8-entropy",
+  "source_onnx_registry_sha256": "40ebb242b46952e6cbbda0ea32571fb698aade900a901f71a195b9a5ad91fad9",
+  "source_onnx_sha256": "5c522b7711017f7506a2096e046596be33861715ba0c415f393580ad8bc59941",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/onnx/shared_mask_pilot_v1/kitti_retinanet_r50_fpn_v2__int8-entropy.onnx",
+  "output_onnx_sha256": "a5e275e8cfc86b2713c57053a27452cf0453365404b43d7df36fe007e4f7c7c5",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "f0cfb861d1c8846d3aa66f266ac8c9e41150f8b2cf66525ad12efca19ad58be7",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "int8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "op_types_to_quantize": [
+    "Add",
+    "Conv"
+  ],
+  "node_mask": "/home/thuan/topic_c_ivc/manifests/quantization_masks/shared_mask_pilot_v1/kitti_retinanet_r50_fpn_v2.json",
+  "node_mask_file_sha256": "4a4f40b573cb825aed426b159131edb4598228fda9ca86462058650ed4def61f",
+  "node_mask_sha256": "0102688aa12a5271493eb54322b2776f7dddc5a0ee3b76d0e7b4685ae6e96a2c",
+  "nodes_to_quantize_count": 128,
+  "no_quantize_inputs_count": 18,
+  "edge_policy_sha256": "80284b55ea0ed523e9c638395839947acd6e303be7e2351514b6a2c54c4ca392",
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "anchors"
+  ],
+  "decoder": "torchvision_retinanet_raw_v1",
+  "num_classes_excluding_background": 8,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "/home/thuan/topic_c_ivc/src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json",
+    "--mode",
+    "int8-entropy",
+    "--imgsz",
+    "640",
+    "--calibration-list",
+    "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+    "--node-mask",
+    "/home/thuan/topic_c_ivc/manifests/quantization_masks/shared_mask_pilot_v1/kitti_retinanet_r50_fpn_v2.json",
+    "--out",
+    "/home/thuan/topic_c_ivc/outputs/onnx/shared_mask_pilot_v1/kitti_retinanet_r50_fpn_v2__int8-entropy.onnx",
+    "--registry-out",
+    "/home/thuan/topic_c_ivc/manifests/onnx/shared_mask_pilot_v1/kitti_retinanet_r50_fpn_v2__int8-entropy.json"
+  ],
+  "registry_sha256": "f3eb7256b6270c253d5e514bf90c9d23e620b7edb93e16c6013933893e1f9ebd"
+}

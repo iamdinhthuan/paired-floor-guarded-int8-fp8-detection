@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-08T10:29:24.555136+00:00",
+  "dataset": "voc",
+  "model": "yolo11n",
+  "precision": "fp16",
+  "source_onnx_registry_sha256": "7bc978682ef4c8ef83f9aa205543aa966eb99002338b5f16b8b7c4ab62542810",
+  "source_onnx_sha256": "16200f09b9244f1a8ff3988b59dcf2aa37d4e6b056c953677f2f351757ef8b36",
+  "output_onnx": "/home/thuan/topic_c_ivc/engines/voc/yolo11n/fp16.onnx",
+  "output_onnx_sha256": "82ce446ccf9b2b82123d1005278bd9382d8572029e71bba58e41d6337b92c6eb",
+  "calibration_list": null,
+  "calibration_sha256": null,
+  "calibration_method": "not_applicable",
+  "imgsz": 640,
+  "registry_sha256": "bb4edeb22653d31f1706c02254cc43d5d7b454643e80705a2434b52063b21aca"
+}

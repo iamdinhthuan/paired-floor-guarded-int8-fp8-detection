@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-13T12:33:05.705299+00:00",
+  "dataset": "tt100k",
+  "model": "yolo11m",
+  "training_registry_sha256": "2311d741700d8979ab22883a79f012588142c6b60ed7957c7824c696fcdd3e05",
+  "source_checkpoint": "/home/thuan/topic_c_ivc/outputs/onnx/ivc_multiseed_yolo11m_s5_v1/tt100k__yolo11m__ts20260807__fp32.pt",
+  "source_checkpoint_sha256": "24babc3badca4ce3f1e31b323904ea6cc048da41b3a1fde5ac7af477dfbb66b5",
+  "onnx": "/home/thuan/topic_c_ivc/outputs/onnx/ivc_multiseed_yolo11m_s5_v1/tt100k__yolo11m__ts20260807__fp32.onnx",
+  "onnx_sha256": "c56c2d677fcec9bdc463db0e80b92ae2d518de71526761f8b3694e0baf671f04",
+  "imgsz": 1280,
+  "opset": 19,
+  "dynamic": false,
+  "nms_embedded": false,
+  "half": false,
+  "input_name": "images",
+  "output_name": "output0",
+  "ultralytics_version": "8.4.95"
+}

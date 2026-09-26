@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "condition_id": "tt100k_test__rtdetr_l__fp8__gaussian_noise-s3",
+  "dataset": "tt100k",
+  "split": "test",
+  "model": "rtdetr-l",
+  "precision": "fp8",
+  "decoder": "ultralytics_rtdetr_raw_v1",
+  "decoder_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "engine_registry": "/home/thuan/topic_c_ivc/manifests/engines/cross_family_v1/tt100k_rtdetr_l_fp8.json",
+  "engine_registry_sha256": "582e2623756edfeb235ab3dba9fd3775901532519937dbda19e81a4907165289",
+  "engine_sha256": "14d2313e039f96bd22522885fb7217dbe833d68676911908c103edd4ac20d1ca",
+  "corruption": "gaussian_noise",
+  "severity": 3,
+  "annotation_sha256": "aedb7cccb2135dd455ce8ee3a4b1feeb019670f029fee8cba5577b390e579a80",
+  "confidence": 0.001,
+  "input_manifest_sha256": "39b802ef0213f25a964499a1b5874bb353ead64f75a50dbe5ab27cf8ac455938",
+  "input_image_ids_sha256": "e074fcfcba3bfb0a9ae6c254c493b2a80f40fe81901a8ba94609d9de5d132099",
+  "prediction_sha256": "9799cb4cc63fd412da0cc3782b7f2c3fe0e2f9d557d89152bcb1c8b310fc6c6c",
+  "n_images": 3067,
+  "n_detections": 920100,
+  "runtime_seconds": 158.3924572467804
+}

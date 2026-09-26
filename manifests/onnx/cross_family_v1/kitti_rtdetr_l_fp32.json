@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-17T09:15:55.730611+00:00",
+  "dataset": "kitti",
+  "model": "rtdetr-l",
+  "training_registry": "/home/thuan/topic_c_ivc/manifests/training/kitti_rtdetr_l_s20260807_v1.json",
+  "training_registry_sha256": "5a0ffe6f76ee70857bb6794b66a971ae2d5aabe6f8b007a9c5a768d17320a0cc",
+  "source_checkpoint": "/home/thuan/topic_c_ivc/outputs/training/kitti/cross_family_rtdetr_l_kitti_s20260807_v1/weights/best.pt",
+  "source_checkpoint_sha256": "10022d7eef9b704fba8696648375e2656ac66d040b88768eacad36f96390cca4",
+  "onnx": "/home/thuan/topic_c_ivc/outputs/onnx/cross_family_v1/kitti_rtdetr_l_fp32.onnx",
+  "onnx_sha256": "37d06473a797f95f0571b344bee3171c7930ab83461aab90847171c12c246952",
+  "imgsz": 640,
+  "num_classes_excluding_background": 8,
+  "opset": 19,
+  "dynamic": false,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "output0"
+  ],
+  "decoder": "ultralytics_rtdetr_raw_v1"
+}

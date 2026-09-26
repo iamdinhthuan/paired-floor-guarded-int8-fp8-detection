@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__rtdetr_l__int8-entropy__motion_blur-s1",
+  "dataset": "voc",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "int8-entropy",
+  "decoder": "ultralytics_rtdetr_raw_v1",
+  "decoder_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "engine_registry": "/home/thuan/topic_c_ivc/manifests/engines/cross_family_v1/voc_rtdetr_l_int8-entropy.json",
+  "engine_registry_sha256": "3fb97ef59340320e5269a5b6df2f8364db67d25116defe99a71ebf5515799c35",
+  "engine_sha256": "8fe30d717f3013817b8f897703a966a555b4af5e9f218cc3e482498f2710467f",
+  "corruption": "motion_blur",
+  "severity": 1,
+  "annotation_sha256": "e825593ef803aeedd611fb746de757f18074b96b46408a55b320dea01b7a62a1",
+  "confidence": 0.001,
+  "input_manifest_sha256": "ec9bb03e4193706916a1cc873094a6921692d99d2c7914da0dc7ace782149a16",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "prediction_sha256": "2d8ce44b756242380597f6b7158d46ddabcc9511e49933b54f6ff7daded6373d",
+  "n_images": 4952,
+  "n_detections": 1019131,
+  "runtime_seconds": 31.873448610305786
+}

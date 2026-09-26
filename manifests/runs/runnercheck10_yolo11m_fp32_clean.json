@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_val2017__yolo11m__fp32-none__clean-s0__pending__clean10",
+  "dataset": "coco",
+  "split": "val2017",
+  "model": "yolo11m",
+  "precision": "fp32",
+  "calibrator": "none",
+  "corruption": "clean",
+  "severity": 0,
+  "engine_path": "/home/thuan/coco_journal/exports/coco_pilot/yolo11m_fp32.plan",
+  "engine_sha256": "26e03abb02863aa8534ab83b3a144a2aaecd5c9f567cc7ec2c8609ece6da7ef3",
+  "runner_sha256": "3099b585569aeb96ea53ca5dbbadc5f47a8a6e81ceb5604a147c7d90a86f48eb",
+  "annotation_sha256": "e8c7f7908f1d7278341fae127d0da654f102f11bd7b21d8aeefa635b8c810b6f",
+  "input_manifest_sha256": "clean-root:e8c7f7908f1d7278341fae127d0da654f102f11bd7b21d8aeefa635b8c810b6f",
+  "input_image_ids_sha256": "8731dc65ddf3756c45a0846f79ee728a6d15c59280db7412f1688e33b987266e",
+  "prediction_sha256": "b45d0958424cc9c026c0a17a18f4f88378b03d9ff0015dcedbf90b97c0178a8e",
+  "n_images": 10,
+  "n_detections": 946,
+  "runtime_seconds": 0.22812318801879883,
+  "command": "src/coco_infer_trt.py --engine /home/thuan/coco_journal/exports/coco_pilot/yolo11m_fp32.plan --annotations /home/thuan/coco_journal/data/coco_src/annotations/instances_val2017.json --image-root /home/thuan/coco_journal/data/coco/images/val2017 --out outputs/predictions/runnercheck10_yolo11m_fp32_clean.json --input-record outputs/inputs/runnercheck10_yolo11m_fp32_clean.json --run-record manifests/runs/runnercheck10_yolo11m_fp32_clean.json --condition-id coco_val2017__yolo11m__fp32-none__clean-s0__pending__clean10 --model yolo11m --precision fp32 --corruption clean --severity 0 --limit 10"
+}

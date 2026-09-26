@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-08-06T14:54:51.221435+00:00",
+  "python": {
+    "executable": "/home/thuan/miniconda3/envs/qtsd/bin/python",
+    "version": "3.11.15 (main, Jun 11 2026, 15:20:16) [GCC 14.3.0]"
+  },
+  "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+  "packages": {
+    "tensorrt": "11.1.0.106",
+    "numpy": "2.4.4",
+    "opencv-python": "5.0.0.93",
+    "Pillow": "12.2.0",
+    "pycocotools": "2.0.11",
+    "ultralytics": "8.4.95",
+    "scipy": "1.17.1",
+    "cuda-python": null
+  },
+  "nvidia_smi": {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=index,name,uuid,driver_version,memory.total",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "stdout": "0, NVIDIA GeForce RTX 5090, GPU-73cd7254-dd5d-7323-f317-b05645d2bdcb, 610.43.02, 32607 MiB",
+    "stderr": ""
+  },
+  "trtexec": {
+    "path": null,
+    "version": null
+  },
+  "assets": [
+    {
+      "path": "/home/thuan/topic_c_ivc/src/coco_infer_trt.py",
+      "bytes": 9088,
+      "sha256": "fe2801bea83e83abad295e45fc4cbd624248df41c89cf6e1b32e3c9df760ab13"
+    },
+    {
+      "path": "/home/thuan/topic_c_ivc/src/topic_c/coco_data.py",
+      "bytes": 2619,
+      "sha256": "48349360924543da459e89fdfde65c4a384a45a5a6341b0ef7d687fe1cd60804"
+    },
+    {
+      "path": "/home/thuan/topic_c_ivc/src/topic_c/yolo_decode.py",
+      "bytes": 2420,
+      "sha256": "98bdd58e434672f7cf808e755e37c66b0a75794f7ec0a30af94a1d1bf046397c"
+    },
+    {
+      "path": "/home/thuan/topic_c_ivc/manifests/images/coco_val2017_full_clean.json",
+      "bytes": 1938281,
+      "sha256": "82905bf42824e7c7c327ee8324f5ea1dc163e6f4cfa5ad02d19143392b6739f4"
+    },
+    {
+      "path": "/home/thuan/coco_journal/exports/coco_pilot/yolo11n_fp32.plan",
+      "bytes": 11727908,
+      "sha256": "49bbd482e9e1d8cc2984b2d81daf827b385031f4e06537997f2bf41561889820"
+    },
+    {
+      "path": "/home/thuan/coco_journal/exports/coco_pilot/yolo11n_fp16.plan",
+      "bytes": 7162436,
+      "sha256": "e559168bc117a310c31e10bf8f4a05b1dd395ca1491086baf8d8cbc207d4b1bd"
+    },
+    {
+      "path": "/home/thuan/coco_journal/exports/coco_pilot/yolo11x_fp32.plan",
+      "bytes": 236272652,
+      "sha256": "fce4c650c3352848a231afa6decbff820e0fc35b6eb8d0325087f893d8b5ec47"
+    },
+    {
+      "path": "/home/thuan/coco_journal/exports/coco_pilot/yolo11x_fp16.plan",
+      "bytes": 117530420,
+      "sha256": "74d732fea16a7c5e8dc248e90b2b04324ff2c4d1bb6612300941a35d64fd101a"
+    },
+    {
+      "path": "/home/thuan/coco_journal/data/coco_src/annotations/instances_val2017.json",
+      "bytes": 19987840,
+      "sha256": "e8c7f7908f1d7278341fae127d0da654f102f11bd7b21d8aeefa635b8c810b6f"
+    }
+  ]
+}
