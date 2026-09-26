@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_val2017__yolo11x__fp8-none__motion_blur-s1__acd2d4b4__80d36bc5__subset-1a966e4c",
+  "dataset": "coco",
+  "split": "val2017",
+  "model": "yolo11x",
+  "precision": "fp8",
+  "corruption": "motion_blur",
+  "severity": 1,
+  "n_images": 2000,
+  "stats": {
+    "AP": 0.48367280577640037,
+    "AP50": 0.6441332554138767,
+    "AP75": 0.5263522116035609,
+    "AP_small": 0.2788091001991193,
+    "AP_medium": 0.5420772475983012,
+    "AP_large": 0.6710680411537723,
+    "AR1": 0.3607116706387047,
+    "AR10": 0.5831395028823635,
+    "AR100": 0.6212723284825862,
+    "AR_small": 0.40264485300942143,
+    "AR_medium": 0.6872142428047511,
+    "AR_large": 0.7927202374918775
+  },
+  "prediction_sha256": "2ee6c14ecf359fc528073505d52203fb6daf32e9ba55ee4d803bcaab4e87d609",
+  "input_manifest_sha256": "80d36bc56e1766e8df32426aefdc4619579daa2157b598ea8313fef83dcfca1f",
+  "input_image_ids_sha256": "768005bb0990a7c20a3e46145779cd1ebe560bc0a28c113d4997572bcaf82b3c",
+  "run_record_sha256": "aaf9fb2f8a4167c1fc71ba31fe75c72ad3523cb57e3c7de1cb1ee831aaed9544",
+  "subset_provenance": {
+    "kind": "deterministic_subset_restriction_of_existing_predictions",
+    "selection_sha256": "1a966e4c19712acad06384eab02a0054c244e4e377dadfbabf26e590c0d88704",
+    "parent_condition_id": "coco_val2017__yolo11x__fp8-none__motion_blur-s1__acd2d4b4__80d36bc5",
+    "parent_n_images": 5000
+  }
+}

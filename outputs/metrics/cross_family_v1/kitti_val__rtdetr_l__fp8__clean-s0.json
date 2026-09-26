@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__rtdetr_l__fp8__clean-s0",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "fp8",
+  "corruption": "clean",
+  "severity": 0,
+  "n_images": 1496,
+  "stats": {
+    "AP": 0.12023539435861304,
+    "AP50": 0.29935475476612183,
+    "AP75": 0.07645781125783799,
+    "AP_small": 0.08576435124653928,
+    "AP_medium": 0.10605837238793347,
+    "AP_large": 0.18656309722018055,
+    "AR1": 0.14593888709345565,
+    "AR10": 0.24590713554881954,
+    "AR100": 0.28925154404384257,
+    "AR_small": 0.23106647300545996,
+    "AR_medium": 0.271984518205121,
+    "AR_large": 0.36830797206810784
+  },
+  "prediction_sha256": "05293991f85af7062a30f2f6b1b4657d4763ead3d0ad69e60b66939e021d0ae6",
+  "input_manifest_sha256": "clean-root:79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "run_record_sha256": "b6470c0470dad24d0283f5c4bf4d04b60359b78388c3441c68d6eca57dd3c6e5"
+}

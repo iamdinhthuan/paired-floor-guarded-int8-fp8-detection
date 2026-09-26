@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "fp32_metric": "/home/thuan/topic_c_ivc/outputs/metrics/pilot_parity_nx/coco_val2017__yolo11x__fp32-none__clean-s0__fce4c650__4510cb55.json",
+  "fp16_metric": "/home/thuan/topic_c_ivc/outputs/metrics/pilot_parity_nx/coco_val2017__yolo11x__fp16-none__clean-s0__74d732fe__4510cb55.json",
+  "tolerance": 0.01,
+  "absolute_ap_gap": 0.0006641817105089709,
+  "pass": true,
+  "errors": []
+}

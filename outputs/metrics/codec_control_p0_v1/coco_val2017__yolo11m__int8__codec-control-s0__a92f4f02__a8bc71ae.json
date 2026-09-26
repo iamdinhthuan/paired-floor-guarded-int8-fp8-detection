@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_val2017__yolo11m__int8__codec-control-s0__a92f4f02__a8bc71ae",
+  "dataset": "coco",
+  "split": "val2017",
+  "model": "yolo11m",
+  "precision": "int8-entropy",
+  "corruption": "codec_control",
+  "severity": 0,
+  "n_images": 5000,
+  "stats": {
+    "AP": 0.48821302844845793,
+    "AP50": 0.6616840992315539,
+    "AP75": 0.5342149085082544,
+    "AP_small": 0.31157072499655547,
+    "AP_medium": 0.5427642898405064,
+    "AP_large": 0.6302079858991781,
+    "AR1": 0.3624606527727669,
+    "AR10": 0.5977292043293171,
+    "AR100": 0.6456277676751958,
+    "AR_small": 0.4687352412343039,
+    "AR_medium": 0.706595553537475,
+    "AR_large": 0.78155417390416
+  },
+  "prediction_sha256": "962f88178302ba9930033e3aeed01caf62fbd50e5c1767160ac57c277771dee1",
+  "input_manifest_sha256": "a8bc71ae32965ba11c18fb91f8c0dbf879a789eccf4fccff5a6d18052f4443e0",
+  "input_image_ids_sha256": "da6fc732d63651c32997a20b8f1197813a923613f059986297c5ddd5c6325190",
+  "run_record_sha256": "2726007d9bdfa1d7f77fe168a6b32eb4009e76bc9e03e67825533d8bdecf91a4"
+}

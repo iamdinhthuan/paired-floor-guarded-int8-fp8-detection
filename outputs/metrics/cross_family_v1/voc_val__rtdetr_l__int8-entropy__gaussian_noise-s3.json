@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__rtdetr_l__int8-entropy__gaussian_noise-s3",
+  "dataset": "voc",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "int8-entropy",
+  "corruption": "gaussian_noise",
+  "severity": 3,
+  "n_images": 4952,
+  "stats": {
+    "AP": 0.004913159512228078,
+    "AP50": 0.012180808517552197,
+    "AP75": 0.0039049968803197186,
+    "AP_small": 3.3989335598798665e-05,
+    "AP_medium": 0.0033620463119829465,
+    "AP_large": 0.00588004120962633,
+    "AR1": 0.01979325812300721,
+    "AR10": 0.06761852183609308,
+    "AR100": 0.09038272783480439,
+    "AR_small": 0.0019320518905236513,
+    "AR_medium": 0.03571223548643568,
+    "AR_large": 0.12334625339991984
+  },
+  "prediction_sha256": "f4af7b1401c0a529a1f80e2347e84d21ba1648f804dea39d2dd18b9f5b6b1c16",
+  "input_manifest_sha256": "a75df647853ae3fa02b66612b6131f6662099dac6b83788770ad3f5446620a99",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "run_record_sha256": "d566db0ba37d7222eaf70e563d7d6dd7f60bdd87fd10cfb50a914492118c1de7"
+}

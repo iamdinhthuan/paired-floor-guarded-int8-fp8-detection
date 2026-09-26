@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-23T15:46:55.507698+00:00",
+  "dataset": "kitti",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "int8-entropy",
+  "source_onnx_registry_sha256": "40ebb242b46952e6cbbda0ea32571fb698aade900a901f71a195b9a5ad91fad9",
+  "source_onnx_sha256": "5c522b7711017f7506a2096e046596be33861715ba0c415f393580ad8bc59941",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/nn_preprocessing_pilot_recipe_v5_20260923/int8_matched_reg_head_only/model.onnx",
+  "output_onnx_sha256": "05d6c1708de3244ae41e633402879b110296224e2bb26b460132600341f213da",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "f0cfb861d1c8846d3aa66f266ac8c9e41150f8b2cf66525ad12efca19ad58be7",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "int8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "calibration_preprocessing": "retinanet_normalized",
+  "calibration_preprocessing_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "calibration_preprocessing_matches_inference": true,
+  "calibration_preprocessing_applied": true,
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "op_types_to_quantize": null,
+  "quantize_node_regex": [
+    "^/head/regression_head/"
+  ],
+  "node_mask": null,
+  "node_mask_file_sha256": null,
+  "node_mask_sha256": null,
+  "nodes_to_quantize_count": null,
+  "no_quantize_inputs_count": null,
+  "edge_policy_sha256": null,
+  "compute_input_policy_sha256": null,
+  "baseline_fp8_onnx_sha256": null,
+  "fp8_baseline_byte_replay": null,
+  "shared_mask_role": null,
+  "pre_enforcement_compute_attachment_sha256": null,
+  "post_enforcement_compute_attachment_sha256": null,
+  "bypassed_compute_inputs_count": null,
+  "bypassed_compute_inputs": null,
+  "removed_orphan_qdq_nodes": null,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "anchors"
+  ],
+  "decoder": "torchvision_retinanet_raw_v1",
+  "num_classes_excluding_background": 8,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "/home/thuan/topic_c_ivc/src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json",
+    "--mode",
+    "int8-entropy",
+    "--imgsz",
+    "640",
+    "--calibration-list",
+    "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+    "--calibration-preprocessing",
+    "retinanet_normalized",
+    "--out",
+    "/home/thuan/topic_c_ivc/outputs/nn_preprocessing_pilot_recipe_v5_20260923/int8_matched_reg_head_only/model.onnx",
+    "--registry-out",
+    "/home/thuan/topic_c_ivc/outputs/nn_preprocessing_pilot_recipe_v5_20260923/int8_matched_reg_head_only/onnx.json",
+    "--quantize-node-regex",
+    "^/head/regression_head/"
+  ],
+  "registry_sha256": "5a72497c37d88c0d6647af373afde93f80d052d07dde33e1c3c7077613c7930b"
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "fp32_metric": "/home/thuan/topic_c_ivc/outputs/metrics/runnercheck10_yolo11m_fp32_clean.json",
+  "fp16_metric": "/home/thuan/topic_c_ivc/outputs/metrics/runnercheck10_yolo11m_fp16_clean.json",
+  "tolerance": 0.01,
+  "absolute_ap_gap": 0.0029373625527947533,
+  "pass": true,
+  "errors": []
+}

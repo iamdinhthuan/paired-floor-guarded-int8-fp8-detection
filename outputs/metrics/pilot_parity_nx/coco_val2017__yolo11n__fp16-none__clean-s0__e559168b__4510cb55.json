@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_val2017__yolo11n__fp16-none__clean-s0__e559168b__4510cb55",
+  "model": "yolo11n",
+  "precision": "fp16",
+  "corruption": "clean",
+  "severity": 0,
+  "n_images": 5000,
+  "stats": {
+    "AP": 0.38712516981749456,
+    "AP50": 0.5420963958704117,
+    "AP75": 0.42138558885213423,
+    "AP_small": 0.19592214918566245,
+    "AP_medium": 0.42436603272871126,
+    "AP_large": 0.5611576825736941,
+    "AR1": 0.31112653843354976,
+    "AR10": 0.509123384523174,
+    "AR100": 0.56031495706409,
+    "AR_small": 0.3349845465009384,
+    "AR_medium": 0.6241200539666295,
+    "AR_large": 0.7331995001400974
+  },
+  "prediction_sha256": "673dbf9daf35e777be20fe3750283eb9eedb6a9b1d4bb79ee361bfea136d689d",
+  "input_manifest_sha256": "4510cb556a3598001bcb4bbb16483acf6d0329e1595070f584a5cd4161a97fc7",
+  "input_image_ids_sha256": "da6fc732d63651c32997a20b8f1197813a923613f059986297c5ddd5c6325190",
+  "run_record_sha256": "50e6483c29ccd7edfb9c17b6a1105b8eaeac4c9681eea9eb78c49a695f15e11d"
+}

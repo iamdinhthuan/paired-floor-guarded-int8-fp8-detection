@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "fp32_metric": "/home/thuan/topic_c_ivc/outputs/metrics/coco_val2017__yolo11m__fp32-none__clean-s0__26e03abb__4510cb55.json",
+  "fp16_metric": "/home/thuan/topic_c_ivc/outputs/metrics/coco_val2017__yolo11m__fp16-none__clean-s0__42660a2f__4510cb55.json",
+  "tolerance": 0.01,
+  "absolute_ap_gap": 0.00012435305663038854,
+  "pass": true,
+  "errors": []
+}

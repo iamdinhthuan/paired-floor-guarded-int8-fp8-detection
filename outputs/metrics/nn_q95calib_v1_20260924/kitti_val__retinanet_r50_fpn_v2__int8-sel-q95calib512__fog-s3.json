@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__retinanet_r50_fpn_v2__int8-sel-q95calib512__fog-s3",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "int8-entropy",
+  "corruption": "fog",
+  "severity": 3,
+  "n_images": 1496,
+  "stats": {
+    "AP": 0.4030395467794832,
+    "AP50": 0.6730674428250547,
+    "AP75": 0.4191327990841019,
+    "AP_small": 0.29603263052683887,
+    "AP_medium": 0.3870752978903574,
+    "AP_large": 0.5138582461017118,
+    "AR1": 0.3236626618981263,
+    "AR10": 0.5021489252870197,
+    "AR100": 0.5118371891877169,
+    "AR_small": 0.39930835856982727,
+    "AR_medium": 0.4877968149664326,
+    "AR_large": 0.6060580303339652
+  },
+  "prediction_sha256": "a9ed62e31705f2f943dba5f5472e3b5905fa11697625ade0000cef298ff23da6",
+  "input_manifest_sha256": "ba36930f1bb7bf10f0fae7427375ecfc7df0881d807dd35973d7bf7d13727c6d",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "run_record_sha256": "b4c0d6f282365b65e3bf95c27826ea49e6afbd148f03270b1ac9290a9113c385"
+}

@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-23T10:54:36.501760+00:00",
+  "dataset": "kitti",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "int8-entropy",
+  "source_onnx_registry_sha256": "40ebb242b46952e6cbbda0ea32571fb698aade900a901f71a195b9a5ad91fad9",
+  "source_onnx_sha256": "5c522b7711017f7506a2096e046596be33861715ba0c415f393580ad8bc59941",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/nn_preprocessing_pilot_recipe_v3_20260923/int8_matched_shared_mask_512cal/model.onnx",
+  "output_onnx_sha256": "7cace7f07d0fa7de8f0994c0c413c66a5078f3b165ff8f5d4dc32865b92cc937",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "f0cfb861d1c8846d3aa66f266ac8c9e41150f8b2cf66525ad12efca19ad58be7",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "int8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "calibration_preprocessing": "retinanet_normalized",
+  "calibration_preprocessing_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "calibration_preprocessing_matches_inference": true,
+  "calibration_preprocessing_applied": true,
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "op_types_to_quantize": [
+    "Add",
+    "Conv"
+  ],
+  "node_mask": "/home/thuan/topic_c_ivc/manifests/quantization_masks/shared_mask_pilot_v3/kitti_retinanet_r50_fpn_v2.json",
+  "node_mask_file_sha256": "ddbe871a77454c112f566009a000ef81f18280f9bee6edc2f2b80144e00786d1",
+  "node_mask_sha256": "eb7f4352f0380bb37432963d6c79e393674b07bd906c2d2c495aa07c6258cb4d",
+  "nodes_to_quantize_count": 128,
+  "no_quantize_inputs_count": 108,
+  "edge_policy_sha256": "2276caa21f4fce7e06cad7f20236d9af2c691d053707c838c882f1d6c2558187",
+  "compute_input_policy_sha256": "20bff25706e589a7890399020cc6528aa28a4ec5359bd959ece21459839537c6",
+  "baseline_fp8_onnx_sha256": "21066e65bc2e522c9af9c999374a5debde167925e9875c41605acfc458632642",
+  "fp8_baseline_byte_replay": false,
+  "shared_mask_role": "int8_aligned_to_frozen_fp8_compute_inputs",
+  "pre_enforcement_compute_attachment_sha256": "3b6b897a1cb361cb1dadc24e8a70d2e61330dc556672df279662c63d7f6e982a",
+  "post_enforcement_compute_attachment_sha256": "0a5d52dbe947c7e4b6fab4e7208baadc9c4dbacfec6ea56bd66cd883082968f2",
+  "bypassed_compute_inputs_count": 18,
+  "bypassed_compute_inputs": [
+    {
+      "node_name": "/backbone/body/layer1/layer1.0/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer1/layer1.0/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer1/layer1.1/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer1/layer1.1/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer1/layer1.2/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer1/layer1.2/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer2/layer2.0/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer2/layer2.0/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer2/layer2.1/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer2/layer2.1/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer2/layer2.2/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer2/layer2.2/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer2/layer2.3/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer2/layer2.3/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer3/layer3.0/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer3/layer3.0/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer3/layer3.1/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer3/layer3.1/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer3/layer3.2/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer3/layer3.2/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer3/layer3.3/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer3/layer3.3/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer3/layer3.4/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer3/layer3.4/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer3/layer3.5/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer3/layer3.5/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer4/layer4.0/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer4/layer4.0/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer4/layer4.1/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer4/layer4.1/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/body/layer4/layer4.2/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/body/layer4/layer4.2/conv3/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/fpn/Add",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/fpn/inner_blocks.1/inner_blocks.1.0/Conv_output_0",
+      "anchor_kind": "node_output"
+    },
+    {
+      "node_name": "/backbone/fpn/Add_1",
+      "op_type": "Add",
+      "input_index": 0,
+      "input_name": "/backbone/fpn/inner_blocks.0/inner_blocks.0.0/Conv_output_0",
+      "anchor_kind": "node_output"
+    }
+  ],
+  "removed_orphan_qdq_nodes": 36,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "anchors"
+  ],
+  "decoder": "torchvision_retinanet_raw_v1",
+  "num_classes_excluding_background": 8,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "/home/thuan/topic_c_ivc/src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "/home/thuan/topic_c_ivc/manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json",
+    "--mode",
+    "int8-entropy",
+    "--imgsz",
+    "640",
+    "--calibration-list",
+    "/home/thuan/topic_c_ivc/manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+    "--calibration-preprocessing",
+    "retinanet_normalized",
+    "--out",
+    "/home/thuan/topic_c_ivc/outputs/nn_preprocessing_pilot_recipe_v3_20260923/int8_matched_shared_mask_512cal/model.onnx",
+    "--registry-out",
+    "/home/thuan/topic_c_ivc/outputs/nn_preprocessing_pilot_recipe_v3_20260923/int8_matched_shared_mask_512cal/onnx.json",
+    "--node-mask",
+    "/home/thuan/topic_c_ivc/manifests/quantization_masks/shared_mask_pilot_v3/kitti_retinanet_r50_fpn_v2.json"
+  ],
+  "registry_sha256": "0de51cb1eeba06f443b0a2010675ed70062c10e095011855e4c29f839297ea28"
+}

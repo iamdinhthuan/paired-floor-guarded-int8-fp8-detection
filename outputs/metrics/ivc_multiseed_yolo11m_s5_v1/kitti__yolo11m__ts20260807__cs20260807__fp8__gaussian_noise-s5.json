@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti__yolo11m__ts20260807__cs20260807__fp8__gaussian_noise-s5",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "yolo11m",
+  "precision": "fp8",
+  "corruption": "gaussian_noise",
+  "severity": 5,
+  "n_images": 1496,
+  "stats": {
+    "AP": 0.027635664815459447,
+    "AP50": 0.052686211580904654,
+    "AP75": 0.02406920921545419,
+    "AP_small": 0.017592084332959626,
+    "AP_medium": 0.029655708625847856,
+    "AP_large": 0.03346336480175397,
+    "AR1": 0.027389296967988346,
+    "AR10": 0.04032365980570301,
+    "AR100": 0.04066636745757683,
+    "AR_small": 0.024174229781193688,
+    "AR_medium": 0.046692890215951514,
+    "AR_large": 0.035584640919543185
+  },
+  "prediction_sha256": "57fda504eaa9f5794ac7d79a29f3fd8cb91cfe300a5b0a4fd5d9c96c59832da8",
+  "input_manifest_sha256": "f5b853fed944a9e30ecd4392e253cf544f0496bb366120089442b340ab2ea987",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "run_record_sha256": "4534d2105fc831813f15b5ae34fce841bdc58ba1f6c61a568c12a6a78478a303"
+}

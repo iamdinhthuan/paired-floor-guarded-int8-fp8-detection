@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_test__yolo11x__fp32-none__fog-s3__62cd93a4__cca26246",
+  "dataset": "voc",
+  "split": "test",
+  "model": "yolo11x",
+  "precision": "fp32",
+  "corruption": "fog",
+  "severity": 3,
+  "n_images": 5823,
+  "stats": {
+    "AP": 0.5733846027140078,
+    "AP50": 0.7388715189598144,
+    "AP75": 0.6128249863610047,
+    "AP_small": 0.1624002038205108,
+    "AP_medium": 0.3856467059383635,
+    "AP_large": 0.6536202214603251,
+    "AR1": 0.48687657216680713,
+    "AR10": 0.6691795380820085,
+    "AR100": 0.6772370849303796,
+    "AR_small": 0.28587609252024154,
+    "AR_medium": 0.4972784704554914,
+    "AR_large": 0.7521414546973085
+  },
+  "prediction_sha256": "163e1ef825148052572d21c4df60b14311166093da349d4423a0baac4f7cf567",
+  "input_manifest_sha256": "cca26246adac8af84aa3ed6168f687b26deb75b9a0f657b8614ee53c0921a5ed",
+  "input_image_ids_sha256": "363674e0d18194ea9bda11ee184077951f24c01e4296cfdcb1134b6b8095d9f6",
+  "run_record_sha256": "e5076e112efde56763fcb67a380186a1ed7761572ebefa2ed4f26762b1ebc390"
+}

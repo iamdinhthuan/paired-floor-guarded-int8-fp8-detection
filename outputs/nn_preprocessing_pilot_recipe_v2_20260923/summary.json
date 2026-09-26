@@ -1,0 +1,21 @@
+{
+  "scope": "single-treatment clean-only recipe diagnostic on the full frozen 512-image calibration pool",
+  "rows": [
+    {
+      "treatment": "int8_matched_entropy_512cal",
+      "ap_points": 28.18268179630022,
+      "metric_sha256": "af4c3b1af7054b7471861a93776129ad41b4574f70a1e35d0a517ec12c9bfc77",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    }
+  ],
+  "gate": null,
+  "limitations": [
+    "Historical checkpoint-selection evaluation partition, not a new confirmatory holdout.",
+    "One recipe branch with one engine build; no seed or build-population inference.",
+    "No continuation gate is applied: this branch diagnoses whether calibration budget explains the remaining clean-fidelity failure rather than authorizing a robustness study.",
+    "Calibration-budget sensitivity is a recipe-level observation, not a numerical-format causal claim.",
+    "A successful calibration repair is baseline engineering evidence, not a new robustness method."
+  ],
+  "latency_evidence": "inadmissible",
+  "registry_sha256": "8e7c849bb3165c12e1a3f1eee7c10ca40453ae68d7de0a2c5fab5e38ab1bd773"
+}

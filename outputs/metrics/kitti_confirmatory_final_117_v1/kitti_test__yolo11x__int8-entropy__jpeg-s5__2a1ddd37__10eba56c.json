@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_test__yolo11x__int8-entropy__jpeg-s5__2a1ddd37__10eba56c",
+  "dataset": "kitti",
+  "split": "test",
+  "model": "yolo11x",
+  "precision": "int8-entropy",
+  "corruption": "jpeg",
+  "severity": 5,
+  "n_images": 1197,
+  "stats": {
+    "AP": 0.6506078017811501,
+    "AP50": 0.8837681369253991,
+    "AP75": 0.7365428453088549,
+    "AP_small": 0.5170666500745114,
+    "AP_medium": 0.6803502170280298,
+    "AP_large": 0.6737345633399621,
+    "AR1": 0.44840428276406374,
+    "AR10": 0.7001074148199933,
+    "AR100": 0.7090054706072145,
+    "AR_small": 0.614543154845634,
+    "AR_medium": 0.7298418797988442,
+    "AR_large": 0.7324961300313231
+  },
+  "prediction_sha256": "93a43fb66c469be7c3e632c9e0bdeb20c4a5fb3a26c07774aab21a3ef9a9ed8f",
+  "input_manifest_sha256": "10eba56ced6a9dabe0ece69b9b8aa2aa531a95d7b738dd749cb87062edb8d276",
+  "input_image_ids_sha256": "58db4d0a4c228e0cfc80d7a62759a745a22cc8754e375ed1b937e5e8b22ea1f5",
+  "run_record_sha256": "484805f50feda8dd475359771933da7946c1c426122d640a5d0ac7ae1a521c80"
+}

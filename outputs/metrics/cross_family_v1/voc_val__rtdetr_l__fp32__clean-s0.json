@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__rtdetr_l__fp32__clean-s0",
+  "dataset": "voc",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "fp32",
+  "corruption": "clean",
+  "severity": 0,
+  "n_images": 4952,
+  "stats": {
+    "AP": 0.7048094230440548,
+    "AP50": 0.8776666381948682,
+    "AP75": 0.7721597603140805,
+    "AP_small": 0.30178641856310184,
+    "AP_medium": 0.5155872715774629,
+    "AP_large": 0.7734940374864125,
+    "AR1": 0.5620761950864701,
+    "AR10": 0.8038102759725703,
+    "AR100": 0.8470799059807749,
+    "AR_small": 0.6293629851085472,
+    "AR_medium": 0.750418195233741,
+    "AR_large": 0.8925932714773385
+  },
+  "prediction_sha256": "d18fddb2a762ef9ddfbd8523af356b36ef397ddde5a13c01da25504565971a09",
+  "input_manifest_sha256": "clean-root:e825593ef803aeedd611fb746de757f18074b96b46408a55b320dea01b7a62a1",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "run_record_sha256": "5fc02c2b78a9c42ac181888f7f52ec288dd13e7172dd42e39c1b8c9623cbcd6d"
+}

@@ -1,0 +1,27 @@
+{
+  "scope": "two-treatment clean-only recipe diagnostic on a reused 128-image calibration subset",
+  "rows": [
+    {
+      "treatment": "int8_matched_convadd_calibration",
+      "ap_points": 15.745806804220685,
+      "metric_sha256": "16a1bcc79e728c77a83ee4d6eaa7e58f9dcae1812c41ceb4185286d9bf742649",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    },
+    {
+      "treatment": "int8_matched_max_calibration",
+      "ap_points": 23.935082781231788,
+      "metric_sha256": "c204a6de456eaaa17da6b2a26697efbcf2a4fa37473ec9faf3ab9be3b05c27ec",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    }
+  ],
+  "gate": null,
+  "limitations": [
+    "Historical checkpoint-selection evaluation partition, not a new confirmatory holdout.",
+    "Two recipe branches share one frozen 128-image calibration subset and one engine build per treatment; no seed or build-population inference.",
+    "No continuation gate is applied: these branches diagnose the remaining clean-fidelity failure rather than authorize a robustness study.",
+    "Conv+Add restriction tests quantizable-op coverage, not numerical-format causality; max calibration tests the range estimator under the same input contract.",
+    "A successful recipe repair is baseline engineering evidence, not a new robustness method."
+  ],
+  "latency_evidence": "inadmissible",
+  "registry_sha256": "d27b10cd8d678ec85d1a2786ebcaca1e3a345b9825a324ef36b034b5b20f69a3"
+}

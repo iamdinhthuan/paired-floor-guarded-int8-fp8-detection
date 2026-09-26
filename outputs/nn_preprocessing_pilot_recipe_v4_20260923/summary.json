@@ -1,0 +1,27 @@
+{
+  "scope": "two-treatment clean-only region-localization diagnostic for the residual RetinaNet INT8 gap",
+  "rows": [
+    {
+      "treatment": "int8_matched_heads_only",
+      "ap_points": 17.09070574909962,
+      "metric_sha256": "008e208c66752bae455bf0229fc159690c1c080e070172a757ef567530e5bf3e",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    },
+    {
+      "treatment": "int8_matched_backbone_only",
+      "ap_points": 49.13628593629563,
+      "metric_sha256": "302d5398ca7c670b72172953b75a61ea253b33ff031e3c9f62207064ed743c56",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    }
+  ],
+  "gate": null,
+  "limitations": [
+    "Historical checkpoint-selection evaluation partition, not a new confirmatory holdout.",
+    "One engine build per treatment; no seed or build-population inference.",
+    "No continuation gate is applied: region restriction localizes sensitivity rather than authorizing a robustness study.",
+    "Region-level AP changes are descriptive; they do not identify which individual layers are fragile.",
+    "A successful selective-precision result is baseline engineering evidence, not a new robustness method."
+  ],
+  "latency_evidence": "inadmissible",
+  "registry_sha256": "a03ea2711b9b0707609d8e4e22c2caba4549e87c0c5dfee273148212d74a99d6"
+}

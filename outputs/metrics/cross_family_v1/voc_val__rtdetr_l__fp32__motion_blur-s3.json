@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__rtdetr_l__fp32__motion_blur-s3",
+  "dataset": "voc",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "fp32",
+  "corruption": "motion_blur",
+  "severity": 3,
+  "n_images": 4952,
+  "stats": {
+    "AP": 0.38309231444945124,
+    "AP50": 0.5416552530743114,
+    "AP75": 0.4111233722081481,
+    "AP_small": 0.016335947445438946,
+    "AP_medium": 0.12372794313837182,
+    "AP_large": 0.49034063773360975,
+    "AR1": 0.40894316640482087,
+    "AR10": 0.5850586982715474,
+    "AR100": 0.6370817079847807,
+    "AR_small": 0.10446293112347409,
+    "AR_medium": 0.35606303595474564,
+    "AR_large": 0.7606831887486243
+  },
+  "prediction_sha256": "18b814b92996372c38807d60110dd582e50a25ef232c2e77ed0e8c2b5a19c0fb",
+  "input_manifest_sha256": "a1154d09b3f4ae45a4d5ddf908321886575a70309df68bf67c4ae024949555e7",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "run_record_sha256": "a5a318749d127188ba015bfef7e8d391132418f48426f7ab173fa18532a3da6d"
+}

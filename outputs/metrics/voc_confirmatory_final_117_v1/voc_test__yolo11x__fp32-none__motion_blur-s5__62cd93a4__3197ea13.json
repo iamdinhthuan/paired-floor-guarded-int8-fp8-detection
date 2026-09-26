@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_test__yolo11x__fp32-none__motion_blur-s5__62cd93a4__3197ea13",
+  "dataset": "voc",
+  "split": "test",
+  "model": "yolo11x",
+  "precision": "fp32",
+  "corruption": "motion_blur",
+  "severity": 5,
+  "n_images": 5823,
+  "stats": {
+    "AP": 0.05063042153297154,
+    "AP50": 0.08508176817844955,
+    "AP75": 0.04971785733907109,
+    "AP_small": 0.00029529268716345315,
+    "AP_medium": 0.009552899684655378,
+    "AP_large": 0.0713386413891047,
+    "AR1": 0.08924258293405149,
+    "AR10": 0.10867054738383881,
+    "AR100": 0.10876573104362454,
+    "AR_small": 0.00015674481852281127,
+    "AR_medium": 0.0158879000420697,
+    "AR_large": 0.15179329969301525
+  },
+  "prediction_sha256": "529fcfe9ef8c56884af817ad13dad751878345c89207af061f7d391b9c4fb4aa",
+  "input_manifest_sha256": "3197ea13caf477b4c527d6a2c050c23eb088198b1032771bcc8bcd32cab834ea",
+  "input_image_ids_sha256": "363674e0d18194ea9bda11ee184077951f24c01e4296cfdcb1134b6b8095d9f6",
+  "run_record_sha256": "19be94c64ab38941a05088b237abebcf09fc9e2a3d02a5ed5c30131988d58615"
+}

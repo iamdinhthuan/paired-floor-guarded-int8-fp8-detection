@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__rtdetr_l__int8-entropy__gaussian_noise-s5",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "int8-entropy",
+  "corruption": "gaussian_noise",
+  "severity": 5,
+  "n_images": 1496,
+  "stats": {
+    "AP": 0.004006458592666423,
+    "AP50": 0.01354427326757734,
+    "AP75": 0.0007115385520676605,
+    "AP_small": 0.0015673194492405568,
+    "AP_medium": 0.005845578440744315,
+    "AP_large": 0.006960007209610287,
+    "AR1": 0.015815213174721933,
+    "AR10": 0.05167826952530724,
+    "AR100": 0.06576805213862758,
+    "AR_small": 0.06033268001431221,
+    "AR_medium": 0.08531964363677962,
+    "AR_large": 0.035167493283038885
+  },
+  "prediction_sha256": "999c2b07144405e15a86603b423e422711e9f833990b6126c76466c0d4843431",
+  "input_manifest_sha256": "f5b853fed944a9e30ecd4392e253cf544f0496bb366120089442b340ab2ea987",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "run_record_sha256": "102e360fce70a4afc0ad0a809f3d7a264dfea3da630e6c82e71bd5307310d1ee"
+}

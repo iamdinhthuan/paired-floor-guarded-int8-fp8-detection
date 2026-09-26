@@ -1,0 +1,21 @@
+{
+  "scope": "single-treatment clean-only selective-precision intervention diagnostic",
+  "rows": [
+    {
+      "treatment": "int8_matched_except_reg_head",
+      "ap_points": 49.496612429459944,
+      "metric_sha256": "531c1b6053684b9aa4e4b74167272f4d861495316bee8fe02c2fb4bb8117d46a",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    }
+  ],
+  "gate": null,
+  "limitations": [
+    "Historical checkpoint-selection evaluation partition, not a new confirmatory holdout.",
+    "One recipe branch with one engine build; no seed or build-population inference.",
+    "No continuation gate is applied: the arm validates a minimal selective-precision recipe at clean level only.",
+    "Selective precision changes the compute/precision mix; deployment cost must be reported separately before any recommendation.",
+    "A successful selective-precision result is baseline engineering evidence, not a new robustness method."
+  ],
+  "latency_evidence": "inadmissible",
+  "registry_sha256": "c4f6ca0e0efbd59917bf7f8c63aa23692b7dda97d5b27e528a34b4355ac2dfde"
+}

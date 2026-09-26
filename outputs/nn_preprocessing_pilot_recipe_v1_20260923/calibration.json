@@ -1,0 +1,658 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-23T08:32:18.872318+00:00",
+  "dataset": "kitti",
+  "split": "train",
+  "selection": "uniform_without_replacement_from_frozen_training_calibration_pool",
+  "n_images": 128,
+  "seed": 20260923,
+  "dataset_root": "/home/thuan/topic_c_ivc/data/datasets/kitti",
+  "data_yaml_sha256": "0c52e669d39eb0f9cd5596df037a3275606046417cb20d56624a5cc68851a7b0",
+  "acquisition_registry_sha256": "89fdbf13833842ef058f2cab411fc7d5dfce015a879c38bdfae86e7219bc1f30",
+  "records": [
+    {
+      "source_relpath": "images/train/000036.png",
+      "sha256": "db63b91cb3f5ff2f437e2ab857c3f2005dd0137135ae5b4fb3cca7fb1e220f51"
+    },
+    {
+      "source_relpath": "images/train/000041.png",
+      "sha256": "83408d28eebd474aaee5ed28c61b9bc0b128e885c5db504f8c70d5f59cd20c01"
+    },
+    {
+      "source_relpath": "images/train/000181.png",
+      "sha256": "e07b8eb3240ed3bf4164d8cfe1d1e0aaffb80c55d135ad74da21e1fd0c5aa968"
+    },
+    {
+      "source_relpath": "images/train/000260.png",
+      "sha256": "cb91b394f0ff1da8f102e6e4a39bfa7bc8faa34d2737c15dd99a40322d7194bf"
+    },
+    {
+      "source_relpath": "images/train/000262.png",
+      "sha256": "493315f066183125bfc173ec731cc03f9b7b491419b840eb46eca142f0c383f7"
+    },
+    {
+      "source_relpath": "images/train/000442.png",
+      "sha256": "a24e4db441424041827b7eb8b519cb492cc3e313a1d47de1232f2177411215aa"
+    },
+    {
+      "source_relpath": "images/train/000495.png",
+      "sha256": "d793f95a1d04bb7422605627bea81670817ef4965a59f101a72b445a11d2a4b8"
+    },
+    {
+      "source_relpath": "images/train/000525.png",
+      "sha256": "5d350e85f5948c31235ce2f331380e81f211ca24d8e5e0ff6b4a2de7c6b05f47"
+    },
+    {
+      "source_relpath": "images/train/000539.png",
+      "sha256": "3742678e540530800f8b32814ef018f1cf80e0f38421981fb2135446ececb22e"
+    },
+    {
+      "source_relpath": "images/train/000588.png",
+      "sha256": "3ffa20baada17c0fa12311b7d0e3f288dbe5a7835c3eb3e3f728457d12a33e50"
+    },
+    {
+      "source_relpath": "images/train/000748.png",
+      "sha256": "a45bb8223f5575f7a61473359de9bffbe4bcccb4296487c736d09eaf2963a1ce"
+    },
+    {
+      "source_relpath": "images/train/000786.png",
+      "sha256": "6d8cdcb9357c673089da2c6003c80f4b3222ea9e8d9a26cc0956f6dea96cc6dd"
+    },
+    {
+      "source_relpath": "images/train/000807.png",
+      "sha256": "f8dc3d97a20996a7e611384262ad42e47ee69b38ac69eb460525575f5456a78a"
+    },
+    {
+      "source_relpath": "images/train/000857.png",
+      "sha256": "f43166b1ab69d7fe6048b413b56da851596871a50882af1e011c21b64d8cc10d"
+    },
+    {
+      "source_relpath": "images/train/000921.png",
+      "sha256": "51faa14c32ffde7d5d060d7f0c474379e36e3c9eee01ad0e7e4bc153cb2c8766"
+    },
+    {
+      "source_relpath": "images/train/001030.png",
+      "sha256": "2a34302028d433afe264f93c4f0e8515060264c6ce86c27b6ead4b5ba8a0f319"
+    },
+    {
+      "source_relpath": "images/train/001037.png",
+      "sha256": "9feee7dd55cae3220e59ead9a64796165a10aa9127183c475f497446d385a8cf"
+    },
+    {
+      "source_relpath": "images/train/001072.png",
+      "sha256": "bfa518629829e61ff4f9e4e44efa442764efa2ca54d8926139661192985cba39"
+    },
+    {
+      "source_relpath": "images/train/001158.png",
+      "sha256": "1a5ba30e714bd60c0c26251a187790257058a666991e6fe208d32fbaac3d2121"
+    },
+    {
+      "source_relpath": "images/train/001172.png",
+      "sha256": "adfc4dd691ffa2685d51480d1e7e4dc381245ebcb7d0b198f17c4dc25042266c"
+    },
+    {
+      "source_relpath": "images/train/001321.png",
+      "sha256": "416196f53ac4dcf9af40e46446bbdb5ec4acec4c90a311b75593f2a7452630f0"
+    },
+    {
+      "source_relpath": "images/train/001463.png",
+      "sha256": "1539dae47ccf042ce55ff65f55a6c1345ae6b6a3db6472ac8ba9688e164fd828"
+    },
+    {
+      "source_relpath": "images/train/001486.png",
+      "sha256": "7fe1411d919751bb6fd8042e9cac61c27716f3d73ebc86e37d75f2d9c4bcf0f4"
+    },
+    {
+      "source_relpath": "images/train/001488.png",
+      "sha256": "2a197f28934ef6fed62a1fe5077587ed5c19f1d12d6acdbe9382e090d056d643"
+    },
+    {
+      "source_relpath": "images/train/001541.png",
+      "sha256": "a65ad06a1c70877d2fd7ca642d6b32ee3b3917527ebed5ffbdbe68500c7b561c"
+    },
+    {
+      "source_relpath": "images/train/001547.png",
+      "sha256": "6d937602bece686a387af5a2ef2eb5c6b063a4ecf7810c77ba1ed81dede2eba8"
+    },
+    {
+      "source_relpath": "images/train/001600.png",
+      "sha256": "920a7cef27eab34ee9beb64e4be1b8bb50108a11c0e1cf494585af35583cfe51"
+    },
+    {
+      "source_relpath": "images/train/001676.png",
+      "sha256": "c2ee2b42d653da9d7c8bee92f382a8ec73d58617ce13d738b6f579c8a09f1da9"
+    },
+    {
+      "source_relpath": "images/train/001699.png",
+      "sha256": "1bac8a98df29f54bf86168aa63b885ae0b34f7e75ba46e838b54ff637c7cbf16"
+    },
+    {
+      "source_relpath": "images/train/001733.png",
+      "sha256": "e2c2653e4179b622eceacd47f0deecc28e2044d043959a19cacd8a2a45841380"
+    },
+    {
+      "source_relpath": "images/train/001754.png",
+      "sha256": "a3339f88372c6e7b1f03cf679261a177366a326ea1f9b640f513fda51de61857"
+    },
+    {
+      "source_relpath": "images/train/001837.png",
+      "sha256": "0543de01962f55a80a1c2a0b253838eda790cf6049d4960647b101168ff4571c"
+    },
+    {
+      "source_relpath": "images/train/001893.png",
+      "sha256": "3153b46489e4f872cece87055948444167e4ebe01886fe1695d36d1be6c39a05"
+    },
+    {
+      "source_relpath": "images/train/001970.png",
+      "sha256": "f5ee0da27af74d53646b8965e0277ccb388ecd4f369cb0715e1086d613c6b2eb"
+    },
+    {
+      "source_relpath": "images/train/002006.png",
+      "sha256": "f470f8a3d2522ca815da3691eba6b5f558a238e109d72282d75a056dc8bbb6fa"
+    },
+    {
+      "source_relpath": "images/train/002040.png",
+      "sha256": "2b1e5d29db34b21351a75fd939a1f8a260c1a525952b736aaaf18545cdecb7de"
+    },
+    {
+      "source_relpath": "images/train/002087.png",
+      "sha256": "6fa314142cb7e0041a0912522248b3a2199cc700432063002edd7df2f5e5f69c"
+    },
+    {
+      "source_relpath": "images/train/002097.png",
+      "sha256": "1c0456e6cb64e2aacb804231259295fa07d5b35583c4b9f66d2b90073823c4ce"
+    },
+    {
+      "source_relpath": "images/train/002099.png",
+      "sha256": "541ac560bc4694f1f6201b2c7fdefdf19c01d74892124b204fdc886b3b6d9909"
+    },
+    {
+      "source_relpath": "images/train/002122.png",
+      "sha256": "a579cf25eb8fb5402ff8914887e42861e55f8ac06a25d7a193fb4c8b42aabf86"
+    },
+    {
+      "source_relpath": "images/train/002134.png",
+      "sha256": "dd7b8c5d5569bf16f8e1237f6d1d7c59c0e1f2ef1c815bccf45ed231fcc5712e"
+    },
+    {
+      "source_relpath": "images/train/002200.png",
+      "sha256": "d49ecb7a5d1983d83d553e8b94acaceba2c3c97714d29956bb85c56181ed67dd"
+    },
+    {
+      "source_relpath": "images/train/002242.png",
+      "sha256": "68371b3e8b8aeebd82f00c4797645c4194d3465c91fc8776f2fe072c0d50168f"
+    },
+    {
+      "source_relpath": "images/train/002310.png",
+      "sha256": "4f731d7119afc954a8884cd4846a5a35b4065654c7db7d11922b9e9efe8c9e79"
+    },
+    {
+      "source_relpath": "images/train/002537.png",
+      "sha256": "d5e93ceff4c83c22d825a38e11599b0d3c57a853ff334c95a8b8bcb4d6ce23ac"
+    },
+    {
+      "source_relpath": "images/train/002541.png",
+      "sha256": "db870c5b4001a8b1c29c4c126aacdb2c1f16b8aa9fa40f2804dde3d2e072b207"
+    },
+    {
+      "source_relpath": "images/train/002650.png",
+      "sha256": "8866b862e43a7ed29df2301a97279563fafdc787be60260da87396756ba6c442"
+    },
+    {
+      "source_relpath": "images/train/002767.png",
+      "sha256": "392e02da7314e1571aa0114903772b8d6ddb9b547b00140f66e596d14e5917c3"
+    },
+    {
+      "source_relpath": "images/train/002788.png",
+      "sha256": "3fbd40bf01fdd0ef14c2c4abb38696ca92d21e2d7fc19c8409f6d1e86a2de153"
+    },
+    {
+      "source_relpath": "images/train/002878.png",
+      "sha256": "29ab84787db3f2214209e9cab4298850887297206813326589032e1c4a17e2e6"
+    },
+    {
+      "source_relpath": "images/train/002941.png",
+      "sha256": "ba79faf36417983c83c68a80fd146fd75d5477bc5b9c4c17f757b212b97fa332"
+    },
+    {
+      "source_relpath": "images/train/002958.png",
+      "sha256": "867d1194376cd156f1b596b4f68b84860c8bf16f3620c08549ed47fdbc34b2da"
+    },
+    {
+      "source_relpath": "images/train/002963.png",
+      "sha256": "384d985265e49451de04d83ffa451caf2b93294a387106a73da19d05698d0fb8"
+    },
+    {
+      "source_relpath": "images/train/002976.png",
+      "sha256": "39a217202526d609668a88c9e3e1f42f807e242ceba8e806bbfc27b945496eb5"
+    },
+    {
+      "source_relpath": "images/train/003054.png",
+      "sha256": "5b64b076b76c9549c37b6b9e35d9ea966892b8f1fd4b2923e03a08ffc0a14b66"
+    },
+    {
+      "source_relpath": "images/train/003097.png",
+      "sha256": "cd1d1bbf7faaba1162bd9b4deb56434b8b5f1dd3ab6b5c2279f0015fa51b8530"
+    },
+    {
+      "source_relpath": "images/train/003124.png",
+      "sha256": "41d453d13d7f11fd1ec61c1f74c8b9a265d1b35ce056dbd1e035095906390b87"
+    },
+    {
+      "source_relpath": "images/train/003131.png",
+      "sha256": "4b7f09b0156cb6b723e5d429211133fb606543d8cc5134bc0662af432bc3d9e5"
+    },
+    {
+      "source_relpath": "images/train/003137.png",
+      "sha256": "0582c100e897cf4b5826049bc569e1ed4904972eb3b1ddb546527043bf5df4e4"
+    },
+    {
+      "source_relpath": "images/train/003147.png",
+      "sha256": "f8fa6d4217eb9bc0effbbe8620f8c06a2c6e674d091e1a7e132fa67a322aca19"
+    },
+    {
+      "source_relpath": "images/train/003170.png",
+      "sha256": "6c3de889460c5f2483d372bcca62221349d6d9f73546cbab984659f171270621"
+    },
+    {
+      "source_relpath": "images/train/003501.png",
+      "sha256": "92d3f986beee9d1247f59cce7c1598867af0a48662a335af550911fa48d4d0ff"
+    },
+    {
+      "source_relpath": "images/train/003595.png",
+      "sha256": "f4302be1fbd09b68409e03555e25ec406a38ffc21fa406e5899766d439e9fbfa"
+    },
+    {
+      "source_relpath": "images/train/003962.png",
+      "sha256": "506ecb0ffa3fc8146affdeba56a73f6b09f087a4452087f6765afc524f31d75e"
+    },
+    {
+      "source_relpath": "images/train/004021.png",
+      "sha256": "732fbc76b2bdb201a2f320b19b65c4c866279f817c44ef3f95c6826527b45594"
+    },
+    {
+      "source_relpath": "images/train/004024.png",
+      "sha256": "2f8e3e6211d8e9b31fccb000daafc92941ba4075df363b6d4b7d12c2976abf2f"
+    },
+    {
+      "source_relpath": "images/train/004030.png",
+      "sha256": "9e5aae906b873b7fb29c002be4a941f2a15c9e26eab65565b2aa5b5eeea9373b"
+    },
+    {
+      "source_relpath": "images/train/004110.png",
+      "sha256": "b8388207a8559b1be8251cb9c66e02bec211f00f439547cd940e893c50b51334"
+    },
+    {
+      "source_relpath": "images/train/004133.png",
+      "sha256": "6cc981685eaad5980f6330864b0c0d5ed29305753c6f22086f86df02049ffbc1"
+    },
+    {
+      "source_relpath": "images/train/004175.png",
+      "sha256": "448db204f0c960d29d43ae01f4c6b7f511193c496d71eb27b6f80ecaa60347cb"
+    },
+    {
+      "source_relpath": "images/train/004209.png",
+      "sha256": "001d835cb9f9b9f920edd29e016e75f0d4025ef402f93f4dad1f3294b44d2cea"
+    },
+    {
+      "source_relpath": "images/train/004258.png",
+      "sha256": "00ed2e18d45e9a914f899ee0bff646aafdaaefa5a2cb2e5a53483e74ff0e445d"
+    },
+    {
+      "source_relpath": "images/train/004282.png",
+      "sha256": "1e1fc0e4906487f101b1781edc7df25f34a0fd96f2c9abd8ee5da063e27bfe82"
+    },
+    {
+      "source_relpath": "images/train/004315.png",
+      "sha256": "6dbec98b1d97adde6a10d736b07464c15316983293c135033106346949762963"
+    },
+    {
+      "source_relpath": "images/train/004387.png",
+      "sha256": "0b9fa51da0f430ae37023e911005145783ea2586ba521f86771cc46345e12b4c"
+    },
+    {
+      "source_relpath": "images/train/004394.png",
+      "sha256": "5dec6a7ba7c106258565236840ef590b8a89ae648c63bda5b6b3afe426a419b2"
+    },
+    {
+      "source_relpath": "images/train/004494.png",
+      "sha256": "7e73e66e30c8bee6c7ec035bcffa4c27aab7548d830c5253375782c97dd99698"
+    },
+    {
+      "source_relpath": "images/train/004635.png",
+      "sha256": "ce30de83ae9ff7869d074e9f2de53356181020b2957871677adc5dfa80149878"
+    },
+    {
+      "source_relpath": "images/train/004646.png",
+      "sha256": "95a0fb903f06ebbddacdb47081337560bcbb217d4612cde75b64847aac9f4573"
+    },
+    {
+      "source_relpath": "images/train/004672.png",
+      "sha256": "b4dee8bfcc72793820745f6823d300eb86b2e7bc31f17ae710f7189449e04419"
+    },
+    {
+      "source_relpath": "images/train/004823.png",
+      "sha256": "99c084ccea609ba7b077d29e9fad86397b382296b73815125c5b649fd9fdd0e7"
+    },
+    {
+      "source_relpath": "images/train/004848.png",
+      "sha256": "5041371b72b71cc42d8e144038fdf2b6211e7df9aad3cde589400cc288b3412b"
+    },
+    {
+      "source_relpath": "images/train/004863.png",
+      "sha256": "1e17f2722d392cc1ebdb4ff8c7827363a2152c2cd05e66166cb1dde4ebab26fb"
+    },
+    {
+      "source_relpath": "images/train/004919.png",
+      "sha256": "1dd1cfd0be088f9a727337f26f5650642493b17061f52f7adc4346dc1e31572f"
+    },
+    {
+      "source_relpath": "images/train/004984.png",
+      "sha256": "8ef1b0b5c3d1224182f5acfc4dee58d48e1df48fe12bfc3aae1a5149328c3e09"
+    },
+    {
+      "source_relpath": "images/train/005005.png",
+      "sha256": "c884797e452d14b42c328a6212716196ad9df804be0247284798de300ba019f8"
+    },
+    {
+      "source_relpath": "images/train/005092.png",
+      "sha256": "17635f74af3e42514ffcc74074adc0539576592e69d47d95e658b0b93652a322"
+    },
+    {
+      "source_relpath": "images/train/005118.png",
+      "sha256": "9d7b0e5de89bbb08ecde3ef68af52b1dbe78218aa7ed51e63cefc58d71bccd44"
+    },
+    {
+      "source_relpath": "images/train/005164.png",
+      "sha256": "350d2a84f0cada03e5473d436bb0b958c54d10208e967b3f66c316412cfa2ddd"
+    },
+    {
+      "source_relpath": "images/train/005256.png",
+      "sha256": "d2af5314482cf362570fc55a7be3e333cb5f6379a3fe85c7ef37e923d87ceedf"
+    },
+    {
+      "source_relpath": "images/train/005291.png",
+      "sha256": "1fe283e969d629c61cb69d844b76023307e6b86e216f32d9a08aa6855601ecd8"
+    },
+    {
+      "source_relpath": "images/train/005299.png",
+      "sha256": "4df0e22d0ecb74dd17c0efb94f201f2829b4e93047fa60058c0c47f7237ce7d4"
+    },
+    {
+      "source_relpath": "images/train/005322.png",
+      "sha256": "7ff9e950a9d69d6acd6470d10d2bc7cda37a0bb821cc8fbad485f1ec0c004c2c"
+    },
+    {
+      "source_relpath": "images/train/005512.png",
+      "sha256": "a843d3bb397da2c9b6210774d381693df6dbff430d8c4592a88e0ac9915bb8cc"
+    },
+    {
+      "source_relpath": "images/train/005525.png",
+      "sha256": "c88bd6ec53ad051422fe8618a6883420f062d367e924e5e15d505de10250c7c9"
+    },
+    {
+      "source_relpath": "images/train/005538.png",
+      "sha256": "97f6638cdc4da32585301da40b193d9752299cb130b00ddfa6f5c08a8cb68ee5"
+    },
+    {
+      "source_relpath": "images/train/005549.png",
+      "sha256": "da2502bea40549c8906bc3ee36c9500741f9c3f441f4db894c5663a8952bda61"
+    },
+    {
+      "source_relpath": "images/train/005572.png",
+      "sha256": "1429eca9ecde3b870a3f6cd987ba1322c9fbd70990b124220dd775b1542b077e"
+    },
+    {
+      "source_relpath": "images/train/005612.png",
+      "sha256": "05252037361cf92adf8c651f6f623efcfbd9a97684dada8ea316a5590a92ba3e"
+    },
+    {
+      "source_relpath": "images/train/005617.png",
+      "sha256": "ca7bb40c897050bc4a25d588e2050c2a43847d792e9fad9caf4171e5198e0f74"
+    },
+    {
+      "source_relpath": "images/train/005629.png",
+      "sha256": "2c900fa2d8bca3259fef1bc7a2e870f92b3ca60a719b0c35f41cfbdd6c45fc44"
+    },
+    {
+      "source_relpath": "images/train/005677.png",
+      "sha256": "c589a0a59d0ee4171135aa2d0df07d1c22a36e7712b481f6d8d736d61c768ae4"
+    },
+    {
+      "source_relpath": "images/train/005724.png",
+      "sha256": "1d1b4d9a6ebfc0f0a3d664ea8943d97294a622fe3b0693ed3934828081161b09"
+    },
+    {
+      "source_relpath": "images/train/005753.png",
+      "sha256": "92f1a0265d0f54d6ea42c61889a1cd5f0454d1f46c77695cfffc1298b3a52952"
+    },
+    {
+      "source_relpath": "images/train/005810.png",
+      "sha256": "f81c540e3b6877511eb6c97bb15b765db8eb45163f66fd69826f81dc4b0130a0"
+    },
+    {
+      "source_relpath": "images/train/005886.png",
+      "sha256": "100966dd9efc1ea5c3bec30d97c5a7f934d85c02e2b5ed54f05721622f7bc22a"
+    },
+    {
+      "source_relpath": "images/train/005960.png",
+      "sha256": "09526cfef1de1957bbef58c124594cce50382c29d631d4fd3929ab7481e1d025"
+    },
+    {
+      "source_relpath": "images/train/006062.png",
+      "sha256": "f6e36289182ae67a31a0c9f26e6675f73bb457556780343c0b66224367c55382"
+    },
+    {
+      "source_relpath": "images/train/006098.png",
+      "sha256": "e5ae62e52610c3d41cc42781ebac588913b32aecbbca75331581d4418aac8bdd"
+    },
+    {
+      "source_relpath": "images/train/006135.png",
+      "sha256": "cb3f2f72d317fb7a766f400b2b4c24b7c4635f4ab3d05f8e54ce4d79942cafd0"
+    },
+    {
+      "source_relpath": "images/train/006198.png",
+      "sha256": "7e89900b6ff6f5827de6bc5b2e9a096014171b48e200ef56027bc8c391461167"
+    },
+    {
+      "source_relpath": "images/train/006222.png",
+      "sha256": "c541f97a0655c5ce4866a881b08068f4206cd821bfe35eec3b68aefd3bddc0a5"
+    },
+    {
+      "source_relpath": "images/train/006236.png",
+      "sha256": "54b903dd2b90ce64a2e66cc1213815b0cb100013e6fe78254748acb34ef12c38"
+    },
+    {
+      "source_relpath": "images/train/006254.png",
+      "sha256": "74f2c59b609ccdedf1a783d02586c273f6df98c3a60016e9614fd70eb88a833f"
+    },
+    {
+      "source_relpath": "images/train/006308.png",
+      "sha256": "83c629f9d015d6712e999822b9dda5877be9e98cc06bbdc223874e46da8e90fb"
+    },
+    {
+      "source_relpath": "images/train/006363.png",
+      "sha256": "095148bc53338f1ceca22b4dba96b5cb1180259a906cb09ac23c18d06e7532da"
+    },
+    {
+      "source_relpath": "images/train/006444.png",
+      "sha256": "d943dea44b700987953124c861410bd18f50038f617608b8a546a829182819b8"
+    },
+    {
+      "source_relpath": "images/train/006808.png",
+      "sha256": "1ac561c0647d7f350d0a3973dad8aba981f06cd35e44fc39d3057b7b3b5a2ce1"
+    },
+    {
+      "source_relpath": "images/train/006848.png",
+      "sha256": "c5bbd152a833dc34572b1032281e66b4d7eafb094629f5e7547d55d47529958f"
+    },
+    {
+      "source_relpath": "images/train/006855.png",
+      "sha256": "26b71a464927b190f31a69332f8908b8b22f826a726b9d132b5f3b2205927022"
+    },
+    {
+      "source_relpath": "images/train/006893.png",
+      "sha256": "a3ce2ce2a0b6d3f16bdfd362bee8373546e8c2947ad8cc437df0ed4aa2356d14"
+    },
+    {
+      "source_relpath": "images/train/006930.png",
+      "sha256": "86021f964e0c267c23b812f11719f48f3fdd273a29ffb49c73054833fe5fe665"
+    },
+    {
+      "source_relpath": "images/train/007016.png",
+      "sha256": "e00400bf35e9f82e3c6db676b5970941efa173693923aaf1bd7ce6061b713e24"
+    },
+    {
+      "source_relpath": "images/train/007161.png",
+      "sha256": "ff1ef4aa96d0e616263bb23fcd503e3a15688e90d15f66ed2eeaa4a022b10302"
+    },
+    {
+      "source_relpath": "images/train/007210.png",
+      "sha256": "987e4cb0d3f456f849f298d355ae4f239d5b0350b654bace9d5bcb4055cabc04"
+    },
+    {
+      "source_relpath": "images/train/007221.png",
+      "sha256": "1c511747de60d84af3cb535cdd287382f693a2d1701ee3ee98b48e7a47352eee"
+    },
+    {
+      "source_relpath": "images/train/007229.png",
+      "sha256": "b52af7bfb772c74e0bac9b4d4c3d969f9e13d2d53f5ddae2e1344f66ac62c947"
+    },
+    {
+      "source_relpath": "images/train/007253.png",
+      "sha256": "b97b9ffc3aff668a1e7674a56bf579441c9dfbb8e3f7b903c4117aab9bced400"
+    }
+  ],
+  "calibration_sha256": "49441ca6badf658b18f7765555db42f07719fa6f320db00a28a926e1ce56718d",
+  "parent_manifest_sha256": "8ae8d8fb9d10d57f94a9b47c036fc73cc18c8c24c81b4498602f02a99804e7be",
+  "parent_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "dataset": "kitti",
+  "model": "retinanet-r50-fpn-v2",
+  "imgsz": 640,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "anchors"
+  ],
+  "decoder": "torchvision_retinanet_raw_v1",
+  "precision": "fp32",
+  "engine": "/home/thuan/topic_c_ivc/outputs/nn_preprocessing_pilot_v1_20260923/fp32/model.engine",
+  "engine_sha256": "3a244d668a516c9461ab8bff9cce6e5388cbfb78107637c110e8f3fc3a80d90d",
+  "source_onnx_registry_sha256": "40ebb242b46952e6cbbda0ea32571fb698aade900a901f71a195b9a5ad91fad9",
+  "source_onnx_sha256": "5c522b7711017f7506a2096e046596be33861715ba0c415f393580ad8bc59941",
+  "build_policy": {
+    "backend": "tensorrt_python",
+    "required_version": "11.1.0.106",
+    "workspace_mib": 4096,
+    "optimization_level": 3,
+    "tf32": false
+  },
+  "builder_source_sha256": "a7b61714b3ac3301f300bc01e101a76c7025a0f8397befb5073ef28e422db627",
+  "tensorrt_version": "11.1.0.106",
+  "calibration_sha256": null,
+  "latency_evidence": "inadmissible_shared_gpu"
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__rtdetr_l__int8-entropy__q95-clean-s0",
+  "dataset": "voc",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "int8-entropy",
+  "corruption": "clean",
+  "severity": 0,
+  "n_images": 4952,
+  "stats": {
+    "AP": 0.011397618410504967,
+    "AP50": 0.027284508008625624,
+    "AP75": 0.007857606723141142,
+    "AP_small": 0.0022021467104997735,
+    "AP_medium": 0.012878729922307718,
+    "AP_large": 0.012972391142506569,
+    "AR1": 0.03899559017457402,
+    "AR10": 0.10928237639055788,
+    "AR100": 0.14333343292629305,
+    "AR_small": 0.004084998265853748,
+    "AR_medium": 0.07927591728401787,
+    "AR_large": 0.18504303001881145
+  },
+  "prediction_sha256": "5ba8defdf6d284b834706ed5b9e825af274c9cd6229de6d51019a9df939bb68c",
+  "input_manifest_sha256": "3b10c52e634e10647aced45ecd9d9aad9c58fbee90dd34eae1cce5aed63b6980",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "run_record_sha256": "5ca1ae2e7d6f31439561033759f4260710701557c611ef521226509c826e2cec"
+}

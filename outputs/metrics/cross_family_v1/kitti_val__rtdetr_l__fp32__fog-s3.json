@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__rtdetr_l__fp32__fog-s3",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "fp32",
+  "corruption": "fog",
+  "severity": 3,
+  "n_images": 1496,
+  "stats": {
+    "AP": 0.08187103996304106,
+    "AP50": 0.1968919806149318,
+    "AP75": 0.054441357763471664,
+    "AP_small": 0.058887686374510154,
+    "AP_medium": 0.070432734225865,
+    "AP_large": 0.12750687584288992,
+    "AR1": 0.11439502014309907,
+    "AR10": 0.18458844101717337,
+    "AR100": 0.21887806349485386,
+    "AR_small": 0.1564220282424013,
+    "AR_medium": 0.19644062652458497,
+    "AR_large": 0.29572052828474504
+  },
+  "prediction_sha256": "ac9cfbadb4b34e2d63f6e55be9083697d1cea2d9bf8cf4b29281bb00049c6006",
+  "input_manifest_sha256": "ba36930f1bb7bf10f0fae7427375ecfc7df0881d807dd35973d7bf7d13727c6d",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "run_record_sha256": "d4c781199d8a2091775fae768fefe7494fd2d13e9e155b02bfed82124ea04e5c"
+}

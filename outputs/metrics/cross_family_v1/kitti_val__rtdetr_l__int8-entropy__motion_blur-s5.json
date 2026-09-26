@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__rtdetr_l__int8-entropy__motion_blur-s5",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "int8-entropy",
+  "corruption": "motion_blur",
+  "severity": 5,
+  "n_images": 1496,
+  "stats": {
+    "AP": 0.003838340260134896,
+    "AP50": 0.006333568037390529,
+    "AP75": 0.003632835336437875,
+    "AP_small": 1.471505919235452e-07,
+    "AP_medium": 0.0003763323294155678,
+    "AP_large": 0.007918989668763955,
+    "AR1": 0.014977560806846068,
+    "AR10": 0.030315777302680657,
+    "AR100": 0.034889021361033765,
+    "AR_small": 0.00014758036189763986,
+    "AR_medium": 0.0019091940278995543,
+    "AR_large": 0.11294130748088496
+  },
+  "prediction_sha256": "5c6358989819497fe25c5cb5cc0effcb6382571aaf4d598986a7cea75bdf03fd",
+  "input_manifest_sha256": "3e0f9f1c5dc35c07929795ad225a2a24cc2e108ecbc04d62770b356f26fd8ee2",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "run_record_sha256": "9063aec5b739fc0adf2479edd31c2dff43245c6b62abe896c69ad18a5f30a962"
+}

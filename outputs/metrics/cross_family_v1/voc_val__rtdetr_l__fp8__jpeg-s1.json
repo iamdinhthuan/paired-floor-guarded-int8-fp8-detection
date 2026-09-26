@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__rtdetr_l__fp8__jpeg-s1",
+  "dataset": "voc",
+  "split": "val",
+  "model": "rtdetr-l",
+  "precision": "fp8",
+  "corruption": "jpeg",
+  "severity": 1,
+  "n_images": 4952,
+  "stats": {
+    "AP": 0.6953679070717048,
+    "AP50": 0.8723002570168005,
+    "AP75": 0.7653932205536905,
+    "AP_small": 0.27165435230760143,
+    "AP_medium": 0.49783607241173783,
+    "AP_large": 0.7667917013244753,
+    "AR1": 0.5585374070212793,
+    "AR10": 0.7947848188678042,
+    "AR100": 0.8409811459902439,
+    "AR_small": 0.6092377272526822,
+    "AR_medium": 0.7318339326820126,
+    "AR_large": 0.8889746330091828
+  },
+  "prediction_sha256": "7547c106081c7287e05e28e4c7d419023402a2252cf8ecdb36de25771f7c0559",
+  "input_manifest_sha256": "78b8443a9a49c7ce09fd075a267f98f00f5996836cb23b159dca3e22ced4eac4",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "run_record_sha256": "75b7b3649c8f429cb1b86945283833f480e707a8e860862c4f30d95644f6f57b"
+}
