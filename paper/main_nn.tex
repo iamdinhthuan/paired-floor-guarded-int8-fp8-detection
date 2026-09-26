@@ -230,7 +230,7 @@ Historical exploratory & 144-cell prior grid & Shared engines; separate retraine
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.5\textwidth]{nn_family_heatmap.pdf}
-\caption{Per-family interaction $\Delta E$ (FP8 minus INT8, on the $\Jclean$-controlled basis) across the nine paired blocks, in AP points. Star: unadjusted 95\% bootstrap interval excludes zero. Both signs occur inside every corruption family, and every block mixes signs across families---the heterogeneity quantified in the text.}
+\caption{Per-family interaction $\Delta E$ (FP8 minus INT8, on the $\Jclean$-controlled basis) across the nine paired blocks, in AP points. Star: unadjusted 95\% bootstrap interval excludes zero. Every corruption family carries both signs across blocks, and seven of the nine blocks mix signs across families (VOC/YOLO11n is uniformly positive, VOC/YOLO11m uniformly negative)---the heterogeneity quantified in the text.}
 \label{fig:familyheat}
 \end{figure*}
 
@@ -264,7 +264,7 @@ The non-YOLO comparator is where recipe effects dominate. Table~\ref{tab:retinan
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{nn_retinanet_severity.pdf}
-\caption{RetinaNet AP by corruption family and severity for the four matched-protocol arms on KITTI (top) and VOC (bottom). The ``clean'' point is the codec-control $\Jclean$ cell for the matched arms; the FP32 engine predates codec control, so its baseline is the original-clean value (dashed). INT8-matched departs from FP8-matched and FP32 already on mild severities, while INT8-selective (regression head in floating point) tracks FP8-matched closely on every family; all four arms converge at the shared motion-blur-s5 failure wall.}
+\caption{RetinaNet AP by corruption family and severity for the four matched-protocol arms on KITTI (top) and VOC (bottom). The ``clean'' point is the codec-control $\Jclean$ cell for the matched arms; the FP32 engine predates codec control, so its baseline is the original-clean value (dashed). INT8-matched sits far below the other arms from the clean baseline onward on KITTI and visibly below them on most VOC cells (the VOC interaction itself is null; Table~\ref{tab:retinanet}), while INT8-selective (regression head in floating point) tracks FP8-matched closely on every family; all four arms converge at the shared motion-blur-s5 failure wall.}
 \label{fig:severity}
 \end{figure*}
 
