@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "completed_at_utc": "2026-08-16T11:05:28.213740+00:00",
+  "run_id": "cross_family_retinanet_r50_fpn_v2_voc_s20260807_v1",
+  "dataset": "voc",
+  "model": "retinanet-r50-fpn-v2",
+  "epochs": 100,
+  "seed": 20260807,
+  "profile": "/home/thuan/topic_c_ivc/configs/training/cross_family_retinanet_r50_fpn_v2_v1.json",
+  "profile_sha256": "140c5a561c95810d7aadcd155f3d076dc30fe9f0900764323d36946f048c961e",
+  "data_yaml": "/home/thuan/topic_c_ivc/configs/datasets/voc_ultralytics_v1.yaml",
+  "data_yaml_sha256": "9d75ee5f774a7b56eb462f8f0e20194a6a2bd88f9f1f06bdb8c48839abf1467c",
+  "acquisition_registry_sha256": "cd706fe4a0b470579082be674536632c85b35434016c6e0d61af3d15de45a1bf",
+  "best_weights": "/home/thuan/topic_c_ivc/outputs/training/voc/cross_family_retinanet_r50_fpn_v2_voc_s20260807_v1/weights/best.pt",
+  "best_weights_sha256": "3ba5ad3f99ebbc9391c808e9c1744c4747be1bbed1716c5326f220a38d614593",
+  "selection": "minimum validation loss",
+  "num_classes_excluding_background": 20
+}

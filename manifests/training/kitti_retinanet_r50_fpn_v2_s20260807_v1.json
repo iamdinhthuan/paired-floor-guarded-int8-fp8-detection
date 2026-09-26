@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "completed_at_utc": "2026-08-16T13:41:42.690694+00:00",
+  "run_id": "cross_family_retinanet_r50_fpn_v2_kitti_s20260807_v1",
+  "dataset": "kitti",
+  "model": "retinanet-r50-fpn-v2",
+  "epochs": 100,
+  "seed": 20260807,
+  "profile": "/home/thuan/topic_c_ivc/configs/training/cross_family_retinanet_r50_fpn_v2_v1.json",
+  "profile_sha256": "140c5a561c95810d7aadcd155f3d076dc30fe9f0900764323d36946f048c961e",
+  "data_yaml": "/home/thuan/topic_c_ivc/configs/datasets/kitti_ultralytics_v1.yaml",
+  "data_yaml_sha256": "0c52e669d39eb0f9cd5596df037a3275606046417cb20d56624a5cc68851a7b0",
+  "acquisition_registry_sha256": "89fdbf13833842ef058f2cab411fc7d5dfce015a879c38bdfae86e7219bc1f30",
+  "best_weights": "/home/thuan/topic_c_ivc/outputs/training/kitti/cross_family_retinanet_r50_fpn_v2_kitti_s20260807_v1/weights/best.pt",
+  "best_weights_sha256": "e9beb44d7ff7d822ed9a835a31d38bcdfa3e44bd4316449c499767fec850295a",
+  "selection": "minimum validation loss",
+  "num_classes_excluding_background": 8
+}

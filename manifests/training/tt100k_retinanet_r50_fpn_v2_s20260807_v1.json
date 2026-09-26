@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "completed_at_utc": "2026-08-17T07:10:59.462909+00:00",
+  "run_id": "cross_family_retinanet_r50_fpn_v2_tt100k_s20260807_v1",
+  "dataset": "tt100k",
+  "model": "retinanet-r50-fpn-v2",
+  "epochs": 100,
+  "seed": 20260807,
+  "profile": "/home/thuan/topic_c_ivc/configs/training/cross_family_retinanet_r50_fpn_v2_v1.json",
+  "profile_sha256": "140c5a561c95810d7aadcd155f3d076dc30fe9f0900764323d36946f048c961e",
+  "data_yaml": "/home/thuan/topic_c_ivc/configs/datasets/tt100k_ultralytics_v1.yaml",
+  "data_yaml_sha256": "17ffb2ec048b9ddfa6c7bb28fc15753de02034a1cbf573e2f46247350d5653f9",
+  "acquisition_registry_sha256": "0c80df045de0cc5aecd31e5eef9fd28d348a216eca19d86a738a2ba3be25f571",
+  "best_weights": "/home/thuan/topic_c_ivc/outputs/training/tt100k/cross_family_retinanet_r50_fpn_v2_tt100k_s20260807_v1/weights/best.pt",
+  "best_weights_sha256": "0e986522a75d5ca106062cfc3aae720c93b066fcf0abc6c5f4a713aef87d2a51",
+  "selection": "minimum validation loss",
+  "num_classes_excluding_background": 221
+}

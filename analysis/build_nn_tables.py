@@ -80,9 +80,9 @@ def yolo_deltae_table(summary: dict, boot: dict, final: dict) -> str:
             de, ci = c["deltaE"], [v * 100 for v in bc["deltaE"]]
             sig = r"\sigstar" if ci[0] > 0 or ci[2] < 0 else ""
             ph = holm[(ds, model)]
-            # smallest nonzero two-sided bootstrap p at B=2000 is 0.001,
-            # and Holm can multiply it by up to 9 -> honest bound is <0.01
-            phs = "$<$0.01" if ph < 0.01 else f"{ph:.3f}"
+            # smallest nonzero two-sided bootstrap p at B=2000 is 0.001;
+            # report exact nonzero Holm values, floor only an exact zero
+            phs = "$<$0.001" if ph == 0 else f"{ph:.3f}"
             fp8c = blk["arms"]["fp8"]["corrupted_mean_ap"]
             i8c = blk["arms"]["int8"]["corrupted_mean_ap"]
             rows.append(
@@ -241,22 +241,50 @@ def intervention_table(final: dict) -> str:
 
 # ---------------- Phase A decomposition table ----------------
 
+PHASE_A_DIR = ROOT / "submission_support_20260911" / "phase_a_arms"
+
+# display label -> (summary file, treatment key) in the Phase-A ledgers
+_DECOMPOSITION_ARMS = [
+    ("INT8 legacy (mismatched calibration contract)",
+     "pilot_v1_summary.json", "int8_legacy_calibration"),
+    ("INT8 matched preprocessing, 128-img calibration",
+     "pilot_v1_summary.json", "int8_matched_calibration"),
+    ("INT8 matched preprocessing, 512-img calibration",
+     "recipe_v2_summary.json", "int8_matched_entropy_512cal"),
+    ("INT8 max-estimator, 128-img calibration",
+     "recipe_v1_summary.json", "int8_matched_max_calibration"),
+    ("INT8 restricted to Conv+Add sites",
+     "recipe_v1_summary.json", "int8_matched_convadd_calibration"),
+    ("INT8 at exactly the FP8 compute sites (shared mask)",
+     "recipe_v3_summary.json", "int8_matched_shared_mask_512cal"),
+    ("INT8 backbone+FPN only (heads FP32)",
+     "recipe_v4_summary.json", "int8_matched_backbone_only"),
+    ("INT8 classification head only",
+     "recipe_v5_summary.json", "int8_matched_cls_head_only"),
+    ("INT8 regression head only",
+     "recipe_v5_summary.json", "int8_matched_reg_head_only"),
+    ("INT8 heads only (cls+reg)",
+     "recipe_v4_summary.json", "int8_matched_heads_only"),
+    ("INT8 all-except regression head",
+     "recipe_v6_summary.json", "int8_matched_except_reg_head"),
+    ("FP8 matched, 128-img calibration",
+     "pilot_v1_summary.json", "fp8_matched_calibration"),
+    ("FP32 reference (diagnostic build)",
+     "pilot_v1_summary.json", "fp32"),
+]
+
+
+def _phase_a_ap(summary_file: str, treatment: str) -> float:
+    s = json.loads((PHASE_A_DIR / summary_file).read_text())
+    for row in s["rows"]:
+        if row["treatment"] == treatment:
+            return row["ap_points"]
+    raise KeyError(f"{treatment} not in {summary_file}")
+
+
 def decomposition_table() -> str:
-    rows = [
-        ("INT8 legacy (mismatched calibration contract)", "6.72"),
-        ("INT8 matched preprocessing, 128-img calibration", "27.91"),
-        ("INT8 matched preprocessing, 512-img calibration", "28.18"),
-        ("INT8 max-estimator, 128-img calibration", "23.94"),
-        ("INT8 restricted to Conv+Add sites", "15.75"),
-        ("INT8 at exactly the FP8 compute sites (shared mask)", "28.74"),
-        ("INT8 backbone+FPN only (heads FP32)", "49.14"),
-        ("INT8 classification head only", "50.57"),
-        ("INT8 regression head only", "16.41"),
-        ("INT8 heads only (cls+reg)", "17.09"),
-        ("INT8 all-except regression head", "49.50"),
-        ("FP8 matched, 128-img calibration", "48.50"),
-        ("FP32 reference (diagnostic build)", "50.44"),
-    ]
+    rows = [(label, f"{_phase_a_ap(sf, t):.2f}")
+            for label, sf, t in _DECOMPOSITION_ARMS]
     return ("\n".join([
         r"\begin{tabular}{lr}",
         r"\toprule",
@@ -390,6 +418,10 @@ def intervention_figure(final: dict) -> None:
 
 def _ci(v: dict) -> str:
     lo, hi = v["ci95"]
+    # a bound that rounds to +-0.00 invites a spurious "includes zero"
+    # reading -- show three decimals there, as in fmt_ci
+    if abs(lo) < 0.005 or abs(hi) < 0.005:
+        return f"${v['point']:+.2f}$~$[{lo:+.3f},{hi:+.3f}]$"
     return f"${v['point']:+.2f}$~$[{lo:+.2f},{hi:+.2f}]$"
 
 
@@ -423,6 +455,7 @@ def numbers_tex(final: dict) -> str:
         r = final["retinanet"][ds]
         pb = r["phase_b"]
         macros[f"MatchedGap{D}"] = f"{pb['fp8-matched512_minus_int8-matched512']['j95']['point']:.1f}"
+        macros[f"MatchedGapJ{D}"] = _ci(pb["fp8-matched512_minus_int8-matched512"]["j95"])
         macros[f"MatchedDE{D}"] = _ci(pb["fp8-matched512_minus_int8-matched512"]["deltaE"])
         s = pb["fp8-matched512_minus_int8-selective512"]
         macros[f"SelResJ{D}"] = _ci(s["j95"])

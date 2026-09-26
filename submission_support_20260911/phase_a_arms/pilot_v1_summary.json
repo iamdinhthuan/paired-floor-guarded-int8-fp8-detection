@@ -1,0 +1,47 @@
+{
+  "scope": "four-treatment clean-only development diagnostic",
+  "rows": [
+    {
+      "treatment": "fp32",
+      "ap_points": 50.43865406448841,
+      "metric_sha256": "480b51e71c227c22cdea1955a7faf9d56c2a265797ff58e404e1683df45f56a7",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    },
+    {
+      "treatment": "int8_legacy_calibration",
+      "ap_points": 6.719287135717979,
+      "metric_sha256": "bf13c4cdb8f9d2176df28da81db31f0afdcedcb9704b64673124290553f4f17a",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    },
+    {
+      "treatment": "int8_matched_calibration",
+      "ap_points": 27.90636767697715,
+      "metric_sha256": "53d5566442afdda2b377349252aaaf054158daab9bf9616e175e08fe71889546",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    },
+    {
+      "treatment": "fp8_matched_calibration",
+      "ap_points": 48.50035284410867,
+      "metric_sha256": "ef16556cfac6ecfee0c86a81851a90926a8b5d5d69e49710529f1742805d1f4e",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    }
+  ],
+  "gate": {
+    "passed": false,
+    "reference_losses_ap_points": {
+      "int8_matched_calibration": 22.53228638751126,
+      "fp8_matched_calibration": 1.938301220379742
+    },
+    "int8_matched_minus_legacy_ap_points": 21.18708054125917,
+    "interpretation": "Engineering continuation gate only; no statistical significance or new-method claim."
+  },
+  "limitations": [
+    "Historical checkpoint-selection evaluation partition, not a new confirmatory holdout.",
+    "One calibration subset and one engine build per treatment; no seed or build-population inference.",
+    "No causal numerical-format claim: default INT8 and FP8 graph policies may differ.",
+    "Legacy versus matched INT8 isolates the calibration input contract at the recipe level, not normalization alone.",
+    "A successful baseline repair is not evidence of a new robustness method."
+  ],
+  "latency_evidence": "inadmissible",
+  "registry_sha256": "ce787dc712e7661b2178eb060a40eca5339cb382f5640fe0d118c66b574f72c6"
+}

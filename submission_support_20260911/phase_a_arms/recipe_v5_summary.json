@@ -1,0 +1,27 @@
+{
+  "scope": "two-treatment clean-only head-refinement diagnostic for the residual RetinaNet INT8 gap",
+  "rows": [
+    {
+      "treatment": "int8_matched_cls_head_only",
+      "ap_points": 50.57259373682299,
+      "metric_sha256": "75eec48309fa6e9990d4c88a892903c35bf984e9140b6215ae5ff5efdecf3448",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    },
+    {
+      "treatment": "int8_matched_reg_head_only",
+      "ap_points": 16.413681686617238,
+      "metric_sha256": "fb89348616e8f7ba265b3d88f76f650c26612ffd089ae37a725062367677f1ed",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    }
+  ],
+  "gate": null,
+  "limitations": [
+    "Historical checkpoint-selection evaluation partition, not a new confirmatory holdout.",
+    "One engine build per treatment; no seed or build-population inference.",
+    "No continuation gate is applied: head-level restriction refines the mechanism hypothesis rather than authorizing a robustness study.",
+    "Head-level AP changes are descriptive; they do not identify which individual layers are fragile.",
+    "A successful selective-precision result is baseline engineering evidence, not a new robustness method."
+  ],
+  "latency_evidence": "inadmissible",
+  "registry_sha256": "3e67bcae9b83048bf7ec828bd198b76190f6f8fa1fa356201bb6e214fffca6bf"
+}

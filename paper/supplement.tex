@@ -115,15 +115,24 @@ INT8-sel-cc2calib & INT8 & selective & fold-2 corruptions, 512 images \\
 \end{table}
 
 All INT8/FP8 engines are built by TensorRT 11.1.0.106 from ONNX graphs
-quantized by NVIDIA ModelOpt 0.45.0 (entropy calibration, 512-image budget),
-with TF32 disabled and a 4,096~MiB builder workspace. Calibration and
-evaluation images are disjoint. Checkpoints are one per
-dataset$\times$model cell: YOLO11n/m/x are fine-tuned from Ultralytics
-pretrained weights on each dataset's locked confirmatory training split
-(640-pixel input; per-run training manifests are hash-bound), and the
-torchvision RetinaNet-R50-FPN-v2 model is fine-tuned per dataset for
-100 epochs at 640-pixel input (learning rate $10^{-4}$, weight decay
-$10^{-4}$, deterministic seed 20260807). The frozen condition schedule is
+quantized by NVIDIA ModelOpt 0.45.0 (entropy calibration, 512-image budget)
+with a 4,096~MiB builder workspace. Builder policy is recorded per engine
+and differs by program: the YOLO11 engines were built by \texttt{trtexec}
+before the frozen contract and carry TensorRT~11.1 defaults (TF32 enabled),
+while every RetinaNet arm built for this study passes \texttt{--noTF32}.
+Calibration and evaluation images are disjoint. Checkpoints are one per
+dataset$\times$model cell, and their selection provenance is disclosed: the
+KITTI and VOC YOLO11n/m/x models were fine-tuned from Ultralytics pretrained
+weights under the pilot program (\texttt{*\_train\_v1} runs, dataset YAMLs
+with \texttt{val:\,images/val}), with the best checkpoint taken on the same
+partition that serves as the evaluation universe; COCO YOLO11 uses the
+official pretrained checkpoint without a dataset fine-tune; the torchvision
+RetinaNet-R50-FPN-v2 model is fine-tuned per dataset for 100 epochs at
+640-pixel input (learning rate $10^{-4}$, weight decay $10^{-4}$,
+deterministic seed 20260807), selecting the best checkpoint by minimum
+validation loss on the same evaluation partition. Per-run training
+manifests are hash-bound; the evaluation-partition overlap is a disclosed
+selection caveat (Section~\ref{sec:limitations}). The frozen condition schedule is
 14 conditions per arm; the RetinaNet FP32 and legacy arms predate codec
 control and carry 13.
 
@@ -174,7 +183,7 @@ be optimistic).
 
 Two-sided bootstrap $p$-values are
 $p=\min\{1,2\min[\Pr(d\le 0),\Pr(d\ge 0)]\}$ (two-sided resolution $1/1000$) and are
-Holm-adjusted across the nine confirmatory YOLO11 blocks. Heterogeneity of
+Holm-adjusted across the nine paired YOLO11 blocks. Heterogeneity of
 $\Delta E$ across those blocks uses Cochran's
 $Q=\sum_i w_i(\hat\Delta_i-\bar\Delta_w)^2$ with $w_i=1/\widehat{\mathrm{se}}_i^2$
 from the bootstrap draws, $I^2=\max\{0,(Q-\mathrm{df})/Q\}$, and the
@@ -202,15 +211,16 @@ rather than relying on the composite alone.
 
 \section{Sensitivity analyses}
 
-Table~\ref{tab:supp-perfamily} resolves the confirmatory $\Delta E$ of each
+Table~\ref{tab:supp-perfamily} resolves the paired $\Delta E$ of each
 YOLO11 block per corruption family (each entry is the family-mean FP8$-$INT8
 gap minus the $\Jclean$ gap) and gives the leave-one-out exclusion of the
 \texttt{motion\_blur-s5} severity wall. The sign heterogeneity is also
 \emph{within} blocks: on VOC-x the JPEG family contributes $-1.07$~AP while
 Gaussian noise and motion blur contribute $+0.7$~AP each; on COCO-m JPEG and
 motion blur contribute positively while noise contributes a null negative.
-Motion blur is the most block-variable family of the four (block SD
-$\approx$1.1 AP), with JPEG close behind ($\approx$1.0); neither is uniformly
+Motion blur is the most block-variable family of the four (across-block
+standard deviation $\approx$1.1 AP population, $\approx$1.2 sample), with
+JPEG close behind ($\approx$1.0); neither is uniformly
 harmful or helpful. Excluding the severity wall leaves the
 cross-block heterogeneity essentially unchanged ($Q\approx60.2$,
 $I^2\approx87\%$) and every Holm-surviving block's sign intact; the two
@@ -232,6 +242,20 @@ The frozen configuration files are hash-identified:
 \texttt{f51011ca5d666b89\ldots} and
 \texttt{nn\_corruptcalib\_fold2\_v1\_20260925.json} SHA-256
 \texttt{5f2d122ae0a52d5f\ldots} (full hashes in the archive manifest).
+Freeze timing is established by local-file evidence rather than an external
+registry: the versioned configuration files' write times, the per-run
+manifest \texttt{created\_at} fields, and the repository commit ordering all
+place the configurations before their arms' first inference. The fold-1
+file was written 2026-09-25 (its name retains the design date 20260924);
+the q95 codec-control schedules were added after the fold-1 results were
+computed---the attempt identifier \texttt{nn\_q95calib\_v1\_20260924} keeps
+the design-date convention and postdates the fold-1 runs in manifest time.
+The fold-2 primary rule is quoted verbatim:
+``\texttt{int8-cc2calib512 minus int8-matched512 on the fold-2 held-out mean
+(gaussian\_noise+jpeg), paired bootstrap B=2000, same seed namespace as
+Phase B: CI95 excluding 0 => fold-1 frozen criterion replicated on
+fold 2}''; we read ``replicated'' through the directional fold-1 criterion
+it cites, so a significantly negative change counts as failure.
 
 \begin{table}[h]
 \centering
@@ -248,12 +272,16 @@ excludes zero.}
 
 Diagnostic arms (the RetinaNet decomposition: head-only and
 all-except-region variants) are single-point recipe sweeps produced during
-development and carry no intervals. Confirmatory evidence is the frozen
-14-condition paired protocol. Intervention evidence is the corrupt-calibration
-experiment together with its codec-matched controls. Historical exploratory
-results (a 144-cell grid over four datasets including TT100K, built under
-earlier engine contracts) are reported only as context and are never pooled
-with confirmatory estimates.
+development and carry no intervals. Frozen paired evidence is the
+14-condition paired protocol; its freeze covers the estimands, condition
+schedule, bootstrap schedule, and multiplicity adjustment, while the YOLO11
+engines and evaluation partitions predate it and are shared with the
+historical layer. Intervention evidence is the corrupt-calibration
+experiment together with its codec-matched controls, whose folds were frozen
+prospectively before their engines were built. Historical exploratory
+results (a 144-cell grid over four datasets including TT100K, computed on
+the same engines under a different estimand and partitions) are reported
+only as context and are never pooled with the frozen paired estimates.
 
 \section{Artifact and audit boundary}
 

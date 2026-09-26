@@ -1,0 +1,21 @@
+{
+  "scope": "single-treatment clean-only recipe diagnostic replaying the frozen FP8 compute-site mask under INT8",
+  "rows": [
+    {
+      "treatment": "int8_matched_shared_mask_512cal",
+      "ap_points": 28.740341729839315,
+      "metric_sha256": "6ef94587df3ea5aa1144bfd638360e379e47da2add0a35cfe226f6245bdd525f",
+      "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474"
+    }
+  ],
+  "gate": null,
+  "limitations": [
+    "Historical checkpoint-selection evaluation partition, not a new confirmatory holdout.",
+    "One recipe branch with one engine build; no seed or build-population inference.",
+    "No continuation gate is applied: this branch isolates node-selection versus numerics rather than authorizing a robustness study.",
+    "The shared mask replays FP8 compute-site selection under INT8 numerics; it is not a TensorRT kernel-precision comparison.",
+    "A successful recipe repair is baseline engineering evidence, not a new robustness method."
+  ],
+  "latency_evidence": "inadmissible",
+  "registry_sha256": "b3d6a3b77432b94b63fb3b6a703884afd02e89e5ae37360adb691b5606dfb04d"
+}
