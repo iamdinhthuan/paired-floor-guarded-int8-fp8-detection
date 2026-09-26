@@ -3,11 +3,12 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22664869.svg)](https://doi.org/10.5281/zenodo.22664869)
 
 Research software and evidence accompanying the manuscript prepared for
-*Computer Vision and Image Understanding* (CVIU). Version **2.2.0** aligns this
-repository with the revised manuscript in `submission_package/`.
+*Neural Networks* (Elsevier). The active manuscript sources live in `paper/`
+(`main_nn.tex`, `supplement.tex`); `submission_package/` retains the archived
+CVIU-era release and is not the editable manuscript.
 
-- [Main manuscript](submission_package/01_CVIU_main_revised.pdf)
-- [Supplementary Information](submission_package/02_CVIU_supplement_revised.pdf)
+- [Active manuscript README and build](paper/README.md)
+- [CVIU-era archived package](submission_package/)
 - [Archived software, source ZIPs and evidence](https://doi.org/10.5281/zenodo.22664869)
 - [Evidence verification instructions and licensing](submission_package/REVIEWER_EVIDENCE_README.md)
 
@@ -55,17 +56,17 @@ is approximately −0.02 AP. These summaries concern different conditional scope
 
 | Path | Purpose |
 | --- | --- |
-| `submission_package/source/` | Current main/Supplement LaTeX, figures and generated tables |
-| `submission_package/` | Current PDF previews, ancillary sources and upload instructions |
+| `paper/` | Active Neural Networks manuscript (`main_nn.tex`, `supplement.tex`), generated tables/figures, build and verify scripts, upload documents |
+| `submission_package/` | Archived CVIU-era release sources, PDFs and upload instructions (historical; do not edit) |
 | `src/` | Training, export, inference, corruption and evaluator programs |
 | `analysis/` | Scientific analysis, validation and evidence packaging |
 | `configs/`, `manifests/` | Experimental settings and retained provenance |
+| `outputs/metrics/`, `outputs/nn_*/` | Retained metric records and audit JSONs referenced by run manifests |
 | `tests/` | Contract and regression tests |
-| `paper/` | Historical release sources and evidence; not the current editable manuscript |
 
-The Overleaf and flat-source ZIPs are generated deliverables on Zenodo, not
-parallel editable sources. Do not run the historical `paper/build.sh` workflow
-to overwrite the revised manuscript.
+The Overleaf and flat-source ZIPs under `paper/` are generated deliverables,
+not parallel editable sources. Build the manuscript with `paper/build.sh`
+(pdfLaTeX; see `paper/README.md`).
 
 ## Recompute evidence without a GPU
 
@@ -99,13 +100,13 @@ interaction is approximately −0.280484 AP with percentile endpoints
 
 ## Compile the manuscript
 
-Upload `06_Overleaf_Source_CVIU.zip` to Overleaf. Compile `main.tex` with
-pdfLaTeX/BibTeX; compile `supplement.tex` separately. Alternatively, from
-`submission_package/source/` with TeX Live:
-
-```bash
-latexmk -pdf main.tex supplement.tex
-```
+From `paper/`, `./build.sh` compiles `main_nn.tex` and `supplement.tex`
+independently with pdfLaTeX/BibTeX and `./verify.sh` regenerates
+`SOURCE_MANIFEST.sha256` and checks the audit chain.
+`analysis/build_cviu_submission_package.py` emits `Overleaf_Source.zip` (plus
+the PDFs and upload documents) into its output directory; upload that zip to
+Overleaf and compile `main_nn.tex`; compile `supplement.tex` separately. For
+the archived CVIU release, see `submission_package/`.
 
 The flat source ZIP is a separate journal-upload alternative. The large
 research-evidence ZIP is not an Overleaf project.

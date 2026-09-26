@@ -510,6 +510,13 @@ def numbers_tex(final: dict) -> str:
             for fam, FN in (("fog", "Fog"), ("gaussian_noise", "Gn"),
                             ("jpeg", "Jpeg"), ("motion_blur", "Mb")):
                 macros[f"Fam{K}{FN}"] = f"{blk['per_family_deltaE'][fam]['point']:+.2f}"
+    import statistics as _st
+    for fam, FN in (("fog", "Fog"), ("gaussian_noise", "Gn"),
+                    ("jpeg", "Jpeg"), ("motion_blur", "Mb")):
+        pts = [b["per_family_deltaE"][fam]["point"] for b in y["blocks"]
+               if "per_family_deltaE" in b]
+        macros[f"FamSDp{FN}"] = f"{_st.pstdev(pts):.1f}"
+        macros[f"FamSDs{FN}"] = f"{_st.stdev(pts):.1f}"
     for ds, D in (("kitti", "Kitti"), ("voc", "Voc")):
         r = final["retinanet"][ds]
         pb = r["phase_b"]

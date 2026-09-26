@@ -228,16 +228,18 @@ Table~\ref{tab:supp-perfamily} resolves the paired $\Delta E$ of each
 YOLO11 block per corruption family (each entry is the family-mean FP8$-$INT8
 gap minus the $\Jclean$ gap) and gives the leave-one-out exclusion of the
 \texttt{motion\_blur-s5} severity wall. The sign heterogeneity is also
-\emph{within} blocks: on VOC-x the JPEG family contributes $-1.07$~AP while
-Gaussian noise and motion blur contribute $+0.7$~AP each; on COCO-m JPEG and
-motion blur contribute positively while noise contributes a null negative.
+\emph{within} blocks: on VOC-x the JPEG family contributes $\nnFamVocXJpeg$~AP while
+Gaussian noise and motion blur contribute $\nnFamVocXGn$ and $\nnFamVocXMb$~AP;
+on COCO-m JPEG ($\nnFamCocoMJpeg$) and
+motion blur ($\nnFamCocoMMb$) contribute positively while noise contributes a
+null negative ($\nnFamCocoMGn$).
 Motion blur is the most block-variable family of the four (across-block
-standard deviation $\approx$1.1 AP population, $\approx$1.2 sample), with
-JPEG close behind ($\approx$1.0); neither is uniformly
+standard deviation $\approx$\nnFamSDpMb{} AP population, $\approx$\nnFamSDsMb{} sample), with
+JPEG close behind ($\approx$\nnFamSDpJpeg); neither is uniformly
 harmful or helpful. Excluding the severity wall leaves the
-cross-block heterogeneity essentially unchanged ($Q\approx60.2$,
-$I^2\approx87\%$) and every Holm-surviving block's sign intact; the two
-near-null KITTI blocks drift (YOLO11n flips from $-0.01$ to $+0.15$, still
+cross-block heterogeneity essentially unchanged ($Q\approx\nnHetQEx$,
+$I^2\approx\nnHetIsqEx\%$) and every Holm-surviving block's sign intact; the two
+near-null KITTI blocks drift (YOLO11n flips from $\nnDEKittiN$ to $\nnDEexKittiN$, still
 null, and YOLO11m's negative effect loses significance). The interaction
 pattern is therefore not an artifact of the saturated cell, although the
 marginal KITTI estimates are sensitive to it.
