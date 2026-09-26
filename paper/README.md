@@ -7,11 +7,12 @@
 **Target journal:** *Neural Networks* (Elsevier)
 
 This study shows that whether an 8-bit quantized object detector remains
-reliable under image corruption is a property of the recipe and the model
-region, not the nominal format. A paired, codec-controlled protocol estimates
-the corruption-associated change in the FP8--INT8 AP gap within common-image
-bootstrap samples; the interaction reverses sign across dataset and
-model-scale cells. A matched-recipe decomposition of RetinaNet localizes a
+reliable under image corruption cannot be ordered by the format label: the
+corruption-associated change in the FP8--INT8 AP gap reverses sign across
+dataset and model-scale cells even though FP8 exceeds INT8 on absolute AP in
+every matched block, and where the fragility lives is a property of the
+recipe and the model region. A paired, codec-controlled protocol estimates
+the interaction within common-image bootstrap samples. A matched-recipe decomposition of RetinaNet localizes a
 severe INT8 collapse to regression-head quantization, and a two-fold
 corruption-aware calibration intervention with held-out families finds its
 own effect context-dependent across fold-by-dataset cells---a

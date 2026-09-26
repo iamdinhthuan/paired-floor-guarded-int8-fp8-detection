@@ -255,8 +255,9 @@ main text's no-multiplicity caveat.
 \texttt{5f2d122ae0a52d5f\ldots} (full hashes in the archive manifest).\par}
 Freeze timing is established by local-file evidence rather than an external
 registry: the versioned configuration files' modification times and the
-per-run manifest \texttt{created\_at} fields place the configurations before
-their arms' first inference (the git history records joint archival of
+\texttt{created\_at\_utc} fields in the calibration and engine manifests
+place the configurations before their arms' first inference (run manifests
+carry no timestamp field, and the git history records joint archival of
 configs and outcomes, not pre-inference ordering). The fold-1
 file was written 2026-09-25 (its name retains the design date 20260924);
 the q95 codec-control schedules were added after the fold-1 results were
@@ -311,7 +312,14 @@ under the concept DOI \url{https://doi.org/10.5281/zenodo.22031663}
 Networks release mints on publication). Raw
 benchmark datasets, trained checkpoints, built TensorRT engines, and raw
 predictions are not redistributed; their provenance and regeneration path is
-documented in the archive.
+documented in the archive. One binding asymmetry is disclosed for
+transparency: corrupted and codec-control cells bind each run to a
+content-addressed input manifest covering the encoded bytes, whereas the
+original-clean cells bind the frozen dataset split through its annotation
+SHA-256 (\texttt{clean-root:<hash>}). Per-image clean manifests exist in
+the archive (e.g.\ \texttt{kitti\_val\_clean\_ultralytics\_v1}) but are not
+bound into the clean run records, so clean-image byte identity is recovered
+through the frozen split manifest rather than the run's own hash field.
 
 \section{Minimum reporting checklist for paired corruption studies}
 
