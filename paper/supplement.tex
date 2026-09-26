@@ -116,8 +116,9 @@ INT8-sel-cc2calib & INT8 & selective & fold-2 corruptions, 512 images \\
 
 All INT8/FP8 engines are built by TensorRT 11.1.0.106 from ONNX graphs
 quantized by NVIDIA ModelOpt 0.45.0 (entropy calibration, 512-image budget;
-the diagnostic arms marked ``128-img'' in Table~3 of the main text use the
-earlier 128-image subset)
+the diagnostic sweeps vary the estimator and include arms marked
+``128-img'' in Table~4 of the main text, which use the earlier 128-image
+subset)
 with a 4,096~MiB builder workspace. Builder policy is recorded per engine
 and differs by program: the YOLO11 engines were built by \texttt{trtexec}
 before the frozen contract and carry TensorRT~11.1 defaults (TF32 enabled),
@@ -135,7 +136,7 @@ RetinaNet-R50-FPN-v2 model is fine-tuned per dataset for 100 epochs at
 deterministic seed 20260807), selecting the best checkpoint by minimum
 validation loss on the same evaluation partition. Per-run training
 manifests are hash-bound; the evaluation-partition overlap is a disclosed
-selection caveat (Section~\ref{sec:limitations}). The frozen condition schedule is
+selection caveat (see the main text's limitations). The frozen condition schedule is
 14 conditions per arm; the RetinaNet FP32 and legacy arms predate codec
 control and carry 13.
 
@@ -238,29 +239,30 @@ The same leave-one-out sensitivity applied to the intervention contrasts
 changes no frozen-criterion verdict; two secondary codec-control contrasts do
 move across the zero boundary on VOC (both on the held-out basis):
 INT8-corruptcalib minus INT8-q95calib goes from $+0.13$~$[-0.02,+0.28]$ to
-$+0.21$~$[+0.04,+0.39]$, and INT8-sel-q95calib minus INT8-selective goes from
+$+0.21$~$[+0.04,+0.38]$, and INT8-sel-q95calib minus INT8-selective goes from
 $-0.11$~$[-0.22,+0.01]$ to $-0.15$~$[-0.29,-0.01]$. Both are read with the
 main text's no-multiplicity caveat.
 
-The frozen configuration files are hash-identified:
+{\sloppy The frozen configuration files are hash-identified:
 \texttt{nn\_corruptcalib\_v1\_20260924.json} SHA-256
 \texttt{f51011ca5d666b89\ldots} and
 \texttt{nn\_corruptcalib\_fold2\_v1\_20260925.json} SHA-256
-\texttt{5f2d122ae0a52d5f\ldots} (full hashes in the archive manifest).
+\texttt{5f2d122ae0a52d5f\ldots} (full hashes in the archive manifest).\par}
 Freeze timing is established by local-file evidence rather than an external
-registry: the versioned configuration files' write times, the per-run
-manifest \texttt{created\_at} fields, and the repository commit ordering all
-place the configurations before their arms' first inference. The fold-1
+registry: the versioned configuration files' modification times and the
+per-run manifest \texttt{created\_at} fields place the configurations before
+their arms' first inference (the git history records joint archival of
+configs and outcomes, not pre-inference ordering). The fold-1
 file was written 2026-09-25 (its name retains the design date 20260924);
 the q95 codec-control schedules were added after the fold-1 results were
 computed---the attempt identifier \texttt{nn\_q95calib\_v1\_20260924} keeps
 the design-date convention and postdates the fold-1 runs in manifest time.
-The fold-2 primary rule is quoted verbatim:
+{\sloppy The fold-2 primary rule is quoted verbatim:
 ``\texttt{int8-cc2calib512 minus int8-matched512 on the fold-2 held-out mean
 (gaussian\_noise+jpeg), paired bootstrap B=2000, same seed namespace as
 Phase B: CI95 excluding 0 => fold-1 frozen criterion replicated on
 fold 2}''; we read ``replicated'' through the directional fold-1 criterion
-it cites, so a significantly negative change counts as failure.
+it cites, so a significantly negative change counts as failure.\par}
 
 \begin{table}[h]
 \centering
@@ -287,7 +289,8 @@ experiment together with its codec-matched controls: the two
 corruption-calibration folds were frozen prospectively before their engines
 were built, while the fold-1 codec-control arms are post-hoc. Historical exploratory
 results (a 144-cell grid over four datasets including TT100K, computed on
-the same engines under a different estimand and partitions) are reported
+the same engines and estimand under a wider scope and a different analysis
+plan) are reported
 only as context and are never pooled with the frozen paired estimates.
 
 \section{Artifact and audit boundary}
