@@ -430,9 +430,43 @@ def sci(p: float) -> str:
     return f"{mant}\\times10^{{{int(exp)}}}"
 
 
+# Diagnostic decomposition arm -> (summary file, treatment) for in-text macros
+_DIAG_MACROS = {
+    "DiagLegacyJ": ("pilot_v1_summary.json", "int8_legacy_calibration"),
+    "DiagMatchedJ": ("pilot_v1_summary.json", "int8_matched_calibration"),
+    "DiagMatchedFiveJ": ("recipe_v2_summary.json", "int8_matched_entropy_512cal"),
+    "DiagMaxJ": ("recipe_v1_summary.json", "int8_matched_max_calibration"),
+    "DiagConvAddJ": ("recipe_v1_summary.json", "int8_matched_convadd_calibration"),
+    "DiagSharedMaskJ": ("recipe_v3_summary.json", "int8_matched_shared_mask_512cal"),
+    "DiagBackboneJ": ("recipe_v4_summary.json", "int8_matched_backbone_only"),
+    "DiagClsJ": ("recipe_v5_summary.json", "int8_matched_cls_head_only"),
+    "DiagRegJ": ("recipe_v5_summary.json", "int8_matched_reg_head_only"),
+    "DiagHeadsJ": ("recipe_v4_summary.json", "int8_matched_heads_only"),
+    "DiagNoRegJ": ("recipe_v6_summary.json", "int8_matched_except_reg_head"),
+    "DiagFpEightJ": ("pilot_v1_summary.json", "fp8_matched_calibration"),
+    "DiagFpThirtyTwoJ": ("pilot_v1_summary.json", "fp32"),
+}
+
+
 def numbers_tex(final: dict) -> str:
     """Emit \\newcommand macros so every in-text number traces to nn_final_stats.json."""
     macros = {}
+    for name, (sf, t) in _DIAG_MACROS.items():
+        macros[name] = f"{_phase_a_ap(sf, t):.2f}"
+    macros["DiagPreprocGain"] = f"{_phase_a_ap('pilot_v1_summary.json', 'int8_matched_calibration') - _phase_a_ap('pilot_v1_summary.json', 'int8_legacy_calibration'):.1f}"
+    macros["DiagFpEightDeficitJ"] = f"{_phase_a_ap('pilot_v1_summary.json', 'fp8_matched_calibration') - _phase_a_ap('pilot_v1_summary.json', 'int8_legacy_calibration'):.1f}"
+    bpts = json.loads((PHASE_B / "cell_points.json").read_text())
+    for ds, D in (("kitti", "Kitti"), ("voc", "Voc")):
+        cells = bpts[f"{ds}/retinanet_r50_fpn_v2"]
+        for arm, A in (("fp32", "Fp"), ("fp8-matched512", "Fe"),
+                       ("int8-legacy", "Legacy"), ("int8-matched512", "In"),
+                       ("int8-selective512", "Sel")):
+            if arm in cells:
+                macros[f"Arm{A}Clean{D}"] = f"{cells[arm]['clean-s0']:.2f}"
+                if "codec-control-s0" in cells[arm]:
+                    macros[f"Arm{A}J{D}"] = f"{cells[arm]['codec-control-s0']:.2f}"
+        macros[f"HistDeficit{D}"] = f"{cells['fp8-matched512']['clean-s0'] - cells['int8-legacy']['clean-s0']:.1f}"
+        macros[f"MatchedCleanDeficit{D}"] = f"{cells['fp8-matched512']['clean-s0'] - cells['int8-matched512']['clean-s0']:.1f}"
     y = final["yolo"]
     het = y["heterogeneity"]
     macros["HetQ"] = f"{het['Q']:.1f}"
