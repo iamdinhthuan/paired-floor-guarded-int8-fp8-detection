@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-24T04:22:37.511795+00:00",
+  "dataset": "voc",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "int8-entropy",
+  "source_onnx_registry_sha256": "b44e47de76d59313c4f88b210b07abe9f3b24223c8714829349e73b979b89991",
+  "source_onnx_sha256": "513380d10c73bbdd0909626c62784cfab7b3718b91df95bae3c4716e02f05d82",
+  "output_onnx": "/home/thuan/topic_c_ivc/outputs/nn_paired_protocol_v1_20260924/engines/voc_retinanet_int8-selective512/model.onnx",
+  "output_onnx_sha256": "8b8aeb2187be5e820b818ce8dcea0c5dc4324fb577846a15c13a0bc8dd5b03b3",
+  "calibration_list": "/home/thuan/topic_c_ivc/manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+  "calibration_sha256": "ea97698729ac9982292d66d6bc127be8db393cdb713b8f0546e04bf055318a29",
+  "calibration_method": "entropy",
+  "imgsz": 640,
+  "quantize_mode": "int8",
+  "calibration_eps": [
+    "cpu"
+  ],
+  "calibration_preprocessing": "retinanet_normalized",
+  "calibration_preprocessing_sha256": "b423e341e631a409e3ff6147ad26757264d3527f7e42fe2744f2baa7221472d4",
+  "calibration_preprocessing_matches_inference": true,
+  "calibration_preprocessing_applied": true,
+  "op_types_to_exclude": [
+    "Sigmoid"
+  ],
+  "op_types_to_quantize": null,
+  "quantize_node_regex": null,
+  "exclude_node_regex": [
+    "^/head/regression_head/"
+  ],
+  "node_mask": null,
+  "node_mask_file_sha256": null,
+  "node_mask_sha256": null,
+  "nodes_to_quantize_count": null,
+  "no_quantize_inputs_count": null,
+  "edge_policy_sha256": null,
+  "compute_input_policy_sha256": null,
+  "baseline_fp8_onnx_sha256": null,
+  "fp8_baseline_byte_replay": null,
+  "shared_mask_role": null,
+  "pre_enforcement_compute_attachment_sha256": null,
+  "post_enforcement_compute_attachment_sha256": null,
+  "bypassed_compute_inputs_count": null,
+  "bypassed_compute_inputs": null,
+  "removed_orphan_qdq_nodes": null,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "anchors"
+  ],
+  "decoder": "torchvision_retinanet_raw_v1",
+  "num_classes_excluding_background": 20,
+  "modelopt_version": "0.45.0",
+  "onnx_version": "1.21.0",
+  "command": [
+    "src/quantize_yolo_onnx.py",
+    "--onnx-registry",
+    "manifests/onnx/cross_family_v1/voc_retinanet_r50_fpn_v2_fp32.json",
+    "--mode",
+    "int8-entropy",
+    "--imgsz",
+    "640",
+    "--calibration-list",
+    "manifests/calibration/voc_train_clean_512_s20260807_v1.json",
+    "--calibration-preprocessing",
+    "retinanet_normalized",
+    "--exclude-node-regex",
+    "^/head/regression_head/",
+    "--out",
+    "outputs/nn_paired_protocol_v1_20260924/engines/voc_retinanet_int8-selective512/model.onnx",
+    "--registry-out",
+    "outputs/nn_paired_protocol_v1_20260924/engines/voc_retinanet_int8-selective512/onnx.json"
+  ],
+  "registry_sha256": "c195c0ded75f34bda3fb2085bef56ea4d2351b64112803f48b00b789d1ee3c8f"
+}

@@ -9,6 +9,7 @@ engines/
 outputs/*
 !outputs/metrics/
 !outputs/nn_*/
+!outputs/nn_*/engines/
 outputs/**/*.engine
 outputs/**/*.trt
 outputs/**/*.plan

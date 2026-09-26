@@ -1,0 +1,30 @@
+{
+  "dataset": "voc",
+  "model": "retinanet-r50-fpn-v2",
+  "imgsz": 640,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "anchors"
+  ],
+  "decoder": "torchvision_retinanet_raw_v1",
+  "precision": "int8-entropy",
+  "engine": "/home/thuan/topic_c_ivc/outputs/nn_paired_protocol_v1_20260924/engines/voc_retinanet_int8-selective512/trt/model.engine",
+  "engine_sha256": "b4fee445569f760cc92e34edaebfe8cc7fa21e77dd5b8a048c82406c06d3a616",
+  "source_onnx_registry_sha256": "57f8d83a115c3a82b8b385644f695f33f6fee0b2311272b95e1891ce03b255de",
+  "source_onnx_sha256": "8b8aeb2187be5e820b818ce8dcea0c5dc4324fb577846a15c13a0bc8dd5b03b3",
+  "build_policy": {
+    "backend": "tensorrt_python",
+    "required_version": "11.1.0.106",
+    "workspace_mib": 4096,
+    "optimization_level": 3,
+    "tf32": false
+  },
+  "builder_source_sha256": "0af27df1776955a60162473b2234738317ca5e2413e5770854ddeaffde128abc",
+  "tensorrt_version": "11.1.0.106",
+  "calibration_sha256": "ea97698729ac9982292d66d6bc127be8db393cdb713b8f0546e04bf055318a29",
+  "latency_evidence": "inadmissible_shared_gpu"
+}
