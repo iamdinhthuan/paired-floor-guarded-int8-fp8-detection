@@ -20,6 +20,7 @@
 \newcommand{\AP}{\mathrm{AP}}
 \newcommand{\Jclean}{\mathrm{J95}}
 \newcommand{\sigstar}{\textsuperscript{*}}
+\input{generated/nn_numbers.tex}
 \renewcommand{\thesection}{S\arabic{section}}
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
@@ -238,9 +239,9 @@ marginal KITTI estimates are sensitive to it.
 The same leave-one-out sensitivity applied to the intervention contrasts
 changes no frozen-criterion verdict; two secondary codec-control contrasts do
 move across the zero boundary on VOC (both on the held-out basis):
-INT8-corruptcalib minus INT8-q95calib goes from $+0.13$~$[-0.02,+0.28]$ to
-$+0.21$~$[+0.04,+0.38]$, and INT8-sel-q95calib minus INT8-selective goes from
-$-0.11$~$[-0.22,+0.01]$ to $-0.15$~$[-0.29,-0.01]$. Both are read with the
+INT8-corruptcalib minus INT8-q95calib goes from \nnCcQHVoc{} to
+\nnCcQHxVoc{}, and INT8-sel-q95calib minus INT8-selective goes from
+\nnSqqHVoc{} to \nnSqqHxVoc{}. Both are read with the
 main text's no-multiplicity caveat.
 
 {\sloppy The frozen configuration files are hash-identified:
