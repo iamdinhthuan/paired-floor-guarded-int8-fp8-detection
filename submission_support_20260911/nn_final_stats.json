@@ -542,7 +542,7 @@
       "tau": 0.4389856128843579,
       "pooled": -0.12431055038358171,
       "pooled_se": 0.05412917258843506,
-      "note": "blocks treated as independent; within-dataset blocks share images, so positive correlation makes Q conservative",
+      "note": "blocks treated as independent; within-dataset blocks share images, so the independence assumption is an approximation (the direction of any correlation bias is unverified)",
       "within_dataset": {
         "kitti": {
           "Q": 2.3818337420327644,

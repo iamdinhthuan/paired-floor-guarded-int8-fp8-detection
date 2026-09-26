@@ -1,5 +1,5 @@
 - The INT8-FP8 corruption interaction is heterogeneous and reverses sign.
 - All nine YOLO11 block means favor FP8 on AP; the gap change is unstable.
-- A -21.2-AP RetinaNet INT8 collapse localizes to regression-head quantization.
+- A -21.2-AP KITTI RetinaNet INT8 collapse localizes to the regression head.
 - Selective precision (reg-head FP32) recovers the collapse; a VOC residual remains.
 - Corruption-aware calibration's held-out benefit is sign-unstable by cell.

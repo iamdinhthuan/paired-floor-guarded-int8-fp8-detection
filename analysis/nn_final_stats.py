@@ -98,7 +98,8 @@ def yolo_stats() -> dict:
            "I2": max(0.0, (q - df) / q), "tau": float(np.sqrt(max(0.0, (q - df) / c))),
            "pooled": pooled, "pooled_se": float(1.0 / np.sqrt(w.sum())),
            "note": "blocks treated as independent; within-dataset blocks share "
-                   "images, so positive correlation makes Q conservative"}
+                   "images, so the independence assumption is an approximation "
+                   "(the direction of any correlation bias is unverified)"}
     within = {}
     for ds in ("kitti", "voc", "coco"):
         sub = [r for r in rows if r["dataset"] == ds]

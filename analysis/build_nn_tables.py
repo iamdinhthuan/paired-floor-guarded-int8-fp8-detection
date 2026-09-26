@@ -414,8 +414,8 @@ def intervention_figure(final: dict) -> None:
                    alpha=0.85, label=mname)
         ax.axhline(0, color="k", lw=0.8)
         ax.set_xticks(x)
-        ax.set_xticklabels([lab for _, lab in keep], fontsize=7, rotation=22,
-                           ha="right")
+        ax.set_xticklabels([lab for _, lab in keep], fontsize=6.5,
+                           rotation=30, ha="right")
         ax.set_title(dsname, fontsize=9)
         ax.grid(axis="y", alpha=0.25)
     axes[0].set_ylabel(r"$\Delta$AP vs clean-calibrated counterpart")
@@ -591,7 +591,8 @@ def numbers_tex(final: dict) -> str:
                 macros[f"{N}{F}{D}P"] = f"{iv[key][fam]['point']:+.2f}"
     macros["NoRegFpGap"] = f"{_phase_a_ap('pilot_v1_summary.json', 'fp32') - _phase_a_ap('recipe_v6_summary.json', 'int8_matched_except_reg_head'):.2f}"
     _retd = []
-    for _ph in ("phase_b_results", "phase_f_fold2_results", "phase_e_q95_results"):
+    for _ph in ("phase_b_results", "phase_cd_results",
+                "phase_f_fold2_results", "phase_e_q95_results"):
         _b = json.loads((PHASE_B.parent / _ph / "cell_points.json").read_text())
         for _k, _c in _b.items():
             if "retinanet" not in _k:

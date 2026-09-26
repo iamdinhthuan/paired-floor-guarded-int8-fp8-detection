@@ -117,6 +117,8 @@ INT8-corruptcalib & INT8 & full graph & fold-1 corruptions (noise, JPEG), 512 im
 INT8-sel-corruptcalib & INT8 & selective & in-family corruptions, 512 images \\
 INT8-cc2calib & INT8 & full graph & fold-2 corruptions (fog, motion blur), 512 images \\
 INT8-sel-cc2calib & INT8 & selective & fold-2 corruptions, 512 images \\
+\midrule
+FP8-legacy & FP8 & full graph & pre-study build (context only) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -134,7 +136,8 @@ before the frozen contract and carry TensorRT~11.1 defaults (TF32 enabled);
 the RetinaNet quantization arms built for this study use the TensorRT Python
 builder with TF32 disabled, while the RetinaNet FP32 reference and the
 FP8/INT8-legacy arms are pre-study \texttt{trtexec} builds with TF32 enabled
-(the paired contrasts only join same-policy quantized arms).
+(the $\Delta E$ contrasts only join quantized arms built under the same
+policy).
 Calibration and evaluation images are disjoint. Checkpoints are one per
 dataset$\times$model cell, and their selection provenance is disclosed: the
 KITTI and VOC YOLO11n/m/x models were fine-tuned from Ultralytics pretrained
