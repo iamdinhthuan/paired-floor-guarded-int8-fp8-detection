@@ -12,10 +12,13 @@ region, not the nominal format. A paired, codec-controlled protocol estimates
 the corruption-associated change in the FP8--INT8 AP gap within common-image
 bootstrap samples; the interaction reverses sign across dataset and
 model-scale cells. A matched-recipe decomposition of RetinaNet localizes a
-severe INT8 collapse to regression-head quantization, and a controlled
-corruption-aware calibration intervention with held-out families rejects
-calibration-range mismatch as the dominant mechanism. Selective precision
-(regression head in floating point) is the validated retraining-free fix.
+severe INT8 collapse to regression-head quantization, and a two-fold
+corruption-aware calibration intervention with held-out families finds its
+own effect context-dependent across fold-by-dataset cells---a
+corruption-specific benefit in one cell, a significant harm in another---so clean-only
+calibration ranges are not supported as a reliable repair. Selective
+precision (regression head in floating point) is the validated
+retraining-free fix.
 
 ## Authors
 
@@ -59,8 +62,10 @@ cd paper
 ./verify.sh
 ```
 
-`build.sh` compiles the article and Supplementary File S1 independently, copies
-the verified PDFs into `preview/`, and runs the CVIU package validator.
+`build.sh` compiles the article and Supplementary File S1 independently and
+copies the verified PDFs into `preview/`. The legacy CVIU package validator
+(which checks the archived `main.tex` release) runs only when invoked with
+`VALIDATE_CVIU_PACKAGE=1`; it is off by default.
 `verify.sh` additionally refreshes and verifies `SOURCE_MANIFEST.sha256`. It
 does not retrain detectors or rerun TensorRT inference.
 
@@ -70,7 +75,7 @@ with:
 ```bash
 python3 analysis/build_cviu_submission_docx.py --paper-root paper
 python3 analysis/build_cviu_submission_package.py \
-  --paper-root paper --output CVIU_SUBMISSION_READY
+  --paper-root paper --output NN_SUBMISSION_READY
 ```
 
 ## Reproducibility boundary

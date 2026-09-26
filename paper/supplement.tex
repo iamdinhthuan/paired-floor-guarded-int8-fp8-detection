@@ -85,10 +85,13 @@ codec control):
   \item JPEG compression: qualities $\{70, 40, 15\}$.
 \end{itemize}
 
-Corruption parameters are frozen in versioned configuration
-\texttt{nn\_paired\_protocol\_v1\_20260924}; the same transform code and the
-same JPEG-95 terminal encoding produce both the evaluation caches and the
-corruption-aware calibration images.
+{\sloppy Corruption parameters and the JPEG-95 terminal encoding are frozen in
+versioned configuration \texttt{corruptions.json}, whose SHA-256 is recorded
+as \texttt{generator\_config\_sha256} in every calibration manifest; the
+frozen protocol file \texttt{nn\_paired\_protocol\_v1\_20260924} fixes the
+condition list and evaluation contract on top of that generator. The same
+transform code produces both the evaluation caches and the
+corruption-aware calibration images.\par}
 
 \section{Treatments and arm registry}
 
