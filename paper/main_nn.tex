@@ -1,0 +1,367 @@
+\documentclass[a4paper,fleqn]{cas-dc}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{orcidlink}
+\usepackage{placeins}
+\usepackage{silence}
+\WarningFilter{hyperref}{Ignoring empty anchor}
+
+
+\emergencystretch=3em
+\hbadness=10000
+
+\newcommand{\sigstar}{\textsuperscript{*}}
+\newcommand{\AP}{\mathrm{AP}}
+\newcommand{\Jclean}{\mathrm{J95}}
+\input{generated/nn_numbers.tex}
+\graphicspath{{figures/}}
+\pdfstringdefDisableCommands{%
+  \def\corref#1{}%
+  \def\orcidlink#1{}%
+}
+
+\newcommand{\FirstPageCorrespondence}{%
+  \footnotesize
+  \raggedright
+  \rule{2em}{0.4pt}\par
+  \noindent \textit{E-mail addresses:}
+  \href{mailto:nguyendinhthuan.st@tdtu.edu.vn}{nguyendinhthuan.st@tdtu.edu.vn}
+  (D.T. Nguyen),
+  \href{mailto:nguyenphuonglam.st@tdtu.edu.vn}{nguyenphuonglam.st@tdtu.edu.vn}
+  (L.P. Nguyen),
+  \href{mailto:nguyenvinhhuy@dtu.edu.vn}{nguyenvinhhuy@dtu.edu.vn}
+  (V.H. Nguyen),
+  \href{mailto:vuquangsy@tdtu.edu.vn}{vuquangsy@tdtu.edu.vn}
+  (S.V. Quang),
+  \href{mailto:rajeshelara@sutd.edu.sg}{rajeshelara@sutd.edu.sg}
+  (M.R. Elara), and
+  \href{mailto:leanhvu@tdtu.edu.vn}{leanhvu@tdtu.edu.vn}
+  (A.V. Le).
+}
+
+\begin{document}
+\begin{titlepage}
+
+\shortauthors{Nguyen et al.}
+\shorttitle{Recipe determinants of quantization fragility under corruption}
+\title[mode=title]{Recipe determinants of quantization fragility under image corruption: paired evidence and a regression-head localization in object detectors}
+\author[mymainaddress]{Dinh Thuan Nguyen\orcidlink{0009-0008-6467-203X}}
+\ead{nguyendinhthuan.st@tdtu.edu.vn}
+\author[mymainaddress]{Lam Phuong Nguyen\orcidlink{0009-0007-3439-5871}}
+\ead{nguyenphuonglam.st@tdtu.edu.vn}
+\author[mysecondaryaddress]{Vinh Huy Nguyen\orcidlink{0009-0006-0878-9714}}
+\ead{nguyenvinhhuy@dtu.edu.vn}
+\author[mythirdaddress]{Sy Vu Quang}
+\ead{vuquangsy@tdtu.edu.vn}
+\author[fourthaddress]{Mohan Rajesh Elara\orcidlink{0000-0001-6504-1530}}
+\ead{rajeshelara@sutd.edu.sg}
+\author[mythirdaddress]{Anh Vu Le\orcidlink{0000-0002-4804-7540}\corref{mycorrespondingauthor}}
+\cortext[mycorrespondingauthor]{Corresponding author.}
+\ead{leanhvu@tdtu.edu.vn}
+
+\address[mymainaddress]{Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Ho Chi Minh City, Vietnam}
+\address[mysecondaryaddress]{Center of Visualization and Simulation, Duy Tan University, Da Nang, Vietnam}
+\address[mythirdaddress]{Advanced Intelligent Technology Research Group, Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, 19 Nguyen Huu Tho Street, Tan Phong Ward, District 7, Ho Chi Minh City 700000, Vietnam}
+\address[fourthaddress]{ROAR Lab, Engineering Product Development, Singapore University of Technology and Design, Singapore}
+
+\begin{abstract}
+Whether an 8-bit quantized detector stays reliable under corruption depends less on the format than on how the engine was built. We pair every corrupted input with a codec-matched clean control, so identical bytes reach executable TensorRT INT8 and FP8 engines, and estimate the corruption-associated change in the FP8--INT8 average-precision (AP) gap, $\Delta E$, inside common-image bootstrap samples. Across nine dataset$\times$scale blocks of YOLO11 on KITTI, VOC, and a 2,000-image COCO subset, $\Delta E$ is strongly heterogeneous ($I^2=\nnHetIsq\%$) and blocks of both signs remain significant after Holm correction, so the corruption-induced change in the gap has no stable sign---even though FP8 exceeds INT8 on absolute clean and corrupted AP in every matched block mean. In RetinaNet, a matched-recipe decomposition localizes a severe INT8 collapse ($-21.2$ AP on KITTI) to the regression head: leaving only that head in floating point restores clean-competitive accuracy without retraining ($49.60$ vs.\ $49.48$ AP for matched FP8), matching FP8 on the KITTI corrupt mean but leaving a residual that widens under corruption to about one AP point on VOC. A two-fold intervention, each fold frozen before its own runs, then calibrates INT8 on corrupted images and tests unseen families. Its frozen held-out criterion is met in two of the four fold$\times$dataset cells, is insignificant in one, and fails with a significant across-the-board harm in the other, while a corruption-specific held-out benefit is significantly positive in exactly one cell; codec-matched calibration controls (post hoc for fold~1, pre-specified for fold~2) bound the codec level contribution far below these level effects, though codec interaction effects are the same order as the corruption-specific components and are reported alongside them. Calibration coverage is therefore a context-dependent secondary factor, not a reliable repair for the corruption fragility, for which regression-head exclusion is the accuracy-validated fix (deployment cost not evaluated)---with the caveat that its strongest evidence comes from the development-contaminated KITTI check. Quantization robustness should be reported per recipe and per model region.
+\end{abstract}
+
+\begin{keywords}
+Object detection \sep Post-training quantization \sep Robustness evaluation \sep Image corruption \sep Paired evaluation \sep Selective precision
+\end{keywords}
+
+\maketitle
+\hypersetup{%
+  pdftitle={Recipe determinants of quantization fragility under image corruption},
+  pdfauthor={Dinh Thuan Nguyen; Lam Phuong Nguyen; Vinh Huy Nguyen; Sy Vu Quang; Mohan Rajesh Elara; Anh Vu Le},
+  pdfsubject={Paired evaluation, recipe determinants, and head-localized quantization fragility},
+  pdfkeywords={object detection; post-training quantization; robustness evaluation; image corruption; paired evaluation; INT8; FP8}}
+\end{titlepage}
+
+
+
+\section{Introduction}
+\label{sec:introduction}
+
+Object detectors deployed on edge accelerators increasingly rely on post-training quantization (PTQ) to meet memory, energy, and latency budgets~\citep{krishnamoorthi2018whitepaper,nagel2021whitepaper,gholami2021survey,jacob2018integer,banner2019post}. Two 8-bit formats dominate this setting: INT8, with a mature integer-arithmetic inference path~\citep{jacob2018integer,yao2021hawqv3,wu2020integer}, and FP8, which trades mantissa precision for exponent range on modern hardware~\citep{micikevicius2022fp8,shen2024fp8}. At the same time, deployment images deviate from benchmark conditions through noise, blur, weather, and compression artifacts that measurably degrade detector accuracy~\citep{hendrycks2019corruptions,michaelis2019detectorrobustness,kamann2020segrobustness,liu2024realworldcorruptions}. A natural question follows: which quantized format tolerates corruption better? We argue that this question, as usually asked, is ill-posed, because ``INT8'' and ``FP8'' name datatypes, whereas an executable detector is determined by a \emph{recipe}: calibration data and preprocessing, quantizer placement and operator coverage, excluded regions, graph transformations, and runtime settings.
+
+Two confounds make naive format comparisons misleading. First, a gap measured only on corrupted images mixes the accuracy difference already present on clean images with the change induced by corruption; when one format also wins on clean images, the corrupted-input gap overstates the corruption effect. Second, recipes can differ systematically across formats in published pipelines: INT8 engines may be built with calibration distributions, preprocessing contracts, and operator-exclusion rules that differ from their FP8 counterparts---our own historical engines are one such instance (Section~\ref{sec:retinanet-results}), and the two formats' different numerical structure invites different recipe choices~\citep{vanbaalen2023fp8int8}---so a ``format effect'' may in fact be a recipe effect. A credible comparison must therefore pair treatments on identical image bytes, subtract the matched clean difference, and---crucially---vary the recipe deliberately rather than only the datatype.
+
+This paper provides such a study on executable TensorRT engines evaluated end-to-end, with the decoder, non-maximum suppression (NMS), and evaluator held fixed within each detector family. We define a paired estimand $\Delta E$: the change in the FP8--INT8 AP gap between a JPEG quality 95 clean control and each corruption cell, estimated inside common-image bootstrap resamples so that pairing covariance is preserved. On a frozen protocol---YOLO11n/m/x~\citep{jocher2024yolo11} on KITTI, VOC, and a deterministic 2,000-image COCO subset; 14 conditions per block---we find that $\Delta E$ reverses sign across dataset$\times$model combinations (Section~\ref{sec:yolo-results}). The format label alone does not determine corruption behavior.
+
+The sharpest evidence comes from a second detector family. On RetinaNet (ResNet-50 feature-pyramid-network (FPN) backbone)~\citep{lin2017focal,torchvision2026retinanet}, the historical INT8 recipe collapses on KITTI ($-42.3$ AP relative to a matched FP8 engine); repairing its calibration preprocessing contract still leaves a $-21.2$-AP deficit for matched INT8, and a stage-wise recipe decomposition traces that residual to one model region: quantizing only the classification head is harmless, quantizing only the regression head reproduces the collapse, and excluding the regression head alone restores clean-competitive INT8 accuracy ($49.60$ AP, matching FP8-matched at $49.48$) without retraining (Section~\ref{sec:retinanet-results}). The matched collapse is much milder on VOC ($-2.9$ AP), so the fragile region's contribution is itself dataset-dependent.
+
+Finally, we turn the diagnostic into a controlled two-fold intervention. If the INT8 corruption fragility were caused by calibration on clean images only---ranges that fail to cover corrupted-input activations---then calibrating on corruption-augmented images should restore accuracy on held-out corruption types. Freezing complementary splits (Gaussian noise and JPEG calibrated with fog and motion blur held out, and vice versa) shows that the intervention itself is context-dependent: the frozen held-out criterion is met on KITTI fold~1 ($\nnCcHKittiP$ AP) and VOC fold~2 but fails on the other two cells, including a significant across-the-board harm on KITTI fold~2, and a corruption-specific held-out component is significantly positive in exactly one cell. Clean-only calibration ranges are therefore not supported as a reliable repair for the corruption fragility; the regression head remains the dominant fragile component in this recipe, and its exclusion is the validated retraining-free fix (Section~\ref{sec:intervention-results}).
+
+This study makes five contributions:
+\begin{itemize}[leftmargin=1.45em,itemsep=2pt,topsep=3pt,parsep=0pt]
+  \item A paired, codec-controlled evaluation protocol for executable quantized detectors whose estimand isolates the corruption-associated change in a between-treatment gap, with pairing preserved by common-image bootstrap samples.
+  \item Evidence, with a formal heterogeneity test and multiplicity control, that the corruption interaction is context-dependent within one detector family: $\Delta E$ changes sign across dataset and model-scale blocks, so the corruption-induced change in the gap has no stable sign on this protocol, while FP8 exceeds INT8 on absolute AP in every matched block mean.
+  \item A recipe decomposition that localizes the RetinaNet INT8 collapse to regression-head quantization.
+  \item A retraining-free selective-precision INT8 recipe---only the regression head kept in floating point---that recovers more than 20 AP on KITTI and is validated on the frozen protocol, with its residual on VOC reported and the development-contamination caveat on the KITTI arm flagged.
+  \item A controlled corruption-aware calibration intervention over two complementary in-family/held-out folds with codec-matched controls, analyzed with the same paired estimand: the intervention's held-out effect is itself sign-unstable across fold$\times$dataset cells, so calibration coverage contributes context-dependently and is not supported as a reliable repair for the corruption fragility.
+\end{itemize}
+
+Section~\ref{sec:related-work} reviews quantization under corruption, detector-specific PTQ, and evaluation methodology. Section~\ref{sec:methods} defines the protocol, treatments, datasets, and the frozen intervention design. Section~\ref{sec:results} reports the interaction landscape, the RetinaNet decomposition, and the intervention outcome. Section~\ref{sec:discussion} discusses mechanism, practical guidance, and limitations. Section~\ref{sec:conclusion} concludes.
+
+\section{Related work}
+\label{sec:related-work}
+
+\subsection{Post-training quantization for detectors}
+
+PTQ estimates numerical ranges with representative data or data-free surrogates and reduces quantization error through clipping, rounding, or local reconstruction~\citep{krishnamoorthi2018whitepaper,nagel2019dfq,cai2020zeroq,nagel2020adaround,hubara2021smallcalibration,li2021brecq,wei2022qdrop}. Detector-specific PTQ is harder than classification because classification confidence, box localization, feature pyramids, and foreground--background imbalance~\citep{oksuz2021imbalance} must remain jointly calibrated: PD-Quant uses prediction-difference losses, DetPTQ a detection-output loss, and Reg-PTQ specializes calibration and quantization for regression structures~\citep{liu2023pdquant,niu2023detptq,ding2024regptq}. InlierQ suppresses task-irrelevant activation anomalies using a small unlabeled calibration set~\citep{kim2026inlierq}. These methods optimize clean-input accuracy; our decomposition instead asks which structural component of a deployed INT8 detector is responsible for fragility, a question Reg-PTQ's emphasis on regression structures anticipates but does not measure at the executable-engine level.
+
+Quantization-aware training and distillation approaches~\citep{esser2020lsq,wei2018quantizationmimic,li2019fullyquantized,chen2021aqd} can produce robust low-precision detectors but require retraining. Our selective-precision arm is deliberately retraining-free: it changes which regions of the graph are quantized, keeping the deployed checkpoint and calibration budget fixed, which makes the recipe contrast interpretable.
+
+\subsection{INT8, FP8, and executable treatments}
+
+Integer-only inference is an established path~\citep{jacob2018integer,yao2021hawqv3,tien2026onnx}, while FP8 formats evolved from training formats~\citep{wang2018fp8training,sun2019hfp8} to practical PTQ layouts~\citep{micikevicius2022fp8,noune2022eightbit,kuzmin2022fp8,shen2024fp8}. Comparisons show that accuracy and hardware efficiency can favor different representations and that the preferred 8-bit format varies by layer and architecture~\citep{vanbaalen2023fp8int8,zhang2023flexible8bit}. The nominal datatype therefore does not describe an executable engine: quantizer coverage, scale resolution, excluded operators, calibration, and runtime all contribute. Our protocol records the complete ModelOpt/TensorRT treatment and manipulates recipe components one at a time, which is what allows the recipe--format confound to be measured rather than assumed.
+
+\subsection{Corruption robustness and quantized models}
+
+Corruption benchmarks~\citep{hendrycks2019corruptions} measure aggregate degradation for classifiers, and detector studies report task-specific failure under weather, noise, blur, and compression~\citep{michaelis2019detectorrobustness,kamann2020segrobustness,liu2024realworldcorruptions}. The standard summary normalizes mean performance under corruption ($\mathrm{mPC}$) by clean performance ($P_{\mathrm{clean}}$) as the relative rate $\mathrm{rPC}=\mathrm{mPC}/P_{\mathrm{clean}}$~\citep{michaelis2019detectorrobustness}, which answers a within-model retention question. Our estimand instead asks how the \emph{between-treatment} AP-point gap changes on identical corrupted bytes; a related absolute-AP guard prevents a shrinking gap near a shared failure floor from being read as robustness.
+
+Work linking quantization and distribution shift is comparatively thin: Karimov et al. evaluate quantized detectors under degraded inputs and report sensitivity to the evaluation setting~\citep{karimov2025robustness}; a separate line of work measures quantization's effect on \emph{adversarial} robustness~\citep{li2024quantrobustness}, a distinct shift family. TTAQ adapts quantization during continual shift~\citep{xiao2024ttaq}, Recti-Q corrects out-of-distribution quantized features~\citep{araghi2026rectiq}, and test-time adaptation more broadly updates the model at inference, including normalization-statistics adaptation under corruption~\citep{wang2021tent,wang2022cotta,niu2022eata,schneider2020bn}. Corruption-aware training and augmentation improve robustness by exposing optimization to degraded inputs~\citep{hendrycks2020augmix,mintun2021augmentations}, and detector error analyses show that conclusions depend on how errors are decomposed~\citep{hoiem2012diagnosing,bolya2020tide}; evaluation-protocol work likewise shows that evaluation design itself changes system-level conclusions~\citep{thacker2008performance,wen2020uadetrac}. Our intervention is related in spirit to corruption-aware calibration, but differs in the experimental control: the calibration corruption families are disjoint from the held-out evaluation families, so any claimed robustness benefit must generalize rather than memorize.
+
+\FloatBarrier
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_framework.pdf}
+\caption{Paired evaluation protocol. A deterministic clean control encoded at JPEG quality 95 ($\Jclean$) and each corrupted input are created before the precision branch. The four paired cells combine INT8 and FP8 treatments with $\Jclean$-clean and corrupted inputs; the FP32 engine is a separate reference and cancels from the interaction $\Delta E$. Common image resamples preserve pairing. Clean-control fidelity and absolute corrupted AP---and the signed loss $D=\AP_{\Jclean}-\AP_c$ shown in the floor guard---are checked before an interaction is interpreted.}
+\label{fig:framework}
+\end{figure*}
+\FloatBarrier
+
+\section{Methodology}
+\label{sec:methods}
+
+\subsection{Executable treatments as recipes}
+
+Let a \emph{treatment} denote the complete recorded configuration of an executable detector: checkpoint, Open Neural Network Exchange (ONNX) graph, quantizer placement, quantize/dequantize (Q/DQ) coverage, calibration list, calibration preprocessing, excluded operators, TensorRT builder settings, runtime, and decoder. Throughout, ``INT8'' and ``FP8'' qualify such treatments, not isolated datatypes, and an \emph{arm} denotes one treatment instance within an experiment. All engines were built with TensorRT 11.1.0.106~\citep{nvidia2026tensorrt} on an NVIDIA GeForce RTX 5090 with TF32 disabled (so floating-point kernels cannot silently use TensorFloat32 compute) and a 4,096~MiB builder workspace, from ONNX graphs quantized by NVIDIA ModelOpt 0.45.0 using entropy calibration~\citep{nvidia2026modelopt,migacz2017entropy}. Calibration lists contain 512 deterministically selected training images; evaluation and calibration images are disjoint.
+
+Within this framing we define the RetinaNet recipe arms used below:
+\begin{itemize}[leftmargin=1.45em,itemsep=1pt,topsep=2pt,parsep=0pt]
+  \item \textbf{INT8-legacy}: the historical transferred recipe; its calibration preprocessing does not match inference preprocessing (a contract violation retained as a diagnostic arm).
+  \item \textbf{INT8-matched}: entropy INT8 with calibration preprocessing identical to inference (\texttt{retinanet\_normalized}) and the same 512-image budget as FP8.
+  \item \textbf{INT8-selective}: INT8-matched with all \texttt{/head/regression\_head/} nodes left in floating point---a selective-precision recipe requiring no retraining.
+  \item \textbf{INT8-corruptcalib} and \textbf{INT8-sel-corruptcalib}: the matched and selective recipes rebuilt on a corruption-aware calibration set (noise and JPEG; Section~\ref{sec:intervention-design}); \textbf{INT8-cc2calib} and \textbf{INT8-sel-cc2calib} are the complementary fold (fog and motion blur).
+  \item \textbf{INT8-q95calib} and \textbf{INT8-sel-q95calib}: codec-matched calibration controls---the same 512 clean images re-encoded at JPEG quality 95 with no corruption (Section~\ref{sec:intervention-design}).
+  \item \textbf{FP8-matched} and \textbf{FP32}: matched-recipe FP8 and the high-precision reference.
+\end{itemize}
+Three senses of ``matched'' recur and are kept distinct: \emph{contract-matched} arms use calibration preprocessing identical to inference; \emph{codec-matched} inputs share the terminal JPEG quality-95 encoding; and \emph{paired} comparisons evaluate treatments on identical images (and identical resamples in the bootstrap).
+
+\subsection{Paired estimands and interpretation order}
+\label{sec:estimands}
+
+For dataset $d$, model $m$, quantized treatment $q$, and condition $c$, write $\AP_{d,m,q,c}$ for COCO-style AP@[.5:.95] reported in AP points. $\Jclean$ denotes the clean control: the source image deterministically encoded at JPEG quality 95 with subsampling disabled and no named corruption (Fig.~\ref{fig:framework}). The between-treatment gaps on clean and corrupted inputs are
+\begin{equation}
+G_{d,m,x}=\AP_{d,m,\mathrm{FP8},x}-\AP_{d,m,\mathrm{INT8},x},
+\quad x\in\{\Jclean,c\},
+\end{equation}
+and the primary interaction is
+\begin{equation}
+\Delta E_{d,m,c}=G_{d,m,c}-G_{d,m,\Jclean}.
+\label{eq:delta-e}
+\end{equation}
+Positive $\Delta E$ means the FP8--INT8 gap widens under corruption relative to the clean baseline; negative means it narrows. The FP32 reference cancels algebraically. We abbreviate $G_0=G_{d,m,\Jclean}$ and write $G_c$ (``corrupt-mean gap'') for the equal-weighted mean of $G_{d,m,c}$ over the 12 corruption--severity cells; the reported per-block $\Delta E$ is $G_c-G_0$ (Eq.~\eqref{eq:delta-e}). Absolute corrupted AP is reported beside $\Delta E$; a shrinking gap near a shared accuracy floor is a floor effect, not robustness (the ``floor guard'': interpretations are made jointly with the corrupted AP level). The contrast is descriptive, not causal---algebra analogous to a difference-in-differences interaction~\citep{angrist2009mostly} without causal identification claims.
+
+The same construction applies to recipe contrasts: we substitute two arms of the same format (e.g., INT8-selective minus INT8-matched) to isolate a recipe component under an identical protocol. This is the key methodological step that turns a format comparison into a recipe experiment.
+
+\subsection{Corruption suite and codec control}
+\label{sec:corruptions}
+
+Four synthetic corruptions are generated deterministically: Gaussian noise ($\sigma\in\{8,20,40\}$ on the 0--255 scale), linear motion blur (kernel lengths $\{5,13,23\}$ at a per-image uniform angle), synthetic fog (strength--radius pairs $(0.18,6)$, $(0.38,12)$, $(0.62,20)$ blended over a per-image random field), and JPEG compression (qualities $\{70,40,15\}$). Severity labels 1/3/5 order settings within each type. Every output is re-encoded at JPEG quality 95, so the clean control and corrupted inputs share the terminal codec; a SHA-256-derived seed binds dataset, image identifier, corruption, and severity. Within each detector family, inference fixes the input resolution (640-pixel letterbox), confidence threshold, decoder, and non-maximum suppression (NMS): YOLO11 uses a confidence threshold of $0.001$ and class-wise NMS at intersection-over-union (IoU) $0.7$ with at most 300 detections; RetinaNet uses $0.05$ and batched NMS at IoU $0.5$, also capped at 300 detections. AP evaluation uses the COCO protocol (\texttt{pycocotools}) with \texttt{maxDets}=100. Decoder constants therefore differ across families, and cross-family comparisons compare recipe bundles rather than a shared decoder; all within-family contrasts share identical decoder settings.
+
+\subsection{Datasets and the frozen paired protocol}
+\label{sec:datasets}
+
+Three evaluation universes anchor the confirmatory evidence: KITTI validation (1,496 images)~\citep{geiger2012kitti}, PASCAL VOC2007 test (4,952 images)~\citep{everingham2015voc}, and a deterministic 2,000-image subset of COCO val2017~\citep{lin2014coco} (seed 20260924; the subset is identical across all arms so that COCO comparisons remain paired). VOC and KITTI annotations were converted once to COCO format and frozen; reported values are COCO-style measurements on converted annotations. One checkpoint per dataset$\times$model cell is used throughout: each YOLO11 scale is fine-tuned from Ultralytics pretrained weights on that dataset's locked confirmatory training split at 640-pixel input, and the RetinaNet ResNet-50-FPN-v2 model is fine-tuned per dataset for 100 epochs at 640-pixel input (seed 20260807); all checkpoint, split, and training-run manifests are hash-bound (Supplement S4). Each dataset$\times$model block evaluates clean, codec-control, and the 12 corruption--severity cells on identical image ordering: 14 conditions per arm, except the RetinaNet FP32 and legacy arms, which predate codec control and carry 13. RetinaNet arms add the intervention engines on the same protocol (Section~\ref{sec:intervention-design}).
+
+Two scope notes qualify interpretation. First, the KITTI validation universe was used while developing the selective-precision recipe, so KITTI selective-arm numbers are development-contaminated; VOC is the cleaner cross-dataset check for that arm. Second, RetinaNet runs only on KITTI and VOC, while the frozen COCO subset carries YOLO11 only---cross-family conclusions therefore rest on disjoint dataset sets.
+
+\subsection{Paired image bootstrap}
+\label{sec:bootstrap}
+
+Uncertainty comes from the finite evaluation images with checkpoints, engines, calibration, decoder, and corruptions fixed; evaluation-set composition alone is a known source of score variance~\citep{bouthillier2021variance,pineau2021reproducibility}. Within each dataset$\times$model block we use one deterministic schedule of 2,000 bootstrap resamples of image indices~\citep{efron1979bootstrap} shared across all arms and all conditions, so every paired contrast is evaluated inside common-image samples and the induced covariance is preserved. Reported point estimates are full-sample plug-in values; reported intervals are 2.5th--97.5th percentiles of the bootstrap distribution of each contrast, marked \sigstar{} when they exclude zero. Two-sided bootstrap $p$-values, $p=\min\{1,2\min[\Pr(d\le0),\Pr(d\ge0)]\}$ (smallest nonzero value $1/1000$ at $B=2000$), are Holm-adjusted across the nine confirmatory YOLO11 blocks~\citep{holm1979simple}. Heterogeneity of $\Delta E$ across blocks is tested with Cochran's $Q$ on inverse-variance weights from the bootstrap standard errors~\citep{cochran1954combination,higgins2002quantifying}; because blocks within a dataset share images, their estimates are plausibly positively correlated, which would make $Q$ conservative (the cross-block covariance is not estimated). Cells of the exploratory layer and diagnostic decomposition arms are single-point diagnostic estimates without intervals, as summarized in Section~\ref{sec:evidence-layers}.
+
+\subsection{Corruption-aware calibration intervention}
+\label{sec:intervention-design}
+
+The intervention tests one hypothesis under decision rules frozen in a versioned configuration before any intervention run: \emph{if the INT8-matched arm's corrupted-input accuracy is limited by calibration images that never exhibit corrupted-input activation ranges, then corrupting the calibration distribution should recover held-out corruption AP.} This hypothesis is deliberately scoped to corruption robustness: it cannot by itself account for the clean-image collapse, which the decomposition attributes elsewhere. Each of the 512 calibration images is deterministically assigned---by a hash of dataset and image path under schedule \texttt{nn-corruptcalib-v1}---to exactly one of six in-family cells $\{\text{Gaussian noise},\text{JPEG}\}\times\{1,3,5\}$ (77--102 images per cell) and corrupted with the same frozen parameters and JPEG quality-95 output encoding as the evaluation caches (Section~\ref{sec:corruptions}). Fog and motion blur are never calibrated in this first fold; they form its held-out split. A complementary second fold, frozen in its own versioned configuration before any of its runs, swaps the roles: it calibrates the same 512 images on fog and motion blur (75--95 images per cell) and holds out Gaussian noise and JPEG, and it pre-specifies both decision rules---the fold-1 held-out criterion and the held-out $\Delta E$ rule against both INT8-matched and INT8-q95calib. Its arms are INT8-cc2calib and INT8-sel-cc2calib. The fold-1 frozen configuration carries two success criteria: (i)~full INT8 corrupt-calibration improves the \emph{held-out} corrupt mean over INT8-matched with an interval excluding zero on the positive side, which would support the range-mismatch hypothesis; and (ii)~the selective corrupt-calibration arm's held-out mean \emph{includes} zero relative to FP8-matched, which would let calibration explain the VOC residual gap. Criterion~(ii) is deliberately null-seeking: an interval containing zero bounds the residual rather than proving equivalence, since no equivalence margin was pre-specified. In-family improvement alone is evidence of calibration-fitting, not robustness transfer. Both criteria are reported regardless of outcome; where a criterion is stated as ``excluding zero'' we always read it directionally, so a significantly \emph{negative} held-out change counts as failure, not success. Two interpretive analyses accompany the fold-1 criteria and are labeled as such because they were added after the fold-1 freeze (fold~2 subsequently froze the $\Delta E$ rule, but not the magnitude comparison): (i) a magnitude comparison of any held-out gain against the residual gap to matched FP8, and (ii) the paper's own paired estimand applied to the calibration contrast, $\Delta E_{\text{held-out}}$ = (held-out gain) $-$ ($\Jclean$ clean gain), which separates a corruption-specific benefit from a uniform accuracy shift that would appear on clean inputs too. This last subtraction rests on an additive, parallel-shift assumption---that any calibration-induced level shift on clean inputs transfers comparably to corrupted inputs---so it is an interpretive decomposition, not a causal identification (Supplement S7).
+
+Two controls discipline interpretation. First, the corrupt-calibration images carry the same JPEG quality 95 terminal encoding as the evaluation caches, whereas the matched clean-calibration list points at original bytes; a gain of the intervention arm over INT8-matched is therefore potentially confounded by codec adaptation rather than corruption coverage. We isolate this component with the INT8-q95calib and INT8-sel-q95calib control arms, calibrated on the same 512 images re-encoded at JPEG quality 95 without corruption. These codec controls were added after the fold-1 freeze and after the fold-1 results were computed, when the confound was identified during review of the intervention design; they are therefore post-hoc controls on the fold-1 contrast and are labeled as such, while fold~2 pre-specifies its $\Delta E$ rule against the q95-matched anchor in advance. Second, the codec confound works in the direction that matters for the primary test: a confound that \emph{inflates} the intervention arm's gains biases the primary superiority test \emph{toward} the positive verdict, so a positive held-out result cannot be attributed to corruption coverage until it survives against the codec-matched anchor. For the null-seeking selective criterion the same confound acts in the opposite direction---it pushes the selective arm's residual away from zero, so it cannot manufacture an interval containing zero.
+
+\subsection{Evidence layers}
+\label{sec:evidence-layers}
+
+Three primary evidence layers are kept distinct (Table~\ref{tab:evidence-layers}): \emph{diagnostic} evidence (Section~\ref{sec:retinanet-results}) consists of single-point recipe sweeps that localized the fragile region during development; \emph{confirmatory} evidence is the frozen paired protocol of Section~\ref{sec:datasets} with bootstrap intervals; \emph{intervention} evidence is the corrupt-calibration experiment and its codec controls (Section~\ref{sec:intervention-design}). A fourth, historical exploratory layer---a 144-cell YOLO11 grid over four datasets with sign-reversal and sensitivity analyses---is reported only as context; it used earlier engine builds whose TF32 state and calibration contracts differ from the confirmatory protocol.
+
+\begin{table}[t]
+\centering
+\caption{Evidence layers and their inferential status. Intervals exist only where pairing and the frozen schedule are defined.}
+\label{tab:evidence-layers}
+\footnotesize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llll}
+\toprule
+Layer & Evidence & Engines/protocol & Uncertainty \\
+\midrule
+Diagnostic & Region-wise recipe sweeps & Development builds & Single-point AP \\
+Confirmatory & Paired 14-cell protocol & Frozen confirmatory builds & Paired bootstrap (2,000 resamples) \\
+Intervention & Calibration interventions & Frozen intervention builds & Paired bootstrap (2,000 resamples) \\
+Historical exploratory & 144-cell prior grid & Earlier builds/contracts & Reported as context \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\section{Results}
+\label{sec:results}
+
+\subsection{The FP8--INT8 interaction is not universal}
+\label{sec:yolo-results}
+
+Table~\ref{tab:yolo-deltae} and Fig.~\ref{fig:forest} report the confirmatory YOLO11 landscape: nine dataset$\times$model blocks, each with the clean-control gap $G_0$, the corrupt-mean gap $G_c$, and the paired interaction $\Delta E$ with its 95\% interval. FP8 exceeds INT8 on clean-control AP in all nine blocks ($G_0$ from $+0.68$ to $+3.97$ AP points) and on the 12-cell corrupt mean as well (FP8 and INT8 corrupted AP columns, Table~\ref{tab:yolo-deltae}); the gap is positive on the level in every block, although a minority of individual severity cells reverse it. What lacks a stable sign is the change corruption induces in that gap: it is positive on VOC/YOLO11n ($+0.31$ $[+0.07,+0.59]$) and COCO-2k/YOLO11m ($+0.60$ $[+0.27,+0.97]$), negative on VOC/YOLO11m ($-0.57$ $[-0.80,-0.34]$), KITTI/YOLO11m ($-0.68$ $[-1.32,-0.05]$), KITTI/YOLO11x ($-0.69$ $[-1.13,-0.33]$), and COCO-2k/YOLO11x ($-0.53$ $[-0.93,-0.18]$), and compatible with zero on the remaining three blocks (unadjusted intervals; multiplicity is addressed below). Within VOC alone, the sign of the estimate flips with model scale ($\mathrm{n}\!:+0.31$ excluding zero; $\mathrm{m}\!:-0.57$ excluding zero; $\mathrm{x}\!:+0.14$ null). A claim that INT8 is uniformly less robust under corruption---or uniformly comparable---is not supported on this protocol's own evidence; within a fixed recipe, the sign of the interaction varies with the dataset$\times$model context.
+
+The heterogeneity is formal, not an artifact of reading nine intervals. Cochran's test rejects a common $\Delta E$ across blocks ($Q=\nnHetQ$ on $\nnHetDf$ degrees of freedom, $p\approx\nnHetP$; $I^2=\nnHetIsq\%$, between-block standard deviation $\tau=\nnHetTau$ AP), so a pooled ``format effect'' would summarize nothing. The heterogeneity is not only between datasets: it holds within VOC ($Q=\nnHetQVoc$, 2 df, $p\approx\nnHetPVoc$) and within the COCO subset ($Q=\nnHetQCoco$, 2 df, $p\approx\nnHetPCoco$), where only model scale varies, though not within KITTI ($Q=\nnHetQKitti$, $p=\nnHetPKitti$). After Holm adjustment across the nine blocks, \nnHolmSurvivors{} blocks remain significant and they carry \emph{both} signs (COCO-2k/YOLO11m positive; KITTI/YOLO11x, VOC/YOLO11m, and COCO-2k/YOLO11x negative; Table~\ref{tab:yolo-deltae}). Within one dataset, VOC/YOLO11n and VOC/YOLO11m differ by $\nnVocNmDiff$ AP ($z=\nnVocNmZ$ under an independence approximation that is conservative for positively correlated blocks). The heterogeneity also exists \emph{within} blocks at the family level---on VOC/YOLO11x the JPEG family contributes $-1.07$~AP while Gaussian noise and motion blur contribute about $+0.7$~AP each---and excluding the saturated motion-blur-s5 cell leaves the cross-block heterogeneity essentially unchanged ($Q\approx\nnHetQEx$, $I^2\approx\nnHetIsqEx\%$) and every Holm-surviving block's sign intact, although the two near-null KITTI blocks drift (YOLO11n's null point estimate flips from $-0.01$ to $+0.15$ and YOLO11m's significant negative turns null; Supplement S8, Table~S2). The codec control also behaves as required: $\Jclean$ clean AP tracks original clean AP within 0.3 points for every arm in these nine blocks, and the within-model retention statistic (corrupt mean over $\Jclean$ clean) ranges 0.68--0.79 across blocks with INT8-versus-FP8 differences of at most $\sim$0.02---the pairing basis itself does not penalize either treatment.
+
+\begin{table*}[t]
+\centering
+\caption{Confirmatory paired contrasts, FP8 minus INT8, per dataset$\times$model block. FP8/INT8 corr.\ AP: absolute 12-cell corrupt-mean AP (the floor guard); $G_0$: clean-control ($\Jclean$) gap; $G_c$: corrupt-mean gap (the difference of the two absolute columns, computed before they are rounded to 0.1~AP); $\Delta E=G_c-G_0$ with paired-bootstrap interval. \sigstar{} interval excludes zero; $p_{\mathrm{Holm}}$: bootstrap $p$-value Holm-adjusted across the nine blocks.}
+\label{tab:yolo-deltae}
+\footnotesize
+\resizebox{\textwidth}{!}{\input{generated/nn_yolo_deltae.tex}}
+\end{table*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.72\textwidth]{nn_deltae_forest.pdf}
+\caption{Paired corruption interaction $\Delta E$ (FP8$-$INT8) with 95\% common-image-bootstrap intervals. Solid markers denote intervals excluding zero. The sign reverses across dataset$\times$model blocks, so the interaction cannot be summarized as a single format-level effect.}
+\label{fig:forest}
+\end{figure*}
+
+\subsection{A matched recipe exposes and localizes RetinaNet fragility}
+\label{sec:retinanet-results}
+
+The non-YOLO comparator is where recipe effects dominate. Table~\ref{tab:retinanet} and Fig.~\ref{fig:retinanet-arms} show the RetinaNet arms on KITTI and VOC under the frozen protocol. Three observations matter.
+
+First, about half of the historical INT8 recipe's collapse is a contract violation, not a format property: fixing calibration preprocessing alone moves KITTI clean AP from 7.21 to 28.29 (21.1 points of the 42.3-point total deficit) with identical weights, quantizer, and budget. The legacy recipe must therefore be described as a mismatched-calibration artifact, not evidence about INT8 per se.
+
+Second, the residual INT8-matched collapse is severe but dataset-dependent: $-21.2$ AP versus matched FP8 on KITTI but only $-2.9$ AP on VOC (original clean images, Table~\ref{tab:retinanet}; $-\nnMatchedGapKitti$ and $-\nnMatchedGapVoc$ on the $\Jclean$ basis). The paired interaction $\Delta E$ (FP8$-$INT8-matched, corrupt mean) is \nnMatchedDEKitti{} on KITTI and \nnMatchedDEVoc{} on VOC; the KITTI narrowing is consistent with a scale artifact of the additive estimand: INT8-matched enters corruption 21 points below FP8, and the two arms' retention rates are nearly equal (0.72 versus 0.75), so a similar relative decline narrows the absolute gap mechanically.
+
+Third, the decomposition localizes the collapse to one model region (Table~\ref{tab:decomposition}, diagnostic single-point arms on KITTI): quantizing only the classification head preserves accuracy (50.57 $\approx$ FP32), quantizing only the regression head reproduces the collapse (16.41), and INT8 everywhere \emph{except} the regression head recovers to 49.50---within 0.94 of the diagnostic FP32 build on the same $\Jclean$ basis (50.44; the confirmatory FP32 reference in Table~\ref{tab:retinanet}, evaluated on original clean bytes rather than $\Jclean$, is 50.15) and above full-graph FP8. Across all eleven INT8 diagnostic arms the outcome is bimodal in one variable: every arm that quantizes the regression head lands between 6.7 and 28.7 AP, whatever its calibration contract, estimator, budget, or site placement, and every arm that leaves it in floating point lands between 49.1 and 50.6 AP. Two alternatives a reader might raise are inconsistent with this split. Position in the graph is not the explanation, because the classification head is equally terminal yet harmless when quantized alone. Quantization coverage is not the explanation either: the restricted Conv+Add placement (15.75) quantizes fewer sites than full INT8 and does worse, while backbone+FPN quantization with both heads in floating point (49.14) quantizes most of the network and does well. Effects are non-additive (quantizing both heads, 17.09, is worse than quantizing the full graph), so the arms identify a dominant fragile component rather than additive contributions. These arms are single engine builds from one calibration draw on the development set; the confirmatory protocol validates the exclusion direction on both datasets, not the individual diagnostic values.
+
+\begin{table}[t]
+\centering
+\caption{RetinaNet arms under the frozen protocol (AP points, COCO-style AP on converted annotations). Corrupt mean = equal weight over the 12 corruption--severity cells. $\Jclean$: codec-control clean; FP32 and legacy arms predate codec control (dashes).}
+\label{tab:retinanet}
+\footnotesize
+\resizebox{\columnwidth}{!}{\input{generated/nn_retinanet_arms.tex}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Diagnostic recipe decomposition on KITTI (single-point AP on the $\Jclean$ codec-control inputs, 512-image calibration unless stated). These arms guided the confirmatory design and carry no intervals; the ``INT8 matched preprocessing, 512-img calibration'' row shares its engine and numbers with the confirmatory INT8-matched cell rather than duplicating it.}
+\label{tab:decomposition}
+\footnotesize
+\resizebox{\columnwidth}{!}{\input{generated/nn_decomposition.tex}}
+\end{table}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{nn_retinanet_arms.pdf}
+\caption{RetinaNet recipe arms on KITTI and VOC: clean AP versus 12-cell corruption mean. INT8-matched collapses on KITTI (dataset-dependent); selective precision (INT8-sel = INT8-selective, reg-head in floating point) restores FP8-level behavior on KITTI and leaves a small residual on VOC; the calibration variants (INT8-q95 = codec-only calibration; INT8-cc = fold-1 corruption-aware calibration on noise and JPEG; INT8-cc2 = fold-2 calibration on fog and motion blur; a ``sel-'' prefix marks the selective recipe with the regression head in floating point) shift the matched arm little.}
+\label{fig:retinanet-arms}
+\end{figure*}
+
+On the confirmatory protocol the selective arm validates the decomposition: INT8-selective matches FP8-matched within intervals that include zero on the clean control and on the 12-cell corrupt mean on KITTI (FP8 minus selective: $\Jclean$ gap \nnSelResJKitti{}, corrupt-mean gap \nnSelResCKitti{}). That match is a statement about the mean, not about every family: measured on the same $\Delta E$ basis (family gap minus the $\Jclean$ gap), the selective residual widens significantly under motion blur (\nnSelFamMbKitti{}) and is null on JPEG (\nnSelFamJpegKitti{}), so family-level divergence remains. On VOC---the cleaner check---a small residual remains on both bases: FP8-matched minus selective is \nnSelResJVoc{} on the $\Jclean$ clean control and \nnSelResCVoc{} on the corrupt mean, widening under corruption ($\Delta E$ \nnSelResDEVoc{}). The regression head is therefore the dominant contributor, but not the entire mechanism on VOC.
+
+\subsection{Corruption-aware calibration is itself context-dependent and does not repair the collapse}
+\label{sec:intervention-results}
+
+If the INT8-matched arm's corruption fragility were driven by clean-only calibration ranges, the corrupt-calibration intervention should recover held-out corruption AP. Against the frozen criterion, the result splits by dataset (Table~\ref{tab:intervention}, Fig.~\ref{fig:intervention}). On VOC the held-out difference is \nnCcHVoc{} AP, null, while the in-family cells seen in calibration improve by \nnCcInVoc{}. On KITTI the primary criterion is met---held-out \nnCcHKitti{}---but the gain closes less than a tenth of the held-out residual to FP8-matched on the same cells (INT8-corruptcalib minus FP8-matched: \nnCcFHKitti{}). Excluding the saturated motion-blur-s5 cell leaves both verdicts unchanged (held-out \nnCcHxKitti{} on KITTI; \nnCcHxVoc{} on VOC).
+
+The paper's own estimand explains why the KITTI gain is not demonstrably corruption-specific. Corrupt calibration also raises \emph{clean-control} AP---by \nnCcJKitti{} on KITTI and \nnCcJVoc{} on VOC---so part of every corrupted-cell gain is a uniform accuracy shift that owes nothing to corruption. Subtracting it, the corruption-specific held-out effect $\Delta E_{\text{held-out}}$ is \nnCcDHKitti{} on KITTI and \nnCcDHVoc{} on VOC: null-to-negative on both datasets. The KITTI held-out gain is therefore no larger than the gain on uncorrupted images. Only the calibrated families show a corruption-specific benefit, and only on VOC ($\Delta E_{\text{in-family}}$ \nnCcDIVoc{}; KITTI \nnCcDIKitti{}). Calibration on corruptions fits the calibrated distribution and shifts overall accuracy slightly; in this fold it does not transfer robustness to unseen corruption families---whether that verdict generalizes is what the complementary fold tests next.
+
+The codec-matched control arms settle the attribution question. Corrupt-calibration images carry a JPEG quality 95 terminal encoding that the clean-calibration images lack, so some of the gain could be codec adaptation. Calibrating the same 512 images at quality 95 without corruption (INT8-q95calib) leaves clean AP unchanged on both datasets ($\Jclean$ clean \nnQqJKitti{} on KITTI, \nnQqJVoc{} on VOC) and does not improve the corrupt mean (\nnQqCKitti{} on KITTI; \nnQqCVoc{} on VOC, a small significant reduction). Against this control, the corrupt-calibration contrast is essentially unchanged in level terms (INT8-corruptcalib minus INT8-q95calib, held-out \nnCcQHKitti{} on KITTI and \nnCcQHVoc{} on VOC), and the corruption-specific held-out component is significantly negative on KITTI against this anchor ($\Delta E_{\text{held-out}}$ \nnCcQDHKitti{}; VOC \nnCcQDHVoc{}). On the selective tier, codec matching alone produces a small shift on corrupted cells that flips sign across datasets (corrupt mean \nnSqqCKitti{} on KITTI; \nnSqqCVoc{} on VOC) with no corruption-specific component ($\Delta E_{\text{held-out}}$ \nnSqqDHKitti{} and \nnSqqDHVoc{}). Codec effects are therefore real but bounded in \emph{level} terms---within half an AP point, far below the 21-AP collapse and the 1--2-AP intervention gains---and explain neither the full-INT8 collapse nor the level gains. On the interaction basis, however, codec effects are the same order as the corruption-specific components themselves (VOC q95-calib $\Delta E_{\text{held-out}}$ \nnQqDHVoc{}), and switching the anchor moves VOC fold-2's $\Delta E_{\text{held-out}}$ from \nnCtDHVoc{} to \nnCtQDHVoc{}; the codec-anchored $\Delta E$ columns in Table~\ref{tab:intervention} are therefore the relevant basis for the corruption-specific verdict, not an optional robustness check.
+
+On the selective arm the pattern repeats at smaller magnitude. On VOC, corrupt calibration adds \nnSccCVoc{} AP on the corrupt mean, driven by the in-family cells (\nnSccInVoc{}) with a null held-out difference (\nnSccHVoc{}), and improves the signed corrupt-mean residual to FP8-matched from $-0.96$ to \nnSccFCVoc{} without closing it; the held-out residual is \nnSccFHVoc{}. The second frozen criterion---held-out residual to FP8-matched including zero---is therefore not met on either dataset (VOC \nnSccFHVoc{}; KITTI \nnSccFHKitti{}): calibration does not explain the residual. On KITTI the corrupt-mean change is significantly negative, though small (\nnSccCKitti{}; held-out \nnSccHKitti{}), under the contamination caveat of Section~\ref{sec:datasets}.
+
+The complementary fold repeats the experiment with the family roles reversed---INT8-cc2calib calibrates on fog and motion blur and is tested on Gaussian noise and JPEG---and its result is not a second null: the intervention's own effect is itself sign-unstable across the four fold$\times$dataset cells (Table~\ref{tab:intervention}, Fig.~\ref{fig:intervention}). On KITTI the fold-2 arm is significantly \emph{worse} on every level basis ($\Jclean$ clean \nnCtJKitti{}; calibrated fog+motion-blur cells \nnCtInKitti{}; held-out \nnCtHKitti{}), so the primary rule fails and the clean-level shift flips sign relative to fold~1. The degradation is largest on the clean control, so the corruption-specific components are positive on the calibrated families ($\Delta E_{\text{in-family}}$ \nnCtDIKitti{}) and null held-out (\nnCtDHKitti{}; codec-anchored \nnCtQDHKitti{}): fold~2 damages this engine broadly rather than improving any basis. On VOC the same fold-2 recipe meets the primary rule: held-out \nnCtHVoc{}---recovering roughly half of the held-out residual to FP8-matched on those families (\nnCtFHVoc{} remaining)---and, uniquely among the four cells, its corruption-specific component is positive and significant ($\Delta E_{\text{held-out}}$ \nnCtDHVoc{}, confirmed against the codec anchor at \nnCtQDHVoc{}). The selective tier does not repeat the split but diverges from it: on KITTI the fold-2 selective arm is significantly \emph{lifted} where the full-INT8 arm is harmed ($\Jclean$ \nnSctJKitti{}; held-out \nnSctHKitti{}; $\Delta E$ null; same development-contamination caveat as the fold-1 selective arm)---although neither lift is significant against its codec-matched baseline (sel-cc2 minus sel-q95, $\Jclean$ \nnSctQJKitti{}; held-out \nnSctQHKitti{}), so codec adaptation can account for this particular lift. On VOC the selective held-out gain is \nnSctHVoc{} and does survive its codec anchor (\nnSctQHVoc{}), with a corruption-specific component \emph{larger} than the full tier's ($\Delta E_{\text{held-out}}$ \nnSctDHVoc{}, codec-anchored \nnSctQDHVoc{})---against FP8-matched its held-out residual (INT8-sel-cc2calib minus FP8-matched) is \nnSctFHVoc{}, the only cell in which the fold-1 analog of the second criterion (an interval including zero) is met; on KITTI fold~2 the same contrast excludes zero in the favorable direction (\nnSctFHKitti{}, the selective fold-2 arm significantly exceeding FP8-matched on held-out, under the contamination caveat). Corruption-aware calibration therefore \emph{can} transfer, but whether it does depends on the dataset$\times$family partition: across the two folds its primary criterion is met on KITTI fold~1 and VOC fold~2 and fails on the other two cells, including a significant harm on KITTI fold~2.
+
+The intervention verdict must be stated in two parts, separating the frozen rules from the interpretive analyses. Against the frozen criteria, the primary held-out test succeeds on KITTI fold~1 and VOC fold~2 and fails on the other two cells---including a significant \emph{harm} on KITTI fold~2. Fold~1's frozen secondary test (selective-versus-FP8 residual including zero) fails on both datasets; the fold-2 frozen corruption-specific rule (held-out $\Delta E$ excluding zero on the positive side against both anchors) is met on VOC and not met on KITTI; and the fold-2 selective-versus-FP8 contrast is a post-hoc analog, met on VOC and exceeded favorably on KITTI under the contamination caveat. It is worth stating plainly that on KITTI fold~1 the pre-specified reading of the primary rule is met, and the negative verdict rests on the post-hoc corruption-specific decomposition. Against that reading, fold~1 fails on both datasets while fold~2 produces a genuine positive component on VOC; codec adaptation cannot account for either direction of that instability. Two conclusions follow, and they should be kept apart. First, corruption-aware entropy calibration is itself context-dependent: it transfers a real corruption-specific benefit in one of four fold$\times$dataset cells, leaves the others null or harmful, and never approaches the scale of the KITTI collapse---a second instance of the recipe$\times$context dependence the confirmatory layer showed. Second, clean-only calibration ranges are not supported as a reliable repair for the corruption fragility: on KITTI, where the collapse lives, neither fold produces a corruption-specific held-out gain---fold~1's raw held-out gain closes under a tenth of the residual, and fold~2 degrades every level basis including the families it calibrated on---whereas excluding the regression head restores FP8-level behavior on KITTI and leaves only a small residual on VOC, without retraining.
+
+\begin{table*}[t]
+\centering
+\caption{RetinaNet intervention and codec-control contrasts (A minus B, AP points; plug-in point with 95\% paired-bootstrap interval, 2,000 common-image resamples). $\Jclean$ clean: codec-control clean cell; corrupt mean: 12 cells; in-family: Gaussian noise and JPEG (the fold-1 calibrated families); held-out: fog and motion blur (never calibrated in fold~1); for the q95-calibration rows, which see clean images only, these labels mark the evaluation partition rather than exposure; $\Delta E_{\text{held-out}}$ = held-out difference minus $\Jclean$ clean difference, and $\Delta E_{\text{in-family}}$ is defined analogously. Fold-2 rows swap the family roles: their in-family is fog and motion blur and their held-out is Gaussian noise and JPEG. \sigstar{} interval excludes zero.}
+\label{tab:intervention}
+\footnotesize
+\resizebox{\textwidth}{!}{\input{generated/nn_intervention.tex}}
+\end{table*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{nn_intervention.pdf}
+\caption{Calibration variants versus their clean-calibrated counterparts (AP points, 95\% paired-bootstrap intervals). Grey: $\Jclean$ clean control; blue: in-family corruptions; red: held-out corruptions. The family roles swap between folds: fold~1 calibrates Gaussian noise and JPEG and holds out fog and motion blur, while the groups marked ``f2'' (fold~2) calibrate fog and motion blur and hold out Gaussian noise and JPEG; for the q95-calibration rows, which see no corrupted images at all, the in-family/held-out labels only mark the evaluation partition. On KITTI fold~1 and KITTI fold~2 the clean and held-out bars move together---the KITTI fold-2 movement being a harm, not a gain---so those held-out changes are not corruption-specific; VOC fold~1 instead moves only the clean bar, and the VOC fold-2 groups are the exceptions, where held-out clearly exceeds clean for both the full and the selective tier. Codec-only calibration (q95-calib) shifts the full-INT8 arm by less than half an AP point and never significantly improves a corrupted cell.}
+\label{fig:intervention}
+\end{figure*}
+
+A corruption-severity boundary is shared across precisions: at motion-blur severity 5 all matched-protocol arms collapse to below 6 AP on both datasets---KITTI: FP32 $\nnWallFpKitti$, FP8-matched $\nnWallFeKitti$, INT8-matched $\nnWallInKitti$, selective $\nnWallSelKitti$; VOC: $\nnWallFpVoc$/$\nnWallFeVoc$/$\nnWallInVoc$/$\nnWallSelVoc$ in the same order---FP32 included. That cell measures a common failure wall, not an INT8-specific deficit, and its equal weight in the corrupt mean compresses all contrasts built on it; the leave-one-out sensitivity removes it without changing any frozen-criterion verdict (two secondary codec-control contrasts do move across the zero boundary on VOC; Supplement~S8).
+
+\subsection{Historical exploratory evidence}
+\label{sec:historical}
+
+An earlier 144-cell exploratory grid (four datasets including TT100K~\citep{zhu2016tt100k}, earlier engine builds with a different calibration contract and TF32 state) found a balanced additive interaction of $-0.02$ AP $[-0.24,+0.15]$ across the grid and $-0.55$ $[-0.78,-0.29]$ on post-selection VOC/KITTI holdouts, with 56 point-estimate sign reversals after clean adjustment---17 with intervals excluding zero on the negative side. These findings foreshadow the confirmatory heterogeneity reported above but are not pooled with it: the protocol, engines, and partitions differ. Two exploratory-era transfer cases---RT-DETR-L~\citep{zhao2024rtdetr,carion2020detr} and legacy RetinaNet---exhibited catastrophic INT8 clean failures under the unmigrated recipe, evidence in retrospect of recipe fragility rather than format fragility.
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Recipe and context, not the format label}
+
+The three evidence layers converge on one conclusion: corruption robustness of a quantized detector is a property of the recipe, the model region, and the evaluation context, jointly with the format. No single layer could show this alone: the paired confirmatory layer shows the interaction has no stable sign (so pooling it into a format-level constant is meaningless); the diagnostic layer localizes \emph{where} the fragility lives (the regression head); and the intervention layer shows that the \emph{obvious remedy} (calibrating on corruptions) is itself context-dependent, transferring in one fold$\times$dataset cell and harming another. Recipe choices---preprocessing contract, quantization sites---move clean AP by 21--42 AP points, several-fold larger than the largest corruption-induced $\Delta E$ between FP8-matched and INT8-matched at the 12-cell corrupt-mean granularity (RetinaNet/KITTI: a $-4.7$-AP narrowing). Interactions between arms that additionally differ in recipe run higher still---up to $\nnCtFDIKittiP$ AP on the in-family basis (INT8-cc2calib versus FP8-matched, KITTI)---and at per-family granularity the matched-format interaction itself reaches $-12.7$ AP (selective versus matched, KITTI motion blur), so the ``several-fold'' comparison holds only at corrupt-mean granularity. Reporting ``INT8'' versus ``FP8'' robustness without the recipe contract is therefore not merely imprecise; it is capable of reversing conclusions.
+
+\subsection{The regression head is the fragile component---and why}
+
+The decomposition gives a clean localization (diagnostic-level, confirmed by the confirmatory selective arm): classification-head quantization is harmless, regression-head quantization reproduces the collapse, and head exclusion restores clean-competitive accuracy. This is consistent with detector PTQ work emphasizing regression structures~\citep{ding2024regptq}. A plausible account, which our data are consistent with but do not isolate, is that box-regression outputs are unbounded deltas decoded through an exponential and a multiplication by the anchor size, so a fixed additive quantization error becomes a proportional localization error that AP at high IoU thresholds penalizes heavily, whereas classification scores pass through a saturating sigmoid and are thresholded. The intervention adds the sharper negative: on KITTI, where the collapse lives, corruption-inclusive calibration does not repair the head and produces no corruption-specific held-out benefit in either fold---the second fold harms every level basis---so the failure is consistent with a region-level quantization-error sensitivity that none of the tested calibration distributions repairs---although our design varies only the calibration image distribution, so head-local range-management choices beyond entropy calibration remain untested. The small corruption-specific transfer observed on VOC fold~2 shows calibration coverage is a real but unstable contributor, which the context-dependent framing already predicts. FP8, which quantizes the same head with an exponent field and therefore a wide dynamic range, holds 48.5--49.5 AP on KITTI, which also fits a dynamic-range account. Separating weight from activation quantization within the head is the natural next ablation. Why the head-exclusion effect is about 8$\times$ larger on KITTI than on VOC ($21.3$ versus $2.6$ AP on the $\Jclean$ basis) remains open; dataset-dependent target statistics (box-size distribution, class prior, average object scale) are the likely moderators.
+
+\subsection{Practical guidance}
+
+For deployment recipes, the evidence supports a concrete checklist: (i) verify the calibration preprocessing contract byte-for-byte against inference before interpreting any quantization gap; (ii) under matched contracts, evaluate the regression head and classification head as separate quantization regions, in the spirit of sensitivity-based mixed-precision assignment~\citep{dong2019hawq}---head exclusion recovered $>20$ AP here while promoting only the \texttt{/head/regression\_head/} subgraph to floating point; (iii) do not rely on corruption-augmented calibration to transfer: across two folds its held-out effect ranged from a significant harm to a 1.7-AP gain depending on the dataset$\times$family partition, and codec-match the calibration input encoding to the deployment stream before attributing gains to corruption coverage; (iv) report paired interactions together with absolute corrupted AP and the clean gap, so floor effects cannot masquerade as robustness. Selective precision is a retraining-free default worth evaluating first: it matched FP8-matched within intervals on KITTI and trailed it by $0.42$ clean / $0.96$ corrupt AP on VOC. On deployment cost we make no quantitative claim: wall-clock latency measured on our shared GPU (graphics processing unit) host is inadmissible as evidence under the frozen protocol, and engine-build determinism was not audited---the cost argument for head exclusion is that the promoted subgraph is confined to the regression-head nodes---a layerwise MAC count of the torchvision graph (\texttt{analysis/regression\_head\_macs.py}) puts it at $24.5$--$25.4\%$ of convolution MACs at the frozen input size---while all remaining computation keeps INT8 rates; an INT8-body/half-precision-head variant is untested here.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+The evidence is conditional on recorded artifacts: one checkpoint per dataset--family cell, one engine build per arm, one calibration budget, one calibration method (entropy) and toolchain (ModelOpt/TensorRT), and one runtime environment (TensorRT 11.1, RTX 5090); other PTQ methods may place quantization error differently. Bootstrap intervals cover image resampling only---not training-seed, calibration-draw, engine-build, or corruption-realization variance---and treat images as independent; KITTI frames drawn from shared driving sequences are correlated, so intervals there may be optimistic, and a sequence-clustered bootstrap is not computable from the retained manifests because drive metadata is not preserved in the evaluation ledger. Holm adjustment covers the nine confirmatory YOLO11 blocks; RetinaNet and intervention intervals are per contrast. Two-sided bootstrap $p$-values have resolution $1/1000$. The corruption suite is synthetic and four types wide; severities order settings within a type and are not comparable across types, and the corrupt mean's equal weighting includes the saturated motion-blur-s5 wall cell (reported alongside a leave-one-out sensitivity). The intervention uses two complementary folds over four synthetic corruption types; other partitions and non-synthetic shifts are untested, and each calibration cell saw only 75--102 images. The intervention arms also differ on the clean control (the corrupt-calibration gains include a significant uniform clean-AP shift), which is why the corruption-specific reading relies on the held-out $\Delta E$ decomposition rather than the raw held-out gain. The first fold's frozen criteria were a held-out significance test and a selective-versus-FP8 residual test; the magnitude comparison and the held-out $\Delta E$ analysis were specified afterwards and are reported as interpretive. The second fold was frozen after that analysis and pre-specifies both rules. The codec controls attached to the fold-1 contrasts are post-hoc additions. Three further intervention caveats apply: the fold partition confounds corruption family with spectral character (fold~1 calibrates the high-frequency families and holds out the low-frequency ones, and fold~2 swaps them), ``held-out JPEG'' is not fully unseen in codec terms because every calibration image is already JPEG quality-95 encoded, and the many intervention contrasts carry no familywise multiplicity correction, so individual significant cells should be read against the full 28-contrast table rather than in isolation. The null-seeking selective-versus-FP8 criterion bounds the residual but specifies no equivalence margin, so an interval containing zero is not a proof of equivalence~\citep{lakens2017equivalence}. On the RetinaNet arms the $\Jclean$ clean control departs from original clean by up to $0.8$ AP (the fold-2 selective arm), larger than the $\sim$0.3-point fidelity seen on YOLO11. KITTI's selective-arm numbers are development-contaminated; VOC serves as the cleaner check, and the two-dataset scope of the RetinaNet localization limits generality. The RetinaNet analysis covers one anchor-based architecture; RT-DETR engines exist only under the legacy recipe and were excluded from the confirmatory protocol. The decomposition arms are diagnostic single points without intervals. Historical exploratory results use earlier engine contracts and are reported only as context. COCO evidence is restricted to the frozen 2,000-image subset. Finally, AP is a single utility summary; downstream risk thresholds belong to the application.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+A paired, codec-controlled protocol with a common-image bootstrap turns the question ``is INT8 or FP8 more robust to corruption'' into a question with a defensible answer: on the corruption-induced change in the gap there is no stable winner---the interaction changes sign across datasets and scales, while FP8 exceeds INT8 on absolute clean and corrupted AP in every matched block mean, and recipe and model region determine where the fragility lives. The RetinaNet case makes the localization concrete. A preprocessing contract fix recovers 21 AP points; a regression-head exclusion recovers a further 21; and a two-fold corruption-aware calibration intervention, read through the same paired estimand, is itself context-dependent---transferring a small corruption-specific benefit in one fold$\times$dataset cell and significantly harming another---so calibration coverage is a secondary, unstable contributor rather than a reliable repair. Quantization robustness under corruption should be evaluated and reported per recipe---with paired inputs, clean-gap adjustment, and absolute corrupted AP---rather than per format label.
+
+\FloatBarrier
+\section*{Data and code availability}
+
+The Supplementary Information restates the full frozen contract: estimands, condition schedule, arm registry, inference/evaluation constants, corruption-aware calibration schedule, bootstrap schedule, evidence layers, and a reporting checklist. Manuscript tables and figures are generated deterministically from frozen ledgers and manifests. Engine registries, calibration manifests (including the corrupt-calibration schedule), input manifests, metric records, and paired-bootstrap draw caches are hash-bound and retained in the versioned research archive at \url{https://doi.org/10.5281/zenodo.22031663}; the accompanying source regenerates all reported numbers from those ledgers. Redistribution covers manifests, metrics, and analysis code; raw datasets, trained checkpoints, raw predictions, and built TensorRT engines are not redistributed.
+
+\section*{Declaration of competing interest}
+
+The authors declare no competing interests.
+
+\section*{CRediT authorship contribution statement}
+
+\textbf{Dinh Thuan Nguyen:} Conceptualization, Methodology, Software, Investigation, Formal analysis, Writing--original draft. \textbf{Lam Phuong Nguyen:} Validation, Data curation, Writing--review and editing. \textbf{Vinh Huy Nguyen:} Methodology, Visualization, Writing--review and editing. \textbf{Sy Vu Quang:} Validation, Writing--review and editing. \textbf{Mohan Rajesh Elara:} Supervision, Writing--review and editing. \textbf{Anh Vu Le:} Supervision, Project administration, Writing--review and editing.
+
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
+
+During preparation of this work, the authors used Cognition Devin for analysis-code development, experiment orchestration, and manuscript drafting support; OpenAI Codex for code refactoring, validation support, consistency checks, and language editing; OpenAI ChatGPT for literature-discovery support and manuscript critique; and Anthropic Claude Code for independent manuscript critique and submission-file review. These systems were not listed as authors or contributors and did not autonomously train detectors, build engines, generate predictions, fabricate or alter research data, or make final scientific decisions. The authors verified cited sources and numerical claims, reviewed every retained change, reran relevant validation scripts, and take full responsibility for the article.
+
+\section*{Acknowledgments}
+
+This research received no specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
+
+\bibliographystyle{elsarticle-num}
+\bibliography{references}
+
+\end{document}

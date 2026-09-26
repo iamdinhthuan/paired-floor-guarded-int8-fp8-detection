@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "attempt": "nn_paired_protocol_v1_20260924",
+  "design_freeze": "submission_support_20260911/review_notes/NN_PHASE_B_FREEZE_DRAFT_20260924.md",
+  "frozen_at": "2026-09-24",
+  "purpose": "Paired-protocol experiment for the Neural Networks upgrade: matched-recipe RetinaNet arms plus reuse of the existing hash-bound paired matrices.",
+  "execution_host": "thuan@100.111.139.103 (RTX 5090, TensorRT 11.1.0.106, TF32 off, serial)",
+  "universes": {
+    "coco": {"universe": "coco_val2017", "paired_subset": "manifests/subsets/nn_paired_protocol_v1_20260924/coco_val2017_paired_2000_s20260924.json", "subset_count": 2000, "subset_seed": 20260924, "annotations": "data/datasets/coco_pilot_v1_20260923/annotations/instances_val2017.json"},
+    "kitti": {"universe": "kitti_val", "n_images": 1496, "annotations": "manifests/annotations/kitti_val_ultralytics_v1_coco.json", "clean_root": "data/datasets/kitti", "codec_control_manifest": "manifests/images/kitti_val_codec_control_q95_p0_v1.json", "codec_control_root": "data/codec_control/kitti", "corruption_root": "data/kitti_c"},
+    "voc": {"universe": "voc_val", "n_images": 4952, "annotations": "manifests/annotations/voc_val_ultralytics_v1_coco.json", "clean_root": "data/datasets/VOC", "codec_control_manifest": "manifests/images/voc_val_codec_control_q95_p0_v1.json", "codec_control_root": "data/codec_control/voc", "corruption_root": "data/voc_c"}
+  },
+  "conditions": ["clean-s0 (original)", "codec-control-s0 (JPEG-Q95)", "fog-s1/s3/s5", "gaussian_noise-s1/s3/s5", "jpeg-s1/s3/s5", "motion_blur-s1/s3/s5"],
+  "blocks": [
+    {"dataset": "coco", "model": "yolo11n", "arms": ["fp32", "fp8", "int8-entropy"], "evidence": "existing coco_uniform_p0_v1 + codec_control_p0_v1 predictions evaluated on the frozen subset"},
+    {"dataset": "coco", "model": "yolo11m", "arms": ["fp32", "fp8", "int8-entropy"], "evidence": "existing"},
+    {"dataset": "coco", "model": "yolo11x", "arms": ["fp32", "fp8", "int8-entropy"], "evidence": "existing"},
+    {"dataset": "kitti", "model": "yolo11n", "arms": ["fp32", "fp8", "int8-entropy"], "evidence": "existing val-universe predictions"},
+    {"dataset": "kitti", "model": "yolo11m", "arms": ["fp32", "fp8", "int8-entropy"], "evidence": "existing"},
+    {"dataset": "kitti", "model": "yolo11x", "arms": ["fp32", "fp8", "int8-entropy"], "evidence": "existing"},
+    {"dataset": "voc", "model": "yolo11n", "arms": ["fp32", "fp8", "int8-entropy"], "evidence": "existing"},
+    {"dataset": "voc", "model": "yolo11m", "arms": ["fp32", "fp8", "int8-entropy"], "evidence": "existing"},
+    {"dataset": "voc", "model": "yolo11x", "arms": ["fp32", "fp8", "int8-entropy"], "evidence": "existing"},
+    {"dataset": "kitti", "model": "retinanet_r50_fpn_v2", "arms": ["fp32", "fp8-legacy", "int8-legacy", "fp8-matched512", "int8-matched512", "int8-selective512"], "evidence": "existing for fp32/legacy; new builds+runs for matched arms", "selective_regex": "^/head/regression_head/", "calibration": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json", "calibration_preprocessing": "retinanet_normalized"},
+    {"dataset": "voc", "model": "retinanet_r50_fpn_v2", "arms": ["fp32", "fp8-legacy", "int8-legacy", "fp8-matched512", "int8-matched512", "int8-selective512"], "evidence": "existing for fp32/legacy; new builds+runs for matched arms", "selective_regex": "^/head/regression_head/", "calibration": "manifests/calibration/voc_train_clean_512_s20260807_v1.json", "calibration_preprocessing": "retinanet_normalized"}
+  ],
+  "excluded": {"rtdetr_l": "INT8 collapses ~1 AP under the historical recipe; excluded from primary pending its own recipe decomposition (scope bound)."},
+  "estimands": {
+    "primary_contrast": "per-block paired clean/corrupted AP per arm; retention per arm; FP8-INT8 gaps G0, Gc and interaction DeltaE = Gc - G0",
+    "recipe_contrast": "retinanet int8-legacy vs int8-matched512 vs int8-selective512 under identical conditions",
+    "uncertainty": "paired image-bootstrap percentile intervals, 2000 draws; block means within draws; grouped by dataset",
+    "pooling": "YOLO11 n/m/x macro within family per dataset; RetinaNet reported per dataset, never pooled with YOLO"
+  },
+  "controls": [
+    "absolute corrupted AP reported alongside every normalized contrast",
+    "clean cost of selective precision reported per dataset",
+    "single build + single calibration realization per arm; no seed/build-population inference",
+    "no latency claims (shared GPU; latency evidence inadmissible)",
+    "all subset/reuse decisions frozen before inspecting new AP values"
+  ],
+  "queue": "src/run_nn_paired_protocol_queue.sh",
+  "kill_criteria": "if corrected recipes erase the effect of interest, report the recipe-confound study rather than a method claim"
+}

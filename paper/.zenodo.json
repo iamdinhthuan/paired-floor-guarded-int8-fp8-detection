@@ -1,9 +1,9 @@
 {
-  "title": "A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions: Reproducibility Package",
-  "upload_type": "software",
-  "version": "2.1.0",
-  "publication_date": "2026-09-03",
-  "description": "<p>Reproducibility package accompanying the manuscript <em>A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions</em>, prepared for <em>Computer Vision and Image Understanding</em>.</p><p>The release contains analysis and validation code, frozen configurations and manifests, compact deterministic evidence ledgers, generated tables and figures, and manuscript and supplementary sources. It supports reproduction of reported summaries from retained evidence. Raw benchmark datasets, trained checkpoints, TensorRT engines, raw predictions, and machine-specific caches are not redistributed; their provenance and regeneration boundaries are documented in the package.</p><p>Project concept DOI: <a href=\"https://doi.org/10.5281/zenodo.22031663\">10.5281/zenodo.22031663</a>.</p><p>All scientific claims and metadata remain the responsibility of the six human authors. AI tools are not creators or contributors.</p>",
+  "title": "Recipe determinants of quantization fragility under image corruption: paired evidence and a regression-head localization in object detectors: Reproducibility Package",
+  "upload_type": "dataset",
+  "version": "3.0.0",
+  "publication_date": "2026-09-26",
+  "description": "<p>Reproducibility package accompanying the manuscript <em>Recipe determinants of quantization fragility under image corruption: paired evidence and a regression-head localization in object detectors</em>, prepared for <em>Neural Networks</em>.</p><p>The release contains analysis and validation code, frozen configurations and manifests, compact deterministic evidence ledgers, generated tables and figures, and manuscript and supplementary sources. It supports reproduction of reported summaries from retained evidence. Raw benchmark datasets, trained checkpoints, TensorRT engines, raw predictions, and machine-specific caches are not redistributed; their provenance and regeneration boundaries are documented in the package.</p><p>Project concept DOI: <a href=\"https://doi.org/10.5281/zenodo.22031663\">10.5281/zenodo.22031663</a>.</p><p>All scientific claims and metadata remain the responsibility of the six human authors. AI tools are not creators or contributors.</p>",
   "creators": [
     {
       "name": "Nguyen, Dinh Thuan",
@@ -48,7 +48,7 @@
   "license": "MIT",
   "related_identifiers": [
     {
-      "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v2.1.0",
+      "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection",
       "relation": "isSupplementTo",
       "scheme": "url",
       "resource_type": "software"

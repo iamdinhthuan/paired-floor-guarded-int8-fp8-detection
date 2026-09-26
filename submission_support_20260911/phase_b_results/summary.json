@@ -1,0 +1,528 @@
+{
+  "attempt": "nn_paired_protocol_v1_20260924",
+  "blocks": [
+    {
+      "dataset": "kitti",
+      "model": "yolo11n",
+      "universe": "kitti_val",
+      "arms": {
+        "fp32": {
+          "n_conditions": 14,
+          "clean_orig_ap": 64.7874,
+          "clean_q95_ap": 64.836,
+          "corrupted_mean_ap": 44.7555,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.6903
+        },
+        "fp8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 63.6778,
+          "clean_q95_ap": 63.8251,
+          "corrupted_mean_ap": 44.0638,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.6904
+        },
+        "int8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 61.5173,
+          "clean_q95_ap": 61.6876,
+          "corrupted_mean_ap": 41.9334,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.6798
+        }
+      },
+      "contrasts": {
+        "fp8_minus_int8": {
+          "G0_q95": 2.1375,
+          "Gc": 2.1304,
+          "deltaE": -0.0071
+        },
+        "fp32_minus_int8": {
+          "G0_q95": 3.1484,
+          "Gc": 2.8221,
+          "deltaE": -0.3263
+        }
+      }
+    },
+    {
+      "dataset": "kitti",
+      "model": "yolo11m",
+      "universe": "kitti_val",
+      "arms": {
+        "fp32": {
+          "n_conditions": 14,
+          "clean_orig_ap": 73.8201,
+          "clean_q95_ap": 73.8695,
+          "corrupted_mean_ap": 50.5849,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.6848
+        },
+        "fp8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 73.3246,
+          "clean_q95_ap": 73.3084,
+          "corrupted_mean_ap": 50.3838,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.6873
+        },
+        "int8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 69.2181,
+          "clean_q95_ap": 69.3417,
+          "corrupted_mean_ap": 47.0968,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.6792
+        }
+      },
+      "contrasts": {
+        "fp8_minus_int8": {
+          "G0_q95": 3.9667,
+          "Gc": 3.287,
+          "deltaE": -0.6797
+        },
+        "fp32_minus_int8": {
+          "G0_q95": 4.5278,
+          "Gc": 3.4881,
+          "deltaE": -1.0397
+        }
+      }
+    },
+    {
+      "dataset": "kitti",
+      "model": "yolo11x",
+      "universe": "kitti_val",
+      "arms": {
+        "fp32": {
+          "n_conditions": 14,
+          "clean_orig_ap": 72.9316,
+          "clean_q95_ap": 73.0582,
+          "corrupted_mean_ap": 51.8066,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7091
+        },
+        "fp8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 72.1968,
+          "clean_q95_ap": 72.2578,
+          "corrupted_mean_ap": 51.0454,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7064
+        },
+        "int8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 70.8741,
+          "clean_q95_ap": 70.8215,
+          "corrupted_mean_ap": 50.304,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7103
+        }
+      },
+      "contrasts": {
+        "fp8_minus_int8": {
+          "G0_q95": 1.4363,
+          "Gc": 0.7414,
+          "deltaE": -0.6949
+        },
+        "fp32_minus_int8": {
+          "G0_q95": 2.2367,
+          "Gc": 1.5026,
+          "deltaE": -0.7341
+        }
+      }
+    },
+    {
+      "dataset": "voc",
+      "model": "yolo11n",
+      "universe": "voc_val",
+      "arms": {
+        "fp32": {
+          "n_conditions": 14,
+          "clean_orig_ap": 62.5433,
+          "clean_q95_ap": 62.5567,
+          "corrupted_mean_ap": 44.9581,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7187
+        },
+        "fp8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 62.0637,
+          "clean_q95_ap": 62.1889,
+          "corrupted_mean_ap": 44.7541,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7196
+        },
+        "int8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 61.4207,
+          "clean_q95_ap": 61.5109,
+          "corrupted_mean_ap": 43.7673,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7115
+        }
+      },
+      "contrasts": {
+        "fp8_minus_int8": {
+          "G0_q95": 0.678,
+          "Gc": 0.9868,
+          "deltaE": 0.3088
+        },
+        "fp32_minus_int8": {
+          "G0_q95": 1.0458,
+          "Gc": 1.1908,
+          "deltaE": 0.145
+        }
+      }
+    },
+    {
+      "dataset": "voc",
+      "model": "yolo11m",
+      "universe": "voc_val",
+      "arms": {
+        "fp32": {
+          "n_conditions": 14,
+          "clean_orig_ap": 68.5254,
+          "clean_q95_ap": 68.5612,
+          "corrupted_mean_ap": 52.0484,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7592
+        },
+        "fp8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 68.3122,
+          "clean_q95_ap": 68.3558,
+          "corrupted_mean_ap": 51.7964,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7577
+        },
+        "int8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 66.7483,
+          "clean_q95_ap": 66.6589,
+          "corrupted_mean_ap": 50.6744,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7602
+        }
+      },
+      "contrasts": {
+        "fp8_minus_int8": {
+          "G0_q95": 1.6969,
+          "Gc": 1.122,
+          "deltaE": -0.5749
+        },
+        "fp32_minus_int8": {
+          "G0_q95": 1.9023,
+          "Gc": 1.374,
+          "deltaE": -0.5283
+        }
+      }
+    },
+    {
+      "dataset": "voc",
+      "model": "yolo11x",
+      "universe": "voc_val",
+      "arms": {
+        "fp32": {
+          "n_conditions": 14,
+          "clean_orig_ap": 70.0865,
+          "clean_q95_ap": 70.0543,
+          "corrupted_mean_ap": 54.5573,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7788
+        },
+        "fp8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 70.0007,
+          "clean_q95_ap": 69.9407,
+          "corrupted_mean_ap": 54.3486,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7771
+        },
+        "int8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 69.0747,
+          "clean_q95_ap": 69.0275,
+          "corrupted_mean_ap": 53.2976,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7721
+        }
+      },
+      "contrasts": {
+        "fp8_minus_int8": {
+          "G0_q95": 0.9132,
+          "Gc": 1.051,
+          "deltaE": 0.1378
+        },
+        "fp32_minus_int8": {
+          "G0_q95": 1.0268,
+          "Gc": 1.2597,
+          "deltaE": 0.2329
+        }
+      }
+    },
+    {
+      "dataset": "coco",
+      "model": "yolo11n",
+      "universe": "coco-subset-2000",
+      "arms": {
+        "fp32": {
+          "n_conditions": 14,
+          "clean_orig_ap": 39.4019,
+          "clean_q95_ap": 39.3243,
+          "corrupted_mean_ap": 28.9868,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7371
+        },
+        "fp8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 38.354,
+          "clean_q95_ap": 38.5894,
+          "corrupted_mean_ap": 28.1891,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7305
+        },
+        "int8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 37.5989,
+          "clean_q95_ap": 37.4898,
+          "corrupted_mean_ap": 27.4133,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7312
+        }
+      },
+      "contrasts": {
+        "fp8_minus_int8": {
+          "G0_q95": 1.0996,
+          "Gc": 0.7758,
+          "deltaE": -0.3238
+        },
+        "fp32_minus_int8": {
+          "G0_q95": 1.8345,
+          "Gc": 1.5735,
+          "deltaE": -0.261
+        }
+      }
+    },
+    {
+      "dataset": "coco",
+      "model": "yolo11m",
+      "universe": "coco-subset-2000",
+      "arms": {
+        "fp32": {
+          "n_conditions": 14,
+          "clean_orig_ap": 50.7085,
+          "clean_q95_ap": 50.4883,
+          "corrupted_mean_ap": 38.782,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7681
+        },
+        "fp8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 50.1256,
+          "clean_q95_ap": 49.8628,
+          "corrupted_mean_ap": 38.0366,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7628
+        },
+        "int8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 48.8852,
+          "clean_q95_ap": 48.9741,
+          "corrupted_mean_ap": 36.5429,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7462
+        }
+      },
+      "contrasts": {
+        "fp8_minus_int8": {
+          "G0_q95": 0.8887,
+          "Gc": 1.4937,
+          "deltaE": 0.605
+        },
+        "fp32_minus_int8": {
+          "G0_q95": 1.5142,
+          "Gc": 2.2391,
+          "deltaE": 0.7249
+        }
+      }
+    },
+    {
+      "dataset": "coco",
+      "model": "yolo11x",
+      "universe": "coco-subset-2000",
+      "arms": {
+        "fp32": {
+          "n_conditions": 14,
+          "clean_orig_ap": 54.5209,
+          "clean_q95_ap": 54.2422,
+          "corrupted_mean_ap": 42.6987,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7872
+        },
+        "fp8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 54.0701,
+          "clean_q95_ap": 53.9985,
+          "corrupted_mean_ap": 42.376,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7848
+        },
+        "int8": {
+          "n_conditions": 14,
+          "clean_orig_ap": 53.2097,
+          "clean_q95_ap": 52.9997,
+          "corrupted_mean_ap": 41.9022,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7906
+        }
+      },
+      "contrasts": {
+        "fp8_minus_int8": {
+          "G0_q95": 0.9988,
+          "Gc": 0.4738,
+          "deltaE": -0.525
+        },
+        "fp32_minus_int8": {
+          "G0_q95": 1.2425,
+          "Gc": 0.7965,
+          "deltaE": -0.446
+        }
+      }
+    },
+    {
+      "dataset": "kitti",
+      "model": "retinanet_r50_fpn_v2",
+      "universe": "kitti_val",
+      "arms": {
+        "fp32": {
+          "n_conditions": 13,
+          "clean_orig_ap": 50.1456,
+          "clean_q95_ap": null,
+          "corrupted_mean_ap": 37.8041,
+          "corrupted_cells": 12,
+          "retention_vs_q95": null
+        },
+        "fp8-legacy": {
+          "n_conditions": 13,
+          "clean_orig_ap": 49.1854,
+          "clean_q95_ap": null,
+          "corrupted_mean_ap": 36.479,
+          "corrupted_cells": 12,
+          "retention_vs_q95": null
+        },
+        "int8-legacy": {
+          "n_conditions": 13,
+          "clean_orig_ap": 7.2143,
+          "clean_q95_ap": null,
+          "corrupted_mean_ap": 7.4316,
+          "corrupted_cells": 12,
+          "retention_vs_q95": null
+        },
+        "fp8-matched512": {
+          "n_conditions": 14,
+          "clean_orig_ap": 49.4785,
+          "clean_q95_ap": 49.2521,
+          "corrupted_mean_ap": 36.7488,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7461
+        },
+        "int8-matched512": {
+          "n_conditions": 14,
+          "clean_orig_ap": 28.293,
+          "clean_q95_ap": 28.1827,
+          "corrupted_mean_ap": 20.3712,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7228
+        },
+        "int8-selective512": {
+          "n_conditions": 14,
+          "clean_orig_ap": 49.6001,
+          "clean_q95_ap": 49.5304,
+          "corrupted_mean_ap": 36.5815,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7386
+        }
+      },
+      "contrasts": {
+        "fp8matched_minus_int8matched": {
+          "G0_q95": 21.0694,
+          "Gc": 16.3776,
+          "deltaE": -4.6918
+        },
+        "selective_minus_full_int8": {
+          "G0_q95": 21.3477,
+          "Gc": 16.2103,
+          "deltaE": -5.1374
+        },
+        "fp32_minus_selective": {}
+      }
+    },
+    {
+      "dataset": "voc",
+      "model": "retinanet_r50_fpn_v2",
+      "universe": "voc_val",
+      "arms": {
+        "fp32": {
+          "n_conditions": 13,
+          "clean_orig_ap": 57.2341,
+          "clean_q95_ap": null,
+          "corrupted_mean_ap": 42.3161,
+          "corrupted_cells": 12,
+          "retention_vs_q95": null
+        },
+        "fp8-legacy": {
+          "n_conditions": 13,
+          "clean_orig_ap": 56.1698,
+          "clean_q95_ap": null,
+          "corrupted_mean_ap": 41.4437,
+          "corrupted_cells": 12,
+          "retention_vs_q95": null
+        },
+        "int8-legacy": {
+          "n_conditions": 13,
+          "clean_orig_ap": 33.605,
+          "clean_q95_ap": null,
+          "corrupted_mean_ap": 24.3229,
+          "corrupted_cells": 12,
+          "retention_vs_q95": null
+        },
+        "fp8-matched512": {
+          "n_conditions": 14,
+          "clean_orig_ap": 56.1722,
+          "clean_q95_ap": 56.2132,
+          "corrupted_mean_ap": 41.4776,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7379
+        },
+        "int8-matched512": {
+          "n_conditions": 14,
+          "clean_orig_ap": 53.3037,
+          "clean_q95_ap": 53.1804,
+          "corrupted_mean_ap": 38.7063,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7278
+        },
+        "int8-selective512": {
+          "n_conditions": 14,
+          "clean_orig_ap": 55.8692,
+          "clean_q95_ap": 55.7948,
+          "corrupted_mean_ap": 40.5205,
+          "corrupted_cells": 12,
+          "retention_vs_q95": 0.7262
+        }
+      },
+      "contrasts": {
+        "fp8matched_minus_int8matched": {
+          "G0_q95": 3.0328,
+          "Gc": 2.7713,
+          "deltaE": -0.2615
+        },
+        "selective_minus_full_int8": {
+          "G0_q95": 2.6144,
+          "Gc": 1.8142,
+          "deltaE": -0.8002
+        },
+        "fp32_minus_selective": {}
+      }
+    }
+  ]
+}

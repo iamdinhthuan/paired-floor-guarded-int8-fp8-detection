@@ -1,5 +1,5 @@
-- Paired evaluation separates clean gaps from corruption-specific changes.
-- Shared-image resampling preserves dependence across four evaluation arms.
-- Clean adjustment produces 56 point-estimate sign reversals in 144 cells.
-- Absolute AP guards against robustness claims near a shared accuracy floor.
-- Stress tests reveal dependence on quantization recipe and architecture.
+- The INT8-FP8 corruption interaction is heterogeneous and reverses sign.
+- Robustness under corruption is a recipe property, not a format property.
+- A -21.2-AP RetinaNet INT8 collapse localizes to regression-head quantization.
+- Selective precision (reg-head FP32) recovers the collapse; a VOC residual remains.
+- Corruption-aware calibration's held-out effect reverses sign across folds.

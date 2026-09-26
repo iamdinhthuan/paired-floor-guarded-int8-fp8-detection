@@ -64,14 +64,42 @@ def load_complete(path: Path, marker_field: str | None = None) -> dict:
     return document
 
 
-def calibration_tensor(document: dict, imgsz: int) -> np.ndarray:
+def calibration_preprocessing(decoder: str | None, requested: str = "auto", *, allow_mismatch: bool = False) -> str:
+    policies = {None: "yolo_letterbox", "ultralytics_rtdetr_raw_v1": "yolo_letterbox",
+                "torchvision_retinanet_raw_v1": "retinanet_normalized"}
+    if decoder not in policies:
+        raise ValueError(f"unsupported calibration decoder: {decoder}")
+    expected = policies[decoder]
+    selected = expected if requested == "auto" else requested
+    if selected not in set(policies.values()):
+        raise ValueError(f"unsupported calibration preprocessing: {selected}")
+    if selected != expected and not allow_mismatch:
+        raise ValueError("calibration/inference preprocessing mismatch requires explicit diagnostic permission")
+    return selected
+
+
+def calibration_method(mode: str) -> str:
+    if mode == "int8-max":
+        return "max"
+    if mode in {"int8-entropy", "fp8"}:
+        return "entropy"
+    raise ValueError(f"unsupported calibration method for mode: {mode}")
+
+
+def calibration_tensor(document: dict, imgsz: int, *, decoder: str | None = None,
+                       preprocessing: str = "auto", allow_mismatch: bool = False) -> np.ndarray:
+    policy = calibration_preprocessing(decoder, preprocessing, allow_mismatch=allow_mismatch)
+    transform = preprocess
+    if policy == "retinanet_normalized":
+        from topic_c.cross_family import preprocess_retinanet
+        transform = preprocess_retinanet
     root = Path(document["dataset_root"]).resolve()
     tensors = []
     for record in document["records"]:
         path = root / record["source_relpath"]
         if not path.is_file() or sha256_file(path) != record["sha256"]:
             raise SystemExit(f"ONNX QUANTIZATION REFUSED: calibration image hash mismatch: {path}")
-        tensors.append(preprocess(str(path), imgsz)[0][0])
+        tensors.append(transform(str(path), imgsz)[0][0])
     values = np.stack(tensors).astype(np.float32)
     if values.shape != (document["n_images"], 3, imgsz, imgsz):
         raise SystemExit(f"ONNX QUANTIZATION REFUSED: unexpected calibration tensor shape: {values.shape}")
@@ -157,7 +185,7 @@ def resolve_node_mask(
     requested_op_types: list[str] | None,
 ) -> tuple[dict, list[str], list[str]]:
     """Validate a frozen shared mask and return safe ModelOpt options."""
-    if mode not in {"int8-entropy", "fp8"}:
+    if mode not in {"int8-entropy", "int8-max", "fp8"}:
         raise ValueError("a shared node mask is valid only for INT8 or FP8")
     mask = read_mask(path)
     if (
@@ -198,10 +226,14 @@ def resolve_node_mask(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--onnx-registry", required=True)
-    parser.add_argument("--mode", choices=("fp16", "int8-entropy", "fp8"), required=True)
+    parser.add_argument("--mode", choices=("fp16", "int8-entropy", "int8-max", "fp8"), required=True)
     parser.add_argument("--imgsz", type=int, default=640)
     parser.add_argument("--calibration-list")
+    parser.add_argument("--calibration-preprocessing", choices=("auto", "yolo_letterbox", "retinanet_normalized"), default="auto")
+    parser.add_argument("--allow-preprocessing-mismatch", action="store_true")
     parser.add_argument("--quantize-op-types", help="comma-separated audited operator allowlist")
+    parser.add_argument("--quantize-node-regex", help="comma-separated node-name regexes restricting quantization to matching nodes")
+    parser.add_argument("--exclude-node-regex", help="comma-separated node-name regexes excluded from quantization")
     parser.add_argument("--node-mask", help="completed shared-mask manifest with literal source-node identities")
     parser.add_argument("--out", required=True)
     parser.add_argument("--registry-out", required=True)
@@ -217,9 +249,21 @@ def main() -> None:
         raise SystemExit("ONNX QUANTIZATION REFUSED: FP16 conversion has no calibration list")
     calibration = None
     calibration_sha = None
+    preprocessing_policy = None
+    if args.mode != "fp16":
+        preprocessing_policy = calibration_preprocessing(
+            source.get("decoder"), args.calibration_preprocessing,
+            allow_mismatch=args.allow_preprocessing_mismatch,
+        )
     node_mask = None
     node_patterns = None
     quantize_op_types = [value.strip() for value in args.quantize_op_types.split(",") if value.strip()] if args.quantize_op_types else None
+    node_regexes = [value.strip() for value in args.quantize_node_regex.split(",") if value.strip()] if args.quantize_node_regex else None
+    exclude_regexes = [value.strip() for value in args.exclude_node_regex.split(",") if value.strip()] if args.exclude_node_regex else None
+    if node_regexes is not None and args.node_mask:
+        raise SystemExit("ONNX QUANTIZATION REFUSED: --quantize-node-regex cannot combine with --node-mask")
+    if exclude_regexes is not None and args.node_mask:
+        raise SystemExit("ONNX QUANTIZATION REFUSED: --exclude-node-regex cannot combine with --node-mask")
     calibration_path = Path(args.calibration_list).resolve() if args.calibration_list else None
     if args.mode != "fp16":
         if calibration_path is None:
@@ -276,17 +320,24 @@ def main() -> None:
             options = {
                 "quantize_mode": "fp8" if args.mode == "fp8" else "int8",
                 "calibration_data": {
-                    graph.input[0].name: calibration_tensor(calibration, args.imgsz)
+                    graph.input[0].name: calibration_tensor(
+                        calibration, args.imgsz, decoder=source.get("decoder"),
+                        preprocessing=args.calibration_preprocessing,
+                        allow_mismatch=args.allow_preprocessing_mismatch,
+                    )
                 },
-                "calibration_method": "entropy",
+                "calibration_method": calibration_method(args.mode),
                 "calibration_eps": ["cpu"],
                 "op_types_to_exclude": ["Sigmoid"],
                 "output_path": str(target),
             }
             if quantize_op_types is not None:
                 options["op_types_to_quantize"] = quantize_op_types
-            if node_patterns is not None:
-                options["nodes_to_quantize"] = node_patterns
+            if exclude_regexes is not None:
+                options["nodes_to_exclude"] = exclude_regexes
+            patterns = node_patterns if node_patterns is not None else node_regexes
+            if patterns is not None:
+                options["nodes_to_quantize"] = patterns
                 # Explicit nodes bypass ModelOpt's default placement discovery,
                 # including its partial-input policy.  The complete prospective
                 # baseline contract is enforced target-by-target below instead
@@ -350,11 +401,21 @@ def main() -> None:
         "model": source["model"], "precision": args.mode, "source_onnx_registry_sha256": sha256_file(onnx_registry),
         "source_onnx_sha256": sha256_file(onnx_path), "output_onnx": str(output), "output_onnx_sha256": sha256_file(output),
         "calibration_list": str(calibration_path) if calibration_path else None, "calibration_sha256": calibration_sha,
-        "calibration_method": "entropy" if args.mode != "fp16" else "not_applicable", "imgsz": args.imgsz,
-        "quantize_mode": "fp8" if args.mode == "fp8" else ("int8" if args.mode == "int8-entropy" else "fp16_autocast"),
+        "calibration_method": calibration_method(args.mode) if args.mode != "fp16" else "not_applicable", "imgsz": args.imgsz,
+        "quantize_mode": "fp8" if args.mode == "fp8" else ("int8" if args.mode.startswith("int8") else "fp16_autocast"),
         "calibration_eps": ["cpu"] if args.mode != "fp16" else [],
+        "calibration_preprocessing": preprocessing_policy if not fp8_baseline_byte_replay else None,
+        "calibration_preprocessing_sha256": sha256_file(
+            Path(__file__).parent / "topic_c" / ("cross_family.py" if preprocessing_policy == "retinanet_normalized" else "coco_data.py")
+        ) if preprocessing_policy and not fp8_baseline_byte_replay else None,
+        "calibration_preprocessing_matches_inference": (
+            preprocessing_policy == calibration_preprocessing(source.get("decoder"))
+        ) if preprocessing_policy and not fp8_baseline_byte_replay else None,
+        "calibration_preprocessing_applied": args.mode != "fp16" and not fp8_baseline_byte_replay,
         "op_types_to_exclude": ["Sigmoid"] if args.mode != "fp16" else [],
         "op_types_to_quantize": quantize_op_types,
+        "quantize_node_regex": node_regexes,
+        "exclude_node_regex": exclude_regexes,
         "node_mask": str(Path(args.node_mask).resolve()) if args.node_mask else None,
         "node_mask_file_sha256": sha256_file(Path(args.node_mask).resolve()) if args.node_mask else None,
         "node_mask_sha256": node_mask.get("mask_sha256") if node_mask else None,

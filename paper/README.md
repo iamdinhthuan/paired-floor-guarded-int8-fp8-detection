@@ -1,18 +1,21 @@
-# CVIU manuscript and reproducibility-package metadata
+# Neural Networks manuscript and reproducibility-package metadata
 
 ## Manuscript
 
-**Title:** *A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object Detectors under Image Corruptions*
+**Title:** *Recipe determinants of quantization fragility under image corruption: paired evidence and a regression-head localization in object detectors*
 
-**Target journal:** *Computer Vision and Image Understanding* (CVIU)
+**Target journal:** *Neural Networks* (Elsevier)
 
-This study presents a paired evaluation protocol for separating an INT8--FP8
-difference already present on matched clean images from the change associated
-with image corruption. The reported TensorRT engines are executable treatment
-instances used to evaluate the protocol; they are not interpreted as a
-universal ranking of numerical formats. Clean fidelity and absolute corrupted
-accuracy are retained as guardrails against favorable relative comparisons near
-a shared accuracy floor.
+This study shows that whether an 8-bit quantized object detector remains
+reliable under image corruption is a property of the recipe and the model
+region, not the nominal format. A paired, codec-controlled protocol estimates
+the corruption-associated change in the FP8--INT8 AP gap within common-image
+bootstrap samples; the interaction reverses sign across dataset and
+model-scale cells. A matched-recipe decomposition of RetinaNet localizes a
+severe INT8 collapse to regression-head quantization, and a controlled
+corruption-aware calibration intervention with held-out families rejects
+calibration-range mismatch as the dominant mechanism. Selective precision
+(regression head in floating point) is the validated retraining-free fix.
 
 ## Authors
 
@@ -23,12 +26,12 @@ a shared accuracy floor.
 5. Mohan Rajesh Elara
 6. Anh Vu Le (corresponding author)
 
-Author order and contribution roles must remain synchronized with `main.tex`,
+Author order and contribution roles must remain synchronized with `main_nn.tex`,
 `supplement.tex`, `.zenodo.json`, and `CITATION.cff`.
 
 ## Local package map
 
-- `main.tex`, `main.pdf`: main manuscript source and current compiled preview.
+- `main_nn.tex`, `main_nn.pdf`: main manuscript source and current compiled preview.
 - `supplement.tex`, `supplement.pdf`: Supplementary File S1 source and preview.
 - `references.bib`: shared bibliography.
 - `figures/`: publication figures used by the LaTeX sources.
@@ -82,7 +85,10 @@ path for every omitted artifact on which a reported result depends.
 The CVIU-aligned `v2.1.0` source and compact-evidence package is archived at
 [10.5281/zenodo.22275640](https://doi.org/10.5281/zenodo.22275640). Its
 all-versions concept DOI is
-[10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).
+[10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663), which the
+manuscript and supplement cite; the Neural Networks release (`v3.0.0`) will be
+published under the same concept DOI, so the cited identifier always resolves
+to the latest package version.
 
 ## License
 

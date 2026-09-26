@@ -41,7 +41,7 @@ def included(path: Path) -> bool:
         return False
     if path.name in EXCLUDED_NAMES:
         return False
-    if rel.as_posix() in {"main.pdf", "supplement.pdf"}:
+    if rel.as_posix() in {"main.pdf", "main_nn.pdf", "supplement.pdf"}:
         return False
     if any(path.name.endswith(suffix) for suffix in EXCLUDED_SUFFIXES):
         return False
@@ -58,8 +58,14 @@ def digest(path: Path) -> str:
 
 def main() -> None:
     files = sorted((p for p in ROOT.rglob("*") if included(p)), key=lambda p: p.relative_to(ROOT).as_posix())
+    header = [
+        "# SHA-256 manifest of manuscript sources and retained artifacts.",
+        "# Authoritative manuscript: main_nn.tex (Neural Networks submission).",
+        "# CVIU-era files (main.tex, main_cviu_backup.tex, *_CVIU.*) are kept",
+        "# for provenance only. Compiled PDFs are excluded (see build.sh).",
+    ]
     lines = [f"{digest(path)}  {path.relative_to(ROOT).as_posix()}" for path in files]
-    OUTPUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    OUTPUT.write_text("\n".join(header + lines) + "\n", encoding="utf-8")
     print(f"Wrote {OUTPUT.name} with {len(lines)} entries")
 
 

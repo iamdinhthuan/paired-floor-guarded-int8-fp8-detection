@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "attempt": "nn_preprocessing_pilot_recipe_v1_20260923",
+  "purpose": "Development-only recipe diagnostic after the preprocessing-contract repair; identifies whether the remaining RetinaNet INT8 clean-AP loss is sensitive to quantizable-op coverage or calibration range estimator. This is not a new-method result.",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "retinanet-r50-fpn-v2",
+  "imgsz": 640,
+  "expected_images": 1496,
+  "source_registry": "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json",
+  "source_registry_sha256": "40ebb242b46952e6cbbda0ea32571fb698aade900a901f71a195b9a5ad91fad9",
+  "calibration_manifest": "outputs/nn_preprocessing_pilot_v1_20260923/calibration.json",
+  "calibration_manifest_sha256": "8ae8d8fb9d10d57f94a9b47c036fc73cc18c8c24c81b4498602f02a99804e7be",
+  "calibration_images": 128,
+  "calibration_selection_seed": 20260923,
+  "annotations": "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+  "annotations_sha256": "79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "clean_manifest": "manifests/images/kitti_val_codec_control_q95_p0_v1.json",
+  "clean_manifest_sha256": "e4c45f09d2cac9b62a124c83b1db3585c31983d32f0bb30e394cce7b8ee3e327",
+  "clean_cache_root": "data/codec_control/kitti",
+  "treatments": [
+    {
+      "id": "int8_matched_convadd_calibration",
+      "precision": "int8-entropy",
+      "preprocessing": "retinanet_normalized",
+      "quantize_op_types": ["Conv", "Add"]
+    },
+    {
+      "id": "int8_matched_max_calibration",
+      "precision": "int8-max",
+      "preprocessing": "retinanet_normalized"
+    }
+  ],
+  "build": {"backend": "tensorrt_python", "required_version": "11.1.0.106", "workspace_mib": 4096, "optimization_level": 3, "tf32": false},
+  "execution": {"gpu_workers": 1, "cpu_threads": 4, "minimum_free_gpu_mib": 12288, "minimum_free_disk_gib": 30, "allow_shared_gpu": true, "latency_evidence": "inadmissible"},
+  "summary_scope": "two-treatment clean-only recipe diagnostic on a reused 128-image calibration subset",
+  "limitations": ["Historical checkpoint-selection evaluation partition, not a new confirmatory holdout.", "Two recipe branches share one frozen 128-image calibration subset and one engine build per treatment; no seed or build-population inference.", "No continuation gate is applied: these branches diagnose the remaining clean-fidelity failure rather than authorize a robustness study.", "Conv+Add restriction tests quantizable-op coverage, not numerical-format causality; max calibration tests the range estimator under the same input contract.", "A successful recipe repair is baseline engineering evidence, not a new robustness method."]
+}

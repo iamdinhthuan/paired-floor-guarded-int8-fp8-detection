@@ -1,0 +1,13 @@
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrcl@{}}
+\toprule
+Dataset & Evaluation split & Images & Objects & \shortstack{Classes\\declared/observed} & \shortstack{Input side\\(pixels)} & Size endpoint \\
+\midrule
+COCO & val2017 & 5,000 & 36,781 & 80/80 & 640 & Area \\
+VOC & VOC2007 test & 4,952 & 12,032 & 20/20 & 640 & Area \\
+KITTI & validation & 1,496 & 8,128 & 8/8 & 640 & Area \\
+TT100K & test & 3,067 & 8,181 & 221/136 & 1280 & Height \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\textwidth}\footnotesize
+\textit{Size definitions.} Area strata for COCO/VOC/KITTI are $[0,32^2]$, $[32^2,96^2]$, and $\geq96^2$ pixels squared. Original-height strata XS/S/M/L/XL are used for TT100K. Exact endpoint operators are given in S1; area and height endpoints are not pooled.
+\end{minipage}

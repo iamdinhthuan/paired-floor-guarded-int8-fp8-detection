@@ -1,36 +1,32 @@
-CVIU — version 2.2.0 submission package, 9 September 2026
+NEUROCOMPUTING — FILES FOR SUBMISSION (21 September 2026)
 
-USE THESE FILES
-01_CVIU_main_revised.pdf          Main manuscript (13 pages)
-02_CVIU_supplement_revised.pdf    Supplementary Information (19 pages)
-03_highlights_CVIU.txt            Five highlights
-04_graphical_abstract_CVIU.pdf    Graphical abstract (PNG alternative alongside)
-05_CVIU_cover_letter.pdf         Cover letter, pending final author approval
-06_Overleaf_Source_CVIU.zip       Upload this ONE ZIP to Overleaf
-07_Elsevier_Flat_Source_CVIU.zip  Flat LaTeX source alternative for the journal
-CVIU_Reviewer_Evidence.zip       Separate research evidence; NOT Overleaf source
+Reviewer fixes applied. Both source bundles rebuilt and their PDF outputs
+cross-checked; graphical abstract spacing corrected and visually inspected.
+The author-supplied AI writing declaration and passive-voice edits are included.
+Table 5 is presented in two panels; numerical cells and intervals are unchanged.
 
-The editable authority is source/main.tex and source/supplement.tex; native
-cover-letter and graphical-abstract sources are at this folder's top level.
-ZIPs and PDFs are generated hand-offs, not additional manuscripts to edit.
-Do not upload this entire working folder: review_notes/ is for author use.
+01_Neurocomputing_main.pdf          Main manuscript (15 pages)
+02_Neurocomputing_supplement.pdf    Supplementary Information (19 pages)
+03_highlights_Neurocomputing.docx   Highlights (editable Word file)
+04_graphical_abstract_Neurocomputing.pdf  Graphical abstract
+05_Neurocomputing_cover_letter.pdf Cover letter (confirm all-author approval)
+07_Elsevier_Flat_Source_Neurocomputing.zip  LaTeX source, when requested
 
-Both source ZIPs have been compiled after clean extraction. They include only
-needed source dependencies and reproduce the four delivered PDFs visually.
-No build logs, caches, engines or model checkpoints are in the source ZIPs.
-See review_notes/FINAL_VERIFICATION.json and the submission checklist for the
-recorded checks and remaining author-controlled steps.
+Assign each file to the corresponding portal category. Do not upload this
+README. Inspect the journal-generated PDF before approving submission.
+The first five files are the publication documents; upload the flat LaTeX
+ZIP when the portal requests source files. Do not upload historical packages.
 
-PUBLICATION BOUNDARY
-Aligned evidence and publication sources: https://doi.org/10.5281/zenodo.22664869
-Software tag: v2.2.0. All-versions concept DOI: 10.5281/zenodo.22031663.
-The prior v2.1.0 archive predates the follow-ups in this manuscript.
-This release does not constitute journal submission or editorial acceptance.
-All-author approval and final journal-portal checks remain author-controlled.
+Research evidence: https://doi.org/10.5281/zenodo.22664869
+That archive preserves v2.2.0 with the earlier title; this revised manuscript
+and its new citations are not claimed to be deposited there. Data unchanged.
 
-Read REVIEWER_EVIDENCE_README.md before sharing or running the evidence ZIP.
-To check the unchanged local folder, run: sha256sum -c SHA256SUMS.txt
-KITTI-derived annotations retain their original terms, not the software MIT
-license; attribution and CC BY-NC-SA 3.0 terms are in the evidence README. Attach the evidence
-as research supplementary material or arrange permitted reviewer access; follow
-the actual journal portal's file categories. Funding already states no grant.
+Editable source, Overleaf ZIP, evidence ZIP and audit files:
+../submission_support_20260911/
+Current edit points: source/main.tex and source/supplement.tex.
+Prior CVIU files are saved in review_notes/PREVIOUS_CVIU_20260921.zip there.
+
+Before submitting, confirm author approval, exclusivity, AI disclosure and
+the current journal-portal requirements. The public Guide for Authors returned
+403 during this check; complete current-policy compliance is not certified.
+Use the submission link from the official Neurocomputing publisher page.

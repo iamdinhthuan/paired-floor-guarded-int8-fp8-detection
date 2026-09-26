@@ -3,8 +3,9 @@ message: >-
   If you use this software or its compact evidence package, please cite the
   archived release using the Zenodo DOI below.
 title: >-
-  A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object
-  Detectors under Image Corruptions: Reproducibility Package
+  Recipe determinants of quantization fragility under image corruption:
+  paired evidence and a regression-head localization in object detectors:
+  Reproducibility Package
 type: software
 authors:
   - family-names: Nguyen
@@ -36,11 +37,11 @@ authors:
     email: leanhvu@tdtu.edu.vn
     orcid: "https://orcid.org/0000-0002-4804-7540"
     affiliation: Ton Duc Thang University
-version: 2.1.0
-date-released: "2026-09-03"
-doi: 10.5281/zenodo.22275640
+version: 3.0.0
+date-released: "2026-09-25"
+doi: 10.5281/zenodo.22031663
 repository-code: "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection"
-url: "https://doi.org/10.5281/zenodo.22275640"
+url: "https://doi.org/10.5281/zenodo.22031663"
 license: MIT
 keywords:
   - object detection

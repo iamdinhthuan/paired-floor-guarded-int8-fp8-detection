@@ -129,3 +129,10 @@ def test_completed_artifacts_reproduce_publication_numbers_and_tables():
     assert 'Diagnostic' in clean_tex and 'not pooled' in clean_tex
     assert r'\begin{table*}' in holdout_tex
     assert r'\resizebox' not in holdout_tex and r'\tiny' not in holdout_tex
+    assert 'A. Absolute task accuracy' in holdout_tex
+    assert 'B. FP8--INT8 gaps' in holdout_tex
+    assert r'\multicolumn{3}{@{}l}{\textbf{Equal-block mean (six blocks)}}' in holdout_tex
+    assert r'\shortstack{+0.' not in holdout_tex
+    assert 'Contrasts are computed from unrounded AP' in holdout_tex
+    assert 'Historical NumPy/evaluator versions were not recorded' in holdout_tex
+    assert 'TT100K diagnostics are excluded' in clean_tex

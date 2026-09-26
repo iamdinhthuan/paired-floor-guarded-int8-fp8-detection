@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "attempt": "nn_corruptcalib_v1_20260924",
+  "title": "Phase C/D: corruption-aware calibration intervention (frozen 2026-09-24)",
+  "hypothesis": "RetinaNet matched-INT8 corruption fragility is driven by clean-only calibration range mismatch; corrupting the calibration distribution in-family should recover held-out corruption AP without retraining.",
+  "datasets": ["kitti", "voc"],
+  "model": "retinanet-r50-fpn-v2",
+  "calibration": {
+    "source_manifests": {
+      "kitti": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+      "voc": "manifests/calibration/voc_train_clean_512_s20260807_v1.json"
+    },
+    "schedule_id": "nn-corruptcalib-v1",
+    "in_family_corruptions": ["gaussian_noise", "jpeg"],
+    "held_out_corruptions": ["fog", "motion_blur"],
+    "severities": [1, 3, 5],
+    "generator_config": "configs/corruptions.json",
+    "output_manifests": {
+      "kitti": "manifests/calibration/kitti_train_corruptcalib_512_nn-corruptcalib-v1.json",
+      "voc": "manifests/calibration/voc_train_corruptcalib_512_nn-corruptcalib-v1.json"
+    }
+  },
+  "arms": [
+    {"name": "int8-corruptcalib512", "mode": "int8-entropy", "exclude_node_regex": null,
+     "calibration": "corruptcalib", "role": "intervention_full"},
+    {"name": "int8-sel-corruptcalib512", "mode": "int8-entropy",
+     "exclude_node_regex": "^/head/regression_head/",
+     "calibration": "corruptcalib", "role": "intervention_selective"}
+  ],
+  "reference_arms_from_nn_paired_protocol_v1_20260924": [
+    "fp32", "fp8-matched512", "int8-matched512", "int8-selective512"
+  ],
+  "evaluation": {
+    "universes": {"kitti": "kitti_val", "voc": "voc_val"},
+    "conditions": ["clean-s0", "codec-control-s0",
+                   "fog-s1", "fog-s3", "fog-s5",
+                   "gaussian_noise-s1", "gaussian_noise-s3", "gaussian_noise-s5",
+                   "jpeg-s1", "jpeg-s3", "jpeg-s5",
+                   "motion_blur-s1", "motion_blur-s3", "motion_blur-s5"],
+    "held_out_cells": ["fog-s1", "fog-s3", "fog-s5",
+                       "motion_blur-s1", "motion_blur-s3", "motion_blur-s5"],
+    "in_family_cells": ["gaussian_noise-s1", "gaussian_noise-s3", "gaussian_noise-s5",
+                        "jpeg-s1", "jpeg-s3", "jpeg-s5"]
+  },
+  "estimands": {
+    "primary": "held_out_corr_mean AP of each intervention arm minus int8-matched512 / int8-selective512 respectively, paired image bootstrap B=2000, same seed namespace as Phase B",
+    "secondary": ["in_family_corr_mean contrast", "clean AP tradeoff", "retention vs codec-control"],
+    "success_criteria": [
+      "int8-corruptcalib512 held_out_corr_mean > int8-matched512 with CI95 excluding 0 => range-mismatch mechanism supported",
+      "int8-sel-corruptcalib512 held_out_corr_mean - fp8-matched512 CI95 includes 0 => VOC residual gap explained by calibration"
+    ],
+    "negative_outcome": "if CI95 includes 0 on the primary contrast, report as negative intervention; recipe-determinants result stands as the contribution"
+  },
+  "contamination_note": "kitti_val is development-contaminated for the selective recipe; voc_val is the cleaner cross-dataset check.",
+  "seed_namespace": "nn_paired_bootstrap_v1_20260924",
+  "n_boot": 2000
+}

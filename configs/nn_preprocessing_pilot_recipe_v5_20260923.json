@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "attempt": "nn_preprocessing_pilot_recipe_v5_20260923",
+  "purpose": "Development-only recipe diagnostic: refine the head-region INT8 fragility found by the region sweep by separating the classification and regression heads under matched preprocessing. This is not a new-method result.",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "retinanet-r50-fpn-v2",
+  "imgsz": 640,
+  "expected_images": 1496,
+  "source_registry": "manifests/onnx/cross_family_v1/kitti_retinanet_r50_fpn_v2_fp32.json",
+  "source_registry_sha256": "40ebb242b46952e6cbbda0ea32571fb698aade900a901f71a195b9a5ad91fad9",
+  "calibration_manifest": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+  "calibration_manifest_sha256": "e1ad0e0bc759601a191debc46cd8c5da885aa4ecf3d2f063826716d2d0b8d581",
+  "calibration_images": 512,
+  "calibration_selection_seed": 20260923,
+  "annotations": "manifests/annotations/kitti_val_ultralytics_v1_coco.json",
+  "annotations_sha256": "79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "clean_manifest": "manifests/images/kitti_val_codec_control_q95_p0_v1.json",
+  "clean_manifest_sha256": "e4c45f09d2cac9b62a124c83b1db3585c31983d32f0bb30e394cce7b8ee3e327",
+  "clean_cache_root": "data/codec_control/kitti",
+  "treatments": [
+    {
+      "id": "int8_matched_cls_head_only",
+      "precision": "int8-entropy",
+      "preprocessing": "retinanet_normalized",
+      "calibration_list": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+      "calibration_list_sha256": "e1ad0e0bc759601a191debc46cd8c5da885aa4ecf3d2f063826716d2d0b8d581",
+      "quantize_node_regex": ["^/head/classification_head/"]
+    },
+    {
+      "id": "int8_matched_reg_head_only",
+      "precision": "int8-entropy",
+      "preprocessing": "retinanet_normalized",
+      "calibration_list": "manifests/calibration/kitti_train_clean_512_s20260807_v1.json",
+      "calibration_list_sha256": "e1ad0e0bc759601a191debc46cd8c5da885aa4ecf3d2f063826716d2d0b8d581",
+      "quantize_node_regex": ["^/head/regression_head/"]
+    }
+  ],
+  "build": {"backend": "tensorrt_python", "required_version": "11.1.0.106", "workspace_mib": 4096, "optimization_level": 3, "tf32": false},
+  "execution": {"gpu_workers": 1, "cpu_threads": 4, "minimum_free_gpu_mib": 12288, "minimum_free_disk_gib": 30, "allow_shared_gpu": true, "latency_evidence": "inadmissible"},
+  "summary_scope": "two-treatment clean-only head-refinement diagnostic for the residual RetinaNet INT8 gap",
+  "limitations": ["Historical checkpoint-selection evaluation partition, not a new confirmatory holdout.", "One engine build per treatment; no seed or build-population inference.", "No continuation gate is applied: head-level restriction refines the mechanism hypothesis rather than authorizing a robustness study.", "Head-level AP changes are descriptive; they do not identify which individual layers are fragile.", "A successful selective-precision result is baseline engineering evidence, not a new robustness method."]
+}
