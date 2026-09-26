@@ -122,14 +122,19 @@ INT8-sel-cc2calib & INT8 & selective & fold-2 corruptions, 512 images \\
 \end{table}
 
 All INT8/FP8 engines are built by TensorRT 11.1.0.106 from ONNX graphs
-quantized by NVIDIA ModelOpt 0.45.0 (entropy calibration, 512-image budget;
+quantized by NVIDIA ModelOpt with entropy calibration (512-image budget;
+the study-built registries record version 0.45.0 and the pre-study YOLO11
+ONNX registries predate that field;
 the diagnostic sweeps vary the estimator and include arms marked
 ``128-img'' in Table~4 of the main text, which use the earlier 128-image
 subset)
 with a 4,096~MiB builder workspace. Builder policy is recorded per engine
 and differs by program: the YOLO11 engines were built by \texttt{trtexec}
-before the frozen contract and carry TensorRT~11.1 defaults (TF32 enabled),
-while every RetinaNet arm built for this study passes \texttt{--noTF32}.
+before the frozen contract and carry TensorRT~11.1 defaults (TF32 enabled);
+the RetinaNet quantization arms built for this study use the TensorRT Python
+builder with TF32 disabled, while the RetinaNet FP32 reference and the
+FP8/INT8-legacy arms are pre-study \texttt{trtexec} builds with TF32 enabled
+(the paired contrasts only join same-policy quantized arms).
 Calibration and evaluation images are disjoint. Checkpoints are one per
 dataset$\times$model cell, and their selection provenance is disclosed: the
 KITTI and VOC YOLO11n/m/x models were fine-tuned from Ultralytics pretrained
@@ -171,7 +176,9 @@ calibration and form the held-out split. A complementary second fold (schedule
 \texttt{nn-corruptcalib-fold2-v1}, frozen before any of its runs) assigns the
 same images to fog or motion blur at severities 1, 3, or 5 (75--95 images per
 cell) and holds out Gaussian noise and JPEG. Its pre-specified rules are
-(i) a held-out gain over INT8-matched with an interval excluding zero and
+(i) a held-out change from INT8-matched whose interval excludes zero
+(either direction counts; the main text reads it through the directional
+fold-1 criterion) and
 (ii) a positive held-out $\Delta E$ with an interval excluding zero, against
 both INT8-matched and INT8-q95calib.
 
@@ -264,7 +271,9 @@ manifests
 place the configurations before their arms' first inference (run manifests
 carry no timestamp field, and the git history records joint archival of
 configs and outcomes, not pre-inference ordering). The fold-1
-file was written 2026-09-25 (its name retains the design date 20260924);
+file was written 2026-09-25 (its name retains the design date 20260924, and
+its \texttt{title} field says ``frozen 2026-09-24''---the title records the
+design-freeze day while the serialized file postdates it by one day);
 the q95 codec-control schedules were added after the fold-1 results were
 computed---the attempt identifier \texttt{nn\_q95calib\_v1\_20260924} keeps
 the design-date convention and postdates the fold-1 runs in manifest time.
@@ -318,15 +327,16 @@ Networks release mints on publication). Raw
 benchmark datasets, trained checkpoints, built TensorRT engines, and raw
 predictions are not redistributed; their provenance and regeneration path is
 documented in the archive. One binding asymmetry is disclosed for
-transparency: corrupted and codec-control cells bind each run to a
-content-addressed input manifest covering the encoded bytes, whereas the
+transparency: corrupted, codec-control, and YOLO11 original-clean cells bind
+each run to a content-addressed input manifest covering the encoded bytes
+(the YOLO11 clean runs bind the per-image clean manifests such as
+\texttt{kitti\_val\_clean\_ultralytics\_v1}), whereas the RetinaNet
 original-clean cells bind the frozen dataset split through its annotation
-SHA-256 (\texttt{clean-root:<hash>}). Per-image clean manifests exist in
-the archive (e.g.\ \texttt{kitti\_val\_clean\_ultralytics\_v1}) and establish
-the reference bytes of each frozen split, but they are not bound into the
-clean run records; the runs therefore do not carry an execution-time
-byte-level binding for the clean inputs, only the annotation-level
-identifier.
+SHA-256 (\texttt{clean-root:<hash>}). The matching per-image clean manifests
+exist in the archive and establish the reference bytes of each frozen split,
+but they are not bound into the RetinaNet clean run records; those runs
+therefore do not carry an execution-time byte-level binding for the clean
+inputs, only the annotation-level identifier.
 
 \section{Minimum reporting checklist for paired corruption studies}
 

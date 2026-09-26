@@ -81,8 +81,9 @@ def yolo_deltae_table(summary: dict, boot: dict, final: dict) -> str:
             sig = r"\sigstar" if ci[0] > 0 or ci[2] < 0 else ""
             ph = holm[(ds, model)]
             # smallest nonzero two-sided bootstrap p at B=2000 is 0.001;
-            # report exact nonzero Holm values, floor only an exact zero
-            phs = "$<$0.001" if ph == 0 else f"{ph:.3f}"
+            # an exact zero is bounded by the resolution, and the Holm
+            # multiplier on the smallest of nine raw p's is 9 -> bound <0.009
+            phs = "$<$0.009" if ph == 0 else f"{ph:.3f}"
             fp8c = blk["arms"]["fp8"]["corrupted_mean_ap"]
             i8c = blk["arms"]["int8"]["corrupted_mean_ap"]
             rows.append(
@@ -297,7 +298,7 @@ def decomposition_table() -> str:
 
 # ---------------- Figures ----------------
 
-def deltae_forest(summary: dict, boot: dict) -> None:
+def deltae_forest(summary: dict, boot: dict, final: dict) -> None:
     entries = []
     labels = []
     for ds, dsname in (("kitti", "KITTI"), ("voc", "VOC"), ("coco", "COCO-2k")):
@@ -308,16 +309,22 @@ def deltae_forest(summary: dict, boot: dict) -> None:
             ci = boot[f"{ds}__{model}"]["fp8_minus_int8"]["deltaE"]
             entries.append((c["deltaE"], ci[0] * 100.0, ci[2] * 100.0))
             labels.append(f"{dsname} {model.replace('yolo11','')}")
+    holm = {(b["dataset"], b["model"]): b["p_holm"] < 0.05
+            for b in final["yolo"]["blocks"]}
     fig, ax = plt.subplots(figsize=(6.2, 4.2))
     ys = np.arange(len(entries))[::-1]
     palette = {"KITTI": "#1f77b4", "VOC": "#2ca02c", "COCO-2k": "#9467bd"}
     for y, (pt, lo, hi), lab in zip(ys, entries, labels):
         color = palette[lab.split()[0]]
         sig = lo > 0 or hi < 0
+        ds_key = {"KITTI": "kitti", "VOC": "voc", "COCO-2k": "coco"}[lab.split()[0]]
+        mo_key = "yolo11" + lab.split()[1]
         ax.plot([lo, hi], [y, y], color=color, lw=2.2,
                 solid_capstyle="round", alpha=0.95 if sig else 0.45)
         ax.plot([pt], [y], "o", color=color, ms=5.5,
                 alpha=0.95 if sig else 0.45)
+        if holm.get((ds_key, mo_key)):
+            ax.plot([pt], [y], "D", mfc="none", mec="k", ms=9, mew=0.9)
     ax.axvline(0, color="k", lw=0.8, ls="--")
     ax.set_yticks(ys)
     ax.set_yticklabels(labels, fontsize=8)
@@ -359,18 +366,22 @@ def retinanet_figure(summary: dict, report: dict) -> None:
             labels.append(label)
             colors.append(color)
         x = np.arange(len(labels))
-        ax.bar(x - 0.19, clean, 0.36, label="clean" if ds == "kitti" else None,
-               color=colors, alpha=0.95)
-        ax.bar(x + 0.19, corr, 0.36, label="corrupt mean" if ds == "kitti" else None,
+        ax.bar(x - 0.19, clean, 0.36, color=colors, alpha=0.95)
+        ax.bar(x + 0.19, corr, 0.36,
                color=colors, alpha=0.45, hatch="//", edgecolor="white")
         ax.set_xticks(x)
-        ax.set_xticklabels(labels, fontsize=7, rotation=18)
+        ax.set_xticklabels(labels, fontsize=7, rotation=28, ha="right")
         ax.set_title(dsname, fontsize=9)
         ax.set_ylabel("AP (points)" if ds == "kitti" else "")
         ax.grid(axis="y", alpha=0.25)
-    axes[0].legend(fontsize=8, frameon=False)
-    fig.suptitle("RetinaNet recipe arms: clean vs 12-cell corruption mean", fontsize=9)
-    fig.tight_layout()
+    handles = [plt.Rectangle((0, 0), 1, 1, facecolor="k", alpha=0.95),
+               plt.Rectangle((0, 0), 1, 1, facecolor="k", alpha=0.45,
+                             hatch="//", edgecolor="white")]
+    fig.legend(handles, ["clean", "corrupt mean"], fontsize=8,
+               frameon=False, ncol=2, loc="upper center",
+               bbox_to_anchor=(0.5, 0.97))
+    fig.suptitle("RetinaNet recipe arms: clean vs 12-cell corruption mean", fontsize=9, y=1.04)
+    fig.tight_layout(rect=(0, 0, 1, 0.93))
     fig.savefig(FIG / "nn_retinanet_arms.pdf")
     plt.close(fig)
     print("wrote nn_retinanet_arms.pdf")
@@ -403,7 +414,8 @@ def intervention_figure(final: dict) -> None:
                    alpha=0.85, label=mname)
         ax.axhline(0, color="k", lw=0.8)
         ax.set_xticks(x)
-        ax.set_xticklabels([lab for _, lab in keep], fontsize=7)
+        ax.set_xticklabels([lab for _, lab in keep], fontsize=7, rotation=22,
+                           ha="right")
         ax.set_title(dsname, fontsize=9)
         ax.grid(axis="y", alpha=0.25)
     axes[0].set_ylabel(r"$\Delta$AP vs clean-calibrated counterpart")
@@ -482,6 +494,12 @@ def numbers_tex(final: dict) -> str:
         macros[f"HetQ{D}"] = f"{w['Q']:.1f}"
         macros[f"HetP{D}"] = f"{w['p']:.2f}" if w["p"] >= 0.01 else sci(w["p"])
     macros["HolmSurvivors"] = str(sum(b["p_holm"] < 0.05 for b in y["blocks"]))
+    _tau = het["tau"]
+    _w = [1.0 / (b["se"] ** 2 + _tau ** 2) for b in y["blocks"]]
+    _mu = sum(wi * b["point"] for wi, b in zip(_w, y["blocks"])) / sum(_w)
+    _se_mu = (1.0 / sum(_w)) ** 0.5
+    macros["ReMean"] = f"{_mu:+.2f}"
+    macros["ReMeanCi"] = f"$[{_mu - 1.96 * _se_mu:+.2f},\\,{_mu + 1.96 * _se_mu:+.2f}]$"
     pw = y["pairwise"]["voc_n_minus_m"]
     macros["VocNmDiff"] = f"{pw['diff']:+.2f}"
     macros["VocNmZ"] = f"{pw['z']:.1f}"
@@ -537,6 +555,7 @@ def numbers_tex(final: dict) -> str:
         macros[f"SelResJ{D}P"] = f"{s['j95']['point']:+.2f}"
         macros[f"SelResC{D}"] = _ci(s["corr12"])
         macros[f"SelResC{D}P"] = f"{s['corr12']['point']:+.2f}"
+        macros[f"SelMinusFeC{D}"] = f"{-s['corr12']['point']:+.2f}"
         macros[f"SelResDE{D}"] = _ci(s["deltaE"])
         for fam, FN in (("fog", "Fog"), ("gaussian_noise", "Gn"),
                         ("jpeg", "Jpeg"), ("motion_blur", "Mb")):
@@ -571,6 +590,16 @@ def numbers_tex(final: dict) -> str:
                 macros[f"{N}{F}{D}"] = _ci(iv[key][fam])
                 macros[f"{N}{F}{D}P"] = f"{iv[key][fam]['point']:+.2f}"
     macros["NoRegFpGap"] = f"{_phase_a_ap('pilot_v1_summary.json', 'fp32') - _phase_a_ap('recipe_v6_summary.json', 'int8_matched_except_reg_head'):.2f}"
+    _retd = []
+    for _ph in ("phase_b_results", "phase_f_fold2_results", "phase_e_q95_results"):
+        _b = json.loads((PHASE_B.parent / _ph / "cell_points.json").read_text())
+        for _k, _c in _b.items():
+            if "retinanet" not in _k:
+                continue
+            for _v in _c.values():
+                if "clean-s0" in _v and "codec-control-s0" in _v:
+                    _retd.append(abs(_v["codec-control-s0"] - _v["clean-s0"]))
+    macros["RetJCleanFid"] = f"{max(_retd):.1f}"
     lines = ["% Generated by analysis/build_nn_tables.py from nn_final_stats.json"]
     lines += [f"\\newcommand{{\\nn{k}}}{{{v}}}" for k, v in sorted(macros.items())]
     return "\n".join(lines) + "\n"
@@ -591,7 +620,7 @@ def main() -> None:
     write(GEN / "nn_decomposition.tex", decomposition_table())
     write(GEN / "nn_per_family.tex", per_family_table(final))
     write(GEN / "nn_numbers.tex", numbers_tex(final))
-    deltae_forest(summary, boot)
+    deltae_forest(summary, boot, final)
     retinanet_figure(summary, report)
     intervention_figure(final)
 
