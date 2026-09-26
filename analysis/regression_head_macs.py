@@ -54,7 +54,9 @@ def mac_share(num_classes: int) -> dict:
 
 
 if __name__ == "__main__":
-    for nc in (4, 9, 21):  # study datasets use small class counts; 21 = VOC
+    # model classes per the training manifests: 9 = KITTI (8 fg + bg),
+    # 21 = VOC (20 fg + bg)
+    for nc in (9, 21):
         shares = mac_share(nc)
         print(f"num_classes={nc}: " +
               ", ".join(f"{k}={v:.1f}%" for k, v in shares.items()

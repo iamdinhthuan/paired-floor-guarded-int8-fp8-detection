@@ -245,7 +245,7 @@ PHASE_A_DIR = ROOT / "submission_support_20260911" / "phase_a_arms"
 
 # display label -> (summary file, treatment key) in the Phase-A ledgers
 _DECOMPOSITION_ARMS = [
-    ("INT8 legacy (mismatched calibration contract)",
+    ("INT8 legacy (mismatched calibration contract, 128-img)",
      "pilot_v1_summary.json", "int8_legacy_calibration"),
     ("INT8 matched preprocessing, 128-img calibration",
      "pilot_v1_summary.json", "int8_matched_calibration"),
@@ -253,7 +253,7 @@ _DECOMPOSITION_ARMS = [
      "recipe_v2_summary.json", "int8_matched_entropy_512cal"),
     ("INT8 max-estimator, 128-img calibration",
      "recipe_v1_summary.json", "int8_matched_max_calibration"),
-    ("INT8 restricted to Conv+Add sites",
+    ("INT8 restricted to Conv+Add sites, 128-img calibration",
      "recipe_v1_summary.json", "int8_matched_convadd_calibration"),
     ("INT8 at exactly the FP8 compute sites (shared mask)",
      "recipe_v3_summary.json", "int8_matched_shared_mask_512cal"),
