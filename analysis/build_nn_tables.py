@@ -426,6 +426,140 @@ def intervention_figure(final: dict) -> None:
     print("wrote nn_intervention.pdf")
 
 
+def fold_design_figure() -> None:
+    """Schematic of the two complementary corruption-calibration folds and the
+    codec-matched control arm."""
+    from matplotlib.patches import FancyBboxPatch
+    fams = [("fog", "Fog"), ("gaussian_noise", "Gaussian\nnoise"),
+            ("jpeg", "JPEG"), ("motion_blur", "Motion\nblur")]
+    rows = [
+        ("Fold 1\nINT8-corruptcalib", {"gaussian_noise", "jpeg"},
+         {"fog", "motion_blur"}),
+        ("Fold 2\nINT8-cc2calib", {"fog", "motion_blur"},
+         {"gaussian_noise", "jpeg"}),
+    ]
+    fig, ax = plt.subplots(figsize=(7.2, 2.15))
+    ax.set_xlim(0, 10)
+    ax.set_ylim(-0.2, 3.1)
+    ax.axis("off")
+    cal_col, out_col = "#1f77b4", "#d62728"
+    ax.text(5.2, 2.86, "seen by calibration (in-family)", ha="center",
+            fontsize=7.5, color=cal_col, weight="bold")
+    ax.text(8.15, 2.86, "held-out evaluation", ha="center",
+            fontsize=7.5, color=out_col, weight="bold")
+    for i, (label, cal, held) in enumerate(rows):
+        y = 1.9 - i * 1.05
+        ax.text(0.05, y + 0.32, label, fontsize=7.5, va="center")
+        for j, (fam, flab) in enumerate(fams):
+            x = 2.0 + j * 1.6
+            is_cal = fam in cal
+            box = FancyBboxPatch(
+                (x, y), 1.45, 0.62,
+                boxstyle="round,pad=0.02",
+                facecolor=cal_col if is_cal else "white",
+                edgecolor=cal_col if is_cal else out_col,
+                hatch="" if is_cal else "///",
+                lw=1.1)
+            ax.add_patch(box)
+            ax.text(x + 0.72, y + 0.31, flab, ha="center", va="center",
+                    fontsize=7, color="white" if is_cal else out_col)
+        ax.annotate("", xy=(8.55, y + 0.31), xytext=(8.0, y + 0.31),
+                    arrowprops=dict(arrowstyle="->", lw=0.9, color="k"))
+        ax.text(8.72, y + 0.31, "test", fontsize=7, va="center")
+    ax.text(0.05, -0.05 + 0.32, "INT8-q95calib\n(codec control)", fontsize=7.5,
+            va="center")
+    box = FancyBboxPatch((2.0, -0.05), 4.65, 0.62, boxstyle="round,pad=0.02",
+                         facecolor="#e6e6e6", edgecolor="#555555", lw=1.0)
+    ax.add_patch(box)
+    ax.text(4.32, 0.26, "same 512 clean images at JPEG quality 95,\nno corruption",
+            ha="center", va="center", fontsize=7, color="#333333")
+    ax.text(8.72, 0.26, "both partitions", fontsize=7, va="center")
+    ax.annotate("", xy=(8.55, 0.26), xytext=(7.2, 0.26),
+                arrowprops=dict(arrowstyle="->", lw=0.9, color="k"))
+    fig.tight_layout()
+    fig.savefig(FIG / "nn_fold_design.pdf")
+    plt.close(fig)
+    print("wrote nn_fold_design.pdf")
+
+
+def family_heatmap(final: dict) -> None:
+    """Per-corruption-family delta E (FP8-INT8, J95 basis) across the nine
+    paired YOLO11 blocks."""
+    order = [("kitti", "KITTI"), ("voc", "VOC"), ("coco", "COCO-2k")]
+    fams = [("fog", "Fog"), ("gaussian_noise", "Gauss.\nnoise"),
+            ("jpeg", "JPEG"), ("motion_blur", "Motion\nblur")]
+    rows = []
+    for ds, dsname in order:
+        for model in ("yolo11n", "yolo11m", "yolo11x"):
+            blk = next(b for b in final["yolo"]["blocks"]
+                       if b["dataset"] == ds and b["model"] == model)
+            rows.append((f"{dsname}\n{model.replace('yolo11','YOLO11')}", blk))
+    M = np.array([[blk["per_family_deltaE"][fam]["point"] for fam, _ in fams]
+                  for _, blk in rows])
+    vmax = np.abs(M).max()
+    fig, ax = plt.subplots(figsize=(3.5, 3.1))
+    im = ax.imshow(M, cmap="RdBu", vmin=-vmax, vmax=vmax, aspect="auto")
+    ax.set_xticks(range(len(fams)))
+    ax.set_xticklabels([f for _, f in fams], fontsize=7)
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([r for r, _ in rows], fontsize=7)
+    for i, (_, blk) in enumerate(rows):
+        for j, (fam, _) in enumerate(fams):
+            d = blk["per_family_deltaE"][fam]
+            sig = "*" if d["ci95"][0] > 0 or d["ci95"][1] < 0 else ""
+            ax.text(j, i, f"{d['point']:+.1f}{sig}", ha="center", va="center",
+                    fontsize=6,
+                    color="white" if abs(d["point"]) > 0.55 * vmax else "black")
+    ax.set_title(r"Per-family $\Delta E$ (AP points)", fontsize=8)
+    cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+    cb.ax.tick_params(labelsize=6)
+    fig.tight_layout()
+    fig.savefig(FIG / "nn_family_heatmap.pdf")
+    plt.close(fig)
+    print("wrote nn_family_heatmap.pdf")
+
+
+def severity_figure() -> None:
+    """RetinaNet matched-arm AP by corruption family and severity."""
+    bpts = json.loads((PHASE_B / "cell_points.json").read_text())
+    arms = [("fp32", "FP32 (clean basis)", "k", "o", "--", "clean-s0"),
+            ("fp8-matched512", "FP8-matched", "#1f77b4", "s", "-",
+             "codec-control-s0"),
+            ("int8-matched512", "INT8-matched", "#d62728", "^", "-",
+             "codec-control-s0"),
+            ("int8-selective512", "INT8-selective", "#2ca02c", "D", "-",
+             "codec-control-s0")]
+    fams = [("fog", "Fog"), ("gaussian_noise", "Gaussian noise"),
+            ("jpeg", "JPEG"), ("motion_blur", "Motion blur")]
+    sevs = [1, 3, 5]
+    fig, axes = plt.subplots(2, 4, figsize=(7.2, 4.4), sharex=True)
+    for r, (ds, dsname) in enumerate((("kitti", "KITTI"), ("voc", "VOC"))):
+        cell = bpts[f"{ds}/retinanet_r50_fpn_v2"]
+        for c, (fam, fname) in enumerate(fams):
+            ax = axes[r, c]
+            xs = [0] + sevs
+            for key, name, col, mk, ls, base in arms:
+                ys = [cell[key][base]] + \
+                     [cell[key][f"{fam}-s{s}"] for s in sevs]
+                ax.plot(xs, ys, linestyle=ls, marker=mk, ms=3.5, lw=1.1,
+                        color=col, label=name, mew=0.6)
+            ax.set_xticks(xs)
+            ax.set_xticklabels(["clean", "s1", "s3", "s5"], fontsize=7)
+            ax.grid(alpha=0.25)
+            ax.tick_params(labelsize=7)
+            if r == 0:
+                ax.set_title(fname, fontsize=8)
+            if c == 0:
+                ax.set_ylabel(f"{dsname}  AP", fontsize=8)
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    fig.legend(handles, labels, fontsize=7.5, frameon=False, ncol=4,
+               loc="upper center", bbox_to_anchor=(0.5, 1.0))
+    fig.tight_layout(rect=(0, 0, 1, 0.94))
+    fig.savefig(FIG / "nn_retinanet_severity.pdf")
+    plt.close(fig)
+    print("wrote nn_retinanet_severity.pdf")
+
+
 # ---------------- in-text number macros ----------------
 
 def _ci(v: dict) -> str:
@@ -624,6 +758,9 @@ def main() -> None:
     deltae_forest(summary, boot, final)
     retinanet_figure(summary, report)
     intervention_figure(final)
+    fold_design_figure()
+    family_heatmap(final)
+    severity_figure()
 
 
 if __name__ == "__main__":
