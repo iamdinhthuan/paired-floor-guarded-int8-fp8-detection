@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np
 
 from topic_c.coco_data import load_coco_images, preprocess
-from topic_c.cross_family import decode_retinanet, decode_rtdetr, preprocess_retinanet
+from topic_c.cross_family import decode_fcos, decode_retinanet, decode_rtdetr, preprocess_retinanet
 from topic_c.manifest import read_manifest, sha256_file
 
 
@@ -48,7 +48,7 @@ def main() -> None:
     if not engine_path.is_file() or sha256_file(engine_path) != record["engine_sha256"]:
         raise SystemExit("CROSS-FAMILY INFERENCE REFUSED: engine hash mismatch")
     decoder = record.get("decoder")
-    if decoder not in {"ultralytics_rtdetr_raw_v1", "torchvision_retinanet_raw_v1"}:
+    if decoder not in {"ultralytics_rtdetr_raw_v1", "torchvision_retinanet_raw_v1", "torchvision_fcos_raw_v1"}:
         raise SystemExit("CROSS-FAMILY INFERENCE REFUSED: unsupported decoder contract")
     imgsz = int(record["imgsz"]); confidence = args.confidence
     if confidence is None: confidence = 0.001 if decoder.startswith("ultralytics") else 0.05
@@ -107,6 +107,11 @@ def main() -> None:
             cudart.cudaStreamSynchronize(stream)
             if decoder.startswith("ultralytics"):
                 rows = decode_rtdetr(host[outputs[0]], confidence, *decode_args)
+            elif decoder == "torchvision_fcos_raw_v1":
+                by_name = {name: host[name] for name in outputs}
+                rows = decode_fcos(by_name["cls_logits"], by_name["bbox_regression"],
+                                   by_name["bbox_ctrness"], by_name["anchors"],
+                                   confidence, *decode_args)
             else:
                 by_name = {name: host[name] for name in outputs}
                 rows = decode_retinanet(by_name["cls_logits"], by_name["bbox_regression"], by_name["anchors"],

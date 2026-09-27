@@ -17,6 +17,7 @@ from ultralytics import RTDETR
 
 from topic_c.manifest import sha256_file
 from train_retinanet_dataset import build_model
+from train_fcos_dataset import build_model as build_fcos_model
 
 
 def complete_record(path: Path) -> dict:
@@ -45,6 +46,25 @@ class RetinaNetRaw(torch.nn.Module):
         return head["cls_logits"], head["bbox_regression"], anchors[0]
 
 
+class FCOSRaw(torch.nn.Module):
+    def __init__(self, model: torch.nn.Module):
+        super().__init__()
+        self.model = model
+
+    def forward(self, tensor: torch.Tensor):
+        # Same external-preprocessing contract as RetinaNetRaw: the graph
+        # consumes the normalized, aspect-resized, zero-padded square tensor.
+        images = ImageList(tensor, [(tensor.shape[-2], tensor.shape[-1])])
+        features = self.model.backbone(tensor)
+        if isinstance(features, torch.Tensor):
+            features = {"0": features}
+        feature_list = list(features.values())
+        head = self.model.head(feature_list)
+        anchors = self.model.anchor_generator(images, feature_list)
+        return (head["cls_logits"][0], head["bbox_regression"][0],
+                head["bbox_ctrness"][0], anchors[0])
+
+
 def export_rtdetr(checkpoint: Path, output: Path, imgsz: int) -> None:
     with tempfile.TemporaryDirectory(prefix="rtdetr-export-") as directory:
         copy = Path(directory) / checkpoint.name
@@ -56,6 +76,19 @@ def export_rtdetr(checkpoint: Path, output: Path, imgsz: int) -> None:
         if not produced.is_file():
             raise RuntimeError("RT-DETR exporter produced no ONNX graph")
         os.replace(produced, output)
+
+
+def export_fcos(checkpoint: Path, output: Path, imgsz: int, num_classes: int) -> None:
+    state = torch.load(checkpoint, map_location="cpu", weights_only=False)
+    model = build_fcos_model(num_classes, imgsz)
+    model.load_state_dict(state["model"], strict=True)
+    wrapper = FCOSRaw(model.eval().cuda())
+    example = torch.zeros((1, 3, imgsz, imgsz), dtype=torch.float32, device="cuda")
+    torch.onnx.export(
+        wrapper, example, output, input_names=["images"],
+        output_names=["cls_logits", "bbox_regression", "bbox_ctrness", "anchors"],
+        opset_version=19, dynamo=False, do_constant_folding=True,
+    )
 
 
 def export_retinanet(checkpoint: Path, output: Path, imgsz: int, num_classes: int) -> None:
@@ -95,10 +128,13 @@ def main() -> None:
     elif model == "retinanet-r50-fpn-v2":
         export_retinanet(checkpoint, output, args.imgsz, args.num_classes)
         decoder = "torchvision_retinanet_raw_v1"
+    elif model == "fcos-r50-fpn":
+        export_fcos(checkpoint, output, args.imgsz, args.num_classes)
+        decoder = "torchvision_fcos_raw_v1"
     else:
         raise SystemExit(f"CROSS-FAMILY EXPORT REFUSED: unsupported model: {model}")
     graph = onnx.load(output, load_external_data=False).graph
-    if len(graph.input) != 1 or len(graph.output) not in {1, 3}:
+    if len(graph.input) != 1 or len(graph.output) not in {1, 3, 4}:
         raise SystemExit("CROSS-FAMILY EXPORT REFUSED: unexpected graph IO")
     record = {
         "schema_version": 1, "created_at_utc": datetime.now(timezone.utc).isoformat(),

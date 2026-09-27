@@ -12,7 +12,8 @@ import argparse
 import json
 from pathlib import Path
 
-ATTEMPTS = ("nn_corruptcalib_fold2_v1_20260925", "nn_q95calib_v1_20260924",
+ATTEMPTS = ("nn_fcos_replication_v1_20260927", "nn_corruptcalib_fold2_v1_20260925",
+            "nn_q95calib_v1_20260924",
             "nn_paired_protocol_v1_20260924",
             "nn_corruptcalib_v1_20260924", "kitti_pilot_117_v1", "voc_pilot_117_v1",
             "coco_uniform_p0_v1", "codec_control_p0_v1", "cross_family_v1")

@@ -560,6 +560,111 @@ def severity_figure() -> None:
     print("wrote nn_retinanet_severity.pdf")
 
 
+# ---------------- Phase G weight/activation factorial ----------------
+
+_WA_ARMS = [
+    # (arm key, head weights, head activations) — matched is W8/A8,
+    # wonly is W8/A-fp16, aonly is W-fp16/A8, selective is W-fp16/A-fp16.
+    ("int8-matched512", "INT8", "INT8"),
+    ("int8-wonly512", "INT8", "fp16"),
+    ("int8-aonly512", "fp16", "INT8"),
+    ("int8-selective512", "fp16", "fp16"),
+]
+
+
+def wa_factorial_table(final: dict) -> str:
+    """2x2 factorial decomposition of the regression-head level deficit."""
+    rows = []
+    for ds, dsname in (("kitti", "KITTI"), ("voc", "VOC")):
+        entry = final["retinanet_wa"][ds]
+        for i, (arm, w, a) in enumerate(_WA_ARMS):
+            lv = entry["arms"][arm]
+            ret = lv["corr12"] / lv["j95"]
+            rows.append(
+                f"{dsname if i == 0 else ''} & {w} & {a} & {lv['j95']:.2f} & "
+                f"{lv['corr12']:.2f} & {ret:.2f} & "
+                f"{fmt_ci(entry['contrasts'][f'{arm}_minus_int8-matched512']['j95']) if arm != 'int8-matched512' else r'--'} \\\\")
+        if ds == "kitti":
+            rows.append(r"\addlinespace[4pt]")
+    return ("\n".join([
+        r"\begin{tabular}{lllllll}",
+        r"\toprule",
+        r"Dataset & Head weights & Head acts. & $\Jclean$ & Corrupt mean & "
+        r"Retention & $\Jclean$ vs W8A8 \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}"]) + "\n")
+
+
+def wa_factorial_figure(final: dict) -> None:
+    """J95 vs corrupt-mean AP for the four regression-head quantization states."""
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.7), sharey=False)
+    base_col = "#1f77b4"
+    for ax, (ds, dsname) in zip(axes, (("kitti", "KITTI"), ("voc", "VOC"))):
+        arms = final["retinanet_wa"][ds]["arms"]
+        x = np.arange(len(_WA_ARMS))
+        w = 0.36
+        for i, (arm, wt, at) in enumerate(_WA_ARMS):
+            lv = arms[arm]
+            ax.bar(i - w / 2, lv["j95"], w, color=base_col, edgecolor="k",
+                   lw=0.5, hatch="//" if wt == "INT8" else "", zorder=3)
+            ax.bar(i + w / 2, lv["corr12"], w, color=base_col, alpha=0.4,
+                   edgecolor="k", lw=0.5, hatch="//" if wt == "INT8" else "",
+                   zorder=3)
+        fp8 = final["retinanet"][ds]["phase_b"][
+            "fp8-matched512_minus_int8-matched512"]["j95"]
+        base = arms["int8-matched512"]["j95"]
+        ax.axhline(base + fp8["point"], color="#1f77b4", lw=1, ls="--",
+                   zorder=2)
+        ax.set_xticks(x)
+        ax.set_xticklabels([f"{wt}/{at}" for _, wt, at in _WA_ARMS], fontsize=7.5)
+        ax.set_title(dsname, fontsize=9)
+        ax.grid(axis="y", alpha=0.25, zorder=0)
+        ax.tick_params(labelsize=7.5)
+        ax.set_xlabel("head weights / head activations", fontsize=7.5)
+    axes[0].set_ylabel("AP", fontsize=8)
+    from matplotlib.patches import Patch
+    from matplotlib.lines import Line2D
+    handles = [Patch(fc=base_col, label="clean AP (codec basis)"),
+               Patch(fc=base_col, alpha=0.4, label="corrupt mean"),
+               Patch(fc="w", hatch="//", ec="k", label="hatched: INT8 weights"),
+               Line2D([0], [0], color="#1f77b4", ls="--", lw=1,
+                      label="FP8-matched clean AP")]
+    fig.legend(handles=handles, fontsize=7.2, frameon=False, ncol=2,
+               loc="upper center", bbox_to_anchor=(0.5, 1.0))
+    fig.tight_layout(rect=(0, 0, 1, 0.84))
+    fig.savefig(FIG / "nn_wa_factorial.pdf")
+    plt.close(fig)
+    print("wrote nn_wa_factorial.pdf")
+
+
+def fcos_replication_table(final: dict) -> str:
+    """RetinaNet vs FCOS matched-arm and selective-arm contrasts."""
+    rows = []
+    for ds, dsname in (("kitti", "KITTI"), ("voc", "VOC")):
+        for det, block in (("RetinaNet", final["retinanet"][ds]["phase_b"]),
+                           ("FCOS", final["fcos"][ds]["contrasts"])):
+            fm = block["fp8-matched512_minus_int8-matched512"]
+            sm = block["int8-selective512_minus_int8-matched512"]
+            fs = block["fp8-matched512_minus_int8-selective512"]
+            rows.append(
+                f"{det} & {dsname} & {fmt_ci(fm['j95'])} & {fmt_ci(fm['deltaE'])} & "
+                f"{fmt_ci(sm['j95'])} & {fmt_ci(sm['deltaE'])} & "
+                f"{fmt_ci(fs['j95'])} \\\\")
+        rows.append(r"\addlinespace[3pt]")
+    rows.pop()
+    return ("\n".join([
+        r"\begin{tabular}{lllllll}",
+        r"\toprule",
+        r"Detector & Dataset & FP8$-$INT8 $\Jclean$ & FP8$-$INT8 $\Delta E$ & "
+        r"Sel$-$INT8 $\Jclean$ & Sel$-$INT8 $\Delta E$ & FP8$-$Sel $\Jclean$ \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}"]) + "\n")
+
+
 # ---------------- in-text number macros ----------------
 
 def _ci(v: dict) -> str:
@@ -756,6 +861,46 @@ def numbers_tex(final: dict) -> str:
                 if "clean-s0" in _v and "codec-control-s0" in _v:
                     _retd.append(abs(_v["codec-control-s0"] - _v["clean-s0"]))
     macros["RetJCleanFid"] = f"{max(_retd):.1f}"
+    if "retinanet_wa" in final:
+        for ds, D in (("kitti", "Kitti"), ("voc", "Voc")):
+            entry = final["retinanet_wa"][ds]
+            for arm, S in (("int8-wonly512", "Wo"), ("int8-aonly512", "Ao")):
+                lv = entry["arms"][arm]
+                macros[f"Wa{S}J{D}"] = f"{lv['j95']:.2f}"
+                macros[f"Wa{S}C{D}"] = f"{lv['corr12']:.2f}"
+            for key, S in (("int8-wonly512_minus_int8-matched512", "Wo"),
+                           ("int8-aonly512_minus_int8-matched512", "Ao"),
+                           ("int8-wonly512_minus_int8-aonly512", "WoAo")):
+                c = entry["contrasts"].get(key)
+                if c:
+                    macros[f"Wa{S}Jdiff{D}"] = _ci(c["j95"])
+                    macros[f"Wa{S}JdiffP{D}"] = f"{c['j95']['point']:+.2f}"
+                    macros[f"Wa{S}DE{D}"] = _ci(c["deltaE"])
+            matched_j = entry["arms"]["int8-matched512"]["j95"]
+            fp8_gap = final["retinanet"][ds]["phase_b"][
+                "fp8-matched512_minus_int8-matched512"]["j95"]["point"]
+            for arm, S in (("int8-wonly512", "Wo"), ("int8-aonly512", "Ao"),
+                           ("int8-selective512", "Sel")):
+                rec = (entry["arms"][arm]["j95"] - matched_j) / fp8_gap
+                macros[f"Wa{S}Rec{D}"] = f"{100 * rec:.0f}"
+    if "fcos" in final:
+        for ds, D in (("kitti", "Kitti"), ("voc", "Voc")):
+            fc = final["fcos"][ds]["contrasts"]
+            fa = final["fcos"][ds]["arms"]
+            for key, S in (("fp8-matched512_minus_int8-matched512", "Fm"),
+                           ("int8-selective512_minus_int8-matched512", "Sm"),
+                           ("fp8-matched512_minus_int8-selective512", "Fs")):
+                c = fc.get(key)
+                if c:
+                    macros[f"Fcos{S}J{D}"] = _ci(c["j95"])
+                    macros[f"Fcos{S}JP{D}"] = f"{c['j95']['point']:+.2f}"
+                    macros[f"Fcos{S}DE{D}"] = _ci(c["deltaE"])
+                    macros[f"Fcos{S}DEP{D}"] = f"{c['deltaE']['point']:+.2f}"
+            for arm, S in (("fp32", "Fp"), ("fp8-matched512", "Fe"),
+                           ("int8-matched512", "In"), ("int8-selective512", "Sel")):
+                if arm in fa:
+                    macros[f"FcosArm{S}J{D}"] = f"{fa[arm]['j95']:.2f}"
+                    macros[f"FcosArm{S}C{D}"] = f"{fa[arm]['corr12']:.2f}"
     lines = ["% Generated by analysis/build_nn_tables.py from nn_final_stats.json"]
     lines += [f"\\newcommand{{\\nn{k}}}{{{v}}}" for k, v in sorted(macros.items())]
     return "\n".join(lines) + "\n"
@@ -782,6 +927,11 @@ def main() -> None:
     fold_design_figure()
     family_heatmap(final)
     severity_figure()
+    if "retinanet_wa" in final:
+        write(GEN / "nn_wa_factorial.tex", wa_factorial_table(final))
+        wa_factorial_figure(final)
+    if "fcos" in final:
+        write(GEN / "nn_fcos_replication.tex", fcos_replication_table(final))
 
 
 if __name__ == "__main__":

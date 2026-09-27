@@ -24,6 +24,7 @@ from topic_c.manifest import sha256_file  # noqa: E402
 CORRUPTIONS = ("fog", "gaussian_noise", "jpeg", "motion_blur")
 SEVERITIES = (1, 3, 5)
 ATTEMPT_DIRS = [
+    "nn_fcos_replication_v1_20260927",
     "nn_corruptcalib_fold2_v1_20260925",
     "nn_q95calib_v1_20260924",
     "nn_paired_protocol_v1_20260924",

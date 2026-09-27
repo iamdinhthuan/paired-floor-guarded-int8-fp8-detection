@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Train one resumable RetinaNet-R50-FPN-v2 transfer checkpoint from YOLO labels."""
+"""Train one resumable FCOS-R50-FPN transfer checkpoint from YOLO labels.
+
+Mirrors train_retinanet_dataset.py exactly; the only differences are the
+torchvision model and that FCOS uses sigmoid classification with no
+reserved background label (labels stay 0-based).
+"""
 from __future__ import annotations
 
 import argparse
@@ -15,84 +20,27 @@ import numpy as np
 import torch
 import torch.nn as nn
 import yaml
-from PIL import Image
 from torch.utils.data import DataLoader, Dataset
-from torchvision.models.detection import RetinaNet_ResNet50_FPN_V2_Weights, retinanet_resnet50_fpn_v2
-from torchvision.models.detection.retinanet import RetinaNetClassificationHead
-from torchvision.transforms import functional as F
+from torchvision.models.detection import FCOS_ResNet50_FPN_Weights, fcos_resnet50_fpn
+from torchvision.models.detection.fcos import FCOSClassificationHead
 
 from topic_c.manifest import sha256_file
-
-
-def parse_yolo_rows(rows: list[str], *, width: int, height: int, label_offset: int = 1) -> tuple[torch.Tensor, torch.Tensor]:
-    boxes, labels = [], []
-    for line in rows:
-        if not line.strip():
-            continue
-        values = line.split()
-        if len(values) != 5:
-            raise ValueError("RetinaNet training requires five-column YOLO labels")
-        cls, cx, cy, bw, bh = int(values[0]), *map(float, values[1:])
-        x1, y1 = max(0.0, (cx - bw / 2) * width), max(0.0, (cy - bh / 2) * height)
-        x2, y2 = min(float(width), (cx + bw / 2) * width), min(float(height), (cy + bh / 2) * height)
-        if x2 > x1 and y2 > y1:
-            boxes.append([x1, y1, x2, y2])
-            labels.append(cls + label_offset)  # RetinaNet reserves label zero for background; FCOS does not
-    return (
-        torch.tensor(boxes, dtype=torch.float32).reshape(-1, 4),
-        torch.tensor(labels, dtype=torch.int64),
-    )
-
-
-def resolve_training_roots(dataset_root: Path, entries: list[str] | str) -> list[Path]:
-    values = [entries] if isinstance(entries, str) else list(entries)
-    if not values or not all(isinstance(item, str) for item in values):
-        raise ValueError("dataset train roots are invalid")
-    return [(Path(dataset_root) / item).resolve() for item in values]
-
-
-class YoloDetectionDataset(Dataset):
-    def __init__(self, dataset_root: Path, image_roots: list[Path], *, augment: bool, label_offset: int = 1):
-        self.dataset_root, self.augment, self.label_offset = Path(dataset_root).resolve(), augment, label_offset
-        suffixes = {".jpg", ".jpeg", ".png", ".bmp"}
-        self.images = sorted(path for root in image_roots for path in root.rglob("*") if path.suffix.lower() in suffixes)
-        if not self.images:
-            raise RuntimeError("RetinaNet dataset contains no images")
-
-    def __len__(self) -> int:
-        return len(self.images)
-
-    def __getitem__(self, index: int):
-        path = self.images[index]
-        relative = path.relative_to(self.dataset_root / "images")
-        label = (self.dataset_root / "labels" / relative).with_suffix(".txt")
-        with Image.open(path) as opened:
-            image = opened.convert("RGB")
-        width, height = image.size
-        rows = label.read_text(encoding="utf-8").splitlines() if label.is_file() else []
-        boxes, labels = parse_yolo_rows(rows, width=width, height=height, label_offset=self.label_offset)
-        tensor = F.pil_to_tensor(image).float().div_(255.0)
-        if self.augment and random.random() < 0.5:
-            tensor = F.hflip(tensor)
-            if boxes.numel():
-                old_x1 = boxes[:, 0].clone()
-                boxes[:, 0] = width - boxes[:, 2]
-                boxes[:, 2] = width - old_x1
-        return tensor, {"boxes": boxes, "labels": labels, "image_id": torch.tensor(index)}
-
-
-def collate(batch):
-    return tuple(zip(*batch))
+from train_retinanet_dataset import (
+    YoloDetectionDataset,
+    collate,
+    mean_validation_loss,
+    resolve_training_roots,
+)
 
 
 def build_model(num_classes: int, image_size: int):
-    model = retinanet_resnet50_fpn_v2(
-        weights=RetinaNet_ResNet50_FPN_V2_Weights.DEFAULT,
+    model = fcos_resnet50_fpn(
+        weights=FCOS_ResNet50_FPN_Weights.DEFAULT,
         min_size=image_size,
         max_size=image_size,
     )
-    model.head.classification_head = RetinaNetClassificationHead(
-        256, 9, num_classes + 1, norm_layer=partial(nn.GroupNorm, 32)
+    model.head.classification_head = FCOSClassificationHead(
+        256, 1, num_classes, norm_layer=partial(nn.GroupNorm, 32)
     )
     return model
 
@@ -101,17 +49,6 @@ def atomic_save(value: dict, path: Path) -> None:
     temporary = path.with_suffix(path.suffix + ".partial")
     torch.save(value, temporary)
     os.replace(temporary, path)
-
-
-def mean_validation_loss(model, loader, device) -> float:
-    model.train()
-    values = []
-    with torch.no_grad():
-        for images, targets in loader:
-            images = [image.to(device) for image in images]
-            targets = [{key: value.to(device) for key, value in target.items()} for target in targets]
-            values.append(float(sum(model(images, targets).values()).detach().cpu()))
-    return float(np.mean(values))
 
 
 def main() -> None:
@@ -139,14 +76,14 @@ def main() -> None:
     weights_dir = output / "weights"
     resume = Path(args.resume_from).resolve() if args.resume_from else None
     if registry_out.exists():
-        raise SystemExit("RETINANET TRAINING REFUSED: registry already exists")
+        raise SystemExit("FCOS TRAINING REFUSED: registry already exists")
     if output.exists() and resume is None:
-        raise SystemExit("RETINANET TRAINING REFUSED: partial output requires --resume-from")
+        raise SystemExit("FCOS TRAINING REFUSED: partial output requires --resume-from")
     if resume is not None and (resume != (weights_dir / "last.pt").resolve() or not resume.is_file()):
-        raise SystemExit("RETINANET TRAINING REFUSED: invalid resume checkpoint")
+        raise SystemExit("FCOS TRAINING REFUSED: invalid resume checkpoint")
     marker = acquisition_path.with_suffix(acquisition_path.suffix + ".complete")
     if not acquisition_path.is_file() or not marker.is_file() or marker.read_text().strip() != sha256_file(acquisition_path):
-        raise SystemExit("RETINANET TRAINING REFUSED: acquisition registry is incomplete")
+        raise SystemExit("FCOS TRAINING REFUSED: acquisition registry is incomplete")
     output.mkdir(parents=True, exist_ok=True)
     weights_dir.mkdir(exist_ok=True)
     seed = int(profile["seed"])
@@ -156,8 +93,9 @@ def main() -> None:
     num_classes = len(names) if isinstance(names, (list, dict)) else 0
     train_roots = resolve_training_roots(dataset_root, data["train"])
     val_roots = resolve_training_roots(dataset_root, data["val"])
-    train_set = YoloDetectionDataset(dataset_root, train_roots, augment=True)
-    val_set = YoloDetectionDataset(dataset_root, val_roots, augment=False)
+    # FCOS is a sigmoid detector without a reserved background label.
+    train_set = YoloDetectionDataset(dataset_root, train_roots, augment=True, label_offset=0)
+    val_set = YoloDetectionDataset(dataset_root, val_roots, augment=False, label_offset=0)
     generator = torch.Generator().manual_seed(seed)
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=workers,
                               collate_fn=collate, pin_memory=True, generator=generator, persistent_workers=workers > 0)
@@ -205,7 +143,7 @@ def main() -> None:
             )
         print(f"epoch={epoch + 1}/{epochs} train_loss={np.mean(running):.6f} validation_loss={validation_loss:.6f}", flush=True)
     record = {"schema_version": 1, "completed_at_utc": datetime.now(timezone.utc).isoformat(), "run_id": args.run_id,
-              "dataset": args.dataset, "model": "retinanet-r50-fpn-v2", "epochs": epochs, "seed": seed,
+              "dataset": args.dataset, "model": "fcos-r50-fpn", "epochs": epochs, "seed": seed,
               "profile": str(profile_path), "profile_sha256": sha256_file(profile_path), "data_yaml": str(data_path),
               "data_yaml_sha256": sha256_file(data_path), "acquisition_registry_sha256": sha256_file(acquisition_path),
               "best_weights": str(weights_dir / "best.pt"), "best_weights_sha256": sha256_file(weights_dir / "best.pt"),

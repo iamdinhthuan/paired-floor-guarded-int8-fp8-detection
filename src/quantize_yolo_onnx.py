@@ -66,7 +66,8 @@ def load_complete(path: Path, marker_field: str | None = None) -> dict:
 
 def calibration_preprocessing(decoder: str | None, requested: str = "auto", *, allow_mismatch: bool = False) -> str:
     policies = {None: "yolo_letterbox", "ultralytics_rtdetr_raw_v1": "yolo_letterbox",
-                "torchvision_retinanet_raw_v1": "retinanet_normalized"}
+                "torchvision_retinanet_raw_v1": "retinanet_normalized",
+                "torchvision_fcos_raw_v1": "retinanet_normalized"}
     if decoder not in policies:
         raise ValueError(f"unsupported calibration decoder: {decoder}")
     expected = policies[decoder]

@@ -25,7 +25,10 @@ PHASE_B = SUPPORT / "phase_b_results"
 PHASE_CD = SUPPORT / "phase_cd_results"
 PHASE_E = SUPPORT / "phase_e_q95_results"
 PHASE_F = SUPPORT / "phase_f_fold2_results"
+PHASE_G = SUPPORT / "phase_g_wa_results"
+PHASE_H = SUPPORT / "phase_h_fcos_results"
 RETINA = "retinanet_r50_fpn_v2"
+FCOS = "fcos_r50_fpn"
 
 INTERVENTION = [
     ("int8-corruptcalib512", "int8-matched512"),
@@ -162,10 +165,78 @@ def retina_stats() -> dict:
     return out
 
 
+WA_CONTRASTS = [
+    # Factorial decomposition of the regression-head localization: matched is
+    # W8/A8, wonly is W8/Afp32 (activations restored), aonly is Wfp32/A8
+    # (weights restored), selective is Wfp32/Afp32 (both restored).
+    ("int8-wonly512", "int8-matched512"),
+    ("int8-aonly512", "int8-matched512"),
+    ("int8-selective512", "int8-wonly512"),
+    ("int8-selective512", "int8-aonly512"),
+    ("int8-wonly512", "int8-aonly512"),
+    ("int8-selective512", "int8-matched512"),
+]
+
+
+def wa_stats() -> dict:
+    out = {}
+    for ds in ("kitti", "voc"):
+        wa = load_block(PHASE_B, ds, RETINA, (PHASE_G,))
+        entry = {"arms": {}, "contrasts": {}}
+        for arm in ("int8-matched512", "int8-wonly512", "int8-aonly512",
+                    "int8-selective512"):
+            if wa.has(arm, "j95"):
+                entry["arms"][arm] = {
+                    fam: wa.level(arm, fam)[0]
+                    for fam in ("j95", "corr12", "in_family", "held_out")}
+        for a, b in WA_CONTRASTS:
+            if not (wa.has(a, "j95") and wa.has(b, "j95")):
+                continue
+            entry["contrasts"][f"{a}_minus_{b}"] = {
+                "j95": wa.diff(a, b, "j95"), "corr12": wa.diff(a, b, "corr12"),
+                "deltaE": wa.delta_e(a, b),
+                "per_family_deltaE": {
+                    fam: wa.delta_e(a, b, f"fam_{fam}") for fam in
+                    ("fog", "gaussian_noise", "jpeg", "motion_blur")}}
+        out[ds] = entry
+    return out
+
+
+def fcos_stats() -> dict:
+    out = {}
+    for ds in ("kitti", "voc"):
+        blk = load_block(PHASE_H, ds, FCOS)
+        entry = {"arms": {}, "contrasts": {}}
+        for arm in ("fp32", "fp8-matched512", "int8-matched512",
+                    "int8-selective512"):
+            if blk.has(arm, "j95"):
+                entry["arms"][arm] = {
+                    fam: blk.level(arm, fam)[0]
+                    for fam in ("j95", "corr12", "in_family", "held_out")}
+        for a, b in (("fp8-matched512", "int8-matched512"),
+                     ("int8-selective512", "int8-matched512"),
+                     ("fp8-matched512", "int8-selective512"),
+                     ("fp32", "int8-selective512")):
+            if not (blk.has(a, "j95") and blk.has(b, "j95")):
+                continue
+            entry["contrasts"][f"{a}_minus_{b}"] = {
+                "j95": blk.diff(a, b, "j95"), "corr12": blk.diff(a, b, "corr12"),
+                "deltaE": blk.delta_e(a, b),
+                "per_family_deltaE": {
+                    fam: blk.delta_e(a, b, f"fam_{fam}") for fam in
+                    ("fog", "gaussian_noise", "jpeg", "motion_blur")}}
+        out[ds] = entry
+    return out
+
+
 def main() -> None:
     result = {"units": "AP points; point = full-sample plug-in; ci95/se/p from "
                        "2,000 paired common-image bootstrap resamples",
               "yolo": yolo_stats(), "retinanet": retina_stats()}
+    if (PHASE_G / "cell_points.json").is_file():
+        result["retinanet_wa"] = wa_stats()
+    if (PHASE_H / "cell_points.json").is_file():
+        result["fcos"] = fcos_stats()
     path = SUPPORT / "nn_final_stats.json"
     path.write_text(json.dumps(result, indent=2) + "\n")
     het = result["yolo"]["heterogeneity"]

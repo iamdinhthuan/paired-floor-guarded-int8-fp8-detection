@@ -53,6 +53,58 @@ def _retina_level_sizes(imgsz: int, anchors_per_location: int = 9) -> list[int]:
     return [math.ceil(imgsz / stride) ** 2 * anchors_per_location for stride in (8, 16, 32, 64, 128)]
 
 
+def _fcos_level_sizes(imgsz: int) -> list[int]:
+    return _retina_level_sizes(imgsz, anchors_per_location=1)
+
+
+def decode_fcos(cls_logits: np.ndarray, bbox_regression: np.ndarray, bbox_ctrness: np.ndarray,
+                anchors: np.ndarray, confidence: float, scale: float, resized_width: int,
+                resized_height: int, width: int, height: int, topk_candidates: int = 1000,
+                nms_threshold: float = 0.5, detections_per_image: int = 300):
+    logits = torch.from_numpy(np.asarray(cls_logits).reshape(-1, cls_logits.shape[-1])).float()
+    rel = torch.from_numpy(np.asarray(bbox_regression).reshape(-1, 4)).float()
+    ctrness = torch.from_numpy(np.asarray(bbox_ctrness).reshape(-1, 1)).float()
+    anchor_tensor = torch.from_numpy(np.asarray(anchors).reshape(-1, 4)).float()
+    sizes = _fcos_level_sizes(max(resized_width, resized_height, int(round(max(width, height) * scale))))
+    if sum(sizes) != len(anchor_tensor) or len(logits) != len(anchor_tensor) or len(rel) != len(anchor_tensor):
+        raise ValueError("FCOS output does not match the frozen FPN anchor layout")
+    all_boxes, all_scores, all_labels = [], [], []
+    offset = 0
+    for size in sizes:
+        level_scores = torch.sqrt(logits[offset:offset + size].sigmoid() * ctrness[offset:offset + size].sigmoid()).flatten()
+        keep = torch.where(level_scores > confidence)[0]
+        count = min(topk_candidates, int(keep.numel()))
+        if count:
+            scores, order = level_scores[keep].topk(count)
+            indexes = keep[order]
+            anchor_indexes = torch.div(indexes, logits.shape[1], rounding_mode="floor") + offset
+            labels = indexes % logits.shape[1]  # FCOS has no reserved background channel
+            selected_anchors, selected_rel = anchor_tensor[anchor_indexes], rel[anchor_indexes]
+            anchor_w = selected_anchors[:, 2] - selected_anchors[:, 0]
+            anchor_h = selected_anchors[:, 3] - selected_anchors[:, 1]
+            ctr_x = selected_anchors[:, 0] + 0.5 * anchor_w
+            ctr_y = selected_anchors[:, 1] + 0.5 * anchor_h
+            # torchvision BoxLinearCoder(normalize_by_size=True): distances are
+            # scaled by the anchor's w/h (an anchor stride box for FCOS).
+            l, t, r, b = (selected_rel[:, k] for k in range(4))
+            anchor_size = torch.stack((anchor_w, anchor_h, anchor_w, anchor_h), dim=1)
+            l, t, r, b = (torch.stack((l, t, r, b), dim=1) * anchor_size).unbind(dim=1)
+            boxes = torch.stack((ctr_x - l, ctr_y - t, ctr_x + r, ctr_y + b), dim=1)
+            boxes[:, 0::2].clamp_(0, resized_width)
+            boxes[:, 1::2].clamp_(0, resized_height)
+            nonempty = (boxes[:, 2] > boxes[:, 0]) & (boxes[:, 3] > boxes[:, 1])
+            all_boxes.append(boxes[nonempty]); all_scores.append(scores[nonempty]); all_labels.append(labels[nonempty])
+        offset += size
+    if not all_boxes:
+        return []
+    boxes, scores, labels = torch.cat(all_boxes), torch.cat(all_scores), torch.cat(all_labels)
+    keep = batched_nms(boxes, scores, labels, nms_threshold)[:detections_per_image]
+    boxes = boxes[keep].div_(scale); scores, labels = scores[keep], labels[keep]
+    boxes[:, 0::2].clamp_(0, width); boxes[:, 1::2].clamp_(0, height)
+    return [(float(*box[0:1]), float(*box[1:2]), float(*box[2:3]), float(*box[3:4]), float(score), int(label))
+            for box, score, label in zip(boxes, scores, labels)]
+
+
 def decode_retinanet(cls_logits: np.ndarray, bbox_regression: np.ndarray, anchors: np.ndarray,
                      confidence: float, scale: float, resized_width: int, resized_height: int,
                      width: int, height: int, topk_candidates: int = 1000,

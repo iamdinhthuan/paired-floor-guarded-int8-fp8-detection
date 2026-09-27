@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "attempt": "nn_fcos_replication_v1_20260927",
+  "design_freeze": "post-hoc replication layer registered 2026-09-27, after the paired-protocol and intervention results were known",
+  "frozen_at": "2026-09-27T00:00:00Z",
+  "purpose": "Cross-architecture replication of the RetinaNet regression-head level-deficit result on an anchor-free detector (FCOS-R50-FPN) trained, exported, quantized, and evaluated under the identical recipe bundle and frozen 14-condition protocol",
+  "execution_host": "thuan@100.111.139.103 (RTX 5090, TensorRT 11.1.0.106, tf32 off)",
+  "registration_status": "post_hoc_replication",
+  "model": "fcos-r50-fpn (torchvision fcos_resnet50_fpn, classification head replaced with num_classes logits; no background channel)",
+  "training": {
+    "profile": "configs/training/cross_family_retinanet_r50_fpn_v2_v1.json (identical hyperparameters: 100 epochs, AdamW lr 1e-4 wd 1e-4, AMP, batch 4, 640 px, seed 20260807, minimum-validation-loss selection on the same evaluation partition)",
+    "datasets": ["kitti", "voc"],
+    "runs": [
+      "fcos_r50_fpn_kitti_s20260807_v1",
+      "fcos_r50_fpn_voc_s20260807_v1"
+    ]
+  },
+  "arms": [
+    "fp32 (unquantized engine from the exported ONNX)",
+    "fp8-matched512 (entropy calibration, same 512-image clean list as RetinaNet)",
+    "int8-matched512 (entropy calibration, same 512-image clean list)",
+    "int8-selective512 (int8-entropy with --exclude-node-regex ^/head/regression_head/)"
+  ],
+  "universes": ["kitti_val (1496 images)", "voc_val (4952 images)"],
+  "conditions": "identical frozen schedule: clean-s0, codec-control-s0, {fog,gaussian_noise,jpeg,motion_blur}x{1,3,5} = 14 conditions",
+  "decoder_contract": "torchvision_fcos_raw_v1: sqrt(sigmoid cls * sigmoid ctrness) scores, BoxLinearCoder(normalize_by_size) distance decode, confidence 0.05, batched NMS IoU 0.5, at most 300 detections - the same constants as the RetinaNet decoder contract",
+  "estimands": [
+    "level gap FP8-matched minus INT8-matched on J95 clean and corrupt-mean bases (primary)",
+    "level recovery of int8-selective512 over int8-matched512 on the same bases (replication of the head-exclusion effect)",
+    "per-condition AP rows on the shared evaluation partitions"
+  ],
+  "scope_note": "FCOS is a new detector trained for this revision; its absolute AP is not claimed to match published FCOS results. The replication claim concerns only the within-recipe contrast between the matched and head-excluded INT8 arms. All four arms share the checkpoint, decoder constants, and evaluation partitions.",
+  "kill_criteria": "abort if the FCOS checkpoint fails to train (validation loss non-decreasing) or the exported ONNX fails onnx.checker / TensorRT parse"
+}
