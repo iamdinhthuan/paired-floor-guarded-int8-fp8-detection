@@ -222,7 +222,7 @@ def intervention_table(final: dict) -> str:
             if c is None:
                 continue
             cells = [fmt_ci(c[m]) for m in ("j95", "corr12", "in_family", "held_out",
-                                            "deltaE_held_out")]
+                                            "deltaE_in_family", "deltaE_held_out")]
             group.append(f"{label} & {dsname} & " + " & ".join(cells) + r" \\")
         if group:
             if emitted:
@@ -230,10 +230,10 @@ def intervention_table(final: dict) -> str:
             rows.extend(group)
             emitted += 1
     return ("\n".join([
-        r"\begin{tabular}{lllllll}",
+        r"\begin{tabular}{llllllll}",
         r"\toprule",
         r"Contrast (A $-$ B) & Dataset & $\Jclean$ clean & Corrupt mean & In-family & "
-        r"Held-out & $\Delta E_{\text{held-out}}$ \\",
+        r"Held-out & $\Delta E_{\text{in-family}}$ & $\Delta E_{\text{held-out}}$ \\",
         r"\midrule",
         *rows,
         r"\bottomrule",

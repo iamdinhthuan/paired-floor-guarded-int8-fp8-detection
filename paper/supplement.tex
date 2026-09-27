@@ -57,8 +57,8 @@ For dataset $d$, model $m$, corruption condition $c$, and a pair of treatments
 
 \begin{align}
 G_0 &= \AP_A(\Jclean) - \AP_B(\Jclean), \\
-G_c &= \overline{\AP_A(c) - \AP_B(c)} \quad\text{(equal weight over the 12 cells)}, \\
-\Delta E &= G_c - G_0 .
+G_{\mathrm{corr}} &= \overline{\AP_A(c) - \AP_B(c)} \quad\text{(equal weight over the 12 cells)}, \\
+\Delta E &= G_{\mathrm{corr}} - G_0 .
 \end{align}
 
 $\Jclean$ denotes the codec-matched clean control: the $\Jclean$ clean control
