@@ -723,6 +723,27 @@ def numbers_tex(final: dict) -> str:
                     continue
                 macros[f"{N}{F}{D}"] = _ci(iv[key][fam])
                 macros[f"{N}{F}{D}P"] = f"{iv[key][fam]['point']:+.2f}"
+        in_cells = cells["int8-matched512"]
+        j95c = in_cells["codec-control-s0"]
+        ho1 = [k for k in in_cells if k.startswith(("fog", "motion_blur"))]
+        ho2 = [k for k in in_cells if k.startswith(("gaussian", "jpeg"))]
+        r1 = sum(in_cells[k] for k in ho1) / len(ho1) / j95c
+        r2 = sum(in_cells[k] for k in ho2) / len(ho2) / j95c
+        macros[f"RetHoFm{D}"] = f"{r1:.2f}"
+        macros[f"RetHoNj{D}"] = f"{r2:.2f}"
+        cc_j = iv["int8-corruptcalib512_minus_int8-matched512"]["j95"]["point"]
+        ct_j = iv["int8-cc2calib512_minus_int8-matched512"]["j95"]["point"]
+        macros[f"PredCcHo{D}"] = f"{cc_j * r1:+.2f}"
+        macros[f"PredCtHo{D}"] = f"{ct_j * r2:+.2f}"
+        ccq = iv["int8-corruptcalib512_minus_int8-q95calib512"]
+        macros[f"ResidCcQHo{D}"] = f"{ccq['held_out']['point'] - ccq['j95']['point'] * r1:+.2f}"
+    _j = [abs(v["j95"]["point"]) for d in ("kitti", "voc")
+          for k, v in final["retinanet"][d]["intervention"].items()
+          if "_minus_int8" in k]
+    macros["IvMaxJ"] = f"{max(_j):.1f}"
+    _mac = json.loads((ROOT / "analysis" / "regression_head_macs.json").read_text())
+    _ms = [_mac["21"]["regression_head"], _mac["9"]["regression_head"]]
+    macros["RegHeadMac"] = f"{min(_ms):.1f}--{max(_ms):.1f}"
     macros["NoRegFpGap"] = f"{_phase_a_ap('pilot_v1_summary.json', 'fp32') - _phase_a_ap('recipe_v6_summary.json', 'int8_matched_except_reg_head'):.2f}"
     _retd = []
     for _ph in ("phase_b_results", "phase_cd_results",
