@@ -338,6 +338,24 @@ Third, the decomposition localizes the collapse to one model region (Table~\ref{
 
 Fourth---the confirmatory step---on the frozen paired protocol the selective arm validates the decomposition: INT8-selective matches FP8-matched within intervals that include zero on the clean control and on the 12-cell corrupt mean on KITTI (FP8 minus selective: $\Jclean$ gap \nnSelResJKitti{}, corrupt-mean gap \nnSelResCKitti{}; we note the $\Jclean$ interval, \nnSelResJKitti{}, spans over an AP point around zero, so the match is a bound rather than tight equivalence). That match is a statement about the mean, not about every family: measured on the same $\Delta E$ basis (family gap minus the $\Jclean$ gap), the selective residual widens significantly under motion blur (\nnSelFamMbKitti{}) and is null on JPEG (\nnSelFamJpegKitti{}), so family-level divergence remains. On VOC---the cleaner check---a small residual remains on both bases: FP8-matched minus selective is \nnSelResJVoc{} on the $\Jclean$ clean control and \nnSelResCVoc{} on the corrupt mean, widening under corruption ($\Delta E$ \nnSelResDEVoc{}). The regression head is therefore the dominant contributor, but not the entire mechanism on VOC.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{nn_wa_factorial.pdf}
+\caption{Operand-level factorial inside the RetinaNet regression head (post-hoc arms on the frozen paired conditions). Each group holds head weights and head activations at INT8 or fp16 independently; solid bars are codec-control clean AP and translucent bars the 12-cell corrupt mean. On both datasets the arm with INT8 weights but fp16 activations (INT8/fp16) recovers to the selective arm and the FP8-matched clean level, while the arm with fp16 weights but INT8 activations (fp16/INT8) tracks the fully quantized matched arm almost exactly: the deficit follows head \emph{activation} quantization, not head \emph{weight} quantization.}
+\label{fig:wa-factorial}
+\end{figure*}
+
+\begin{table}[t]
+\centering
+\caption{The $2{\times}2$ factorial of Table~\ref{tab:retinanet}'s regression-head exclusion, decomposed by operand (post-hoc arms; $\Jclean$ intervals vs the INT8/INT8 matched arm at 95\%, paired bootstrap). ``$\Jclean$ vs W8A8'' is the clean-level contrast to the matched arm. Non-quantized operands compute in fp16 under the INT8 engine's fp16 fallback.}
+\label{tab:wa-factorial}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{generated/nn_wa_factorial.tex}}
+\end{table}
+
+Fifth, the operand factorial (Section~\ref{sec:wa-fcos-design}; Fig.~\ref{fig:wa-factorial}, Table~\ref{tab:wa-factorial}) pins the deficit to a single operand class. Restoring only the head's \emph{activations} to fp16 while leaving head weights in INT8 recovers the collapse almost exactly: $\Jclean$ rises to \nnWaWoJKitti{} AP on KITTI and \nnWaWoJVoc{} on VOC (\nnWaSelRecKitti\% and \nnWaSelRecVoc\% of the matched-to-selective gap respectively), and the residual to full head exclusion is sub-0.1-AP in magnitude (selective minus W-only \nnWaSelWoJdiffKitti{} on KITTI, \nnWaSelWoJdiffVoc{} on VOC---the KITTI interval just excludes zero, so a bounded residual edge to the full-exclusion arm cannot be ruled out). The complementary arm---fp16 head weights over INT8 head activations---changes nothing: a clean-level contrast to the matched arm of \nnWaAoJdiffKitti{} on KITTI and \nnWaAoJdiffVoc{} on VOC, both intervals enclosing zero, and the same null repeats on the corrupt mean ($\Delta E$ \nnWaAoDEKitti{} KITTI, \nnWaAoDEVoc{} VOC). The head localization is therefore sharper than a region statement: within this recipe the failure is an \emph{activation}-quantization phenomenon of the regression head, with INT8 storage of the head weights contributing no measurable penalty at bootstrap resolution. This operand attribution also suggests why matched FP8 does not fail---its E4M3 exponent range tolerates the head's activation distribution tails that INT8's fixed-point grid cannot represent---though that mechanism link is interpretive, not separately randomized.
+
 A corruption-severity boundary is also shared across precisions (Fig.~\ref{fig:severity}): at motion-blur severity 5 all matched-protocol arms drop to below 6 AP on both datasets---KITTI: FP32 $\nnWallFpKitti$, FP8-matched $\nnWallFeKitti$, INT8-matched $\nnWallInKitti$, selective $\nnWallSelKitti$; VOC: $\nnWallFpVoc$/$\nnWallFeVoc$/$\nnWallInVoc$/$\nnWallSelVoc$ in the same order---FP32 included. That cell measures a common failure wall, not an INT8-specific deficit, and its equal weight in the corrupt mean compresses all contrasts built on it; the leave-one-out sensitivity removes it without changing any frozen-criterion verdict (two secondary codec-control contrasts do move across the zero boundary on VOC; Supplement~S8).
 
 \subsection{Corruption-aware calibration is itself context-dependent}

@@ -870,7 +870,8 @@ def numbers_tex(final: dict) -> str:
                 macros[f"Wa{S}C{D}"] = f"{lv['corr12']:.2f}"
             for key, S in (("int8-wonly512_minus_int8-matched512", "Wo"),
                            ("int8-aonly512_minus_int8-matched512", "Ao"),
-                           ("int8-wonly512_minus_int8-aonly512", "WoAo")):
+                           ("int8-wonly512_minus_int8-aonly512", "WoAo"),
+                           ("int8-selective512_minus_int8-wonly512", "SelWo")):
                 c = entry["contrasts"].get(key)
                 if c:
                     macros[f"Wa{S}Jdiff{D}"] = _ci(c["j95"])

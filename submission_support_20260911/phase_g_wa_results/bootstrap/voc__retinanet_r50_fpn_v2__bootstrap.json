@@ -1,0 +1,329 @@
+{
+  "dataset": "voc",
+  "model": "retinanet_r50_fpn_v2",
+  "n_images": 4952,
+  "n_boot": 2000,
+  "seed": 4081049535,
+  "draw_cache_sha256": "6ff70be20f4fd82ce674230d766e5bada079470ed07539c2d0709504675e9903",
+  "cells": [
+    {
+      "arm": "int8-matched512",
+      "condition": "clean-s0",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__clean-s0"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "codec-control-s0",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__codec-control-s0"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "fog-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__fog-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "fog-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__fog-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "fog-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__fog-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "gaussian_noise-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__gaussian_noise-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "gaussian_noise-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__gaussian_noise-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "gaussian_noise-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__gaussian_noise-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "jpeg-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__jpeg-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "jpeg-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__jpeg-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "jpeg-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__jpeg-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "motion_blur-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__motion_blur-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "motion_blur-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__motion_blur-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "motion_blur-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-matched512__motion_blur-s5"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "clean-s0",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__clean-s0"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "codec-control-s0",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__codec-control-s0"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "fog-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__fog-s1"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "fog-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__fog-s3"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "fog-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__fog-s5"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "gaussian_noise-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__gaussian_noise-s1"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "gaussian_noise-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__gaussian_noise-s3"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "gaussian_noise-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__gaussian_noise-s5"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "jpeg-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__jpeg-s1"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "jpeg-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__jpeg-s3"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "jpeg-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__jpeg-s5"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "motion_blur-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__motion_blur-s1"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "motion_blur-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__motion_blur-s3"
+    },
+    {
+      "arm": "int8-wonly512",
+      "condition": "motion_blur-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-wonly512__motion_blur-s5"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "clean-s0",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__clean-s0"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "codec-control-s0",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__codec-control-s0"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "fog-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__fog-s1"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "fog-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__fog-s3"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "fog-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__fog-s5"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "gaussian_noise-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__gaussian_noise-s1"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "gaussian_noise-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__gaussian_noise-s3"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "gaussian_noise-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__gaussian_noise-s5"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "jpeg-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__jpeg-s1"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "jpeg-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__jpeg-s3"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "jpeg-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__jpeg-s5"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "motion_blur-s1",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__motion_blur-s1"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "motion_blur-s3",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__motion_blur-s3"
+    },
+    {
+      "arm": "int8-aonly512",
+      "condition": "motion_blur-s5",
+      "stem": "voc_val__retinanet_r50_fpn_v2__int8-aonly512__motion_blur-s5"
+    }
+  ],
+  "arms": {
+    "int8-matched512": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.5330369130743923,
+      "clean_q95_ap": 0.5318041283479649,
+      "corrupted_mean_ap": 0.38706281393934255,
+      "ci95_clean": [
+        0.5256511223743869,
+        0.5347910380332594,
+        0.5442657250826837
+      ],
+      "ci95_corr_mean": [
+        0.38116247166447514,
+        0.3889456458202553,
+        0.39668242087149097
+      ]
+    },
+    "int8-wonly512": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.55896042950253,
+      "clean_q95_ap": 0.5588002948870486,
+      "corrupted_mean_ap": 0.4053390055659299,
+      "ci95_clean": [
+        0.5515736731157853,
+        0.5608805814542778,
+        0.5703315381901689
+      ],
+      "ci95_corr_mean": [
+        0.3995152734513257,
+        0.40728703859202964,
+        0.41516336195260395
+      ]
+    },
+    "int8-aonly512": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.5336415185485165,
+      "clean_q95_ap": 0.5318670159955547,
+      "corrupted_mean_ap": 0.3868449160126326,
+      "ci95_clean": [
+        0.5260999514828967,
+        0.5354357544825825,
+        0.5451730018100147
+      ],
+      "ci95_corr_mean": [
+        0.3809408468429774,
+        0.3887202813065066,
+        0.396389268624127
+      ]
+    }
+  },
+  "contrasts": {
+    "int8-wonly512_minus_int8-matched512": {
+      "basis": "q95",
+      "G0": [
+        0.024640123164600868,
+        0.02699183766622454,
+        0.029553184702117718
+      ],
+      "Gc": [
+        0.016922970075534588,
+        0.018282027168737836,
+        0.019800186567626207
+      ],
+      "deltaE": [
+        -0.010325360191666529,
+        -0.00870562052216034,
+        -0.0070411689294009655
+      ],
+      "point_deltaE": -0.008697079824342275
+    },
+    "int8-aonly512_minus_int8-matched512": {
+      "basis": "q95",
+      "G0": [
+        -0.0008029453067462972,
+        4.996349821390078e-05,
+        0.0010018267405079578
+      ],
+      "Gc": [
+        -0.00045236954531642504,
+        -0.00021903453491436964,
+        1.1049369921246848e-05
+      ],
+      "deltaE": [
+        -0.0012512385092265002,
+        -0.0002599332174788582,
+        0.000628513355368021
+      ],
+      "point_deltaE": -0.0002765069309051814
+    },
+    "int8-wonly512_minus_int8-aonly512": {
+      "basis": "q95",
+      "G0": [
+        0.024471176744093194,
+        0.026927649703392453,
+        0.02957370817015194
+      ],
+      "Gc": [
+        0.01715196525237811,
+        0.018502902261117588,
+        0.01998948556182727
+      ],
+      "deltaE": [
+        -0.01009130263967614,
+        -0.008421394802729243,
+        -0.006741907642312582
+      ],
+      "point_deltaE": -0.008420572893437093
+    }
+  }
+}

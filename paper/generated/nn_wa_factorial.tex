@@ -1,0 +1,15 @@
+\begin{tabular}{lllllll}
+\toprule
+Dataset & Head weights & Head acts. & $\Jclean$ & Corrupt mean & Retention & $\Jclean$ vs W8A8 \\
+\midrule
+KITTI & INT8 & INT8 & 28.18 & 20.37 & 0.72 & -- \\
+ & INT8 & fp16 & 49.44 & 36.52 & 0.74 & $+21.25$\sigstar $[+19.88,\,+22.69]$ \\
+ & fp16 & INT8 & 28.14 & 20.36 & 0.72 & $-0.04$ $[-0.20,\,+0.11]$ \\
+ & fp16 & fp16 & 49.53 & 36.58 & 0.74 & $+21.35$\sigstar $[+19.95,\,+22.81]$ \\
+\addlinespace[4pt]
+VOC & INT8 & INT8 & 53.18 & 38.71 & 0.73 & -- \\
+ & INT8 & fp16 & 55.88 & 40.53 & 0.73 & $+2.70$\sigstar $[+2.46,\,+2.96]$ \\
+ & fp16 & INT8 & 53.19 & 38.68 & 0.73 & $+0.01$ $[-0.08,\,+0.10]$ \\
+ & fp16 & fp16 & 55.79 & 40.52 & 0.73 & $+2.61$\sigstar $[+2.37,\,+2.88]$ \\
+\bottomrule
+\end{tabular}
