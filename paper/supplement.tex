@@ -117,8 +117,34 @@ INT8-corruptcalib & INT8 & full graph & fold-1 corruptions (noise, JPEG), 512 im
 INT8-sel-corruptcalib & INT8 & selective & in-family corruptions, 512 images \\
 INT8-cc2calib & INT8 & full graph & fold-2 corruptions (fog, motion blur), 512 images \\
 INT8-sel-cc2calib & INT8 & selective & fold-2 corruptions, 512 images \\
+INT8-wonly & INT8 & full graph; head \emph{acts.}\ fp16 & clean, 512 images \\
+INT8-aonly & INT8 & full graph; head \emph{weights} fp16 & clean, 512 images \\
 \midrule
 FP8-legacy & FP8 & full graph & pre-study build (context only) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The W-only and A-only arms are post-hoc QDQ-graph rewires of the frozen
+INT8-matched graph (Section~3.7 of the main text): under the TensorRT
+\texttt{int8-entropy} build policy every non-quantized operation executes in
+fp16, so the restored operand computes in fp16 rather than literal fp32, and
+the bypassed head weight initializers are themselves fp16 tensors.
+
+\begin{table}[h]
+\centering\small
+\caption{FCOS-R50-FPN replication arm registry. The selective exclusion regex
+\texttt{\^{}/head/regression\_head/} covers the regression tower and the
+\texttt{bbox\_ctrness} output. Calibration identical to the RetinaNet matched
+recipe.}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Arm & Precision & Quantized sites & Calibration input \\
+\midrule
+FP32 & FP32 & none & --- \\
+FP8-matched & FP8 & full graph & clean, matched preprocessing \\
+INT8-matched & INT8 & full graph & clean, 512 images \\
+INT8-selective & INT8 & all except regression tower & clean, 512 images \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -149,7 +175,12 @@ official pretrained checkpoint without a dataset fine-tune; the torchvision
 RetinaNet-R50-FPN-v2 model is fine-tuned per dataset for 100 epochs at
 640-pixel input (learning rate $10^{-4}$, weight decay $10^{-4}$,
 deterministic seed 20260807), selecting the best checkpoint by minimum
-validation loss on the same evaluation partition. Per-run training
+validation loss on the same evaluation partition. FCOS-R50-FPN is trained
+under the same profile and checkpoint rule; on VOC the FCOS training loss
+diverged to NaN after epoch~70, and the selected \texttt{best.pt} is the
+pre-divergence epoch-67 checkpoint by the same minimum-validation-loss rule
+(training-loss divergence after the selection point does not affect which
+checkpoint is exported). Per-run training
 manifests are hash-bound; the evaluation-partition overlap is a disclosed
 selection caveat (see the main text's limitations). The frozen condition schedule is
 14 conditions per arm; the RetinaNet FP32 and legacy arms predate codec
