@@ -877,13 +877,19 @@ def numbers_tex(final: dict) -> str:
                     macros[f"Wa{S}Jdiff{D}"] = _ci(c["j95"])
                     macros[f"Wa{S}JdiffP{D}"] = f"{c['j95']['point']:+.2f}"
                     macros[f"Wa{S}DE{D}"] = _ci(c["deltaE"])
+            ix = entry["contrasts"].get("operand_interaction")
+            if ix:
+                macros[f"WaIxJ{D}"] = _ci(ix["j95"])
+                macros[f"WaIxC{D}"] = _ci(ix["corr12"])
             matched_j = entry["arms"]["int8-matched512"]["j95"]
+            sel_j = entry["arms"]["int8-selective512"]["j95"]
             fp8_gap = final["retinanet"][ds]["phase_b"][
                 "fp8-matched512_minus_int8-matched512"]["j95"]["point"]
             for arm, S in (("int8-wonly512", "Wo"), ("int8-aonly512", "Ao"),
                            ("int8-selective512", "Sel")):
                 rec = (entry["arms"][arm]["j95"] - matched_j) / fp8_gap
                 macros[f"Wa{S}Rec{D}"] = f"{100 * rec:.0f}"
+                macros[f"Wa{S}SelGap{D}"] = f"{100 * (entry['arms'][arm]['j95'] - matched_j) / (sel_j - matched_j):.0f}"
     if "fcos" in final:
         for ds, D in (("kitti", "Kitti"), ("voc", "Voc")):
             fc = final["fcos"][ds]["contrasts"]

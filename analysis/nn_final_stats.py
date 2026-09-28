@@ -17,7 +17,7 @@ from pathlib import Path
 import numpy as np
 from scipy import stats
 
-from nn_contrasts import load_block
+from nn_contrasts import load_block, summarize
 
 REPO = Path(__file__).resolve().parents[1]
 SUPPORT = REPO / "submission_support_20260911"
@@ -198,6 +198,18 @@ def wa_stats() -> dict:
                 "per_family_deltaE": {
                     fam: wa.delta_e(a, b, f"fam_{fam}") for fam in
                     ("fog", "gaussian_noise", "jpeg", "motion_blur")}}
+        if all(wa.has(a, "j95") for a in
+               ("int8-matched512", "int8-wonly512", "int8-aonly512",
+                "int8-selective512")):
+            inter = {}
+            for fam in ("j95", "corr12"):
+                pts, drw = zip(*(wa.level(a, fam) for a in
+                                 ("int8-selective512", "int8-wonly512",
+                                  "int8-aonly512", "int8-matched512")))
+                inter[fam] = summarize(
+                    pts[0] - pts[1] - pts[2] + pts[3],
+                    drw[0] - drw[1] - drw[2] + drw[3])
+            entry["contrasts"]["operand_interaction"] = inter
         out[ds] = entry
     return out
 
