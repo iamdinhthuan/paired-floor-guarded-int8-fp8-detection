@@ -180,14 +180,16 @@ official pretrained checkpoint without a dataset fine-tune; the torchvision
 RetinaNet-R50-FPN-v2 model is fine-tuned per dataset for 100 epochs at
 640-pixel input (learning rate $10^{-4}$, weight decay $10^{-4}$,
 deterministic seed 20260807), selecting the best checkpoint by minimum
-validation loss on the same evaluation partition. All four RetinaNet/FCOS
+validation loss on the same evaluation partition. FCOS-R50-FPN is trained
+under the same profile and checkpoint rule. All four RetinaNet/FCOS
 selected checkpoints are early picks: run-log epochs 21 (KITTI) and 5 (VOC)
 for RetinaNet, 14 (KITTI) and 10 (VOC) for FCOS
 (epoch counts here are the run log's 1-indexed values; the checkpoints
-store the same point 0-indexed). The YOLO11 models instead select late
-best-fitness checkpoints (run epochs 65--100) under Ultralytics' own rule.
-FCOS-R50-FPN is trained
-under the same profile and checkpoint rule; KITTI completed all 100
+store the same point 0-indexed). The KITTI/VOC YOLO11 models instead select
+late best-fitness checkpoints (run epochs 65--100; recorded in
+\texttt{phase\_a\_arms/training/yolo11\_best\_fitness\_epochs.json})
+under Ultralytics' own rule, and the COCO YOLO11 models are the official
+pretrained weights with no study-side selection. Both FCOS runs completed all 100
 scheduled epochs. On VOC the FCOS training loss diverged to NaN at epoch~70
 (validation loss stayed finite through epoch~92, then also diverged); the
 epoch-10 selection point predates the divergence by 60 epochs, and no

@@ -602,5 +602,6 @@
    "train_loss": "nan",
    "validation_loss": "nan"
   }
- ]
+ ],
+ "source_log_sha256": "0d7bc7cf1665102ba7a5acdd3631d236448378cd98cbc702dffefb650f383ab3"
 }

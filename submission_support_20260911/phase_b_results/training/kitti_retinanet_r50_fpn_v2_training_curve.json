@@ -602,5 +602,6 @@
    "train_loss": "0.057865",
    "validation_loss": "0.315794"
   }
- ]
+ ],
+ "source_log_sha256": "b34d2346e3758ca3ff565a36472137b5ff66bd1327c79012359b3b1458fce35d"
 }

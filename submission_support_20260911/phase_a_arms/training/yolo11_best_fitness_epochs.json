@@ -1,0 +1,11 @@
+{
+ "derivation": "argmax over results.csv of ultralytics fitness = 0.1*mAP50 + 0.9*mAP50-95; epochs are 1-indexed run-log rows",
+ "epochs": {
+  "kitti_yolo11n_train_v1": 100,
+  "kitti_yolo11m_train_v1": 91,
+  "kitti_yolo11x_train_v1": 89,
+  "voc_yolo11n_train_v1": 99,
+  "voc_yolo11m_train_v1": 65,
+  "voc_yolo11x_train_v1": 67
+ }
+}
