@@ -180,18 +180,20 @@ official pretrained checkpoint without a dataset fine-tune; the torchvision
 RetinaNet-R50-FPN-v2 model is fine-tuned per dataset for 100 epochs at
 640-pixel input (learning rate $10^{-4}$, weight decay $10^{-4}$,
 deterministic seed 20260807), selecting the best checkpoint by minimum
-validation loss on the same evaluation partition. FCOS-R50-FPN is trained
-under the same profile and checkpoint rule; KITTI completed all 100
+validation loss on the same evaluation partition. All selected checkpoints
+are early picks: run-log epochs 21 (KITTI) and 5 (VOC) for RetinaNet
+(epoch counts here are the run log's 1-indexed values; the checkpoints
+store the same point 0-indexed). FCOS-R50-FPN is trained
+under the same profile and checkpoint rule, selecting epochs 14 (KITTI)
+and 10 (VOC); KITTI completed all 100
 scheduled epochs. On VOC the FCOS training loss diverged to NaN at epoch~70
-(validation loss stayed finite through epoch~92, then also diverged), and
-the selected \texttt{best.pt} is the pre-divergence epoch-67 checkpoint
-(run-log indexing, which prints 1-indexed epochs; the checkpoint stores the
-same point 0-indexed) by the same minimum-validation-loss rule (the divergence postdates the
-selection point, so under the same rule the epoch-67 checkpoint is the one
-exported---though absent the divergence a later minimum might have
-supplanted it; the hash-bound training manifest records the schedule and
-selection rule but not the loss history, so the divergence epochs come
-from the retained run log rather than the manifest). Per-run training
+(validation loss stayed finite through epoch~92, then also diverged); the
+epoch-10 selection point predates the divergence by 60 epochs, and no
+intervening epoch beat its validation minimum, so the divergence did not
+affect which checkpoint was exported (the hash-bound training manifest
+records the schedule and selection rule but not the loss history; the
+divergence and selected-epoch details come from the retained run log and
+the checkpoint's stored epoch field). Per-run training
 manifests are hash-bound; the evaluation-partition overlap is a disclosed
 selection caveat (see the main text's limitations). The frozen condition schedule is
 14 conditions per arm; the RetinaNet FP32 and legacy arms predate codec
