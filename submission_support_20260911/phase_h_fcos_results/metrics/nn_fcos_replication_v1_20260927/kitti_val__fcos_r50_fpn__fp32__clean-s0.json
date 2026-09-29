@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__fcos_r50_fpn__fp32__clean-s0",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "fcos-r50-fpn",
+  "precision": "fp32",
+  "corruption": "clean",
+  "severity": 0,
+  "n_images": 1496,
+  "stats": {
+    "AP": 0.47593066574081966,
+    "AP50": 0.7887001812494948,
+    "AP75": 0.5032508619550544,
+    "AP_small": 0.32477266044486885,
+    "AP_medium": 0.4737781267516632,
+    "AP_large": 0.5546454033955937,
+    "AR1": 0.36700753170226785,
+    "AR10": 0.5678788204689742,
+    "AR100": 0.5793095775571188,
+    "AR_small": 0.40821391251051314,
+    "AR_medium": 0.5697607700094425,
+    "AR_large": 0.6662499647778473
+  },
+  "prediction_sha256": "0979993859fb5d29981afca99d975daa4b727b6294a429c4145d2a3012f0ca98",
+  "input_manifest_sha256": "clean-root:79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "run_record_sha256": "af342c7aba94c592833e4f55905d645c273df718079ad0073de96f7a69b9ae70"
+}

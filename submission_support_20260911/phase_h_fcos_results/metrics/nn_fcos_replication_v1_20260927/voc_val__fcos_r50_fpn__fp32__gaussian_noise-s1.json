@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__fcos_r50_fpn__fp32__gaussian_noise-s1",
+  "dataset": "voc",
+  "split": "val",
+  "model": "fcos-r50-fpn",
+  "precision": "fp32",
+  "corruption": "gaussian_noise",
+  "severity": 1,
+  "n_images": 4952,
+  "stats": {
+    "AP": 0.4647471963011646,
+    "AP50": 0.7071233093430896,
+    "AP75": 0.49712811002175666,
+    "AP_small": 0.21325194679617415,
+    "AP_medium": 0.3010530091592824,
+    "AP_large": 0.5229044656209182,
+    "AR1": 0.43998388711500797,
+    "AR10": 0.6438245769583477,
+    "AR100": 0.6696077812259368,
+    "AR_small": 0.430648245493327,
+    "AR_medium": 0.5749121428604748,
+    "AR_large": 0.7074754522022129
+  },
+  "prediction_sha256": "2120237439108c09aa49c4f31c0fbc0dac4195cf450eda7a2ef4cc9eb267dc9b",
+  "input_manifest_sha256": "a4227bc033155c86bd0f900fe6531b4ae235659d52fa8dccdb28d959ae6926d3",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "run_record_sha256": "826ed1e7fbcd8d162e57998b3b233f7998cc4988068afcbb6d74ba6ad0817e09"
+}

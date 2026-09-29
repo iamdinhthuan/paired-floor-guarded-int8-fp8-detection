@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-28T08:57:22.384931+00:00",
+  "dataset": "voc",
+  "model": "fcos-r50-fpn",
+  "training_registry": "/home/thuan/topic_c_ivc/manifests/training/voc_fcos_r50_fpn_s20260807_v1.json",
+  "training_registry_sha256": "70c499a9413eb46360cbb199494aba496236daf01f392b879daa469e1ecf5c48",
+  "source_checkpoint": "/home/thuan/topic_c_ivc/outputs/training/voc/fcos_r50_fpn_voc_s20260807_v1/weights/best.pt",
+  "source_checkpoint_sha256": "0533bc3883f2326148884544ce9ff42a52904fef5063376faef373b2d6fe02de",
+  "onnx": "/home/thuan/topic_c_ivc/outputs/nn_fcos_replication_v1_20260927/engines/voc_fcos_fp32/model.onnx",
+  "onnx_sha256": "ceb85cfc62212ce841a9c4f697ecfcecf5ff91f45bf4842e581428360b28c75f",
+  "imgsz": 640,
+  "num_classes_excluding_background": 20,
+  "opset": 19,
+  "dynamic": false,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "bbox_ctrness",
+    "anchors"
+  ],
+  "decoder": "torchvision_fcos_raw_v1"
+}

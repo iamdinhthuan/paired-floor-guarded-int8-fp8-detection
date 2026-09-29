@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__fcos_r50_fpn__int8-selective512__motion_blur-s3",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "fcos-r50-fpn",
+  "precision": "int8-entropy",
+  "corruption": "motion_blur",
+  "severity": 3,
+  "n_images": 1496,
+  "stats": {
+    "AP": 0.13110434132274432,
+    "AP50": 0.263000482590065,
+    "AP75": 0.11386844574364284,
+    "AP_small": 0.033242648924992776,
+    "AP_medium": 0.10207379673732402,
+    "AP_large": 0.24165786763310862,
+    "AR1": 0.1476969171808485,
+    "AR10": 0.26010296067093447,
+    "AR100": 0.2948867220661052,
+    "AR_small": 0.13150408571798092,
+    "AR_medium": 0.2445567303715282,
+    "AR_large": 0.4773675511720977
+  },
+  "prediction_sha256": "02b8806040d8a03878bc1851570301877eda501bd8156500a2e8d478b28737aa",
+  "input_manifest_sha256": "611f4bda564e410f4789a27d3ccf85206291a8f10bdcd11e39f5501a787e45c4",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "run_record_sha256": "489ad12f028d2c5ebdc675cfb8596976f06df92b840a754085c3b4cda201192b"
+}

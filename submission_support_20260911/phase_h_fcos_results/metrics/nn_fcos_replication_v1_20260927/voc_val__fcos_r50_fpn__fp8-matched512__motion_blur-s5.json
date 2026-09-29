@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__fcos_r50_fpn__fp8-matched512__motion_blur-s5",
+  "dataset": "voc",
+  "split": "val",
+  "model": "fcos-r50-fpn",
+  "precision": "fp8",
+  "corruption": "motion_blur",
+  "severity": 5,
+  "n_images": 4952,
+  "stats": {
+    "AP": 0.046917104655133095,
+    "AP50": 0.09041929283149576,
+    "AP75": 0.04328609162041135,
+    "AP_small": 0.00128680151738989,
+    "AP_medium": 0.010240889772635714,
+    "AP_large": 0.0640640848784991,
+    "AR1": 0.15903508336331165,
+    "AR10": 0.2734305719477845,
+    "AR100": 0.2982922621728838,
+    "AR_small": 0.004203152046552335,
+    "AR_medium": 0.09880299514915877,
+    "AR_large": 0.3810028751561864
+  },
+  "prediction_sha256": "a323d2eb9661bc237d64e18fd0dd3cfbe0d74b16bd240d9bfc42346896f5f4e1",
+  "input_manifest_sha256": "76b5164a7f27eabffb8a0cfad0d3f275f668b420d9067a3fb5cb93049a97c626",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "run_record_sha256": "1aba0e4ecca97d5898fafea8f0a7f4a37f96abef942c8a449aa99338d6a2a050"
+}

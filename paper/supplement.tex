@@ -135,7 +135,10 @@ the bypassed head weight initializers are themselves fp16 tensors.
 \centering\small
 \caption{FCOS-R50-FPN replication arm registry. The selective exclusion regex
 \texttt{\^{}/head/regression\_head/} covers the regression tower and the
-\texttt{bbox\_ctrness} output. Calibration identical to the RetinaNet matched
+\texttt{bbox\_ctrness} output, so the selective arm also dequantizes
+centerness---because the score is $\sqrt{\sigma(\mathrm{cls})\cdot\sigma(\mathrm{ctr})}$,
+the intervention is not treatment-identical to the RetinaNet selective arm,
+which touches regression outputs only. Calibration identical to the RetinaNet matched
 recipe.}
 \begin{tabular}{@{}llll@{}}
 \toprule
@@ -163,7 +166,9 @@ the RetinaNet quantization arms built for this study use the TensorRT Python
 builder with TF32 disabled, while the RetinaNet FP32 reference and the
 FP8/INT8-legacy arms are pre-study \texttt{trtexec} builds with TF32 enabled
 (the $\Delta E$ contrasts only join quantized arms built under the same
-policy).
+policy); the four FCOS arms, FP32 included, are TensorRT Python builder
+builds with TF32 disabled, so the FCOS block is internally policy-matched
+but not builder-identical to the pre-study YOLO11 engines.
 Calibration and evaluation images are disjoint. Checkpoints are one per
 dataset$\times$model cell, and their selection provenance is disclosed: the
 KITTI and VOC YOLO11n/m/x models were fine-tuned from Ultralytics pretrained
@@ -176,11 +181,13 @@ RetinaNet-R50-FPN-v2 model is fine-tuned per dataset for 100 epochs at
 640-pixel input (learning rate $10^{-4}$, weight decay $10^{-4}$,
 deterministic seed 20260807), selecting the best checkpoint by minimum
 validation loss on the same evaluation partition. FCOS-R50-FPN is trained
-under the same profile and checkpoint rule; on VOC the FCOS training loss
-diverged to NaN after epoch~70, and the selected \texttt{best.pt} is the
-pre-divergence epoch-67 checkpoint by the same minimum-validation-loss rule
-(training-loss divergence after the selection point does not affect which
-checkpoint is exported). Per-run training
+under the same profile and checkpoint rule; KITTI completed all 100
+scheduled epochs. On VOC the FCOS training loss diverged to NaN at epoch~70
+(validation loss stayed finite through epoch~92, then also diverged), and
+the selected \texttt{best.pt} is the pre-divergence epoch-67 checkpoint by
+the same minimum-validation-loss rule (the divergence postdates the
+selection point, so it does not change which checkpoint is exported; its
+cost is only that the VOC model saw fewer effective optimization steps). Per-run training
 manifests are hash-bound; the evaluation-partition overlap is a disclosed
 selection caveat (see the main text's limitations). The frozen condition schedule is
 14 conditions per arm; the RetinaNet FP32 and legacy arms predate codec
@@ -193,10 +200,15 @@ class-wise NMS at IoU 0.7, at most 300 detections. RetinaNet blocks: 640-pixel
 letterbox input, confidence threshold 0.05, batched NMS at IoU 0.5, at most
 300 detections. FCOS blocks: 640-pixel letterbox input, confidence threshold
 0.05 on the centerness-weighted score, at most 1,000 pre-NMS candidates per
-feature level, batched NMS at IoU 0.5, at most 300 detections---the
-torchvision reference post-processing, reimplemented for raw engine outputs
-and validated detection-for-detection against it (maximum box deviation
-$3.1{\times}10^{-5}$~px). All evaluations use the COCO protocol via
+feature level, batched NMS at IoU 0.5, at most 300 detections. These are the
+study's frozen cross-family constants, not torchvision's FCOS defaults
+(score threshold 0.2, NMS IoU 0.6, 100 detections per image); the decoder is
+a reimplementation of torchvision's post-processing---which also drops no
+background class, FCOS emitting one score per class rather than
+RetinaNet's background-inclusive logits---validated detection-for-detection
+against torchvision's own pipeline on 32 seeded images
+(\texttt{phase\_h\_fcos\_results/decoder\_validation.json}: 9,600
+detections, maximum box and score deviation exactly zero). All evaluations use the COCO protocol via
 \texttt{pycocotools} with \texttt{maxDets=100}; VOC and KITTI annotations were
 converted once to COCO format and frozen. Decoder constants differ across
 families and are held fixed within each; cross-family comparisons are
@@ -357,7 +369,10 @@ regression head (W-only and A-only rewires of the frozen matched graph) and
 the FCOS-R50-FPN replication: both were designed and executed after the
 frozen paired results were known, are evaluated on the same condition
 schedule with the same paired bootstrap estimand, and are reported as
-confirmatory-adjacent rather than frozen evidence.
+confirmatory-adjacent rather than frozen evidence. The FCOS phase package
+ships its own provenance (per-engine build manifests, quantized-ONNX
+manifests, per-run training manifests, and the decoder-validation record
+above) under \texttt{phase\_h\_fcos\_results/}.
 
 \section{Artifact and audit boundary}
 

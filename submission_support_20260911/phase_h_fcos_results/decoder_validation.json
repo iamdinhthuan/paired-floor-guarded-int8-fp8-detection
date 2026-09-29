@@ -1,0 +1,17 @@
+{
+  "constants": {
+    "confidence": 0.05,
+    "nms_iou": 0.5,
+    "topk_per_level": 1000,
+    "max_detections": 300
+  },
+  "torchvision": "0.21.0+cu124",
+  "n_images": 32,
+  "img_size": 640,
+  "num_classes": 8,
+  "seed": 20260927,
+  "matched_detection_sets": 32,
+  "max_box_deviation_px": 0.0,
+  "max_score_deviation": 0.0,
+  "total_detections": 9600
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__fcos_r50_fpn__fp8-matched512__jpeg-s5",
+  "dataset": "voc",
+  "split": "val",
+  "model": "fcos-r50-fpn",
+  "precision": "fp8",
+  "corruption": "jpeg",
+  "severity": 5,
+  "n_images": 4952,
+  "stats": {
+    "AP": 0.2858114716045039,
+    "AP50": 0.47204170702228265,
+    "AP75": 0.2925394275544315,
+    "AP_small": 0.11824346719344198,
+    "AP_medium": 0.2000677389471999,
+    "AP_large": 0.32670641906331394,
+    "AR1": 0.31847999399861615,
+    "AR10": 0.5215750280002912,
+    "AR100": 0.5592412789833893,
+    "AR_small": 0.327198539384474,
+    "AR_medium": 0.4812214961140049,
+    "AR_large": 0.5923447723247426
+  },
+  "prediction_sha256": "041bed4279bfeaad3a7250ebe32a47c28f7b999eee2f9d3bfe21fa36bb19ac3b",
+  "input_manifest_sha256": "352f4027a146097cc9836217d7a80d466e783728bb0e6addb314b0aa8700ed62",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "run_record_sha256": "6fa9e6ccb3cd14197b650e8b31f543b3eca85da2a9b2da034551daa9f3575aa8"
+}

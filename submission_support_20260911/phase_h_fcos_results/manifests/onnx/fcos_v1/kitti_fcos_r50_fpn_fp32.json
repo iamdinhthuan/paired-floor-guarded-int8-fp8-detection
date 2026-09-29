@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-28T08:57:16.398942+00:00",
+  "dataset": "kitti",
+  "model": "fcos-r50-fpn",
+  "training_registry": "/home/thuan/topic_c_ivc/manifests/training/kitti_fcos_r50_fpn_s20260807_v1.json",
+  "training_registry_sha256": "134f9b9e50d13488f254f54aad6906537cb650eb17ea39f456fc577da3acc23d",
+  "source_checkpoint": "/home/thuan/topic_c_ivc/outputs/training/kitti/fcos_r50_fpn_kitti_s20260807_v1/weights/best.pt",
+  "source_checkpoint_sha256": "113e3716e383092a429452104ad08ca09703c45bd3b66a5c0cbc2c234af6607a",
+  "onnx": "/home/thuan/topic_c_ivc/outputs/nn_fcos_replication_v1_20260927/engines/kitti_fcos_fp32/model.onnx",
+  "onnx_sha256": "916be3f603e23e42e37e58e5ae26bc338777493826dd1af8208fb425a287dd7c",
+  "imgsz": 640,
+  "num_classes_excluding_background": 8,
+  "opset": 19,
+  "dynamic": false,
+  "input_names": [
+    "images"
+  ],
+  "output_names": [
+    "cls_logits",
+    "bbox_regression",
+    "bbox_ctrness",
+    "anchors"
+  ],
+  "decoder": "torchvision_fcos_raw_v1"
+}

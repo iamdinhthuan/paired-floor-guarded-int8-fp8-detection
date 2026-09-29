@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_val__fcos_r50_fpn__int8-matched512__fog-s1",
+  "dataset": "kitti",
+  "split": "val",
+  "model": "fcos-r50-fpn",
+  "precision": "int8-entropy",
+  "decoder": "torchvision_fcos_raw_v1",
+  "decoder_sha256": "58b7c8bf522978825c7662acf89e0c8520b4613c2cfe0f6a7e0c2dcfdeca9f29",
+  "engine_registry": "/home/thuan/topic_c_ivc/outputs/nn_fcos_replication_v1_20260927/engines/kitti_fcos_int8-matched512/trt/engine.json",
+  "engine_registry_sha256": "2034e7ef466d0fdeeeb2e8a139b099c2333498fe58d502ada71ca7e869479407",
+  "engine_sha256": "488832c56c0c1f2c7c5e1bdfce164e437712de1cb7104c013852b6e3c90bcd11",
+  "corruption": "fog",
+  "severity": 1,
+  "annotation_sha256": "79f27fa3feea9aa11a9668c0a431be4b9de465e56dd3402c09153b6c80631109",
+  "confidence": 0.05,
+  "input_manifest_sha256": "7354d4113ddff5fbe2a32c689bf8a9f2bf988c6b33513bd3d8ae177652d6a0b8",
+  "input_image_ids_sha256": "47f0544b03783b4bfd87d124fd82d0c7d4bfd5f2c518093da7f507420f6e9474",
+  "prediction_sha256": "7a38f4f2d54eb639896e5f28eab83b9d6530760d5345e73277da11d710c10c48",
+  "n_images": 1496,
+  "n_detections": 419817,
+  "runtime_seconds": 25.674997091293335
+}

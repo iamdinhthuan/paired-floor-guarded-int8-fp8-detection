@@ -202,16 +202,21 @@ INTERVENTION_ROWS = [
 ]
 
 
+def _signed(v: float) -> str:
+    # |v| < 0.005 would print "+-0.00" -- a sign flip for negative points;
+    # render it unsigned instead
+    return f"{v:+.2f}" if abs(v) >= 0.005 else "0.00"
+
+
 def fmt_ci(v: dict, stars: bool = True) -> str:
     lo, hi = v["ci95"]
-    point = 0.0 if abs(v["point"]) < 0.005 else v["point"]
     sig = r"\sigstar" if stars and (lo > 0 or hi < 0) else ""
     # a bound that rounds to +-0.00 inside a starred interval invites a
     # spurious "includes zero" reading -- show three decimals there
     if sig and (abs(lo) < 0.005 or abs(hi) < 0.005):
-        return (f"${point:+.2f}${sig} "
+        return (f"${_signed(v['point'])}${sig} "
                 f"$[{lo:+.3f},\\,{hi:+.3f}]$")
-    return f"${point:+.2f}${sig} $[{lo:+.2f},\\,{hi:+.2f}]$"
+    return f"${_signed(v['point'])}${sig} $[{lo:+.2f},\\,{hi:+.2f}]$"
 
 
 def intervention_table(final: dict) -> str:
@@ -672,12 +677,11 @@ def fcos_replication_table(final: dict) -> str:
 
 def _ci(v: dict) -> str:
     lo, hi = v["ci95"]
-    point = 0.0 if abs(v["point"]) < 0.005 else v["point"]
     # a bound that rounds to +-0.00 invites a spurious "includes zero"
     # reading -- show three decimals there, as in fmt_ci
     if abs(lo) < 0.005 or abs(hi) < 0.005:
-        return f"${point:+.2f}$~$[{lo:+.3f},{hi:+.3f}]$"
-    return f"${point:+.2f}$~$[{lo:+.2f},{hi:+.2f}]$"
+        return f"${_signed(v['point'])}$~$[{lo:+.3f},{hi:+.3f}]$"
+    return f"${_signed(v['point'])}$~$[{lo:+.2f},{hi:+.2f}]$"
 
 
 def sci(p: float) -> str:
@@ -900,15 +904,16 @@ def numbers_tex(final: dict) -> str:
             fa = final["fcos"][ds]["arms"]
             for key, S in (("fp8-matched512_minus_int8-matched512", "Fm"),
                            ("int8-selective512_minus_int8-matched512", "Sm"),
-                           ("fp8-matched512_minus_int8-selective512", "Fs")):
+                           ("fp8-matched512_minus_int8-selective512", "Fs"),
+                           ("fp32_minus_int8-selective512", "Fp")):
                 c = fc.get(key)
                 if c:
-                    jp = 0.0 if abs(c['j95']['point']) < 0.005 else c['j95']['point']
-                    dep = 0.0 if abs(c['deltaE']['point']) < 0.005 else c['deltaE']['point']
                     macros[f"Fcos{S}J{D}"] = _ci(c["j95"])
-                    macros[f"Fcos{S}JP{D}"] = f"{jp:+.2f}"
+                    macros[f"Fcos{S}JP{D}"] = _signed(c['j95']['point'])
+                    macros[f"Fcos{S}C{D}"] = _ci(c["corr12"])
+                    macros[f"Fcos{S}CP{D}"] = _signed(c['corr12']['point'])
                     macros[f"Fcos{S}DE{D}"] = _ci(c["deltaE"])
-                    macros[f"Fcos{S}DEP{D}"] = f"{dep:+.2f}"
+                    macros[f"Fcos{S}DEP{D}"] = _signed(c['deltaE']['point'])
             for arm, S in (("fp32", "Fp"), ("fp8-matched512", "Fe"),
                            ("int8-matched512", "In"), ("int8-selective512", "Sel")):
                 if arm in fa:
