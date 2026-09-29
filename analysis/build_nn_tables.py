@@ -12,9 +12,9 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import numpy as np
 
 PDF_META = {"metadata": {"CreationDate": None}}  # deterministic figures
-import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
 PHASE_B = ROOT / "submission_support_20260911" / "phase_b_results"

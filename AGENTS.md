@@ -44,9 +44,11 @@ shared schedule per dataset×model block).
 
 ## Conventions
 
-- Three frozen evidence layers: diagnostic (decomposition, single points),
-  confirmatory (9 YOLO11 blocks + RetinaNet matched arms), intervention (two
-  complementary calibration folds). Keep them distinguished in prose.
+- Five evidence layers: diagnostic (decomposition, single points), frozen
+  paired (9 YOLO11 blocks + RetinaNet matched arms), intervention (two
+  complementary calibration folds), historical exploratory (context only),
+  and post-hoc extensions (W/A operand factorial + FCOS replication, paired
+  bootstrap but unregistered). Keep them distinguished in prose.
 - Fold-2 swaps family roles: calibrates fog+motion_blur, holds out
   gaussian_noise+jpeg (`FOLD2` mapping in `nn_final_stats.py`).
 - npz draw caches refuse overwrite — bootstrap runs write to fresh attempt dirs;

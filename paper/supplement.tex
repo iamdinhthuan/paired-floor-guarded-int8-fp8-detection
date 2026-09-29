@@ -184,8 +184,9 @@ validation loss on the same evaluation partition. FCOS-R50-FPN is trained
 under the same profile and checkpoint rule; KITTI completed all 100
 scheduled epochs. On VOC the FCOS training loss diverged to NaN at epoch~70
 (validation loss stayed finite through epoch~92, then also diverged), and
-the selected \texttt{best.pt} is the pre-divergence epoch-67 checkpoint by
-the same minimum-validation-loss rule (the divergence postdates the
+the selected \texttt{best.pt} is the pre-divergence epoch-67 checkpoint
+(run-log indexing, which prints 1-indexed epochs; the checkpoint stores the
+same point 0-indexed) by the same minimum-validation-loss rule (the divergence postdates the
 selection point, so under the same rule the epoch-67 checkpoint is the one
 exported---though absent the divergence a later minimum might have
 supplanted it; the hash-bound training manifest records the schedule and
@@ -204,8 +205,8 @@ letterbox input, confidence threshold 0.05, batched NMS at IoU 0.5, at most
 300 detections. FCOS blocks: 640-pixel letterbox input, confidence threshold
 0.05 on the centerness-weighted score, at most 1,000 pre-NMS candidates per
 feature level, batched NMS at IoU 0.5, at most 300 detections---the
-RetinaNet constants reused post hoc, frozen for FCOS at the same values
-they hold on that family, and not torchvision's FCOS defaults
+RetinaNet constants reused post hoc and frozen for FCOS at the RetinaNet
+values, and not torchvision's FCOS defaults
 (score threshold 0.2, NMS IoU 0.6, 100 detections per image); the decoder is
 a reimplementation of torchvision's post-processing, validated detection-for-detection
 against torchvision's own pipeline on 32 seeded synthetic head-output
@@ -217,8 +218,9 @@ input at scale 1.0, and covers the 8-class KITTI head only---it validates
 the post-processing arithmetic, not letterbox un-mapping, sparse-output
 behavior, or end-to-end engine parity. All evaluations use the COCO protocol via
 \texttt{pycocotools} with \texttt{maxDets=100}; VOC and KITTI annotations were
-converted once to COCO format and frozen. Decoder constants differ across
-families (the table above) and are held fixed within each; cross-family comparisons are
+converted once to COCO format and frozen. Decoder constants are listed per family in
+the paragraph above---identical for RetinaNet and FCOS---and held fixed
+within each; cross-family comparisons are
 comparisons of recipe bundles, never of formats alone.
 
 \section{Corruption-aware calibration schedule}
