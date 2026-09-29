@@ -204,13 +204,14 @@ INTERVENTION_ROWS = [
 
 def fmt_ci(v: dict, stars: bool = True) -> str:
     lo, hi = v["ci95"]
+    point = 0.0 if abs(v["point"]) < 0.005 else v["point"]
     sig = r"\sigstar" if stars and (lo > 0 or hi < 0) else ""
     # a bound that rounds to +-0.00 inside a starred interval invites a
     # spurious "includes zero" reading -- show three decimals there
     if sig and (abs(lo) < 0.005 or abs(hi) < 0.005):
-        return (f"${v['point']:+.2f}${sig} "
+        return (f"${point:+.2f}${sig} "
                 f"$[{lo:+.3f},\\,{hi:+.3f}]$")
-    return f"${v['point']:+.2f}${sig} $[{lo:+.2f},\\,{hi:+.2f}]$"
+    return f"${point:+.2f}${sig} $[{lo:+.2f},\\,{hi:+.2f}]$"
 
 
 def intervention_table(final: dict) -> str:
@@ -643,6 +644,8 @@ def fcos_replication_table(final: dict) -> str:
     """RetinaNet vs FCOS matched-arm and selective-arm contrasts."""
     rows = []
     for ds, dsname in (("kitti", "KITTI"), ("voc", "VOC")):
+        if not final["fcos"].get(ds, {}).get("contrasts"):
+            continue
         for det, block in (("RetinaNet", final["retinanet"][ds]["phase_b"]),
                            ("FCOS", final["fcos"][ds]["contrasts"])):
             fm = block["fp8-matched512_minus_int8-matched512"]
@@ -669,11 +672,12 @@ def fcos_replication_table(final: dict) -> str:
 
 def _ci(v: dict) -> str:
     lo, hi = v["ci95"]
+    point = 0.0 if abs(v["point"]) < 0.005 else v["point"]
     # a bound that rounds to +-0.00 invites a spurious "includes zero"
     # reading -- show three decimals there, as in fmt_ci
     if abs(lo) < 0.005 or abs(hi) < 0.005:
-        return f"${v['point']:+.2f}$~$[{lo:+.3f},{hi:+.3f}]$"
-    return f"${v['point']:+.2f}$~$[{lo:+.2f},{hi:+.2f}]$"
+        return f"${point:+.2f}$~$[{lo:+.3f},{hi:+.3f}]$"
+    return f"${point:+.2f}$~$[{lo:+.2f},{hi:+.2f}]$"
 
 
 def sci(p: float) -> str:
@@ -899,10 +903,12 @@ def numbers_tex(final: dict) -> str:
                            ("fp8-matched512_minus_int8-selective512", "Fs")):
                 c = fc.get(key)
                 if c:
+                    jp = 0.0 if abs(c['j95']['point']) < 0.005 else c['j95']['point']
+                    dep = 0.0 if abs(c['deltaE']['point']) < 0.005 else c['deltaE']['point']
                     macros[f"Fcos{S}J{D}"] = _ci(c["j95"])
-                    macros[f"Fcos{S}JP{D}"] = f"{c['j95']['point']:+.2f}"
+                    macros[f"Fcos{S}JP{D}"] = f"{jp:+.2f}"
                     macros[f"Fcos{S}DE{D}"] = _ci(c["deltaE"])
-                    macros[f"Fcos{S}DEP{D}"] = f"{c['deltaE']['point']:+.2f}"
+                    macros[f"Fcos{S}DEP{D}"] = f"{dep:+.2f}"
             for arm, S in (("fp32", "Fp"), ("fp8-matched512", "Fe"),
                            ("int8-matched512", "In"), ("int8-selective512", "Sel")):
                 if arm in fa:

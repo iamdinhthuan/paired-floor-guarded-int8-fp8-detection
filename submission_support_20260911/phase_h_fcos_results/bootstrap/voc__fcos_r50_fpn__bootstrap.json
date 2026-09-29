@@ -1,0 +1,434 @@
+{
+  "dataset": "voc",
+  "model": "fcos_r50_fpn",
+  "n_images": 4952,
+  "n_boot": 2000,
+  "seed": 3838374472,
+  "draw_cache_sha256": "480c809d9e32b0a3ac7605eeacb36c074cba91f9d5c0218f7868edf3498646a7",
+  "cells": [
+    {
+      "arm": "fp32",
+      "condition": "clean-s0",
+      "stem": "voc_val__fcos_r50_fpn__fp32__clean-s0"
+    },
+    {
+      "arm": "fp32",
+      "condition": "codec-control-s0",
+      "stem": "voc_val__fcos_r50_fpn__fp32__codec-control-s0"
+    },
+    {
+      "arm": "fp32",
+      "condition": "fog-s1",
+      "stem": "voc_val__fcos_r50_fpn__fp32__fog-s1"
+    },
+    {
+      "arm": "fp32",
+      "condition": "fog-s3",
+      "stem": "voc_val__fcos_r50_fpn__fp32__fog-s3"
+    },
+    {
+      "arm": "fp32",
+      "condition": "fog-s5",
+      "stem": "voc_val__fcos_r50_fpn__fp32__fog-s5"
+    },
+    {
+      "arm": "fp32",
+      "condition": "gaussian_noise-s1",
+      "stem": "voc_val__fcos_r50_fpn__fp32__gaussian_noise-s1"
+    },
+    {
+      "arm": "fp32",
+      "condition": "gaussian_noise-s3",
+      "stem": "voc_val__fcos_r50_fpn__fp32__gaussian_noise-s3"
+    },
+    {
+      "arm": "fp32",
+      "condition": "gaussian_noise-s5",
+      "stem": "voc_val__fcos_r50_fpn__fp32__gaussian_noise-s5"
+    },
+    {
+      "arm": "fp32",
+      "condition": "jpeg-s1",
+      "stem": "voc_val__fcos_r50_fpn__fp32__jpeg-s1"
+    },
+    {
+      "arm": "fp32",
+      "condition": "jpeg-s3",
+      "stem": "voc_val__fcos_r50_fpn__fp32__jpeg-s3"
+    },
+    {
+      "arm": "fp32",
+      "condition": "jpeg-s5",
+      "stem": "voc_val__fcos_r50_fpn__fp32__jpeg-s5"
+    },
+    {
+      "arm": "fp32",
+      "condition": "motion_blur-s1",
+      "stem": "voc_val__fcos_r50_fpn__fp32__motion_blur-s1"
+    },
+    {
+      "arm": "fp32",
+      "condition": "motion_blur-s3",
+      "stem": "voc_val__fcos_r50_fpn__fp32__motion_blur-s3"
+    },
+    {
+      "arm": "fp32",
+      "condition": "motion_blur-s5",
+      "stem": "voc_val__fcos_r50_fpn__fp32__motion_blur-s5"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "clean-s0",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__clean-s0"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "codec-control-s0",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__codec-control-s0"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "fog-s1",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__fog-s1"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "fog-s3",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__fog-s3"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "fog-s5",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__fog-s5"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "gaussian_noise-s1",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__gaussian_noise-s1"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "gaussian_noise-s3",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__gaussian_noise-s3"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "gaussian_noise-s5",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__gaussian_noise-s5"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "jpeg-s1",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__jpeg-s1"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "jpeg-s3",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__jpeg-s3"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "jpeg-s5",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__jpeg-s5"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "motion_blur-s1",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__motion_blur-s1"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "motion_blur-s3",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__motion_blur-s3"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "motion_blur-s5",
+      "stem": "voc_val__fcos_r50_fpn__fp8-matched512__motion_blur-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "clean-s0",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__clean-s0"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "codec-control-s0",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__codec-control-s0"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "fog-s1",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__fog-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "fog-s3",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__fog-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "fog-s5",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__fog-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "gaussian_noise-s1",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__gaussian_noise-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "gaussian_noise-s3",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__gaussian_noise-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "gaussian_noise-s5",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__gaussian_noise-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "jpeg-s1",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__jpeg-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "jpeg-s3",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__jpeg-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "jpeg-s5",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__jpeg-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "motion_blur-s1",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__motion_blur-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "motion_blur-s3",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__motion_blur-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "motion_blur-s5",
+      "stem": "voc_val__fcos_r50_fpn__int8-matched512__motion_blur-s5"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "clean-s0",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__clean-s0"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "codec-control-s0",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__codec-control-s0"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "fog-s1",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__fog-s1"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "fog-s3",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__fog-s3"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "fog-s5",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__fog-s5"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "gaussian_noise-s1",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__gaussian_noise-s1"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "gaussian_noise-s3",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__gaussian_noise-s3"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "gaussian_noise-s5",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__gaussian_noise-s5"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "jpeg-s1",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__jpeg-s1"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "jpeg-s3",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__jpeg-s3"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "jpeg-s5",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__jpeg-s5"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "motion_blur-s1",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__motion_blur-s1"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "motion_blur-s3",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__motion_blur-s3"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "motion_blur-s5",
+      "stem": "voc_val__fcos_r50_fpn__int8-selective512__motion_blur-s5"
+    }
+  ],
+  "arms": {
+    "fp32": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.49215496027279265,
+      "clean_q95_ap": 0.49224583429969826,
+      "corrupted_mean_ap": 0.34882639955199274,
+      "ci95_clean": [
+        0.4840789042041896,
+        0.4944038407565551,
+        0.5046092571409296
+      ],
+      "ci95_corr_mean": [
+        0.34301082491882795,
+        0.3510058157707086,
+        0.3590783427473403
+      ]
+    },
+    "fp8-matched512": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.4878721571661427,
+      "clean_q95_ap": 0.4887902158909069,
+      "corrupted_mean_ap": 0.345129274503065,
+      "ci95_clean": [
+        0.4797727028280545,
+        0.49012871129076885,
+        0.5004899628990671
+      ],
+      "ci95_corr_mean": [
+        0.33924924342499996,
+        0.34730983739167487,
+        0.35535367292315756
+      ]
+    },
+    "int8-matched512": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.4911651279759502,
+      "clean_q95_ap": 0.4902316915878773,
+      "corrupted_mean_ap": 0.3459080728171917,
+      "ci95_clean": [
+        0.48310324492106327,
+        0.49329359285556906,
+        0.5032796039900727
+      ],
+      "ci95_corr_mean": [
+        0.34004313493771415,
+        0.3480317621753184,
+        0.356031289349754
+      ]
+    },
+    "int8-selective512": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.4904292043068897,
+      "clean_q95_ap": 0.49038008251015464,
+      "corrupted_mean_ap": 0.3457902999753301,
+      "ci95_clean": [
+        0.48249725754108624,
+        0.4926380536493804,
+        0.5026214897831189
+      ],
+      "ci95_corr_mean": [
+        0.34001550967693644,
+        0.3479231618661006,
+        0.3559380962526511
+      ]
+    }
+  },
+  "contrasts": {
+    "fp8-matched512_minus_int8-matched512": {
+      "basis": "q95",
+      "G0": [
+        -0.0032627787885729674,
+        -0.0013481430119205717,
+        0.000665254094176459
+      ],
+      "Gc": [
+        -0.001464031372102928,
+        -0.0007627334155730359,
+        -5.3186125058605265e-05
+      ],
+      "deltaE": [
+        -0.001337624158639518,
+        0.000597559699419381,
+        0.002505120689369154
+      ],
+      "point_deltaE": 0.0005886459007623928
+    },
+    "int8-selective512_minus_int8-matched512": {
+      "basis": "q95",
+      "G0": [
+        -0.00038746509681517743,
+        0.00022786352236070506,
+        0.0008133362489897598
+      ],
+      "Gc": [
+        -0.0002955126104963554,
+        -0.00011772889356539973,
+        4.707851389500594e-05
+      ],
+      "deltaE": [
+        -0.0009357685847344269,
+        -0.00034114009100075227,
+        0.0002624406769736989
+      ],
+      "point_deltaE": -0.0003471641658323239
+    },
+    "fp8-matched512_minus_int8-selective512": {
+      "basis": "q95",
+      "G0": [
+        -0.0035591385104234456,
+        -0.0015930110392080865,
+        0.00046926055989504546
+      ],
+      "Gc": [
+        -0.001336072755317079,
+        -0.0006425332665556116,
+        6.945404494735071e-05
+      ],
+      "deltaE": [
+        -0.0010335768376970923,
+        0.0009519146458764893,
+        0.0028674094235370444
+      ],
+      "point_deltaE": 0.0009358100665947166
+    },
+    "fp32_minus_int8-selective512": {
+      "basis": "q95",
+      "G0": [
+        0.00037348816672487934,
+        0.001872110254894671,
+        0.0034462326300346456
+      ],
+      "Gc": [
+        0.0025542654006142597,
+        0.0031073480015958443,
+        0.0036438711211822573
+      ],
+      "deltaE": [
+        -0.000329629614274346,
+        0.0012265496564458356,
+        0.0026933189602451023
+      ],
+      "point_deltaE": 0.0012244461623647296
+    }
+  }
+}

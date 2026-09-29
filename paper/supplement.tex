@@ -191,7 +191,12 @@ control and carry 13.
 YOLO11 blocks: 640-pixel letterbox input, confidence threshold 0.001,
 class-wise NMS at IoU 0.7, at most 300 detections. RetinaNet blocks: 640-pixel
 letterbox input, confidence threshold 0.05, batched NMS at IoU 0.5, at most
-300 detections. All evaluations use the COCO protocol via
+300 detections. FCOS blocks: 640-pixel letterbox input, confidence threshold
+0.05 on the centerness-weighted score, at most 1,000 pre-NMS candidates per
+feature level, batched NMS at IoU 0.5, at most 300 detections---the
+torchvision reference post-processing, reimplemented for raw engine outputs
+and validated detection-for-detection against it (maximum box deviation
+$3.1{\times}10^{-5}$~px). All evaluations use the COCO protocol via
 \texttt{pycocotools} with \texttt{maxDets=100}; VOC and KITTI annotations were
 converted once to COCO format and frozen. Decoder constants differ across
 families and are held fixed within each; cross-family comparisons are
@@ -347,6 +352,12 @@ results (a 144-cell grid over four datasets including TT100K, computed on
 the same engines and estimand under a wider scope and a different analysis
 plan) are reported
 only as context and are never pooled with the frozen paired estimates.
+Post-hoc extensions are the operand-level factorial inside the RetinaNet
+regression head (W-only and A-only rewires of the frozen matched graph) and
+the FCOS-R50-FPN replication: both were designed and executed after the
+frozen paired results were known, are evaluated on the same condition
+schedule with the same paired bootstrap estimand, and are reported as
+confirmatory-adjacent rather than frozen evidence.
 
 \section{Artifact and audit boundary}
 
