@@ -12,6 +12,8 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+
+PDF_META = {"metadata": {"CreationDate": None}}  # deterministic figures
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -338,7 +340,7 @@ def deltae_forest(summary: dict, boot: dict, final: dict) -> None:
     ax.set_title("Corruption interaction by block", fontsize=9)
     ax.grid(axis="x", alpha=0.25)
     fig.tight_layout()
-    fig.savefig(FIG / "nn_deltae_forest.pdf")
+    fig.savefig(FIG / "nn_deltae_forest.pdf", **PDF_META)
     plt.close(fig)
     print("wrote nn_deltae_forest.pdf")
 
@@ -388,7 +390,7 @@ def retinanet_figure(summary: dict, report: dict) -> None:
                bbox_to_anchor=(0.5, 0.97))
     fig.suptitle("RetinaNet recipe arms: clean vs 12-cell corruption mean", fontsize=9, y=1.04)
     fig.tight_layout(rect=(0, 0, 1, 0.93))
-    fig.savefig(FIG / "nn_retinanet_arms.pdf")
+    fig.savefig(FIG / "nn_retinanet_arms.pdf", **PDF_META)
     plt.close(fig)
     print("wrote nn_retinanet_arms.pdf")
 
@@ -427,7 +429,7 @@ def intervention_figure(final: dict) -> None:
     axes[0].set_ylabel(r"$\Delta$AP vs clean-calibrated counterpart")
     axes[0].legend(fontsize=7, frameon=False)
     fig.tight_layout()
-    fig.savefig(FIG / "nn_intervention.pdf")
+    fig.savefig(FIG / "nn_intervention.pdf", **PDF_META)
     plt.close(fig)
     print("wrote nn_intervention.pdf")
 
@@ -483,7 +485,7 @@ def fold_design_figure() -> None:
     ax.annotate("", xy=(8.55, 0.26), xytext=(7.2, 0.26),
                 arrowprops=dict(arrowstyle="->", lw=0.9, color="k"))
     fig.tight_layout()
-    fig.savefig(FIG / "nn_fold_design.pdf")
+    fig.savefig(FIG / "nn_fold_design.pdf", **PDF_META)
     plt.close(fig)
     print("wrote nn_fold_design.pdf")
 
@@ -520,7 +522,7 @@ def family_heatmap(final: dict) -> None:
     cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     cb.ax.tick_params(labelsize=6)
     fig.tight_layout()
-    fig.savefig(FIG / "nn_family_heatmap.pdf")
+    fig.savefig(FIG / "nn_family_heatmap.pdf", **PDF_META)
     plt.close(fig)
     print("wrote nn_family_heatmap.pdf")
 
@@ -561,7 +563,7 @@ def severity_figure() -> None:
     fig.legend(handles, labels, fontsize=7.5, frameon=False, ncol=4,
                loc="upper center", bbox_to_anchor=(0.5, 1.0))
     fig.tight_layout(rect=(0, 0, 1, 0.94))
-    fig.savefig(FIG / "nn_retinanet_severity.pdf")
+    fig.savefig(FIG / "nn_retinanet_severity.pdf", **PDF_META)
     plt.close(fig)
     print("wrote nn_retinanet_severity.pdf")
 
@@ -640,7 +642,7 @@ def wa_factorial_figure(final: dict) -> None:
     fig.legend(handles=handles, fontsize=7.2, frameon=False, ncol=2,
                loc="upper center", bbox_to_anchor=(0.5, 1.0))
     fig.tight_layout(rect=(0, 0, 1, 0.84))
-    fig.savefig(FIG / "nn_wa_factorial.pdf")
+    fig.savefig(FIG / "nn_wa_factorial.pdf", **PDF_META)
     plt.close(fig)
     print("wrote nn_wa_factorial.pdf")
 
