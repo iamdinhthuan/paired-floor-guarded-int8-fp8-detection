@@ -7,5 +7,13 @@
   "voc_yolo11n_train_v1": 99,
   "voc_yolo11m_train_v1": 65,
   "voc_yolo11x_train_v1": 67
+ },
+ "source_csv_sha256": {
+  "kitti_yolo11n_train_v1": "fa53ed7d7f7d356d39e42a2f2c72075917154aa20bfe2c2619cc9113fd86f773",
+  "kitti_yolo11m_train_v1": "08bcd6f44e95329c039f4eecdb6c393ef64b78df9dfa94eac79683fa844f020b",
+  "kitti_yolo11x_train_v1": "d2ecd571245b24f14003760a7b492bf471d4bf1f71578b9e522f58640825f486",
+  "voc_yolo11n_train_v1": "a766c790a1725fc36a747ab0c0e167e7ce36d3681431c553050296972420711b",
+  "voc_yolo11m_train_v1": "4dda4493b146ef04f4d4fa2643fdcdb0d6e8f30becb0f748577240210f9d72c8",
+  "voc_yolo11x_train_v1": "0673b7aa1bc93da285745573ef6ce01b757d3c0ae84e6d7ce47ce6151922a14e"
  }
 }

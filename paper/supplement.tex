@@ -194,12 +194,13 @@ scheduled epochs. On VOC the FCOS training loss diverged to NaN at epoch~70
 (validation loss stayed finite through epoch~92, then also diverged); the
 epoch-10 selection point predates the divergence by 60 epochs, and no
 intervening epoch beat its validation minimum, so the divergence did not
-affect which checkpoint was exported. The hash-bound training manifest
+affect which checkpoint was exported. The training manifest
 records the schedule and selection rule but not the loss history; the
 per-epoch training/validation loss curves are shipped in the support
 package (\texttt{phase\_b\_results/training/} for RetinaNet,
 \texttt{phase\_h\_fcos\_results/training/} for FCOS), and the selected
-epochs match the checkpoints' stored epoch fields. Per-run training
+epochs match the checkpoints' stored epoch fields (raw run logs are not
+redistributed; each curve record carries its source log's SHA-256). Per-run training
 manifests are hash-bound; the evaluation-partition overlap is a disclosed
 selection caveat (see the main text's limitations). The frozen condition schedule is
 14 conditions per arm; the RetinaNet FP32 and legacy arms predate codec
