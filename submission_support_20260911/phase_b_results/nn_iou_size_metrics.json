@@ -1,0 +1,1142 @@
+{
+ "kitti_val::fp8-matched512": {
+  "codec-control-s0": {
+   "AP": 49.25,
+   "AP50": 77.7,
+   "AP75": 52.83,
+   "AP_small": 34.04,
+   "AP_medium": 48.56,
+   "AP_large": 61.33
+  },
+  "fog-s1": {
+   "AP": 45.68,
+   "AP50": 73.84,
+   "AP75": 48.9,
+   "AP_small": 32.49,
+   "AP_medium": 44.83,
+   "AP_large": 57.4
+  },
+  "fog-s3": {
+   "AP": 40.37,
+   "AP50": 67.16,
+   "AP75": 42.47,
+   "AP_small": 30.07,
+   "AP_medium": 38.71,
+   "AP_large": 51.44
+  },
+  "fog-s5": {
+   "AP": 36.82,
+   "AP50": 62.24,
+   "AP75": 38.18,
+   "AP_small": 28.7,
+   "AP_medium": 36.57,
+   "AP_large": 45.93
+  },
+  "gaussian_noise-s1": {
+   "AP": 46.31,
+   "AP50": 74.48,
+   "AP75": 49.21,
+   "AP_small": 33.98,
+   "AP_medium": 46.33,
+   "AP_large": 56.26
+  },
+  "gaussian_noise-s3": {
+   "AP": 36.97,
+   "AP50": 62.62,
+   "AP75": 37.92,
+   "AP_small": 28.74,
+   "AP_medium": 36.92,
+   "AP_large": 45.84
+  },
+  "gaussian_noise-s5": {
+   "AP": 20.59,
+   "AP50": 37.66,
+   "AP75": 19.91,
+   "AP_small": 17.26,
+   "AP_medium": 19.96,
+   "AP_large": 26.13
+  },
+  "jpeg-s1": {
+   "AP": 49.1,
+   "AP50": 77.59,
+   "AP75": 52.41,
+   "AP_small": 35.34,
+   "AP_medium": 48.17,
+   "AP_large": 61.28
+  },
+  "jpeg-s3": {
+   "AP": 49.09,
+   "AP50": 77.99,
+   "AP75": 52.34,
+   "AP_small": 34.21,
+   "AP_medium": 48.79,
+   "AP_large": 61.06
+  },
+  "jpeg-s5": {
+   "AP": 46.71,
+   "AP50": 75.18,
+   "AP75": 49.72,
+   "AP_small": 32.35,
+   "AP_medium": 46.62,
+   "AP_large": 57.66
+  },
+  "motion_blur-s1": {
+   "AP": 44.85,
+   "AP50": 72.84,
+   "AP75": 47.41,
+   "AP_small": 31.46,
+   "AP_medium": 43.98,
+   "AP_large": 57.03
+  },
+  "motion_blur-s3": {
+   "AP": 18.92,
+   "AP50": 34.35,
+   "AP75": 18.52,
+   "AP_small": 8.64,
+   "AP_medium": 14.32,
+   "AP_large": 33.86
+  },
+  "motion_blur-s5": {
+   "AP": 5.59,
+   "AP50": 10.57,
+   "AP75": 5.07,
+   "AP_small": 0.74,
+   "AP_medium": 2.49,
+   "AP_large": 13.89
+  },
+  "corr-mean": {
+   "AP": 36.75,
+   "AP50": 60.54,
+   "AP75": 38.51,
+   "AP_small": 26.17,
+   "AP_medium": 35.64,
+   "AP_large": 47.31
+  }
+ },
+ "kitti_val::int8-matched512": {
+  "codec-control-s0": {
+   "AP": 28.18,
+   "AP50": 60.34,
+   "AP75": 21.64,
+   "AP_small": 3.0,
+   "AP_medium": 23.2,
+   "AP_large": 55.42
+  },
+  "fog-s1": {
+   "AP": 25.28,
+   "AP50": 57.52,
+   "AP75": 18.45,
+   "AP_small": 3.62,
+   "AP_medium": 21.46,
+   "AP_large": 49.94
+  },
+  "fog-s3": {
+   "AP": 21.58,
+   "AP50": 49.34,
+   "AP75": 15.06,
+   "AP_small": 2.84,
+   "AP_medium": 18.06,
+   "AP_large": 43.54
+  },
+  "fog-s5": {
+   "AP": 18.62,
+   "AP50": 44.31,
+   "AP75": 12.51,
+   "AP_small": 2.17,
+   "AP_medium": 15.4,
+   "AP_large": 39.05
+  },
+  "gaussian_noise-s1": {
+   "AP": 25.82,
+   "AP50": 57.01,
+   "AP75": 18.67,
+   "AP_small": 2.66,
+   "AP_medium": 21.63,
+   "AP_large": 50.65
+  },
+  "gaussian_noise-s3": {
+   "AP": 19.57,
+   "AP50": 45.64,
+   "AP75": 13.52,
+   "AP_small": 1.8,
+   "AP_medium": 17.07,
+   "AP_large": 39.0
+  },
+  "gaussian_noise-s5": {
+   "AP": 10.89,
+   "AP50": 25.19,
+   "AP75": 6.9,
+   "AP_small": 0.81,
+   "AP_medium": 8.76,
+   "AP_large": 23.87
+  },
+  "jpeg-s1": {
+   "AP": 27.8,
+   "AP50": 60.0,
+   "AP75": 21.32,
+   "AP_small": 3.17,
+   "AP_medium": 23.43,
+   "AP_large": 54.52
+  },
+  "jpeg-s3": {
+   "AP": 28.24,
+   "AP50": 60.59,
+   "AP75": 22.02,
+   "AP_small": 3.17,
+   "AP_medium": 23.89,
+   "AP_large": 54.46
+  },
+  "jpeg-s5": {
+   "AP": 26.33,
+   "AP50": 58.02,
+   "AP75": 18.72,
+   "AP_small": 4.0,
+   "AP_medium": 21.9,
+   "AP_large": 51.37
+  },
+  "motion_blur-s1": {
+   "AP": 25.19,
+   "AP50": 54.61,
+   "AP75": 18.85,
+   "AP_small": 2.17,
+   "AP_medium": 20.06,
+   "AP_large": 50.44
+  },
+  "motion_blur-s3": {
+   "AP": 11.38,
+   "AP50": 25.33,
+   "AP75": 8.48,
+   "AP_small": 0.99,
+   "AP_medium": 6.44,
+   "AP_large": 28.2
+  },
+  "motion_blur-s5": {
+   "AP": 3.75,
+   "AP50": 7.6,
+   "AP75": 2.84,
+   "AP_small": 0.09,
+   "AP_medium": 1.2,
+   "AP_large": 10.31
+  },
+  "corr-mean": {
+   "AP": 20.37,
+   "AP50": 45.43,
+   "AP75": 14.78,
+   "AP_small": 2.29,
+   "AP_medium": 16.61,
+   "AP_large": 41.28
+  }
+ },
+ "kitti_val::int8-selective512": {
+  "codec-control-s0": {
+   "AP": 49.53,
+   "AP50": 77.83,
+   "AP75": 52.86,
+   "AP_small": 35.7,
+   "AP_medium": 48.71,
+   "AP_large": 61.66
+  },
+  "fog-s1": {
+   "AP": 45.32,
+   "AP50": 73.68,
+   "AP75": 48.05,
+   "AP_small": 33.24,
+   "AP_medium": 44.33,
+   "AP_large": 56.67
+  },
+  "fog-s3": {
+   "AP": 40.1,
+   "AP50": 66.54,
+   "AP75": 42.21,
+   "AP_small": 30.57,
+   "AP_medium": 39.03,
+   "AP_large": 50.33
+  },
+  "fog-s5": {
+   "AP": 36.18,
+   "AP50": 61.24,
+   "AP75": 37.39,
+   "AP_small": 29.08,
+   "AP_medium": 35.49,
+   "AP_large": 44.78
+  },
+  "gaussian_noise-s1": {
+   "AP": 47.14,
+   "AP50": 75.02,
+   "AP75": 51.14,
+   "AP_small": 33.49,
+   "AP_medium": 46.82,
+   "AP_large": 57.91
+  },
+  "gaussian_noise-s3": {
+   "AP": 37.07,
+   "AP50": 63.09,
+   "AP75": 37.81,
+   "AP_small": 30.24,
+   "AP_medium": 37.94,
+   "AP_large": 44.68
+  },
+  "gaussian_noise-s5": {
+   "AP": 20.79,
+   "AP50": 37.4,
+   "AP75": 20.72,
+   "AP_small": 18.48,
+   "AP_medium": 20.13,
+   "AP_large": 27.35
+  },
+  "jpeg-s1": {
+   "AP": 49.82,
+   "AP50": 78.08,
+   "AP75": 53.48,
+   "AP_small": 35.49,
+   "AP_medium": 49.14,
+   "AP_large": 61.15
+  },
+  "jpeg-s3": {
+   "AP": 49.58,
+   "AP50": 78.71,
+   "AP75": 51.96,
+   "AP_small": 36.04,
+   "AP_medium": 49.01,
+   "AP_large": 61.33
+  },
+  "jpeg-s5": {
+   "AP": 46.66,
+   "AP50": 75.64,
+   "AP75": 49.65,
+   "AP_small": 32.89,
+   "AP_medium": 46.79,
+   "AP_large": 57.98
+  },
+  "motion_blur-s1": {
+   "AP": 44.65,
+   "AP50": 72.54,
+   "AP75": 46.5,
+   "AP_small": 32.19,
+   "AP_medium": 44.5,
+   "AP_large": 57.16
+  },
+  "motion_blur-s3": {
+   "AP": 17.13,
+   "AP50": 30.52,
+   "AP75": 17.33,
+   "AP_small": 8.17,
+   "AP_medium": 13.03,
+   "AP_large": 31.54
+  },
+  "motion_blur-s5": {
+   "AP": 4.52,
+   "AP50": 8.34,
+   "AP75": 4.14,
+   "AP_small": 0.74,
+   "AP_medium": 2.12,
+   "AP_large": 11.27
+  },
+  "corr-mean": {
+   "AP": 36.58,
+   "AP50": 60.07,
+   "AP75": 38.37,
+   "AP_small": 26.72,
+   "AP_medium": 35.69,
+   "AP_large": 46.85
+  }
+ },
+ "kitti_val::int8-wonly512": {
+  "codec-control-s0": {
+   "AP": 49.44,
+   "AP50": 77.95,
+   "AP75": 52.66,
+   "AP_small": 35.47,
+   "AP_medium": 48.58,
+   "AP_large": 61.64
+  },
+  "fog-s1": {
+   "AP": 45.29,
+   "AP50": 73.66,
+   "AP75": 48.06,
+   "AP_small": 33.09,
+   "AP_medium": 44.32,
+   "AP_large": 56.65
+  },
+  "fog-s3": {
+   "AP": 39.96,
+   "AP50": 66.58,
+   "AP75": 41.99,
+   "AP_small": 30.29,
+   "AP_medium": 38.89,
+   "AP_large": 50.17
+  },
+  "fog-s5": {
+   "AP": 36.14,
+   "AP50": 61.3,
+   "AP75": 37.34,
+   "AP_small": 29.12,
+   "AP_medium": 35.42,
+   "AP_large": 44.77
+  },
+  "gaussian_noise-s1": {
+   "AP": 47.13,
+   "AP50": 75.36,
+   "AP75": 51.12,
+   "AP_small": 33.6,
+   "AP_medium": 46.82,
+   "AP_large": 57.87
+  },
+  "gaussian_noise-s3": {
+   "AP": 37.02,
+   "AP50": 63.1,
+   "AP75": 37.78,
+   "AP_small": 29.86,
+   "AP_medium": 37.93,
+   "AP_large": 44.59
+  },
+  "gaussian_noise-s5": {
+   "AP": 20.78,
+   "AP50": 37.45,
+   "AP75": 20.62,
+   "AP_small": 18.16,
+   "AP_medium": 20.12,
+   "AP_large": 27.36
+  },
+  "jpeg-s1": {
+   "AP": 49.59,
+   "AP50": 77.96,
+   "AP75": 52.97,
+   "AP_small": 35.25,
+   "AP_medium": 49.08,
+   "AP_large": 60.85
+  },
+  "jpeg-s3": {
+   "AP": 49.52,
+   "AP50": 78.21,
+   "AP75": 52.36,
+   "AP_small": 35.96,
+   "AP_medium": 49.07,
+   "AP_large": 61.26
+  },
+  "jpeg-s5": {
+   "AP": 46.64,
+   "AP50": 75.65,
+   "AP75": 49.51,
+   "AP_small": 32.89,
+   "AP_medium": 46.73,
+   "AP_large": 57.97
+  },
+  "motion_blur-s1": {
+   "AP": 44.53,
+   "AP50": 72.53,
+   "AP75": 46.27,
+   "AP_small": 32.01,
+   "AP_medium": 44.42,
+   "AP_large": 56.98
+  },
+  "motion_blur-s3": {
+   "AP": 17.15,
+   "AP50": 30.52,
+   "AP75": 17.34,
+   "AP_small": 8.19,
+   "AP_medium": 13.03,
+   "AP_large": 31.55
+  },
+  "motion_blur-s5": {
+   "AP": 4.52,
+   "AP50": 8.35,
+   "AP75": 4.14,
+   "AP_small": 0.71,
+   "AP_medium": 2.11,
+   "AP_large": 11.29
+  },
+  "corr-mean": {
+   "AP": 36.52,
+   "AP50": 60.06,
+   "AP75": 38.29,
+   "AP_small": 26.59,
+   "AP_medium": 35.66,
+   "AP_large": 46.78
+  }
+ },
+ "kitti_val::int8-aonly512": {
+  "codec-control-s0": {
+   "AP": 28.14,
+   "AP50": 60.67,
+   "AP75": 21.63,
+   "AP_small": 3.26,
+   "AP_medium": 23.2,
+   "AP_large": 55.36
+  },
+  "fog-s1": {
+   "AP": 25.38,
+   "AP50": 58.02,
+   "AP75": 18.32,
+   "AP_small": 3.74,
+   "AP_medium": 21.57,
+   "AP_large": 50.04
+  },
+  "fog-s3": {
+   "AP": 21.63,
+   "AP50": 49.58,
+   "AP75": 15.56,
+   "AP_small": 2.46,
+   "AP_medium": 18.02,
+   "AP_large": 43.51
+  },
+  "fog-s5": {
+   "AP": 18.6,
+   "AP50": 44.41,
+   "AP75": 12.35,
+   "AP_small": 2.38,
+   "AP_medium": 15.33,
+   "AP_large": 39.12
+  },
+  "gaussian_noise-s1": {
+   "AP": 25.59,
+   "AP50": 56.92,
+   "AP75": 18.63,
+   "AP_small": 2.55,
+   "AP_medium": 21.57,
+   "AP_large": 50.68
+  },
+  "gaussian_noise-s3": {
+   "AP": 19.46,
+   "AP50": 45.45,
+   "AP75": 13.51,
+   "AP_small": 1.49,
+   "AP_medium": 16.95,
+   "AP_large": 39.05
+  },
+  "gaussian_noise-s5": {
+   "AP": 10.86,
+   "AP50": 25.09,
+   "AP75": 7.06,
+   "AP_small": 0.72,
+   "AP_medium": 8.68,
+   "AP_large": 24.11
+  },
+  "jpeg-s1": {
+   "AP": 27.92,
+   "AP50": 59.69,
+   "AP75": 21.52,
+   "AP_small": 3.18,
+   "AP_medium": 23.52,
+   "AP_large": 54.68
+  },
+  "jpeg-s3": {
+   "AP": 28.24,
+   "AP50": 60.79,
+   "AP75": 22.25,
+   "AP_small": 3.42,
+   "AP_medium": 23.82,
+   "AP_large": 54.54
+  },
+  "jpeg-s5": {
+   "AP": 26.37,
+   "AP50": 58.04,
+   "AP75": 19.2,
+   "AP_small": 3.78,
+   "AP_medium": 22.01,
+   "AP_large": 51.4
+  },
+  "motion_blur-s1": {
+   "AP": 25.15,
+   "AP50": 54.44,
+   "AP75": 18.62,
+   "AP_small": 1.99,
+   "AP_medium": 20.2,
+   "AP_large": 50.21
+  },
+  "motion_blur-s3": {
+   "AP": 11.39,
+   "AP50": 25.57,
+   "AP75": 8.44,
+   "AP_small": 0.94,
+   "AP_medium": 6.39,
+   "AP_large": 28.14
+  },
+  "motion_blur-s5": {
+   "AP": 3.72,
+   "AP50": 7.59,
+   "AP75": 2.83,
+   "AP_small": 0.03,
+   "AP_medium": 1.15,
+   "AP_large": 10.26
+  },
+  "corr-mean": {
+   "AP": 20.36,
+   "AP50": 45.47,
+   "AP75": 14.86,
+   "AP_small": 2.22,
+   "AP_medium": 16.6,
+   "AP_large": 41.31
+  }
+ },
+ "voc_val::fp8-matched512": {
+  "codec-control-s0": {
+   "AP": 56.21,
+   "AP50": 81.05,
+   "AP75": 60.94,
+   "AP_small": 23.6,
+   "AP_medium": 37.73,
+   "AP_large": 62.2
+  },
+  "fog-s1": {
+   "AP": 55.4,
+   "AP50": 80.44,
+   "AP75": 59.98,
+   "AP_small": 22.88,
+   "AP_medium": 37.39,
+   "AP_large": 61.3
+  },
+  "fog-s3": {
+   "AP": 54.48,
+   "AP50": 79.49,
+   "AP75": 58.63,
+   "AP_small": 21.9,
+   "AP_medium": 36.22,
+   "AP_large": 60.46
+  },
+  "fog-s5": {
+   "AP": 53.06,
+   "AP50": 78.08,
+   "AP75": 57.12,
+   "AP_small": 20.28,
+   "AP_medium": 35.11,
+   "AP_large": 59.01
+  },
+  "gaussian_noise-s1": {
+   "AP": 53.19,
+   "AP50": 78.03,
+   "AP75": 57.24,
+   "AP_small": 22.02,
+   "AP_medium": 35.38,
+   "AP_large": 59.15
+  },
+  "gaussian_noise-s3": {
+   "AP": 43.94,
+   "AP50": 68.35,
+   "AP75": 45.92,
+   "AP_small": 14.37,
+   "AP_medium": 28.23,
+   "AP_large": 49.45
+  },
+  "gaussian_noise-s5": {
+   "AP": 22.01,
+   "AP50": 37.49,
+   "AP75": 22.24,
+   "AP_small": 6.1,
+   "AP_medium": 13.65,
+   "AP_large": 25.35
+  },
+  "jpeg-s1": {
+   "AP": 54.68,
+   "AP50": 79.46,
+   "AP75": 58.91,
+   "AP_small": 20.69,
+   "AP_medium": 35.82,
+   "AP_large": 60.96
+  },
+  "jpeg-s3": {
+   "AP": 52.52,
+   "AP50": 77.45,
+   "AP75": 56.12,
+   "AP_small": 18.94,
+   "AP_medium": 33.34,
+   "AP_large": 59.15
+  },
+  "jpeg-s5": {
+   "AP": 43.26,
+   "AP50": 66.8,
+   "AP75": 45.4,
+   "AP_small": 13.14,
+   "AP_medium": 26.08,
+   "AP_large": 49.71
+  },
+  "motion_blur-s1": {
+   "AP": 43.21,
+   "AP50": 66.28,
+   "AP75": 45.3,
+   "AP_small": 13.34,
+   "AP_medium": 24.94,
+   "AP_large": 49.61
+  },
+  "motion_blur-s3": {
+   "AP": 16.44,
+   "AP50": 27.87,
+   "AP75": 16.24,
+   "AP_small": 1.61,
+   "AP_medium": 5.3,
+   "AP_large": 21.42
+  },
+  "motion_blur-s5": {
+   "AP": 5.54,
+   "AP50": 10.12,
+   "AP75": 5.1,
+   "AP_small": 0.1,
+   "AP_medium": 1.29,
+   "AP_large": 7.61
+  },
+  "corr-mean": {
+   "AP": 41.48,
+   "AP50": 62.49,
+   "AP75": 44.02,
+   "AP_small": 14.61,
+   "AP_medium": 26.06,
+   "AP_large": 46.93
+  }
+ },
+ "voc_val::int8-matched512": {
+  "codec-control-s0": {
+   "AP": 53.18,
+   "AP50": 80.18,
+   "AP75": 56.9,
+   "AP_small": 17.87,
+   "AP_medium": 33.8,
+   "AP_large": 60.3
+  },
+  "fog-s1": {
+   "AP": 52.49,
+   "AP50": 79.43,
+   "AP75": 56.27,
+   "AP_small": 17.7,
+   "AP_medium": 32.89,
+   "AP_large": 59.57
+  },
+  "fog-s3": {
+   "AP": 51.39,
+   "AP50": 78.36,
+   "AP75": 54.95,
+   "AP_small": 16.3,
+   "AP_medium": 31.72,
+   "AP_large": 58.49
+  },
+  "fog-s5": {
+   "AP": 50.06,
+   "AP50": 76.75,
+   "AP75": 53.08,
+   "AP_small": 15.82,
+   "AP_medium": 30.83,
+   "AP_large": 57.28
+  },
+  "gaussian_noise-s1": {
+   "AP": 50.16,
+   "AP50": 76.67,
+   "AP75": 53.73,
+   "AP_small": 19.22,
+   "AP_medium": 30.58,
+   "AP_large": 57.2
+  },
+  "gaussian_noise-s3": {
+   "AP": 40.43,
+   "AP50": 65.66,
+   "AP75": 41.57,
+   "AP_small": 14.18,
+   "AP_medium": 23.85,
+   "AP_large": 46.79
+  },
+  "gaussian_noise-s5": {
+   "AP": 17.85,
+   "AP50": 32.01,
+   "AP75": 17.04,
+   "AP_small": 4.19,
+   "AP_medium": 9.81,
+   "AP_large": 21.41
+  },
+  "jpeg-s1": {
+   "AP": 51.8,
+   "AP50": 78.58,
+   "AP75": 55.1,
+   "AP_small": 17.45,
+   "AP_medium": 31.14,
+   "AP_large": 59.28
+  },
+  "jpeg-s3": {
+   "AP": 49.48,
+   "AP50": 75.78,
+   "AP75": 52.21,
+   "AP_small": 14.68,
+   "AP_medium": 28.73,
+   "AP_large": 57.15
+  },
+  "jpeg-s5": {
+   "AP": 39.47,
+   "AP50": 63.99,
+   "AP75": 40.33,
+   "AP_small": 9.9,
+   "AP_medium": 21.43,
+   "AP_large": 46.67
+  },
+  "motion_blur-s1": {
+   "AP": 40.97,
+   "AP50": 65.21,
+   "AP75": 42.48,
+   "AP_small": 9.41,
+   "AP_medium": 20.78,
+   "AP_large": 48.4
+  },
+  "motion_blur-s3": {
+   "AP": 15.48,
+   "AP50": 26.63,
+   "AP75": 15.38,
+   "AP_small": 0.44,
+   "AP_medium": 4.49,
+   "AP_large": 20.36
+  },
+  "motion_blur-s5": {
+   "AP": 4.89,
+   "AP50": 9.16,
+   "AP75": 4.67,
+   "AP_small": 0.04,
+   "AP_medium": 1.02,
+   "AP_large": 6.7
+  },
+  "corr-mean": {
+   "AP": 38.71,
+   "AP50": 60.69,
+   "AP75": 40.57,
+   "AP_small": 11.61,
+   "AP_medium": 22.27,
+   "AP_large": 44.94
+  }
+ },
+ "voc_val::int8-selective512": {
+  "codec-control-s0": {
+   "AP": 55.79,
+   "AP50": 80.84,
+   "AP75": 60.47,
+   "AP_small": 23.73,
+   "AP_medium": 38.23,
+   "AP_large": 61.54
+  },
+  "fog-s1": {
+   "AP": 55.22,
+   "AP50": 80.14,
+   "AP75": 59.81,
+   "AP_small": 22.94,
+   "AP_medium": 37.03,
+   "AP_large": 61.07
+  },
+  "fog-s3": {
+   "AP": 53.96,
+   "AP50": 79.02,
+   "AP75": 58.52,
+   "AP_small": 20.95,
+   "AP_medium": 36.11,
+   "AP_large": 59.75
+  },
+  "fog-s5": {
+   "AP": 52.52,
+   "AP50": 77.59,
+   "AP75": 56.52,
+   "AP_small": 20.66,
+   "AP_medium": 35.3,
+   "AP_large": 58.37
+  },
+  "gaussian_noise-s1": {
+   "AP": 52.53,
+   "AP50": 77.42,
+   "AP75": 56.66,
+   "AP_small": 22.79,
+   "AP_medium": 34.55,
+   "AP_large": 58.32
+  },
+  "gaussian_noise-s3": {
+   "AP": 42.34,
+   "AP50": 66.46,
+   "AP75": 44.13,
+   "AP_small": 16.23,
+   "AP_medium": 27.38,
+   "AP_large": 47.55
+  },
+  "gaussian_noise-s5": {
+   "AP": 18.81,
+   "AP50": 32.61,
+   "AP75": 18.52,
+   "AP_small": 5.47,
+   "AP_medium": 11.6,
+   "AP_large": 21.83
+  },
+  "jpeg-s1": {
+   "AP": 54.29,
+   "AP50": 79.22,
+   "AP75": 58.6,
+   "AP_small": 21.88,
+   "AP_medium": 35.21,
+   "AP_large": 60.55
+  },
+  "jpeg-s3": {
+   "AP": 51.77,
+   "AP50": 76.6,
+   "AP75": 55.11,
+   "AP_small": 19.4,
+   "AP_medium": 32.45,
+   "AP_large": 58.4
+  },
+  "jpeg-s5": {
+   "AP": 41.34,
+   "AP50": 64.75,
+   "AP75": 43.22,
+   "AP_small": 12.1,
+   "AP_medium": 24.74,
+   "AP_large": 47.48
+  },
+  "motion_blur-s1": {
+   "AP": 42.76,
+   "AP50": 65.92,
+   "AP75": 44.86,
+   "AP_small": 12.72,
+   "AP_medium": 24.26,
+   "AP_large": 49.18
+  },
+  "motion_blur-s3": {
+   "AP": 15.83,
+   "AP50": 26.81,
+   "AP75": 15.65,
+   "AP_small": 0.97,
+   "AP_medium": 5.2,
+   "AP_large": 20.64
+  },
+  "motion_blur-s5": {
+   "AP": 4.88,
+   "AP50": 9.08,
+   "AP75": 4.71,
+   "AP_small": 0.12,
+   "AP_medium": 1.1,
+   "AP_large": 6.71
+  },
+  "corr-mean": {
+   "AP": 40.52,
+   "AP50": 61.3,
+   "AP75": 43.03,
+   "AP_small": 14.69,
+   "AP_medium": 25.41,
+   "AP_large": 45.82
+  }
+ },
+ "voc_val::int8-wonly512": {
+  "codec-control-s0": {
+   "AP": 55.88,
+   "AP50": 80.87,
+   "AP75": 60.69,
+   "AP_small": 23.58,
+   "AP_medium": 38.27,
+   "AP_large": 61.65
+  },
+  "fog-s1": {
+   "AP": 55.17,
+   "AP50": 80.18,
+   "AP75": 59.94,
+   "AP_small": 23.25,
+   "AP_medium": 37.1,
+   "AP_large": 61.04
+  },
+  "fog-s3": {
+   "AP": 53.99,
+   "AP50": 79.09,
+   "AP75": 58.59,
+   "AP_small": 21.6,
+   "AP_medium": 36.15,
+   "AP_large": 59.79
+  },
+  "fog-s5": {
+   "AP": 52.63,
+   "AP50": 77.67,
+   "AP75": 56.45,
+   "AP_small": 20.07,
+   "AP_medium": 35.39,
+   "AP_large": 58.57
+  },
+  "gaussian_noise-s1": {
+   "AP": 52.59,
+   "AP50": 77.42,
+   "AP75": 56.85,
+   "AP_small": 22.49,
+   "AP_medium": 34.45,
+   "AP_large": 58.42
+  },
+  "gaussian_noise-s3": {
+   "AP": 42.29,
+   "AP50": 66.49,
+   "AP75": 43.96,
+   "AP_small": 16.71,
+   "AP_medium": 27.43,
+   "AP_large": 47.46
+  },
+  "gaussian_noise-s5": {
+   "AP": 18.8,
+   "AP50": 32.64,
+   "AP75": 18.54,
+   "AP_small": 5.41,
+   "AP_medium": 11.64,
+   "AP_large": 21.8
+  },
+  "jpeg-s1": {
+   "AP": 54.27,
+   "AP50": 79.14,
+   "AP75": 58.4,
+   "AP_small": 21.83,
+   "AP_medium": 35.38,
+   "AP_large": 60.51
+  },
+  "jpeg-s3": {
+   "AP": 51.79,
+   "AP50": 76.56,
+   "AP75": 55.12,
+   "AP_small": 19.08,
+   "AP_medium": 32.68,
+   "AP_large": 58.35
+  },
+  "jpeg-s5": {
+   "AP": 41.4,
+   "AP50": 64.86,
+   "AP75": 43.33,
+   "AP_small": 12.19,
+   "AP_medium": 24.51,
+   "AP_large": 47.57
+  },
+  "motion_blur-s1": {
+   "AP": 42.79,
+   "AP50": 65.92,
+   "AP75": 44.92,
+   "AP_small": 12.35,
+   "AP_medium": 23.96,
+   "AP_large": 49.22
+  },
+  "motion_blur-s3": {
+   "AP": 15.8,
+   "AP50": 26.65,
+   "AP75": 15.78,
+   "AP_small": 0.97,
+   "AP_medium": 5.2,
+   "AP_large": 20.64
+  },
+  "motion_blur-s5": {
+   "AP": 4.9,
+   "AP50": 9.15,
+   "AP75": 4.66,
+   "AP_small": 0.1,
+   "AP_medium": 1.08,
+   "AP_large": 6.72
+  },
+  "corr-mean": {
+   "AP": 40.54,
+   "AP50": 61.31,
+   "AP75": 43.04,
+   "AP_small": 14.67,
+   "AP_medium": 25.41,
+   "AP_large": 45.84
+  }
+ },
+ "voc_val::int8-aonly512": {
+  "codec-control-s0": {
+   "AP": 53.19,
+   "AP50": 80.16,
+   "AP75": 56.93,
+   "AP_small": 17.75,
+   "AP_medium": 33.73,
+   "AP_large": 60.32
+  },
+  "fog-s1": {
+   "AP": 52.52,
+   "AP50": 79.37,
+   "AP75": 56.39,
+   "AP_small": 16.81,
+   "AP_medium": 32.96,
+   "AP_large": 59.58
+  },
+  "fog-s3": {
+   "AP": 51.34,
+   "AP50": 78.32,
+   "AP75": 55.05,
+   "AP_small": 16.14,
+   "AP_medium": 31.77,
+   "AP_large": 58.42
+  },
+  "fog-s5": {
+   "AP": 50.04,
+   "AP50": 76.82,
+   "AP75": 53.0,
+   "AP_small": 15.87,
+   "AP_medium": 30.76,
+   "AP_large": 57.28
+  },
+  "gaussian_noise-s1": {
+   "AP": 50.15,
+   "AP50": 76.64,
+   "AP75": 53.85,
+   "AP_small": 19.18,
+   "AP_medium": 30.4,
+   "AP_large": 57.25
+  },
+  "gaussian_noise-s3": {
+   "AP": 40.4,
+   "AP50": 65.62,
+   "AP75": 41.48,
+   "AP_small": 12.32,
+   "AP_medium": 23.82,
+   "AP_large": 46.74
+  },
+  "gaussian_noise-s5": {
+   "AP": 17.86,
+   "AP50": 31.99,
+   "AP75": 17.1,
+   "AP_small": 4.2,
+   "AP_medium": 9.72,
+   "AP_large": 21.47
+  },
+  "jpeg-s1": {
+   "AP": 51.79,
+   "AP50": 78.59,
+   "AP75": 55.0,
+   "AP_small": 17.33,
+   "AP_medium": 31.19,
+   "AP_large": 59.26
+  },
+  "jpeg-s3": {
+   "AP": 49.41,
+   "AP50": 75.8,
+   "AP75": 52.06,
+   "AP_small": 14.35,
+   "AP_medium": 28.66,
+   "AP_large": 57.07
+  },
+  "jpeg-s5": {
+   "AP": 39.44,
+   "AP50": 63.92,
+   "AP75": 40.43,
+   "AP_small": 9.33,
+   "AP_medium": 21.5,
+   "AP_large": 46.56
+  },
+  "motion_blur-s1": {
+   "AP": 40.92,
+   "AP50": 65.23,
+   "AP75": 41.96,
+   "AP_small": 9.39,
+   "AP_medium": 20.63,
+   "AP_large": 48.38
+  },
+  "motion_blur-s3": {
+   "AP": 15.46,
+   "AP50": 26.63,
+   "AP75": 15.33,
+   "AP_small": 0.48,
+   "AP_medium": 4.48,
+   "AP_large": 20.33
+  },
+  "motion_blur-s5": {
+   "AP": 4.88,
+   "AP50": 9.15,
+   "AP75": 4.66,
+   "AP_small": 0.03,
+   "AP_medium": 1.02,
+   "AP_large": 6.7
+  },
+  "corr-mean": {
+   "AP": 38.68,
+   "AP50": 60.67,
+   "AP75": 40.53,
+   "AP_small": 11.29,
+   "AP_medium": 22.24,
+   "AP_large": 44.92
+  }
+ }
+}

@@ -84,8 +84,9 @@ def yolo_deltae_table(summary: dict, boot: dict, final: dict) -> str:
             ph = holm[(ds, model)]
             # smallest nonzero two-sided bootstrap p at B=2000 is 0.001;
             # an exact zero is bounded by the resolution, and the Holm
-            # multiplier on the smallest of nine raw p's is 9 -> bound <0.009
-            phs = "$<$0.009" if ph == 0 else f"{ph:.3f}"
+            # multiplier on the smallest of nine raw p's is 9; plus-one
+            # convention gives p<=1/(B+1), Holm <= 9/2001 ~= 0.0045
+            phs = "$\\le$0.005" if ph == 0 else f"{ph:.3f}"
             fp8c = blk["arms"]["fp8"]["corrupted_mean_ap"]
             i8c = blk["arms"]["int8"]["corrupted_mean_ap"]
             rows.append(
@@ -96,7 +97,7 @@ def yolo_deltae_table(summary: dict, boot: dict, final: dict) -> str:
     return ("\n".join([
         r"\begin{tabular}{llrrrrllr}",
         r"\toprule",
-        r"Dataset & Model & FP8 corr.\ AP & INT8 corr.\ AP & $G_0$ & $G_c$ & "
+        r"Dataset & Model & FP8 corr.\ AP & INT8 corr.\ AP & $G_0$ & $G_{\mathrm{corr}}$ & "
         r"$\Delta E$ & 95\% interval & $p_{\mathrm{Holm}}$ \\",
         r"\midrule",
         *rows,
@@ -133,7 +134,7 @@ def retinanet_arms_table(summary: dict, report: dict) -> str:
         ("int8-legacy", "INT8-legacy (contract mismatch)"),
         ("int8-matched512", "INT8-matched"),
         ("int8-q95calib512", "INT8-q95calib (codec control)"),
-        ("int8-selective512", "INT8-selective (reg-head FP32)"),
+        ("int8-selective512", "INT8-selective (reg-head fp16)"),
         ("int8-sel-q95calib512", "INT8-sel-q95calib"),
         ("int8-corruptcalib512", "INT8-corruptcalib"),
         ("int8-sel-corruptcalib512", "INT8-sel-corruptcalib"),
@@ -266,7 +267,7 @@ _DECOMPOSITION_ARMS = [
      "recipe_v1_summary.json", "int8_matched_convadd_calibration"),
     ("INT8 at exactly the FP8 compute sites (shared mask)",
      "recipe_v3_summary.json", "int8_matched_shared_mask_512cal"),
-    ("INT8 backbone+FPN only (heads FP32)",
+    ("INT8 backbone+FPN only (heads fp16)",
      "recipe_v4_summary.json", "int8_matched_backbone_only"),
     ("INT8 classification head only",
      "recipe_v5_summary.json", "int8_matched_cls_head_only"),
@@ -647,6 +648,41 @@ def wa_factorial_figure(final: dict) -> None:
     print("wrote nn_wa_factorial.pdf")
 
 
+def iou_size_table() -> str:
+    """AP by IoU threshold and object size for the RetinaNet matched arms
+    (J95-clean basis), from the paired-protocol metric ledgers."""
+    path = (ROOT / "submission_support_20260911" / "phase_b_results"
+            / "nn_iou_size_metrics.json")
+    data = json.loads(path.read_text())
+    order = ["fp8-matched512", "int8-matched512", "int8-selective512",
+             "int8-wonly512", "int8-aonly512"]
+    label = {
+        "fp8-matched512": "FP8-matched",
+        "int8-matched512": "INT8-matched",
+        "int8-selective512": "INT8-selective (reg-head fp16)",
+        "int8-wonly512": "W-only (INT8 W / fp16 A)",
+        "int8-aonly512": "A-only (fp16 W / INT8 A)",
+    }
+    stat = ["AP", "AP50", "AP75", "AP_small", "AP_medium", "AP_large"]
+    rows = []
+    for ds, dsname in (("kitti_val", "KITTI"), ("voc_val", "VOC")):
+        for i, arm in enumerate(order):
+            cell = data[f"{ds}::{arm}"]["codec-control-s0"]
+            rows.append(
+                f"{dsname if i == 0 else ''} & {label[arm]} & "
+                + " & ".join(f"{cell[s]:.1f}" for s in stat) + r" \\")
+        if ds == "kitti_val":
+            rows.append(r"\addlinespace[4pt]")
+    return ("\n".join([
+        r"\begin{tabular}{llrrrrrr}",
+        r"\toprule",
+        r"Dataset & Arm & AP & AP$_{50}$ & AP$_{75}$ & AP$_S$ & AP$_M$ & AP$_L$ \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}"]) + "\n")
+
+
 def fcos_replication_table(final: dict) -> str:
     """RetinaNet vs FCOS matched-arm and selective-arm contrasts."""
     rows = []
@@ -941,6 +977,7 @@ def main() -> None:
     write(GEN / "nn_decomposition.tex", decomposition_table())
     write(GEN / "nn_per_family.tex", per_family_table(final))
     write(GEN / "nn_numbers.tex", numbers_tex(final))
+    write(GEN / "nn_iou_size.tex", iou_size_table())
     deltae_forest(summary, boot, final)
     retinanet_figure(summary, report)
     intervention_figure(final)

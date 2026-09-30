@@ -1,12 +1,12 @@
 \begin{tabular}{llrrrrllr}
 \toprule
-Dataset & Model & FP8 corr.\ AP & INT8 corr.\ AP & $G_0$ & $G_c$ & $\Delta E$ & 95\% interval & $p_{\mathrm{Holm}}$ \\
+Dataset & Model & FP8 corr.\ AP & INT8 corr.\ AP & $G_0$ & $G_{\mathrm{corr}}$ & $\Delta E$ & 95\% interval & $p_{\mathrm{Holm}}$ \\
 \midrule
 KITTI & YOLO11n & 44.1 & 41.9 & +2.14 & +2.13 & -0.01 & $[-0.67,\,+0.91]$ & 0.914 \\
 KITTI & YOLO11m & 50.4 & 47.1 & +3.97 & +3.29 & -0.68\sigstar & $[-1.32,\,-0.05]$ & 0.124 \\
 KITTI & YOLO11x & 51.0 & 50.3 & +1.44 & +0.74 & -0.69\sigstar & $[-1.13,\,-0.33]$ & 0.008 \\
 VOC & YOLO11n & 44.8 & 43.8 & +0.68 & +0.99 & +0.31\sigstar & $[+0.07,\,+0.59]$ & 0.075 \\
-VOC & YOLO11m & 51.8 & 50.7 & +1.70 & +1.12 & -0.57\sigstar & $[-0.80,\,-0.34]$ & $<$0.009 \\
+VOC & YOLO11m & 51.8 & 50.7 & +1.70 & +1.12 & -0.57\sigstar & $[-0.80,\,-0.34]$ & $\le$0.005 \\
 VOC & YOLO11x & 54.3 & 53.3 & +0.91 & +1.05 & +0.14 & $[-0.07,\,+0.36]$ & 0.354 \\
 COCO-2k & YOLO11n & 28.2 & 27.4 & +1.10 & +0.78 & -0.32 & $[-0.67,\,+0.01]$ & 0.168 \\
 COCO-2k & YOLO11m & 38.0 & 36.5 & +0.89 & +1.49 & +0.60\sigstar & $[+0.27,\,+0.97]$ & 0.008 \\

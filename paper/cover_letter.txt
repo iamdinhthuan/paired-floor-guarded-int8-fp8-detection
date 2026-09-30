@@ -2,7 +2,7 @@
 
 Dear Editors of Neural Networks,
 
-Please consider our manuscript, "Recipe determinants of quantization fragility under image corruption: paired evidence and a regression-head localization in object detectors," for publication as a research article in Neural Networks.
+Please consider our manuscript, "Quantization fragility under image corruption is recipe-dependent: paired evidence from INT8 and FP8 object detectors," for publication as a research article in Neural Networks.
 
 Deployment of low-precision neural networks raises a reliability question that current evaluation practice answers ambiguously: whether an 8-bit quantized detector remains reliable under corrupted inputs depends on how the engine was built, not only on the datatype label. We make this concrete with a paired, codec-controlled protocol in which every corrupted input is paired with a JPEG-95 clean control and identical encoded bytes reach both precision treatments, and the corruption-associated change in the FP8-INT8 average-precision gap is estimated inside common-image bootstrap samples.
 

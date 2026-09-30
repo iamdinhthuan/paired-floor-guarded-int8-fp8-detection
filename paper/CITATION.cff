@@ -3,9 +3,9 @@ message: >-
   If you use this software or its compact evidence package, please cite the
   archived release using the Zenodo DOI below.
 title: >-
-  Recipe determinants of quantization fragility under image corruption:
-  paired evidence and a regression-head localization in object detectors:
-  Reproducibility Package
+  Quantization fragility under image corruption is recipe-dependent:
+  paired evidence from INT8 and FP8 object detectors: Reproducibility
+  Package
 type: software
 authors:
   - family-names: Nguyen

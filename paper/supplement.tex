@@ -12,7 +12,7 @@
 \usepackage{placeins}
 
 \hypersetup{
-  pdftitle={Supplementary Information: Recipe determinants of quantization fragility under image corruption},
+  pdftitle={Supplementary Information: Quantization fragility under image corruption is recipe-dependent},
   pdfauthor={Dinh Thuan Nguyen; Lam Phuong Nguyen; Vinh Huy Nguyen; Sy Vu Quang; Mohan Rajesh Elara; Anh Vu Le},
   pdfsubject={Supplementary methods, frozen protocol details, and reproducibility contract}
 }
@@ -29,7 +29,7 @@
 \setlength{\tabcolsep}{4pt}
 
 \title{Supplementary Information for\\[1mm]
-\textbf{Recipe determinants of quantization fragility under image corruption:\\ paired evidence and a regression-head localization in object detectors}}
+\textbf{Quantization fragility under image corruption is recipe-dependent:\\ paired evidence from INT8 and FP8 object detectors}}
 \author{Dinh Thuan Nguyen$^{1}$, Lam Phuong Nguyen$^{1}$, Vinh Huy Nguyen$^{2}$,\\
 Sy Vu Quang$^{3}$, Mohan Rajesh Elara$^{4}$, Anh Vu Le$^{3,*}$\\[2mm]
 \small $^1$Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Vietnam\\
@@ -130,6 +130,22 @@ INT8-matched graph (Section~3.7 of the main text): under the TensorRT
 \texttt{int8-entropy} build policy every non-quantized operation executes in
 fp16, so the restored operand computes in fp16 rather than literal fp32, and
 the bypassed head weight initializers are themselves fp16 tensors.
+
+\begin{table}[h]
+\centering\small
+\caption{IoU-threshold and object-size decomposition of the RetinaNet
+matched-arm deficit on the $\Jclean$ clean basis, from the per-cell metric
+ledgers (\texttt{phase\_b\_results/nn\_iou\_size\_metrics.json}; single-point
+values, no intervals). On KITTI the INT8-matched deficit concentrates at high
+IoU and on small objects ($\mathrm{AP}_{75}$ and $\mathrm{AP}_S$ collapse
+while $\mathrm{AP}_{50}$ and $\mathrm{AP}_L$ degrade far less), and the
+operand arms reproduce the same signature: A-only tracks the matched arm's
+$\mathrm{AP}_{75}$/$\mathrm{AP}_S$ almost exactly, while W-only and the
+selective arm match FP8 on every statistic. The same ordering holds on VOC
+at smaller magnitude.}
+\label{tab:iou-size}
+\resizebox{\columnwidth}{!}{\input{generated/nn_iou_size.tex}}
+\end{table}
 
 \begin{table}[h]
 \centering\small
@@ -401,8 +417,7 @@ schedule), input manifests, prediction manifests, metric records, and paired-boo
 draw caches are SHA-256 hash-bound and retained in the accompanying
 compact-evidence package, deposited in the versioned research archive
 under the concept DOI \url{https://doi.org/10.5281/zenodo.22031663}
-(currently resolving to the prior CVIU-era release lineage; the Neural
-Networks release mints on publication). Raw
+(a versioned release mints on publication). Raw
 benchmark datasets, trained checkpoints, built TensorRT engines, and raw
 predictions are not redistributed; their provenance and regeneration path is
 documented in the archive. One binding asymmetry is disclosed for

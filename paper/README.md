@@ -2,7 +2,7 @@
 
 ## Manuscript
 
-**Title:** *Recipe determinants of quantization fragility under image corruption: paired evidence and a regression-head localization in object detectors*
+**Title:** *Quantization fragility under image corruption is recipe-dependent: paired evidence from INT8 and FP8 object detectors*
 
 **Target journal:** *Neural Networks* (Elsevier)
 
