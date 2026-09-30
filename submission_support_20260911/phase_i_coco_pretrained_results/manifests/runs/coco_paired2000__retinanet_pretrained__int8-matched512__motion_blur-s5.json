@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_paired2000__retinanet_pretrained__int8-matched512__motion_blur-s5",
+  "dataset": "coco",
+  "split": "val",
+  "model": "retinanet-r50-fpn-v2-coco-pretrained",
+  "precision": "int8-entropy",
+  "decoder": "torchvision_retinanet_raw_v1",
+  "decoder_sha256": "58b7c8bf522978825c7662acf89e0c8520b4613c2cfe0f6a7e0c2dcfdeca9f29",
+  "engine_registry": "/home/thuan/topic_c_ivc/outputs/nn_coco_pretrained_v1_20260930/engines/coco_retinanet_int8-matched512/trt/engine.json",
+  "engine_registry_sha256": "e10795aedb9c7adc093f1cbff2b5e4441b18364c2d81b05c2d0b45e1892d9b8c",
+  "engine_sha256": "e60e9f8199371b224bd87a25f24b1d0433608b62a55d58b49f7bf342bcd241b7",
+  "corruption": "motion_blur",
+  "severity": 5,
+  "annotation_sha256": "2b9c7be00141b2c381a5287a819305a07aa96f31e5f1ac23242a59b6a4bc19af",
+  "confidence": 0.05,
+  "input_manifest_sha256": "c06d5aadb5fc7c94f2d13fc145aa90e8e992685cf95c5e65e43dbc3586d0692f",
+  "input_image_ids_sha256": "768005bb0990a7c20a3e46145779cd1ebe560bc0a28c113d4997572bcaf82b3c",
+  "prediction_sha256": "437f17667651fe21360ee538c0df6069559b4c61f4e85d43ac1938cd4659d1c3",
+  "n_images": 2000,
+  "n_detections": 235141,
+  "runtime_seconds": 50.35974717140198
+}

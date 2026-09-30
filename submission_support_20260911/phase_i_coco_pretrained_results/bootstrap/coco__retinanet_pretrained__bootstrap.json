@@ -1,0 +1,434 @@
+{
+  "dataset": "coco",
+  "model": "retinanet_pretrained",
+  "n_images": 2000,
+  "n_boot": 2000,
+  "seed": 112638306,
+  "draw_cache_sha256": "369c5cfc14a8138058aef02f88d9ae3e0d6e39ff8e63a5173c3c858b76aa9751",
+  "cells": [
+    {
+      "arm": "fp32",
+      "condition": "clean-s0",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__clean-s0"
+    },
+    {
+      "arm": "fp32",
+      "condition": "codec-control-s0",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__codec-control-s0"
+    },
+    {
+      "arm": "fp32",
+      "condition": "fog-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__fog-s1"
+    },
+    {
+      "arm": "fp32",
+      "condition": "fog-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__fog-s3"
+    },
+    {
+      "arm": "fp32",
+      "condition": "fog-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__fog-s5"
+    },
+    {
+      "arm": "fp32",
+      "condition": "gaussian_noise-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__gaussian_noise-s1"
+    },
+    {
+      "arm": "fp32",
+      "condition": "gaussian_noise-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__gaussian_noise-s3"
+    },
+    {
+      "arm": "fp32",
+      "condition": "gaussian_noise-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__gaussian_noise-s5"
+    },
+    {
+      "arm": "fp32",
+      "condition": "jpeg-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__jpeg-s1"
+    },
+    {
+      "arm": "fp32",
+      "condition": "jpeg-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__jpeg-s3"
+    },
+    {
+      "arm": "fp32",
+      "condition": "jpeg-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__jpeg-s5"
+    },
+    {
+      "arm": "fp32",
+      "condition": "motion_blur-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__motion_blur-s1"
+    },
+    {
+      "arm": "fp32",
+      "condition": "motion_blur-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__motion_blur-s3"
+    },
+    {
+      "arm": "fp32",
+      "condition": "motion_blur-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__fp32__motion_blur-s5"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "clean-s0",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__clean-s0"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "codec-control-s0",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__codec-control-s0"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "fog-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__fog-s1"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "fog-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__fog-s3"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "fog-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__fog-s5"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "gaussian_noise-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__gaussian_noise-s1"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "gaussian_noise-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__gaussian_noise-s3"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "gaussian_noise-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__gaussian_noise-s5"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "jpeg-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__jpeg-s1"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "jpeg-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__jpeg-s3"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "jpeg-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__jpeg-s5"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "motion_blur-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__motion_blur-s1"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "motion_blur-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__motion_blur-s3"
+    },
+    {
+      "arm": "fp8-matched512",
+      "condition": "motion_blur-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__fp8-matched512__motion_blur-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "clean-s0",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__clean-s0"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "codec-control-s0",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__codec-control-s0"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "fog-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__fog-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "fog-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__fog-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "fog-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__fog-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "gaussian_noise-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__gaussian_noise-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "gaussian_noise-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__gaussian_noise-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "gaussian_noise-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__gaussian_noise-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "jpeg-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__jpeg-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "jpeg-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__jpeg-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "jpeg-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__jpeg-s5"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "motion_blur-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__motion_blur-s1"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "motion_blur-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__motion_blur-s3"
+    },
+    {
+      "arm": "int8-matched512",
+      "condition": "motion_blur-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-matched512__motion_blur-s5"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "clean-s0",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__clean-s0"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "codec-control-s0",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__codec-control-s0"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "fog-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__fog-s1"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "fog-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__fog-s3"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "fog-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__fog-s5"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "gaussian_noise-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__gaussian_noise-s1"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "gaussian_noise-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__gaussian_noise-s3"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "gaussian_noise-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__gaussian_noise-s5"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "jpeg-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__jpeg-s1"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "jpeg-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__jpeg-s3"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "jpeg-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__jpeg-s5"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "motion_blur-s1",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__motion_blur-s1"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "motion_blur-s3",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__motion_blur-s3"
+    },
+    {
+      "arm": "int8-selective512",
+      "condition": "motion_blur-s5",
+      "stem": "coco_paired2000__retinanet_pretrained__int8-selective512__motion_blur-s5"
+    }
+  ],
+  "arms": {
+    "fp32": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.38453444058374386,
+      "clean_q95_ap": 0.38299798855319145,
+      "corrupted_mean_ap": 0.3118343281133153,
+      "ci95_clean": [
+        0.3775684471685949,
+        0.3909183227594893,
+        0.40521133363989115
+      ],
+      "ci95_corr_mean": [
+        0.3068546273564691,
+        0.3179512973886145,
+        0.32944831392989077
+      ]
+    },
+    "fp8-matched512": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.3799110241288317,
+      "clean_q95_ap": 0.37837361267076924,
+      "corrupted_mean_ap": 0.3058144464468838,
+      "ci95_clean": [
+        0.37338093757558766,
+        0.38637579996640503,
+        0.3997940549142492
+      ],
+      "ci95_corr_mean": [
+        0.3008260984082356,
+        0.31186201397537416,
+        0.3231501223042499
+      ]
+    },
+    "int8-matched512": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.35037671546984056,
+      "clean_q95_ap": 0.3469648677594208,
+      "corrupted_mean_ap": 0.2796968001514046,
+      "ci95_clean": [
+        0.34342928235140485,
+        0.3565061908660695,
+        0.37022221717427356
+      ],
+      "ci95_corr_mean": [
+        0.27509467134256166,
+        0.2854535206505392,
+        0.29624570985449705
+      ]
+    },
+    "int8-selective512": {
+      "n_cells": 14,
+      "clean_orig_ap": 0.3757144082162193,
+      "clean_q95_ap": 0.3727270749474492,
+      "corrupted_mean_ap": 0.2990864003339573,
+      "ci95_clean": [
+        0.3684068205523012,
+        0.38199319472604687,
+        0.3959685486402749
+      ],
+      "ci95_corr_mean": [
+        0.29430766766806926,
+        0.30495796269262687,
+        0.3163574970022529
+      ]
+    }
+  },
+  "contrasts": {
+    "fp8-matched512_minus_int8-matched512": {
+      "basis": "q95",
+      "G0": [
+        0.0277509973051513,
+        0.031638315851877125,
+        0.0357269450869546
+      ],
+      "Gc": [
+        0.024511777080915523,
+        0.02639581992660453,
+        0.028330238098863477
+      ],
+      "deltaE": [
+        -0.00902593085881075,
+        -0.0053238979991436786,
+        -0.0013810093668807808
+      ],
+      "point_deltaE": -0.005271642845706721
+    },
+    "int8-selective512_minus_int8-matched512": {
+      "basis": "q95",
+      "G0": [
+        0.023307952076976547,
+        0.025879587645041058,
+        0.028494473968170803
+      ],
+      "Gc": [
+        0.018374733976349082,
+        0.019593933031051253,
+        0.020748331926294272
+      ],
+      "deltaE": [
+        -0.008401251618864307,
+        -0.006311531914473256,
+        -0.004188292365286968
+      ],
+      "point_deltaE": -0.006296176077295085
+    },
+    "fp8-matched512_minus_int8-selective512": {
+      "basis": "q95",
+      "G0": [
+        0.002183458223529591,
+        0.0057441158055793196,
+        0.009634723821773914
+      ],
+      "Gc": [
+        0.005335795087354043,
+        0.006812443293627429,
+        0.008306300980875703
+      ],
+      "deltaE": [
+        -0.0027761708249584836,
+        0.001031612451864089,
+        0.004811198309156391
+      ],
+      "point_deltaE": 0.0010245332315883648
+    },
+    "fp32_minus_int8-selective512": {
+      "basis": "q95",
+      "G0": [
+        0.007387358549224783,
+        0.010473508509168894,
+        0.013910041337925278
+      ],
+      "Gc": [
+        0.011504973068319584,
+        0.012924717863830315,
+        0.014419166029056539
+      ],
+      "deltaE": [
+        -0.0007432118869815388,
+        0.002461338455185952,
+        0.005331757239321388
+      ],
+      "point_deltaE": 0.002437910623836454
+    }
+  }
+}

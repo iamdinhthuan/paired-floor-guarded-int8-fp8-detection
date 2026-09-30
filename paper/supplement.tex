@@ -362,11 +362,17 @@ $Q=\sum_i w_i(\hat\Delta_i-\bar\Delta_w)^2$ with $w_i=1/\widehat{\mathrm{se}}_i^
 from the bootstrap draws, $I^2=\max\{0,(Q-\mathrm{df})/Q\}$, and the
 DerSimonian--Laird between-block standard deviation $\tau$. Blocks within a
 dataset share images, so their estimates may be correlated; the cross-block
-covariance is not estimated, and treating the blocks as independent is an
-approximation whose error direction is not established for these
-differences-of-differences (positive covariance would make $Q$ and the
-pairwise $z$ statistics conservative, but this is an assumption, not a
-verified property). RetinaNet and
+covariance is not identifiable from the phase-B caches because each block's
+resample schedule is seeded per dataset$\times$model. To bound the induced
+dependence we re-ran the nine YOLO11 blocks with $B=1{,}000$ under a
+schedule seeded per dataset only (\texttt{shared\_schedule/bootstrap/}):
+per-draw Pearson correlations of the FP8$-$INT8 $\Delta E$ between model
+scales are $r=\{0.240, 0.213, -0.104\}$ on KITTI (n$\sim$m, n$\sim$x,
+m$\sim$x), $\{-0.033, -0.066, 0.111\}$ on VOC, and $\{0.057, 0.013, -0.196\}$
+on the COCO subset---small and mixed-sign, so treating the blocks as
+independent is at most mildly optimistic for the pooled statistics and does
+not affect the per-block Holm adjustment, which requires valid marginal
+$p$-values but no independence among tests. RetinaNet and
 intervention intervals are per contrast.
 
 Point estimates are full-sample plug-in values computed from the metric
@@ -476,7 +482,15 @@ schedule with the same paired bootstrap estimand, and are reported as
 post-hoc extensions rather than frozen evidence. The FCOS phase package
 ships its own provenance (per-engine build manifests, quantized-ONNX
 manifests, per-run training manifests, and the decoder-validation record
-above) under \texttt{phase\_h\_fcos\_results/}.
+above) under \texttt{phase\_h\_fcos\_results/}. The pretrained-checkpoint
+replication (torchvision RetinaNet-R50-FPN-v2 and FCOS-R50-FPN on a paired
+2,000-image COCO val2017 subset) is likewise post hoc: its package ships
+quantized-ONNX manifests, TensorRT build manifests, per-cell input/prediction/metric
+records, and bootstrap draw caches under
+\texttt{phase\_i\_coco\_pretrained\_results/}; calibration used the
+hash-bound 512-image COCO train2017 manifest
+\texttt{coco\_train\_clean\_512\_s20260807\_p0\_v1\_pilotroot}
+(canonical SHA-256 \texttt{bcac5aaa8b29\ldots}).
 
 \section{Artifact and audit boundary}
 

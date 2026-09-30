@@ -24,6 +24,9 @@ finally:
             sys.modules.pop(_name, None)
         else:
             sys.modules[_name] = _previous
+    # paired_bootstrap bound the stubbed COCOeval at import time; drop it from
+    # the module cache so later imports resolve the real pycocotools classes.
+    sys.modules.pop("paired_bootstrap", None)
 from fixed_universe_bootstrap import (
     accumulate_prepared_ap,
     accumulate_ap_weighted,

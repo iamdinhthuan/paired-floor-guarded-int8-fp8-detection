@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_paired2000__retinanet_pretrained__fp8-matched512__motion_blur-s1",
+  "dataset": "coco",
+  "split": "val",
+  "model": "retinanet-r50-fpn-v2-coco-pretrained",
+  "precision": "fp8",
+  "corruption": "motion_blur",
+  "severity": 1,
+  "n_images": 2000,
+  "stats": {
+    "AP": 0.3334380254323272,
+    "AP50": 0.5043619463814161,
+    "AP75": 0.35240245282111776,
+    "AP_small": 0.13124200418845897,
+    "AP_medium": 0.37686458936236406,
+    "AP_large": 0.517205448113084,
+    "AR1": 0.29109920044815846,
+    "AR10": 0.4579656240470771,
+    "AR100": 0.4906170148727624,
+    "AR_small": 0.24260366083447854,
+    "AR_medium": 0.5490262638052357,
+    "AR_large": 0.7080469326226628
+  },
+  "prediction_sha256": "39572a17a2bfef3a23573965a48b8185306f7fd5fe67415c263e8a0d11e91b05",
+  "input_manifest_sha256": "f893307632b04d9c16cdbdc122774c3540d6b23c5228c70bc52423868fb30004",
+  "input_image_ids_sha256": "768005bb0990a7c20a3e46145779cd1ebe560bc0a28c113d4997572bcaf82b3c",
+  "run_record_sha256": "5a833e8389afd2a015a772910d07a03fcb872cfd4084c3ee02633403d1654d81"
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_paired2000__fcos_pretrained__int8-matched512__gaussian_noise-s3",
+  "dataset": "coco",
+  "split": "val",
+  "model": "fcos-r50-fpn-coco-pretrained",
+  "precision": "int8-entropy",
+  "corruption": "gaussian_noise",
+  "severity": 3,
+  "n_images": 2000,
+  "stats": {
+    "AP": 0.29053988685847865,
+    "AP50": 0.4566964497626695,
+    "AP75": 0.30196126217240665,
+    "AP_small": 0.11997742190276117,
+    "AP_medium": 0.3135744137253003,
+    "AP_large": 0.46564459036621103,
+    "AR1": 0.26367772044141835,
+    "AR10": 0.43962981248860067,
+    "AR100": 0.4747635015465279,
+    "AR_small": 0.22748471663554548,
+    "AR_medium": 0.539001613093098,
+    "AR_large": 0.7037348125091486
+  },
+  "prediction_sha256": "474846c4544dd7d1ee6e571b1c4a9d18d2b274cdf085b00e399f512ab53e2ec9",
+  "input_manifest_sha256": "960a160464622bebd4c753495afbd1db600fc4b709183ff6f2e9c821a7aa0fc5",
+  "input_image_ids_sha256": "768005bb0990a7c20a3e46145779cd1ebe560bc0a28c113d4997572bcaf82b3c",
+  "run_record_sha256": "a0378e6b2a21df2efef61a85c9f323c47e803e41b33f094d3aaad804b197370a"
+}

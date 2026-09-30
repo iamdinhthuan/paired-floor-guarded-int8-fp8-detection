@@ -12,7 +12,8 @@ import argparse
 import json
 from pathlib import Path
 
-ATTEMPTS = ("nn_fcos_replication_v1_20260927", "nn_corruptcalib_fold2_v1_20260925",
+ATTEMPTS = ("nn_coco_pretrained_v1_20260930", "nn_fcos_replication_v1_20260927",
+            "nn_corruptcalib_fold2_v1_20260925",
             "nn_q95calib_v1_20260924",
             "nn_paired_protocol_v1_20260924",
             "nn_corruptcalib_v1_20260924", "kitti_pilot_117_v1", "voc_pilot_117_v1",
@@ -36,7 +37,7 @@ def main() -> None:
             # subset; their metric records carry a "subset_" dataset prefix.
             # Without this, the stem resolves to the 5,000-image full-val
             # records in the exploratory attempts.
-            if block["dataset"] == "coco":
+            if block["dataset"] == "coco" and not stem.startswith("coco_paired2000"):
                 stem = f"subset_{stem}"
             hit = next((root / "outputs" / "metrics" / a / f"{stem}.json"
                         for a in ATTEMPTS

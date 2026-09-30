@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_paired2000__fcos_pretrained__int8-selective512__motion_blur-s5",
+  "dataset": "coco",
+  "split": "val",
+  "model": "fcos-r50-fpn-coco-pretrained",
+  "precision": "int8-entropy",
+  "decoder": "torchvision_fcos_raw_v1",
+  "decoder_sha256": "58b7c8bf522978825c7662acf89e0c8520b4613c2cfe0f6a7e0c2dcfdeca9f29",
+  "engine_registry": "/home/thuan/topic_c_ivc/outputs/nn_coco_pretrained_v1_20260930/engines/coco_fcos_int8-selective512/trt/engine.json",
+  "engine_registry_sha256": "de0da080ddc5f00b82f6e9da8b6dbe9594cc687bda47ffb497a6df730439dda7",
+  "engine_sha256": "4c80554e1c10bb1b6332a689b976d5af7ef9fa83403fa84bd31dfdaa1fa4018e",
+  "corruption": "motion_blur",
+  "severity": 5,
+  "annotation_sha256": "2b9c7be00141b2c381a5287a819305a07aa96f31e5f1ac23242a59b6a4bc19af",
+  "confidence": 0.05,
+  "input_manifest_sha256": "c06d5aadb5fc7c94f2d13fc145aa90e8e992685cf95c5e65e43dbc3586d0692f",
+  "input_image_ids_sha256": "768005bb0990a7c20a3e46145779cd1ebe560bc0a28c113d4997572bcaf82b3c",
+  "prediction_sha256": "bfef6b393a2b466f0b19854bcac3dadc094ad60470714b45f0ed4ddafac14a21",
+  "n_images": 2000,
+  "n_detections": 600000,
+  "runtime_seconds": 56.14648079872131
+}

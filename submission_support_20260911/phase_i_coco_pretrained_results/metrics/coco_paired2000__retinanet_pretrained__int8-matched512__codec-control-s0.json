@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_paired2000__retinanet_pretrained__int8-matched512__codec-control-s0",
+  "dataset": "coco",
+  "split": "val",
+  "model": "retinanet-r50-fpn-v2-coco-pretrained",
+  "precision": "int8-entropy",
+  "corruption": "codec-control",
+  "severity": 0,
+  "n_images": 2000,
+  "stats": {
+    "AP": 0.3469648677594208,
+    "AP50": 0.5483852959505087,
+    "AP75": 0.368441091747344,
+    "AP_small": 0.15130528262341883,
+    "AP_medium": 0.3968396815419223,
+    "AP_large": 0.5222994191366902,
+    "AR1": 0.2966030630287381,
+    "AR10": 0.46225945568640525,
+    "AR100": 0.4957030190937253,
+    "AR_small": 0.2582852620288164,
+    "AR_medium": 0.5568595168707909,
+    "AR_large": 0.7108217946492821
+  },
+  "prediction_sha256": "4f4246eeba63ba9603515f0eba34fb850968d8baff2cc1fd0fbab1a4b376f6ef",
+  "input_manifest_sha256": "ffde0c5e1c22620108dfbe9d243076ce03e879788090883597f3c85d215caf54",
+  "input_image_ids_sha256": "768005bb0990a7c20a3e46145779cd1ebe560bc0a28c113d4997572bcaf82b3c",
+  "run_record_sha256": "c2a840670f57881f4558f246d97df52270e32fd0add92ebc5ff9805d37f1f0eb"
+}

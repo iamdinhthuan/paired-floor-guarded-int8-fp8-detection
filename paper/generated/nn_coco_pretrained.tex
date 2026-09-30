@@ -1,0 +1,23 @@
+\begin{tabular}{llll}
+\toprule
+Detector & Arm / contrast & $\Jclean$-basis AP & Corrupt-mean / $\Delta E$ \\
+\midrule
+RetinaNet & FP32 & 38.30 & 31.18 \\
+ & FP8-matched & 37.84 & 30.58 \\
+ & INT8-matched & 34.70 & 27.97 \\
+ & INT8-selective & 37.27 & 29.91 \\
+\cmidrule(lr){2-4}
+ & \emph{FP8$-$INT8} & $+3.14$\sigstar $[+2.78,\,+3.57]$ & $-0.53$\sigstar $[-0.90,\,-0.14]$ \\
+ & \emph{Sel$-$INT8} & $+2.58$\sigstar $[+2.33,\,+2.85]$ & $-0.64$\sigstar $[-0.84,\,-0.42]$ \\
+ & \emph{FP8$-$Sel} & $+0.56$\sigstar $[+0.22,\,+0.96]$ & $+0.11$ $[-0.28,\,+0.48]$ \\
+\addlinespace[4pt]
+FCOS & FP32 & 34.32 & 27.61 \\
+ & FP8-matched & 34.24 & 27.51 \\
+ & INT8-matched & 34.19 & 27.44 \\
+ & INT8-selective & 34.20 & 27.45 \\
+\cmidrule(lr){2-4}
+ & \emph{FP8$-$INT8} & $+0.05$ $[-0.22,\,+0.27]$ & $+0.02$ $[-0.20,\,+0.28]$ \\
+ & \emph{Sel$-$INT8} & $+0.01$ $[-0.06,\,+0.09]$ & $0.00$ $[-0.07,\,+0.07]$ \\
+ & \emph{FP8$-$Sel} & $+0.04$ $[-0.21,\,+0.24]$ & $+0.02$ $[-0.19,\,+0.27]$ \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_paired2000__retinanet_pretrained__int8-selective512__motion_blur-s5",
+  "dataset": "coco",
+  "split": "val",
+  "model": "retinanet-r50-fpn-v2-coco-pretrained",
+  "precision": "int8-entropy",
+  "corruption": "motion_blur",
+  "severity": 5,
+  "n_images": 2000,
+  "stats": {
+    "AP": 0.08859227746684337,
+    "AP50": 0.15219889450865182,
+    "AP75": 0.08780797783404028,
+    "AP_small": 0.009545504930551068,
+    "AP_medium": 0.07419849899380195,
+    "AP_large": 0.1885370754670884,
+    "AR1": 0.11983886440933678,
+    "AR10": 0.18315669461744086,
+    "AR100": 0.19227444456343132,
+    "AR_small": 0.017263942088909752,
+    "AR_medium": 0.1628393836985045,
+    "AR_large": 0.40727520592855604
+  },
+  "prediction_sha256": "4f3923aa45c7eb7c730f40991383c9d6872824c39f6472fbde88651270e87ca6",
+  "input_manifest_sha256": "c06d5aadb5fc7c94f2d13fc145aa90e8e992685cf95c5e65e43dbc3586d0692f",
+  "input_image_ids_sha256": "768005bb0990a7c20a3e46145779cd1ebe560bc0a28c113d4997572bcaf82b3c",
+  "run_record_sha256": "86a2b2e8ebc94f149575de5f9ecb061302546df68be22e073226a1df922d100a"
+}

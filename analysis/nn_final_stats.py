@@ -27,6 +27,7 @@ PHASE_E = SUPPORT / "phase_e_q95_results"
 PHASE_F = SUPPORT / "phase_f_fold2_results"
 PHASE_G = SUPPORT / "phase_g_wa_results"
 PHASE_H = SUPPORT / "phase_h_fcos_results"
+PHASE_I = SUPPORT / "phase_i_coco_pretrained_results"
 RETINA = "retinanet_r50_fpn_v2"
 FCOS = "fcos_r50_fpn"
 
@@ -101,8 +102,10 @@ def yolo_stats() -> dict:
            "I2": max(0.0, (q - df) / q), "tau": float(np.sqrt(max(0.0, (q - df) / c))),
            "pooled": pooled, "pooled_se": float(1.0 / np.sqrt(w.sum())),
            "note": "blocks treated as independent; within-dataset blocks share "
-                   "images, so the independence assumption is an approximation "
-                   "(the direction of any correlation bias is unverified)"}
+                   "images. A dataset-shared-schedule rerun "
+                   "(shared_schedule/bootstrap) bounds the induced draw "
+                   "correlation between model scales at |r|<=0.24, so the "
+                   "independence approximation is at most mildly optimistic."}
     within = {}
     for ds in ("kitti", "voc", "coco"):
         sub = [r for r in rows if r["dataset"] == ds]
@@ -214,6 +217,35 @@ def wa_stats() -> dict:
     return out
 
 
+def coco_pretrained_stats() -> dict:
+    """Independent replication on torchvision pretrained COCO checkpoints."""
+    out = {}
+    for model in ("retinanet_pretrained", "fcos_pretrained"):
+        blk = load_block(PHASE_I, "coco", model)
+        entry = {"arms": {}, "contrasts": {}}
+        for arm in ("fp32", "fp8-matched512", "int8-matched512",
+                    "int8-selective512"):
+            if blk.has(arm, "j95"):
+                entry["arms"][arm] = {
+                    fam: blk.level(arm, fam)[0]
+                    for fam in ("j95", "corr12", "in_family", "held_out")}
+        for a, b in (("fp8-matched512", "int8-matched512"),
+                     ("int8-selective512", "int8-matched512"),
+                     ("fp8-matched512", "int8-selective512"),
+                     ("fp32", "int8-selective512"),
+                     ("fp32", "int8-matched512")):
+            if not (blk.has(a, "j95") and blk.has(b, "j95")):
+                continue
+            entry["contrasts"][f"{a}_minus_{b}"] = {
+                "j95": blk.diff(a, b, "j95"), "corr12": blk.diff(a, b, "corr12"),
+                "deltaE": blk.delta_e(a, b),
+                "per_family_deltaE": {
+                    fam: blk.delta_e(a, b, f"fam_{fam}") for fam in
+                    ("fog", "gaussian_noise", "jpeg", "motion_blur")}}
+        out[model] = entry
+    return out
+
+
 def fcos_stats() -> dict:
     out = {}
     for ds in ("kitti", "voc"):
@@ -249,6 +281,8 @@ def main() -> None:
         result["retinanet_wa"] = wa_stats()
     if (PHASE_H / "cell_points.json").is_file():
         result["fcos"] = fcos_stats()
+    if (PHASE_I / "cell_points.json").is_file():
+        result["coco_pretrained"] = coco_pretrained_stats()
     path = SUPPORT / "nn_final_stats.json"
     path.write_text(json.dumps(result, indent=2) + "\n")
     het = result["yolo"]["heterogeneity"]

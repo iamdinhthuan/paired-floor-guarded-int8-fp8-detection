@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "coco_paired2000__fcos_pretrained__fp8-matched512__motion_blur-s1",
+  "dataset": "coco",
+  "split": "val",
+  "model": "fcos-r50-fpn-coco-pretrained",
+  "precision": "fp8",
+  "corruption": "motion_blur",
+  "severity": 1,
+  "n_images": 2000,
+  "stats": {
+    "AP": 0.29847098744372513,
+    "AP50": 0.4652175878695393,
+    "AP75": 0.3113810741305973,
+    "AP_small": 0.1079312243471876,
+    "AP_medium": 0.31911819367688427,
+    "AP_large": 0.49908745811137395,
+    "AR1": 0.27374456204818776,
+    "AR10": 0.4406382798867501,
+    "AR100": 0.47307045386946006,
+    "AR_small": 0.21156030311904586,
+    "AR_medium": 0.53927563885404,
+    "AR_large": 0.7233676261573406
+  },
+  "prediction_sha256": "c481e3fa919a76784ee0f6b21d5fd396a903b227c32db4a56895fdd76e3abcfa",
+  "input_manifest_sha256": "f893307632b04d9c16cdbdc122774c3540d6b23c5228c70bc52423868fb30004",
+  "input_image_ids_sha256": "768005bb0990a7c20a3e46145779cd1ebe560bc0a28c113d4997572bcaf82b3c",
+  "run_record_sha256": "623e0c427e4bbfdc44f1b57eddf03d90dd555264fab6179bf2a4873ef31df690"
+}
