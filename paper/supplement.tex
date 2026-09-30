@@ -133,21 +133,6 @@ INT8-matched graph (Section~3.7 of the main text): under the TensorRT
 fp16, so the restored operand computes in fp16 rather than literal fp32, and
 the bypassed head weight initializers are themselves fp16 tensors.
 
-\begin{table}[h]
-\centering\small
-\caption{IoU-threshold and object-size decomposition of the RetinaNet
-matched-arm deficit on the $\Jclean$ clean basis, from the per-cell metric
-ledgers (\texttt{phase\_b\_results/nn\_iou\_size\_metrics.json}; single-point
-values, no intervals). On KITTI the INT8-matched deficit concentrates at high
-IoU and on small objects ($\mathrm{AP}_{75}$ and $\mathrm{AP}_S$ collapse
-while $\mathrm{AP}_{50}$ and $\mathrm{AP}_L$ degrade far less), and the
-operand arms reproduce the same signature: A-only tracks the matched arm's
-$\mathrm{AP}_{75}$/$\mathrm{AP}_S$ almost exactly, while W-only and the
-selective arm match FP8 on every statistic. The same ordering holds on VOC
-at smaller magnitude.}
-\label{tab:iou-size}
-\resizebox{\columnwidth}{!}{\input{generated/nn_iou_size.tex}}
-\end{table}
 
 \begin{table}[h]
 \centering\small
@@ -352,17 +337,23 @@ corruption coverage.}
 Within each dataset$\times$model block, one deterministic schedule of
 $B=2{,}000$ resamples of image indices is shared across all arms and all
 conditions, so every contrast is evaluated inside common-image samples.
-Reported point estimates are full-sample plug-in values; reported intervals
-are the 2.5th--97.5th percentiles of the bootstrap distribution of each
-contrast. Intervals cover image resampling only; they do not cover
-training-seed, calibration-draw, engine-build, or corruption-realization
-variance, and image-level resampling treats frames as independent (KITTI
-frames from shared driving sequences are correlated, so those intervals may
-be optimistic).
+Resamples index evaluated images by position, so a duplicated image
+contributes its detections and ground truth once per occurrence; this
+multiplicity is verified by a dedicated unit test
+(\texttt{tests/test\_bootstrap\_multiplicity.py}), which constructs a
+stub evaluation where resample $[0,0,1]$ scores $34/101$ against the
+$51/101$ that deduplication would give. Reported point estimates are
+full-sample plug-in values; reported intervals are the 2.5th--97.5th
+percentiles of the bootstrap distribution of each contrast. Intervals cover
+image resampling only; they do not cover training-seed, calibration-draw,
+engine-build, or corruption-realization variance, and image-level resampling
+treats frames as independent (KITTI frames from shared driving sequences are
+correlated, so those intervals may be optimistic).
 
-Two-sided bootstrap $p$-values are
-$p=\min\{1,2\min[\Pr(d\le 0),\Pr(d\ge 0)]\}$ (two-sided resolution $1/1000$) and are
-Holm-adjusted across the nine paired YOLO11 blocks. Heterogeneity of
+Two-sided bootstrap $p$-values use a consistent plus-one convention in each
+tail, $\widetilde p=\min\{1,\,2(b_{\min}+1)/(B+1)\}$, so the smallest
+attainable value at $B=2{,}000$ is $2/2001\approx0.001$ and no $p$ is ever
+exactly zero; Holm adjustment covers the nine paired YOLO11 blocks. Heterogeneity of
 $\Delta E$ across those blocks uses Cochran's
 $Q=\sum_i w_i(\hat\Delta_i-\bar\Delta_w)^2$ with $w_i=1/\widehat{\mathrm{se}}_i^2$
 from the bootstrap draws, $I^2=\max\{0,(Q-\mathrm{df})/Q\}$, and the

@@ -3,8 +3,10 @@
 
 Point estimates are full-sample plug-in AP (``cell_points.json``, AP points);
 intervals are 2.5/97.5 percentiles of the paired per-cell bootstrap draws
-(``*__draws.npz``, AP fractions). Two-sided bootstrap p-values use
-p = min(1, 2 * min(P(d <= 0), P(d >= 0))).
+(``*__draws.npz``, AP fractions). Two-sided bootstrap p-values use the
+plus-one convention applied consistently in each tail,
+p = min(1, 2 * (min(b_le, b_ge) + 1) / (B + 1)),
+so no p-value is ever exactly zero at finite B.
 """
 from __future__ import annotations
 
@@ -87,7 +89,9 @@ class Block:
 
 def summarize(point: float, draws: np.ndarray) -> dict:
     lo, hi = np.percentile(draws, [2.5, 97.5])
-    p = min(1.0, 2.0 * min(np.mean(draws <= 0), np.mean(draws >= 0)))
+    n = draws.size
+    tail = min(int(np.sum(draws <= 0)), int(np.sum(draws >= 0)))
+    p = min(1.0, 2.0 * (tail + 1) / (n + 1))
     return {"point": float(point), "ci95": [float(lo), float(hi)],
             "se": float(np.std(draws, ddof=1)), "p": float(p)}
 

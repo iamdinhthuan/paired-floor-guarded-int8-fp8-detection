@@ -82,11 +82,11 @@ def yolo_deltae_table(summary: dict, boot: dict, final: dict) -> str:
             de, ci = c["deltaE"], [v * 100 for v in bc["deltaE"]]
             sig = r"\sigstar" if ci[0] > 0 or ci[2] < 0 else ""
             ph = holm[(ds, model)]
-            # smallest nonzero two-sided bootstrap p at B=2000 is 0.001;
-            # an exact zero is bounded by the resolution, and the Holm
-            # multiplier on the smallest of nine raw p's is 9; plus-one
-            # convention gives p<=1/(B+1), Holm <= 9/2001 ~= 0.0045
-            phs = "$\\le$0.005" if ph == 0 else f"{ph:.3f}"
+            # Two-sided plus-one convention (nn_contrasts.summarize): the
+            # smallest attainable raw p is 2/(B+1) = 2/2001 ~= 0.001, and the
+            # Holm multiplier on the smallest of nine raw p's is 9, so the
+            # smallest attainable adjusted value is 9*2/2001 ~= 0.009.
+            phs = f"{ph:.3f}"
             fp8c = blk["arms"]["fp8"]["corrupted_mean_ap"]
             i8c = blk["arms"]["int8"]["corrupted_mean_ap"]
             rows.append(
