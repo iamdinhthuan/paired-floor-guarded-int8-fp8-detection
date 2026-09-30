@@ -5,6 +5,7 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{graphicx}
+\graphicspath{{figures/}}
 \usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
@@ -27,6 +28,7 @@
 \renewcommand{\theequation}{S\arabic{equation}}
 \setlist[itemize]{leftmargin=*,nosep}
 \setlength{\tabcolsep}{4pt}
+\emergencystretch=1.5em
 
 \title{Supplementary Information for\\[1mm]
 \textbf{Quantization fragility under image corruption is recipe-dependent:\\ paired evidence from INT8 and FP8 object detectors}}
@@ -271,6 +273,80 @@ The codec-matched control manifests encode the same 512 images at JPEG
 quality 95 with no named corruption, isolating codec adaptation from
 corruption coverage.
 
+\section{Per-arm intervention contrasts}
+\label{sec:supp-intervention}
+
+Table~\ref{tab:intervention} gives the full per-arm contrast set underlying
+Section~4.4 of the main text, and Fig.~\ref{fig:intervention} groups the same
+contrasts by calibration arm and evaluation partition.
+
+The additive $\Delta E$ decomposition is itself scale-sensitive (a uniform
+level shift on a degraded arm appears as a corruption-specific gain), so we
+run a retention-scaled check: each fold's clean-control change is scaled by
+the matched arm's AP retention on that fold's held-out families
+(\nnRetHoFmKitti{} for fold~1 and \nnRetHoNjKitti{} for fold~2 on KITTI;
+\nnRetHoFmVoc{} and \nnRetHoNjVoc{} on VOC), predicting held-out changes of
+\nnPredCcHoKitti{} and \nnPredCtHoKitti{} on KITTI and \nnPredCcHoVoc{} and
+\nnPredCtHoVoc{} on VOC against the observed \nnCcHKittiP, \nnCtHKittiP,
+\nnCcHVocP, and \nnCtHVocP. Under this reading both KITTI cells are largely
+scale effects, VOC fold~1 still shows no corruption-specific benefit, and
+only VOC fold~2 exceeds its prediction materially (\nnCtHVocP{} vs.\
+\nnPredCtHoVoc{}); anchoring on the codec arm gives the same qualitative
+answer (KITTI fold-1 residual \nnResidCcQHoKitti{} AP).
+
+The fold-1 primary estimand also covers the selective-tier held-out gain over
+its clean-calibrated counterpart (sel-corruptcalib
+minus sel) is \nnSccHKitti{}
+on KITTI---significantly negative, under the development-contamination caveat
+of the main text---and \nnSccHVoc{} on VOC. On KITTI fold~2 the selective
+arm is significantly lifted where the full-INT8 arm is harmed ($\Jclean$
+\nnSctJKitti{}; held-out \nnSctHKitti{}), but neither lift survives the
+codec anchor (sel-cc2calib minus sel-q95calib: $\Jclean$ \nnSctQJKitti{};
+held-out \nnSctQHKitti{}). Against FP8-matched, the VOC fold-2 selective
+arm's held-out residual (\nnSctFHVoc{}) is the only cell whose fold-1-style
+null-seeking interval includes zero; on KITTI the same contrast excludes zero
+favorably (\nnSctFHKitti{}). All fold-2 selective contrasts are post hoc.
+
+\begin{table*}[t]
+\centering
+\caption{RetinaNet intervention and codec-control contrasts (A minus B, AP
+points; plug-in point with 95\% paired-bootstrap interval, 2,000 common-image
+resamples). $\Jclean$ clean: codec-control clean cell; corrupt mean: 12
+cells; in-family: Gaussian noise and JPEG (the fold-1 calibrated families);
+held-out: fog and motion blur (never calibrated in fold~1); for the
+q95-calibration rows, which see clean images only, these labels mark the
+evaluation partition rather than exposure; $\Delta E_{\text{held-out}}$ =
+held-out difference minus $\Jclean$ clean difference, and
+$\Delta E_{\text{in-family}}$ is defined analogously; because every row here
+is an intervention-minus-baseline contrast (the $\Delta E$ definition of the main text), positive $\Delta E$ shifts the difference toward the first-named
+arm. For rows anchored to a clean-calibrated INT8 arm, a positive $\Delta E$
+is a corruption-specific intervention benefit; for rows anchored to
+FP8-matched---which remain deep level deficits---positive values describe gap
+narrowing under corruption, not a benefit. Fold-2 rows swap the family roles:
+their in-family is fog and motion blur and their held-out is Gaussian noise
+and JPEG. \sigstar{} interval excludes zero.}
+\label{tab:intervention}
+\footnotesize
+\resizebox{\textwidth}{!}{\input{generated/nn_intervention.tex}}
+\end{table*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{nn_intervention.pdf}
+\caption{Calibration variants versus their clean-calibrated counterparts (AP
+points, 95\% paired-bootstrap intervals). Grey: $\Jclean$ clean control;
+blue: in-family corruptions; red: held-out corruptions; ``f2'' groups swap the
+family roles, and for the q95-calibration rows---which see no corrupted
+images---the in-family/held-out labels mark only the evaluation partition.
+Held-out bars that merely track the clean bar are not corruption-specific:
+that is the KITTI fold-1 pattern and, as a harm, the KITTI fold-2 full-INT8
+pattern; the VOC fold-2 groups are the exception, where held-out clearly
+exceeds clean. Per-cell codec effects exist but stay under half an AP point in
+aggregate---a codec effect on shared failure cells, not evidence of
+corruption coverage.}
+\label{fig:intervention}
+\end{figure*}
+
 \section{Paired bootstrap}
 
 Within each dataset$\times$model block, one deterministic schedule of
@@ -411,7 +487,7 @@ above) under \texttt{phase\_h\_fcos\_results/}.
 \section{Artifact and audit boundary}
 
 Manuscript tables and figures are generated deterministically from frozen
-ledgers by \texttt{analysis/build\_nn\_tables.py}. Engine registries,
+ledgers by \texttt{analysis/build\_nn\_}\allowbreak\texttt{tables.py}. Engine registries,
 calibration manifests (including the corrupt-calibration cell-assignment
 schedule), input manifests, prediction manifests, metric records, and paired-bootstrap
 draw caches are SHA-256 hash-bound and retained in the accompanying
