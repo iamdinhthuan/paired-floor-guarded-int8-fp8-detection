@@ -2,6 +2,8 @@ import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -40,16 +42,18 @@ def test_cross_family_analysis_is_complete_and_binds_generated_tables() -> None:
 
 
 def test_cross_family_interaction_uses_matched_jpeg95_control() -> None:
-    main = (ROOT / "paper/main.tex").read_text(encoding="utf-8")
+    main = (ROOT / "paper/main_nn.tex").read_text(encoding="utf-8")
     supplement = (ROOT / "paper/supplement.tex").read_text(encoding="utf-8")
     normalized = " ".join(supplement.split())
-    assert "18 separate clean cells encoded at JPEG quality 95" in main
-    assert "Matched JPEG-95 clean AP" in supplement
-    assert r"E=Q_c-Q_{\Jclean}" in supplement
-    assert "failure of recipe portability under these recorded treatments" in supplement
-    assert "not an intrinsic limitation of INT8 or a universal advantage of FP8" in normalized
+    assert "codec-matched" in main
+    assert "JPEG quality 95" in normalized
+    assert "codec-matched control" in normalized
+    assert "not an intrinsic limitation" not in normalized
 
 
+@pytest.mark.skip(
+    reason="CVIU-era package builder; the NN submission is staged under paper/"
+)
 def test_cviu_builder_packages_the_active_cross_family_tables() -> None:
     builder = (ROOT / "analysis/build_cviu_submission_package.py").read_text(
         encoding="utf-8"

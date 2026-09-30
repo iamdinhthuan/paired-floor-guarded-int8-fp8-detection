@@ -26,6 +26,15 @@ CVIU_TITLE = (
     "A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object "
     "Detectors under Image Corruptions"
 )
+NN_TITLE = (
+    "Quantization fragility under image corruption is recipe-dependent: "
+    "paired evidence from INT8 and FP8 object detectors"
+)
+NN_MAIN = PAPER / "main_nn.tex"
+LEGACY_CVIU = (
+    "CVIU-era guard: the canonical manuscript is now paper/main_nn.tex and "
+    "the v2.x package release this test describes is already minted"
+)
 CVIU_DOIS = {
     "10.1016/j.cviu.2007.04.006",
     "10.1016/j.cviu.2020.102907",
@@ -59,27 +68,31 @@ def optional_field(entry: str, name: str) -> str:
     return match.group(1).strip() if match else ""
 
 
-def test_bibliography_is_closed_and_has_foundational_and_cviu_sources() -> None:
-    """Keep citation closure while allowing the foundational literature."""
+def test_bibliography_is_closed_and_has_foundational_and_nn_sources() -> None:
+    """Every citation in the NN manuscript resolves to a bibliography entry."""
     entries = bibtex_entries((PAPER / "references.bib").read_text(encoding="utf-8"))
-    cited = citation_keys(
-        (PAPER / "main.tex").read_text(encoding="utf-8"), root=PAPER
-    )
+    cited = citation_keys(NN_MAIN.read_text(encoding="utf-8"), root=PAPER)
 
     assert entries
-    assert cited == set(entries), f"missing={sorted(cited - set(entries))}, orphaned={sorted(set(entries) - cited)}"
+    missing = cited - set(entries)
+    assert not missing, f"cited but missing from references.bib: {sorted(missing)}"
+    archived = citation_keys(
+        (PAPER / "main.tex").read_text(encoding="utf-8"), root=PAPER
+    )
+    assert not (archived - set(entries))
+    assert cited | archived == set(entries), (
+        f"uncited entries: {sorted(set(entries) - cited - archived)}"
+    )
     years = {int(field(entry, "year")) for entry in entries.values()}
     assert min(years) <= 1981  # bootstrap foundations are intentionally retained
     assert max(years) == 2026
 
-    cviu_entries = [
+    nn_entries = [
         entry
         for entry in entries.values()
-        if optional_field(entry, "journal").casefold()
-        == "computer vision and image understanding"
+        if optional_field(entry, "journal").casefold() == "neural networks"
     ]
-    assert len(cviu_entries) == 5
-    assert {field(entry, "doi").casefold() for entry in cviu_entries} == CVIU_DOIS
+    assert nn_entries
 
 
 def test_citation_keys_resolves_owned_input_files(tmp_path: Path) -> None:
@@ -92,14 +105,14 @@ def test_citation_keys_resolves_owned_input_files(tmp_path: Path) -> None:
     assert citation_keys(tex, root=tmp_path) == {"main2026", "included2026"}
 
 
-def test_citation_cff_describes_the_frozen_cviu_reproducibility_package() -> None:
-    """Keep the release record aligned with the paper and six human authors."""
+def test_citation_cff_describes_the_nn_reproducibility_package() -> None:
+    """Keep the release record aligned with the NN paper and six human authors."""
     cff = yaml.safe_load((PAPER / "CITATION.cff").read_text(encoding="utf-8"))
 
     assert cff["cff-version"] == "1.2.0"
-    assert cff["title"] == f"{CVIU_TITLE}: Reproducibility Package"
-    assert cff["version"] == "2.1.0"
-    assert cff["doi"] == "10.5281/zenodo.22275640"
+    assert cff["title"] == f"{NN_TITLE}: Reproducibility Package"
+    assert cff["version"] == "3.0.0"
+    assert cff["doi"] == "10.5281/zenodo.22031663"
     assert cff["license"] == "MIT"
     assert cviu_validator.cff_names(cff) == cviu_validator.AUTHORS
     serialized = json.dumps(cff)
@@ -124,9 +137,10 @@ def test_highlights_meet_elsevier_contract_and_match_the_scientific_message() ->
     assert len(lines) == 5
     assert all(len(line) <= 85 for line in lines)
     joined = " ".join(lines).casefold()
-    for phrase in ("paired evaluation", "shared-image", "clean adjustment", "absolute ap"):
+    for phrase in ("corruption interaction", "yolo11", "regression head", "calibration"):
         assert phrase in joined
     assert "format superiority" not in joined
+    assert "universal" not in joined
 
 
 def test_main_manuscript_states_the_evidence_hierarchy_explicitly() -> None:
@@ -235,6 +249,7 @@ def test_front_matter_has_at_most_seven_keywords_and_discloses_both_assistants()
     assert tex.count(r"\orcidlink{") == 5
 
 
+@pytest.mark.skip(reason=LEGACY_CVIU)
 def test_cviu_package_validator_accepts_the_canonical_paper() -> None:
     errors, notes = cviu_validator.validate(PAPER)
     assert errors == []
@@ -243,7 +258,7 @@ def test_cviu_package_validator_accepts_the_canonical_paper() -> None:
 
 
 def test_rendered_main_has_results_before_discussion_and_no_layout_warnings() -> None:
-    pdf = PROJECT_ROOT / "paper" / "main.pdf"
+    pdf = PROJECT_ROOT / "paper" / "main_nn.pdf"
     info = subprocess.run(
         ["pdfinfo", str(pdf)], check=True, capture_output=True, text=True
     ).stdout
@@ -254,7 +269,7 @@ def test_rendered_main_has_results_before_discussion_and_no_layout_warnings() ->
     ).stdout
     assert rendered.index("4. Results") < rendered.index("5. Discussion")
     assert "References" in rendered
-    for log_name in ("main.log", "supplement.log"):
+    for log_name in ("main_nn.log", "supplement.log"):
         log = (PAPER / log_name).read_text(encoding="utf-8")
         for pattern in cviu_validator.LOG_ERRORS.values():
             assert pattern.search(log) is None
@@ -305,13 +320,13 @@ def test_zenodo_metadata_is_release_ready_and_has_only_human_creators() -> None:
     zenodo = json.loads((PAPER / ".zenodo.json").read_text(encoding="utf-8"))
     metadata, names = cviu_validator.zenodo_names(zenodo)
 
-    assert metadata["title"] == f"{CVIU_TITLE}: Reproducibility Package"
-    assert metadata["version"] == "2.1.0"
+    assert metadata["title"] == f"{NN_TITLE}: Reproducibility Package"
+    assert metadata["version"] == "3.0.0"
     assert metadata["license"] == "MIT"
     assert names == cviu_validator.AUTHORS
     assert metadata["related_identifiers"] == [
         {
-            "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v2.1.0",
+            "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection",
             "relation": "isSupplementTo",
             "scheme": "url",
             "resource_type": "software",
@@ -411,7 +426,7 @@ def test_current_manuscript_title_change_fails_when_cff_and_zenodo_are_unchanged
 
 def test_zenodo_title_must_match_the_manuscript_and_cff() -> None:
     """Catches drift among manuscript, CFF, and Zenodo release titles."""
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
+    tex = NN_MAIN.read_text(encoding="utf-8")
     zenodo = json.loads((PAPER / ".zenodo.json").read_text(encoding="utf-8"))
     cff = yaml.safe_load((PAPER / "CITATION.cff").read_text(encoding="utf-8"))
     manuscript_title, _ = submission_metadata.manuscript_metadata(tex)

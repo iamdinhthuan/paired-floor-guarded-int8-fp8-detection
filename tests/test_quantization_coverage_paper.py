@@ -65,10 +65,11 @@ def test_builder_writes_hash_bound_table_with_non_kernel_scope(tmp_path: Path) -
     assert len(audit["input_reports_sha256"]) == 2
 
 
-def test_supplement_labels_qdq_counts_as_graph_not_kernel_coverage() -> None:
-    supplement = (ROOT / "paper" / "supplement.tex").read_text(encoding="utf-8")
-    normalized = " ".join(supplement.split())
+def test_manuscript_labels_qdq_claims_as_graph_not_kernel_coverage() -> None:
+    """Q/DQ coverage claims stay at graph level, not kernel-level execution."""
+    main = (ROOT / "paper" / "main_nn.tex").read_text(encoding="utf-8")
+    normalized = " ".join(main.split())
 
-    assert r"\input{generated/quantization_graph_coverage.tex}" in supplement
-    assert "not a claim that every TensorRT kernel executes at the nominal precision" in normalized
-    assert "failure of recipe portability under these recorded treatments" in normalized
+    assert "quantize/dequantize (Q/DQ) coverage" in normalized
+    assert "kernel-level execution rates were not measured" in normalized
+    assert "at the graph level, not serialized-engine storage" in normalized

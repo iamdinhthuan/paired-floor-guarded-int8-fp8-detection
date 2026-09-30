@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PAPER = PROJECT_ROOT / "paper"
@@ -30,6 +32,10 @@ def test_main_integrates_targeted_multiseed_evidence_without_overgeneralizing() 
     assert "variation is restricted to the training seed and the calibration-list seed" in normalized_main
 
 
+@pytest.mark.skip(
+    reason="CVIU-era supplement guard; the NN manuscript carries no "
+    "multiseed decomposition section"
+)
 def test_supplement_integrates_hash_validated_seed_decomposition() -> None:
     supplement = (PAPER / "supplement.tex").read_text(encoding="utf-8")
 

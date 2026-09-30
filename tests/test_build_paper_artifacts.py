@@ -1220,12 +1220,11 @@ def test_active_supplement_exposes_codec_control_sensitivity() -> None:
         encoding="utf-8"
     )
 
-    assert r"\input{generated/codec_sensitivity.tex}" in supplement
-    assert r"\input{generated/direct_heterogeneity_sensitivity.tex}" in supplement
-    assert r"\input{generated/direct_runtime_sensitivity.tex}" in supplement
-    assert r"\input{generated/direct_size_guardrail_summary.tex}" in supplement
-    assert "original-source clean" in supplement
-    assert "This point sensitivity quantifies the control choice" in supplement
+    normalized = " ".join(supplement.split())
+    assert r"\input{generated/nn_intervention.tex}" in supplement
+    assert "codec-matched control" in normalized
+    assert "JPEG quality 95" in normalized
+    assert "leave-one-out sensitivity" in normalized
 
 
 def test_main_results_consume_conditionality_summary_once() -> None:
@@ -1310,7 +1309,7 @@ def test_main_source_uses_the_frozen_cviu_direct_evidence_structure() -> None:
     supplement = (PROJECT_ROOT / "paper" / "supplement.tex").read_text(encoding="utf-8")
     assert "All 12 FP16 consistency checks passed" in main
     assert "does not validate the full 36-cell TT100K height macro" in main
-    assert "selection-disjoint" in supplement
+    assert "selection provenance" in " ".join(supplement.split())
     assert r"Table~\ref{tab:measurement-contract}" in main
     for stale in (
         "direct_methods_tail.tex",
