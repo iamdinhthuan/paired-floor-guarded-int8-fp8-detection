@@ -754,6 +754,160 @@ def coco_pretrained_table(final: dict) -> str:
         r"\end{tabular}"]) + "\n")
 
 
+def latency_table(final: dict) -> str:
+    """Idle-gated latency ledger: median ms per engine condition (B4)."""
+    conds = final.get("latency", {}).get("conditions", {})
+    if not conds:
+        return ""
+    det_short = {"retinanet-r50-fpn-v2-coco-pretrained": "RetinaNet (pretrained)",
+                 "fcos-r50-fpn-coco-pretrained": "FCOS (pretrained)",
+                 "retinanet-r50-fpn-v2": "RetinaNet", "fcos-r50-fpn": "FCOS"}
+    rows = []
+    for cid in sorted(conds):
+        e = conds[cid]
+        arm = cid[len(e["dataset"]) + 1:]
+        for prefix in ("retinanet_pretrained_", "retinanet_", "fcos_pretrained_", "fcos_"):
+            if arm.startswith(prefix):
+                arm = arm[len(prefix):]
+                break
+        det = det_short.get(e["model"], e["model"])
+        ds = {"kitti": "KITTI", "voc": "VOC", "coco": "COCO"}[e["dataset"]]
+        armtex = arm.replace("_", r"\_")
+        rows.append(
+            det + " & " + ds + " & \\texttt{" + armtex + "}"
+            + " & %.3f & %.3f \\\\" % (e["median_ms"], e["spread_ms"]))
+    return ("\n".join([
+        r"\begin{tabular}{lllcc}",
+        r"\toprule",
+        r"Detector & Dataset & Arm & Median latency (ms) & Rep spread (ms) \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}"]) + "\n")
+
+
+def rebuild_variance_table(final: dict) -> str:
+    """TensorRT rebuild determinism audit: distinct hashes + AP spread (B3)."""
+    rb = final.get("rebuild_variance", {})
+    if not rb:
+        return ""
+    rows = []
+    for arm, a in sorted(rb.get("arms", {}).items()):
+        ap = rb.get("ap_spread", {})
+        cells = [f"{v['spread']:.4f}" for k, v in sorted(ap.items())
+                 if k.startswith(f"{arm}__")]
+        layers = a.get("n_layers") or []
+        lay = f"{min(layers)}--{max(layers)}" if layers else "--"
+        armtex = arm.replace("_", r"\_")
+        rows.append(
+            "\\texttt{" + armtex + "} & %d & %d & %d & %s & %s \\\\" % (
+                a["n_rebuilds"], a["distinct_engine_sha256"],
+                a["distinct_inspector_sha256"], lay,
+                "; ".join(cells) if cells else "--"))
+    return ("\n".join([
+        r"\begin{tabular}{lccccc}",
+        r"\toprule",
+        r"Arm & $n$ & distinct eng.~SHA & distinct insp.~SHA & layers & AP spread \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}"]) + "\n")
+
+
+def actstats_table(final: dict) -> str:
+    """Head-region activation statistics over calibration images (B5)."""
+    graphs = final.get("actstats", {})
+    if not graphs:
+        return ""
+    order = [("kitti_retinanet", "KITTI RetinaNet (trained)"),
+             ("voc_retinanet", "VOC RetinaNet (trained)"),
+             ("coco_retinanet_pretrained", "COCO RetinaNet (pretrained)")]
+    reg_name = {"regression_head": "regression head",
+                "classification_head": "classification head",
+                "shared_by_heads": "shared head inputs"}
+    rows = []
+    for key, label in order:
+        g = graphs.get(key)
+        if not g:
+            continue
+        for i, region in enumerate(("regression_head", "classification_head",
+                                    "shared_by_heads")):
+            s = g["summary"].get(region)
+            if not s:
+                continue
+            lead = label if i == 0 else ""
+            rows.append(
+                "%s & %s & %d & %.2f & %.0f & %.2f & %.0f \\\\" % (
+                    lead, reg_name[region], s["n_tensors"],
+                    s["amax_med_of_channel_medians"], s["max_amax"],
+                    s["kurt_med_of_channel_medians"], s["max_kurt"]))
+        rows.append(r"\addlinespace[3pt]")
+    if rows:
+        rows.pop()
+    return ("\n".join([
+        r"\begin{tabular}{llccccc}",
+        r"\toprule",
+        r"Graph & Region & $n$ tensors & med.~$|x|_{\max}$ & max $|x|$ & "
+        r"med.~excess kurt. & max ex.~kurt. \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}"]) + "\n")
+
+
+def maxcalib_table(final: dict) -> str:
+    """INT8 max-calibration counterfactual (B6): point estimates, no draws.
+
+    Reference rows come from the frozen paired-protocol arm levels (Phase-B
+    cell points); the max-calibration rows are the post-hoc 512-image
+    counterfactual arms evaluated on the same 14-condition schedule."""
+    mc = final.get("maxcalib", {})
+    if not mc:
+        return ""
+    bpts = json.loads((PHASE_B / "cell_points.json").read_text())
+    corr = [f"{f}-s{s}" for f in ("fog", "gaussian_noise", "jpeg", "motion_blur")
+            for s in (1, 3, 5)]
+    ref_arms = [("fp32", "FP32 reference"),
+                ("fp8-matched512", "FP8-matched (entropy)"),
+                ("int8-matched512", "INT8-matched (entropy)"),
+                ("int8-selective512", "INT8-selective (entropy)")]
+    labels = {"kitti": "KITTI", "voc": "VOC"}
+    rows = []
+    for ds in ("kitti", "voc"):
+        ent = mc.get(ds)
+        if not ent:
+            continue
+        ref = bpts[f"{ds}/retinanet_r50_fpn_v2"]
+        first = True
+        for arm, label in ref_arms:
+            cells = ref[arm]
+            cm = float(np.mean([cells[c] for c in corr]))
+            lead = labels[ds] if first else ""
+            first = False
+            codec = "%.2f" % cells["codec-control-s0"] if "codec-control-s0" in cells else "--"
+            rows.append("%s & %s & %.2f & %s & %.2f \\\\" % (
+                lead, label, cells["clean-s0"], codec, cm))
+        rows.append(r"\addlinespace[2pt]")
+        for arm, label in (("int8-max512", "INT8-matched (max)"),
+                           ("int8-maxsel512", "INT8-selective (max)")):
+            a = ent["arms"].get(arm)
+            if not a:
+                continue
+            rows.append(" & \\textbf{%s} & %.3f & %.3f & %.3f \\\\" % (
+                label, a["j95"], a["codec_control"], a["corr12"]))
+        rows.append(r"\addlinespace[3pt]")
+    if rows and rows[-1] == r"\addlinespace[3pt]":
+        rows.pop()
+    return ("\n".join([
+        r"\begin{tabular}{llccc}",
+        r"\toprule",
+        r"Dataset & Arm & $\Jclean$ clean & codec ctrl. & corrupt mean \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}"]) + "\n")
+
+
 # ---------------- in-text number macros ----------------
 
 def _ci(v: dict) -> str:
@@ -1027,6 +1181,90 @@ def numbers_tex(final: dict) -> str:
             if fm_p and sm_p and fm_p["j95"]["point"]:
                 macros[f"CpRecov{M}"] = (
                     f"{100 * sm_p['j95']['point'] / fm_p['j95']['point']:.0f}")
+    # ---- B3/B4: rebuild variance + latency macros ----
+    rb = final.get("rebuild_variance", {})
+    if rb:
+        macros["RbTotal"] = str(rb["total_rebuilds"])
+        macros["RbDistinct"] = str(sum(a["distinct_engine_sha256"]
+                                       for a in rb["arms"].values()))
+        spreads = [v["spread"] for v in rb.get("ap_spread", {}).values()]
+        macros["RbApSpread"] = f"{max(spreads):.4f}" if spreads else "--"
+        layers = [n for a in rb["arms"].values() for n in (a.get("n_layers") or [])]
+        if layers:
+            macros["RbLayersMin"] = str(min(layers))
+            macros["RbLayersMax"] = str(max(layers))
+    lat = final.get("latency", {})
+    if lat:
+        conds = lat["conditions"]
+        int8 = [e["median_ms"] for c, e in conds.items() if c.endswith("int8-matched512")]
+        fp32 = {c: e["median_ms"] for c, e in conds.items() if c.endswith("_fp32")}
+        # selective overhead vs int8-matched within the same detector+dataset
+        over = []
+        for c, e in conds.items():
+            if not c.endswith("int8-selective512"):
+                continue
+            base = conds.get(c.replace("int8-selective512", "int8-matched512"))
+            if base:
+                over.append(100 * (e["median_ms"] / base["median_ms"] - 1))
+        macros["LatIntEightMin"] = f"{min(int8):.2f}"
+        macros["LatIntEightMax"] = f"{max(int8):.2f}"
+        if fp32:
+            macros["LatFpMin"] = f"{min(fp32.values()):.2f}"
+            macros["LatFpMax"] = f"{max(fp32.values()):.2f}"
+        # per-family speedup where an fp32 sibling exists (ratio ledger)
+        speedups = [1.0 / v["int8-matched512"]
+                    for v in lat.get("ratio_vs_fp32", {}).values()
+                    if "int8-matched512" in v]
+        if speedups:
+            macros["LatIntSpeedupMin"] = f"{min(speedups):.1f}"
+            macros["LatIntSpeedupMax"] = f"{max(speedups):.1f}"
+        if over:
+            macros["LatSelOverheadMax"] = f"{max(over):.1f}"
+            macros["LatSelOverheadMin"] = f"{min(over):.1f}"
+    # ---- B5: head-activation statistics macros ----
+    ac = final.get("actstats", {})
+    tag = {"kitti_retinanet": "Kitti", "voc_retinanet": "Voc",
+           "coco_retinanet_pretrained": "Coco"}
+    for key, K in tag.items():
+        g = ac.get(key)
+        if not g:
+            continue
+        for region, R in (("regression_head", "Reg"),
+                          ("classification_head", "Cls")):
+            s = g["summary"].get(region)
+            if not s:
+                continue
+            macros[f"Act{R}KurtMed{K}"] = f"{s['kurt_med_of_channel_medians']:.1f}"
+            macros[f"Act{R}KurtMax{K}"] = f"{s['max_kurt']:.0f}"
+            macros[f"Act{R}AmaxMax{K}"] = f"{s['max_amax']:.0f}"
+            macros[f"Act{R}AmaxMed{K}"] = f"{s['amax_med_of_channel_medians']:.1f}"
+        for region, R in (("regression_head", "Reg"),
+                          ("classification_head", "Cls")):
+            p95 = g.get("p95_of_channel", {}).get(region)
+            if p95:
+                macros[f"Act{R}KurtTail{K}"] = f"{p95['kurt_p95_med']:.1f}"
+        st = g.get("static_scales", {})
+        for region, R in (("regression_head", "Reg"),
+                          ("classification_head", "Cls")):
+            s = st.get(f"{region}/activation")
+            if s:
+                macros[f"ActStatic{R}Med{K}"] = f"{s['amax_median']:.1f}"
+                macros[f"ActStatic{R}Max{K}"] = f"{s['amax_max']:.1f}"
+    # ---- B6: max-calibration counterfactual macros (points, no intervals) ----
+    mc = final.get("maxcalib", {})
+    for ds, K in (("kitti", "Kitti"), ("voc", "Voc")):
+        ent = mc.get(ds)
+        if not ent:
+            continue
+        for arm, A in (("int8-max512", "Max"), ("int8-maxsel512", "MaxSel")):
+            a = ent["arms"].get(arm)
+            if a:
+                macros[f"Mc{A}J{K}"] = f"{a['j95']:.2f}"
+                macros[f"Mc{A}C{K}"] = f"{a['corr12']:.2f}"
+        ct = ent["contrasts"].get("maxsel_minus_max")
+        if ct:
+            macros[f"McSelGainJ{K}"] = f"{ct['j95']:.2f}"
+            macros[f"McSelGainC{K}"] = f"{ct['corr12']:.2f}"
     lines = ["% Generated by analysis/build_nn_tables.py from nn_final_stats.json"]
     lines += [f"\\newcommand{{\\nn{k}}}{{{v}}}" for k, v in sorted(macros.items())]
     return "\n".join(lines) + "\n"
@@ -1061,6 +1299,14 @@ def main() -> None:
         write(GEN / "nn_fcos_replication.tex", fcos_replication_table(final))
     if "coco_pretrained" in final:
         write(GEN / "nn_coco_pretrained.tex", coco_pretrained_table(final))
+    if "latency" in final:
+        write(GEN / "nn_latency.tex", latency_table(final))
+    if "rebuild_variance" in final:
+        write(GEN / "nn_rebuild_variance.tex", rebuild_variance_table(final))
+    if "actstats" in final:
+        write(GEN / "nn_actstats.tex", actstats_table(final))
+    if "maxcalib" in final:
+        write(GEN / "nn_maxcalib.tex", maxcalib_table(final))
 
 
 if __name__ == "__main__":

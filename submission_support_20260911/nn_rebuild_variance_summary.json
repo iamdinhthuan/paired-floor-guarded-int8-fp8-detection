@@ -1,0 +1,376 @@
+{
+  "root": "submission_support_20260911/nn_rebuild_variance_v1_20260930",
+  "arms": {
+    "coco_retinanet_int8-matched512": {
+      "n_rebuilds": 5,
+      "distinct_engine_sha256": 5,
+      "distinct_inspector_sha256": 5,
+      "source_onnx_sha256": [
+        "541719796d29c7ccfeef873c95dd8acd24cbbab774b3f2de198e0aaddbb46942"
+      ],
+      "tensorrt_version": "11.1.0.106",
+      "build_seconds": [
+        21.4,
+        19.9,
+        19.1,
+        19.3,
+        19.2
+      ],
+      "engine_bytes": [
+        41176268,
+        42237636,
+        41110572,
+        41197988,
+        41134116
+      ],
+      "n_layers": [
+        309,
+        288,
+        285,
+        289,
+        285
+      ],
+      "distinct_layer_counts": 4,
+      "engine_sha256": [
+        "10c0cd2e01fa13c5edfa77eb54927372b1eb74ec9644a524251f084968b6c246",
+        "4794ffbf2cb6d0abb21d52dcda077d322fef7e234c55c31536358abe9adbde87",
+        "4b345cc8445e91d38d954e844bceffca9e6bf38e39e61cecaf7e138a133d7e60",
+        "8cc356287d3c4831b270dd6d11162f1ef8e38820d6c326152c56b95e2e5d5aa4",
+        "fd7d3e5d41795a43334cdea6f6f3c2393c0b5df13938f367fb4f72797333197f"
+      ],
+      "inspector_sha256": [
+        "15b9fb9c9a83de033501a0e3edab81f210252042d8afeaff1f321ee0f8c9e012",
+        "26d1e36b3d2504b1aef19d3edfb61b04e07770ae39327b71df370124f73c5eb0",
+        "a9abdc48314b34f5093cdc10d3ed0a85bdf3f1a8248662de591411afe8347db3",
+        "cb07112e0feaea39cffdb45ceeeeaba26ff8d37cf33473f9f35034ce4b7b83c3",
+        "ff047383213c1431bb74bd83bdcc48bdf3048fb12d750da09725f085173e9987"
+      ]
+    },
+    "coco_retinanet_int8-selective512": {
+      "n_rebuilds": 5,
+      "distinct_engine_sha256": 5,
+      "distinct_inspector_sha256": 5,
+      "source_onnx_sha256": [
+        "fb61c78e7399476d2942b531ef600028f75f922e61f618e3a17fff392c8050e4"
+      ],
+      "tensorrt_version": "11.1.0.106",
+      "build_seconds": [
+        18.7,
+        18.0,
+        16.7,
+        16.8,
+        16.8
+      ],
+      "engine_bytes": [
+        43053116,
+        43014204,
+        42998100,
+        43031692,
+        43086324
+      ],
+      "n_layers": [
+        294,
+        294,
+        291,
+        279,
+        281
+      ],
+      "distinct_layer_counts": 4,
+      "engine_sha256": [
+        "2cd4b166adf06dcaad47162a8b669f18db52d4053b6e8c15bb63030fbbe42c07",
+        "3548e0abffe6da123816b92fc173b2ddca1a6f24a57eab59d9d62676e315c252",
+        "42450603b43b2983938c4f6a404dd263faec00d93ff20869aec5a2486b190729",
+        "656079fc564f768dee7f4c167996616471df3a60d57e54f8a4fd6bab807e771e",
+        "a626bed6cceb0297220e3cbf81dab071a418016475367729e51e9f0497c4435e"
+      ],
+      "inspector_sha256": [
+        "153e14822c5304aaec004829f3e8ed99a7233cb99cb8b3490f9780ec29a23d53",
+        "1e4365c472dd6e3a2b8db854211770d470515bf76ad7633b2f0e9ee6f32814f8",
+        "93fcfaee886be18741ed8458b96d897fc9d459960975ee6e8c1d74c11787da1f",
+        "de3ae34f378fb213ba6aa271a26e55670f7a5cab867d1e177a46016e90eccb0c",
+        "e19e82460f9470d5795beaa74d0830b180ec1de38a6eb4f3c0eba85f25a0526d"
+      ]
+    },
+    "kitti_retinanet_int8-aonly512": {
+      "n_rebuilds": 5,
+      "distinct_engine_sha256": 5,
+      "distinct_inspector_sha256": 5,
+      "source_onnx_sha256": [
+        "112cab40d41671574efda5a6a4e8f0ac0dd6912c603caf102774bc7dd11c6ab0"
+      ],
+      "tensorrt_version": "11.1.0.106",
+      "build_seconds": [
+        23.4,
+        23.2,
+        23.5,
+        23.3,
+        23.3
+      ],
+      "engine_bytes": [
+        44071628,
+        41672636,
+        41720532,
+        41673652,
+        41680180
+      ],
+      "n_layers": [
+        271,
+        274,
+        270,
+        273,
+        273
+      ],
+      "distinct_layer_counts": 4,
+      "engine_sha256": [
+        "010fdd0608a366f557e97a26c18e5cddd9c595105a764e7148d0ddfac02a6a13",
+        "692e966adf05c4b2d76da126442f4f50c887f55a55e5d969b892169295dee147",
+        "6f51c2063addf5d6e324b84beb560965d5286d2846864d8565466fbd73ed3d96",
+        "7f99502ace0c7607c1b6184df77abc6f5face8c5350bb63e3c9ac014b9c3c153",
+        "f0c24eb739d7dc3e047a51eaa9a134ecaa9b666966cfd6c84db83fd19a3cd9b4"
+      ],
+      "inspector_sha256": [
+        "3df8129a66c9da59bcb6e5b984731ffd04244de42cbb03ba6097c488e4d92b3f",
+        "672d3ea92c7e7f3ad3ad64c9d20426ed4e01cd086cded83586a5e906e2d9551b",
+        "95aab410a94da8445f9bad063943d32598da81a12f7a21b1838da2357121f1b3",
+        "ce9887f3cb8eba2edfa1adf02d805a21a96ff0241028ce7205cb2d782db03541",
+        "d25f3fc97cae0ed992c818201a9cf0715e898e416648e240ee9e6fcf903512db"
+      ]
+    },
+    "kitti_retinanet_int8-matched512": {
+      "n_rebuilds": 5,
+      "distinct_engine_sha256": 5,
+      "distinct_inspector_sha256": 5,
+      "source_onnx_sha256": [
+        "72827f3e36c817a50b49e0a1c556cbb26f8682f904946b917625557771475ddd"
+      ],
+      "tensorrt_version": "11.1.0.106",
+      "build_seconds": [
+        31.9,
+        26.4,
+        28.1,
+        26.7,
+        26.0
+      ],
+      "engine_bytes": [
+        40484796,
+        39292476,
+        39390460,
+        39340228,
+        39259692
+      ],
+      "n_layers": [
+        298,
+        292,
+        279,
+        283,
+        281
+      ],
+      "distinct_layer_counts": 5,
+      "engine_sha256": [
+        "52a55af158f3012a7060d7d3754d010a8a9fbafed4eb6a9f1345c2b29b00e0de",
+        "5895a9cb25362009007a789dc6bba5ddef9618cf33bb157eca58906ddd58b43d",
+        "c703a18098e4eb06e042ca6bd9c562ac4decaa4ef0b88f56681a1fb83de18459",
+        "d57ba9962fdb9adb50f3fbf22983767dd14f8dde2de068876fe20c881e1fbd0c",
+        "f8a3e2e2b189ef441852bc6e7f0173296050a2b560ca911183fff89ff1929000"
+      ],
+      "inspector_sha256": [
+        "1ed742e87e9f7dfc021ffde13ee75affafbbb49cb72268b969eb727ff2ca4a04",
+        "7806a04e09a92c09a33eaff66faabb5229c81b22c262046b28b563f89d86f90f",
+        "7995ef798339feb5102ff4f4c4efe291ddaa7bd0ae15cba9970103d07022f54d",
+        "a3f752b4021fe1c8c59d0f32b29d031cc4ddb73cbaa28e1ca87b71cf052bb899",
+        "bd4346e836a4fc5be44485f0e7b27724af9982f0e6ef0fcaaab17200303a3848"
+      ]
+    },
+    "kitti_retinanet_int8-selective512": {
+      "n_rebuilds": 5,
+      "distinct_engine_sha256": 5,
+      "distinct_inspector_sha256": 5,
+      "source_onnx_sha256": [
+        "e4aa731e7083e9e07ab66456072e91b68cc76af7fbbbc352bc6b38e9062f37b3"
+      ],
+      "tensorrt_version": "11.1.0.106",
+      "build_seconds": [
+        24.0,
+        23.0,
+        23.4,
+        23.2,
+        23.0
+      ],
+      "engine_bytes": [
+        41267612,
+        43708292,
+        41282148,
+        41321500,
+        41201252
+      ],
+      "n_layers": [
+        273,
+        276,
+        287,
+        274,
+        270
+      ],
+      "distinct_layer_counts": 5,
+      "engine_sha256": [
+        "05ecd52d3ece55e264d9afe15707b5aaee05dec90aece2f2bcd0b8ef79dccd5e",
+        "a7cd1280d1435c24baad8d0ce87bc4bb5e77d0f064d49deff3d02359ea84cc58",
+        "b05948cf5efd0552c24eb363cace2f723acd2d2fa5f64668bec8e4a01d8a4551",
+        "f22b99832ac7530f800d9cbddf8d8bc8ab93bd2dca2f9802804e2c50d7f05e9c",
+        "f4b860a0f17c2316e34e07ef1b8826007b1ae87c9520d3bacda9247040fb0b06"
+      ],
+      "inspector_sha256": [
+        "a58187dff0972da4d936928bb42d1ab9c983aaa04efc8cb0a20975d68531f628",
+        "cfc5b48b253552e367a24b0df481590ef0e005fd14fa858ec88af3602c40f4d8",
+        "dbcf88e3cdfc8371ead0fcfca3693d7fb7b19ffd5d74485bdd678baee6ffcde2",
+        "e4fed016c359a180b1a3a6fdc7a9e75f2af3a7b534697f059c4f4231d094b6ec",
+        "fff0d4cbd0e74e8e29717bdc1cda2736b4d5ed9220449aae1390b71843751bed"
+      ]
+    },
+    "voc_retinanet_int8-matched512": {
+      "n_rebuilds": 5,
+      "distinct_engine_sha256": 5,
+      "distinct_inspector_sha256": 5,
+      "source_onnx_sha256": [
+        "3451b91318be00f20575b1200e24706c9069afa933d13372cab16042c19b793c"
+      ],
+      "tensorrt_version": "11.1.0.106",
+      "build_seconds": [
+        24.6,
+        24.4,
+        24.4,
+        24.3,
+        24.3
+      ],
+      "engine_bytes": [
+        39946308,
+        40767852,
+        39538412,
+        39622612,
+        40773612
+      ],
+      "n_layers": [
+        281,
+        278,
+        282,
+        280,
+        277
+      ],
+      "distinct_layer_counts": 5,
+      "engine_sha256": [
+        "15c995c6c1caa6dd4150d2c70988e31702825f22cab2dfb05014ca7264a0b093",
+        "52ed752ec278b8963bd543267b3791a686e2637956b4f6bf3ff5e132e9c66a5e",
+        "78c98a9bd6622993ca0b4114ac5518ac552fcb63c2008089600a6ef6938e5452",
+        "8a9ab3f75ec5d8c9c13a0f520e009e2a076182f147b37ab1ddb53b1c6f34040c",
+        "a09a529377d31381ebe8a3900edf0f9697e925d2292bcd7b885e600f3a295f0e"
+      ],
+      "inspector_sha256": [
+        "5c0f9341f371fe853c18dcbe899d746dfc2e99873088688089cf494af8039868",
+        "884649f311e2bab896a8a485b42ad0120853f5cc9da1d1ca456d88851fd1f312",
+        "9d998bce8ac75b0d95f59d34eea4097d63dc821f491598a6731365d1fe831622",
+        "9feeb0a77402d66579c0f09e2082b43ba15cb7fa105889579a0488ac89a43b21",
+        "c716b4ca9151f4415062abde21bbf37a5b88718febe9188bf23f67b43525fba6"
+      ]
+    },
+    "voc_retinanet_int8-selective512": {
+      "n_rebuilds": 5,
+      "distinct_engine_sha256": 5,
+      "distinct_inspector_sha256": 5,
+      "source_onnx_sha256": [
+        "8b8aeb2187be5e820b818ce8dcea0c5dc4324fb577846a15c13a0bc8dd5b03b3"
+      ],
+      "tensorrt_version": "11.1.0.106",
+      "build_seconds": [
+        23.5,
+        23.7,
+        19.9,
+        20.0,
+        19.8
+      ],
+      "engine_bytes": [
+        41481244,
+        41577980,
+        41461524,
+        41486468,
+        41952372
+      ],
+      "n_layers": [
+        278,
+        286,
+        279,
+        279,
+        277
+      ],
+      "distinct_layer_counts": 4,
+      "engine_sha256": [
+        "2dbd131f55522c0257c631673b87483a2f17d013bac6d50b269a4693d70a218a",
+        "419c63f709f0b2b5f0bf1b535aed562aa64f91bbb8f3b5a4d6f87adf6b440442",
+        "6b8fb6537151d1c8e81a1d4a4a2e08670ac079a5cfa8711d9d15dbc67cfd4133",
+        "bc18703b9b169bfd47c8949560d0800f9e6070d021b0eaf12ac37662250094dd",
+        "da08cf1b38628bf6db02a06c7ce241ccac58289485adc21dfcf29af21f81fcb8"
+      ],
+      "inspector_sha256": [
+        "1ac60936a015abbdf06a778b73e4fe5defbadb7daf30ed033ef24fcc249b8611",
+        "4a55f5b5c5318cc22f79b398e59f479d40d17f7ce2b956aaa4286fac83fb88f7",
+        "8e7c4e96f499e7b1b02dbe9c7a37fae86a797271919f4e244a4453d7da591b2f",
+        "b9e0eca94fd845a06340d33b87be28a068f83ced5db1797d6d924fd6adcb6ab4",
+        "f61dba4a6ae4403958f16ac4907744dce97cc16daedd51aa41f6d6817ef8b1b4"
+      ]
+    }
+  },
+  "ap_spread": {
+    "kitti_retinanet_int8-matched512__clean": {
+      "per_rebuild_ap": {
+        "1": 0.28292982657593146,
+        "2": 0.28292982657593146,
+        "3": 0.28292982657593146,
+        "4": 0.28292982657593146,
+        "5": 0.28292982657593146
+      },
+      "n": 5,
+      "min": 0.28292982657593146,
+      "max": 0.28292982657593146,
+      "spread": 0.0
+    },
+    "kitti_retinanet_int8-matched512__codec-control": {
+      "per_rebuild_ap": {
+        "1": 0.2818268179630022,
+        "2": 0.2818268179630022,
+        "3": 0.2818268179630022,
+        "4": 0.2818268179630022,
+        "5": 0.2818268179630022
+      },
+      "n": 5,
+      "min": 0.2818268179630022,
+      "max": 0.2818268179630022,
+      "spread": 0.0
+    },
+    "kitti_retinanet_int8-selective512__clean": {
+      "per_rebuild_ap": {
+        "1": 0.4959332574302018,
+        "2": 0.4959332574302018,
+        "3": 0.4959332574302018,
+        "4": 0.4959332574302018,
+        "5": 0.4959332574302018
+      },
+      "n": 5,
+      "min": 0.4959332574302018,
+      "max": 0.4959332574302018,
+      "spread": 0.0
+    },
+    "kitti_retinanet_int8-selective512__codec-control": {
+      "per_rebuild_ap": {
+        "1": 0.4949187663192758,
+        "2": 0.4949187663192758,
+        "3": 0.4949187663192758,
+        "4": 0.4949187663192758,
+        "5": 0.4949187663192758
+      },
+      "n": 5,
+      "min": 0.4949187663192758,
+      "max": 0.4949187663192758,
+      "spread": 0.0
+    }
+  },
+  "all_rebuilds_distinct": true,
+  "total_rebuilds": 35
+}

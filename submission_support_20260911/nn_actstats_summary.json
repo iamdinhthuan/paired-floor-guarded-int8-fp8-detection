@@ -1,0 +1,212 @@
+{
+  "root": "submission_support_20260911/nn_actstats",
+  "graphs": {
+    "coco_retinanet_pretrained": {
+      "onnx_sha256": "6cc3c8edf10988199cdd149ac85b745290a76e1e5069fd88d70b9437572e6225",
+      "calib_sha256": "bcac5aaa8b299c02defcbe6a1b0d4650478a349d85a247c9288ac24de9c33e6b",
+      "n_images": 512,
+      "n_captured_tensors": 653,
+      "summary": {
+        "shared_by_heads": {
+          "n_tensors": 5,
+          "amax_med_of_channel_medians": 50.92132377624512,
+          "max_amax": 269.61419677734375,
+          "kurt_med_of_channel_medians": 3.0639743130669492,
+          "max_kurt": 42.76953785922832
+        },
+        "classification_head": {
+          "n_tensors": 192,
+          "amax_med_of_channel_medians": 7.518110394477844,
+          "max_amax": 815.275634765625,
+          "kurt_med_of_channel_medians": 2.790758529111121,
+          "max_kurt": 21295.707930486486
+        },
+        "regression_head": {
+          "n_tensors": 192,
+          "amax_med_of_channel_medians": 7.5696330070495605,
+          "max_amax": 1281.9736328125,
+          "kurt_med_of_channel_medians": 6.038043096275622,
+          "max_kurt": 313955.641381918
+        }
+      },
+      "p95_of_channel": {
+        "shared_by_heads": {
+          "kurt_p95_med": 7.95493519432138,
+          "amax_p95_med": 75.2931022644043
+        },
+        "classification_head": {
+          "kurt_p95_med": 6.469313779315156,
+          "amax_p95_med": 13.780011653900146
+        },
+        "regression_head": {
+          "kurt_p95_med": 40.27832636197073,
+          "amax_p95_med": 13.63669490814209
+        }
+      },
+      "static_scales": {
+        "regression_head/activation": {
+          "n_scales": 20,
+          "amax_median": 25.4403076171875,
+          "amax_max": 57.453857421875,
+          "amax_max_over_median": 2.258379037172456
+        },
+        "classification_head/activation": {
+          "n_scales": 20,
+          "amax_median": 8.499481201171875,
+          "amax_max": 21.859130859375,
+          "amax_max_over_median": 2.5718194254445965
+        },
+        "other/weight": {
+          "n_scales": 43123,
+          "amax_median": 0.1974201202392578,
+          "amax_max": 11.10009765625,
+          "amax_max_over_median": 56.225766871165646
+        },
+        "other/activation": {
+          "n_scales": 66,
+          "amax_median": 61.422607421875,
+          "amax_max": 264.9140625,
+          "amax_max_over_median": 4.312973245835437
+        }
+      }
+    },
+    "kitti_retinanet": {
+      "onnx_sha256": "5c522b7711017f7506a2096e046596be33861715ba0c415f393580ad8bc59941",
+      "calib_sha256": "f0cfb861d1c8846d3aa66f266ac8c9e41150f8b2cf66525ad12efca19ad58be7",
+      "n_images": 512,
+      "n_captured_tensors": 653,
+      "summary": {
+        "shared_by_heads": {
+          "n_tensors": 5,
+          "amax_med_of_channel_medians": 48.256431579589844,
+          "max_amax": 524.4443359375,
+          "kurt_med_of_channel_medians": 16.53855990343444,
+          "max_kurt": 354.4892877113594
+        },
+        "classification_head": {
+          "n_tensors": 192,
+          "amax_med_of_channel_medians": 10.322869300842285,
+          "max_amax": 6155.58740234375,
+          "kurt_med_of_channel_medians": 3.136668822304678,
+          "max_kurt": 21826.106461923617
+        },
+        "regression_head": {
+          "n_tensors": 192,
+          "amax_med_of_channel_medians": 8.597172021865845,
+          "max_amax": 7491.36767578125,
+          "kurt_med_of_channel_medians": 10.62797754731966,
+          "max_kurt": 204795.0000048828
+        }
+      },
+      "p95_of_channel": {
+        "shared_by_heads": {
+          "kurt_p95_med": 31.493779808823476,
+          "amax_p95_med": 82.4430160522461
+        },
+        "classification_head": {
+          "kurt_p95_med": 9.077847699645396,
+          "amax_p95_med": 16.180364632606505
+        },
+        "regression_head": {
+          "kurt_p95_med": 43.56545359176505,
+          "amax_p95_med": 17.361642694473268
+        }
+      },
+      "static_scales": {
+        "regression_head/activation": {
+          "n_scales": 20,
+          "amax_median": 25.27752685546875,
+          "amax_max": 97.482421875,
+          "amax_max_over_median": 3.856485740570377
+        },
+        "classification_head/activation": {
+          "n_scales": 20,
+          "amax_median": 12.53411865234375,
+          "amax_max": 54.105224609375,
+          "amax_max_over_median": 4.316635745207174
+        },
+        "other/weight": {
+          "n_scales": 39433,
+          "amax_median": 0.1722278594970703,
+          "amax_max": 8.5576171875,
+          "amax_max_over_median": 49.687763713080166
+        },
+        "other/activation": {
+          "n_scales": 66,
+          "amax_median": 37.39306640625,
+          "amax_max": 143.2470703125,
+          "amax_max_over_median": 3.8308457711442787
+        }
+      }
+    },
+    "voc_retinanet": {
+      "onnx_sha256": "513380d10c73bbdd0909626c62784cfab7b3718b91df95bae3c4716e02f05d82",
+      "calib_sha256": "ea97698729ac9982292d66d6bc127be8db393cdb713b8f0546e04bf055318a29",
+      "n_images": 512,
+      "n_captured_tensors": 653,
+      "summary": {
+        "shared_by_heads": {
+          "n_tensors": 5,
+          "amax_med_of_channel_medians": 74.32631301879883,
+          "max_amax": 575.9428100585938,
+          "kurt_med_of_channel_medians": 5.867110979727159,
+          "max_kurt": 96.44092306157926
+        },
+        "classification_head": {
+          "n_tensors": 192,
+          "amax_med_of_channel_medians": 8.335763216018677,
+          "max_amax": 1116.2142333984375,
+          "kurt_med_of_channel_medians": 2.5228890361718523,
+          "max_kurt": 62412.053786172975
+        },
+        "regression_head": {
+          "n_tensors": 192,
+          "amax_med_of_channel_medians": 9.33901596069336,
+          "max_amax": 2290.35009765625,
+          "kurt_med_of_channel_medians": 7.994211142523911,
+          "max_kurt": 261078.11560265606
+        }
+      },
+      "p95_of_channel": {
+        "shared_by_heads": {
+          "kurt_p95_med": 16.134507970170247,
+          "amax_p95_med": 124.6997127532959
+        },
+        "classification_head": {
+          "kurt_p95_med": 6.692474539559981,
+          "amax_p95_med": 13.838188529014587
+        },
+        "regression_head": {
+          "kurt_p95_med": 52.887643582506925,
+          "amax_p95_med": 16.52067756652832
+        }
+      },
+      "static_scales": {
+        "regression_head/activation": {
+          "n_scales": 20,
+          "amax_median": 31.55621337890625,
+          "amax_max": 90.4130859375,
+          "amax_max_over_median": 2.8651436993367723
+        },
+        "classification_head/activation": {
+          "n_scales": 20,
+          "amax_median": 9.10797119140625,
+          "amax_max": 15.471923828125,
+          "amax_max_over_median": 1.6987234042553192
+        },
+        "other/weight": {
+          "n_scales": 39973,
+          "amax_median": 0.17319679260253906,
+          "amax_max": 18.41748046875,
+          "amax_max_over_median": 106.33846153846154
+        },
+        "other/activation": {
+          "n_scales": 66,
+          "amax_median": 68.708984375,
+          "amax_max": 260.201171875,
+          "amax_max_over_median": 3.7870036101083033
+        }
+      }
+    }
+  }
+}

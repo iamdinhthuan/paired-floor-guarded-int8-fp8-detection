@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "attempt": "nn_rebuild_variance_v1_20260930",
+ "arm": "coco_retinanet_int8-selective512",
+ "rebuild": 5,
+ "run_id": "54765a96c6944b95999257693f83c01a",
+ "source_onnx": "/home/thuan/topic_c_ivc/outputs/nn_coco_pretrained_v1_20260930/engines/coco_retinanet_int8-selective512/model.onnx",
+ "source_onnx_sha256": "fb61c78e7399476d2942b531ef600028f75f922e61f618e3a17fff392c8050e4",
+ "engine": "/home/thuan/topic_c_ivc/outputs/rebuilds/nn_rebuild_variance_v1_20260930/coco_retinanet_int8-selective512/rebuild-05/model.engine",
+ "engine_sha256": "656079fc564f768dee7f4c167996616471df3a60d57e54f8a4fd6bab807e771e",
+ "engine_bytes": 43086324,
+ "engine_inspector_sha256": "93fcfaee886be18741ed8458b96d897fc9d459960975ee6e8c1d74c11787da1f",
+ "engine_inspector_bytes": 446379,
+ "build_seconds": 16.83882236480713,
+ "started_at_utc": "2026-09-30T15:41:58.392917+00:00",
+ "ended_at_utc": "2026-09-30T15:42:15.246716+00:00",
+ "tensorrt_version": "11.1.0.106",
+ "build_policy": {
+  "backend": "tensorrt_python",
+  "tf32": false,
+  "optimization_level": 3,
+  "workspace_mib": 4096
+ }
+}

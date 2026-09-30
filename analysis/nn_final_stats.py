@@ -28,6 +28,7 @@ PHASE_F = SUPPORT / "phase_f_fold2_results"
 PHASE_G = SUPPORT / "phase_g_wa_results"
 PHASE_H = SUPPORT / "phase_h_fcos_results"
 PHASE_I = SUPPORT / "phase_i_coco_pretrained_results"
+PHASE_J = SUPPORT / "phase_j_maxcalib_results"
 RETINA = "retinanet_r50_fpn_v2"
 FCOS = "fcos_r50_fpn"
 
@@ -273,6 +274,92 @@ def fcos_stats() -> dict:
     return out
 
 
+def maxcalib_stats() -> dict:
+    """INT8 max-calibration counterfactual (B6): point estimates only.
+
+    These arms were run as a post-hoc diagnostic without bootstrap draws, so
+    the summary reports plug-in AP points per condition plus derived
+    clean/corrupt-mean levels and the selective-minus-matched contrast as a
+    bare point difference (no interval)."""
+    src = PHASE_J / "cell_points.json"
+    if not src.is_file():
+        return {}
+    pts = json.loads(src.read_text())
+    corr = [f"{f}-s{s}" for f in ("fog", "gaussian_noise", "jpeg", "motion_blur")
+            for s in (1, 3, 5)]
+    out = {}
+    for key, arms in pts.items():
+        ds = key.split("/")[0]
+        ent = {"arms": {}, "contrasts": {}}
+        for arm, cells in arms.items():
+            ent["arms"][arm] = {
+                "j95": cells["clean-s0"],
+                "codec_control": cells["codec-control-s0"],
+                "corr12": float(np.mean([cells[c] for c in corr]))}
+        a, b = "int8-maxsel512", "int8-max512"
+        if a in arms and b in arms:
+            ent["contrasts"]["maxsel_minus_max"] = {
+                "j95": ent["arms"][a]["j95"] - ent["arms"][b]["j95"],
+                "corr12": ent["arms"][a]["corr12"] - ent["arms"][b]["corr12"]}
+        out[ds] = ent
+    return out
+
+
+def latency_stats() -> dict:
+    """Idle-gated cudaEvent latency ledger (B4).
+
+    Reads submission_support_20260911/nn_latency_summary.json produced by
+    analysis/nn_latency_aggregate.py from per-rep benchmark records."""
+    src = SUPPORT / "nn_latency_summary.json"
+    if not src.is_file():
+        return {}
+    d = json.loads(src.read_text())
+    out = {"timer": d.get("timer"), "conditions": {}, "ratio_vs_fp32": d.get("latency_ratio_vs_fp32", {})}
+    for cid, e in sorted(d.get("conditions", {}).items()):
+        out["conditions"][cid] = {
+            "dataset": e["dataset"], "model": e["model"],
+            "precision": e.get("precision"),
+            "median_ms": e["median_ms"], "spread_ms": e["spread_ms"],
+            "iqr_ms_typ": e["iqr_ms_typ"], "n_reps": e["n_reps"],
+            "engine_sha256": e["engine_sha256"],
+            "idle_allow_consistent": e["idle_allow_consistent"],
+        }
+    return out
+
+
+def rebuild_variance_stats() -> dict:
+    """TensorRT rebuild determinism audit (B3).
+
+    Reads submission_support_20260911/nn_rebuild_variance_summary.json produced
+    by analysis/nn_rebuild_variance_report.py (5 rebuilds per arm)."""
+    src = SUPPORT / "nn_rebuild_variance_summary.json"
+    if not src.is_file():
+        return {}
+    d = json.loads(src.read_text())
+    return {
+        "total_rebuilds": d.get("total_rebuilds"),
+        "all_rebuilds_distinct": d.get("all_rebuilds_distinct"),
+        "arms": {k: {"n_rebuilds": v["n_rebuilds"],
+                     "distinct_engine_sha256": v["distinct_engine_sha256"],
+                     "distinct_inspector_sha256": v["distinct_inspector_sha256"],
+                     "n_layers": v.get("n_layers"),
+                     "distinct_layer_counts": v.get("distinct_layer_counts")}
+                 for k, v in d.get("arms", {}).items()},
+        "ap_spread": d.get("ap_spread", {}),
+    }
+
+
+def actstats_stats() -> dict:
+    """Head-region activation statistics (B5).
+
+    Reads submission_support_20260911/nn_actstats_summary.json produced by
+    analysis/nn_actstats_report.py from per-graph capture reports."""
+    src = SUPPORT / "nn_actstats_summary.json"
+    if not src.is_file():
+        return {}
+    return json.loads(src.read_text()).get("graphs", {})
+
+
 def main() -> None:
     result = {"units": "AP points; point = full-sample plug-in; ci95/se/p from "
                        "2,000 paired common-image bootstrap resamples",
@@ -283,6 +370,18 @@ def main() -> None:
         result["fcos"] = fcos_stats()
     if (PHASE_I / "cell_points.json").is_file():
         result["coco_pretrained"] = coco_pretrained_stats()
+    lat = latency_stats()
+    if lat:
+        result["latency"] = lat
+    rb = rebuild_variance_stats()
+    if rb:
+        result["rebuild_variance"] = rb
+    ac = actstats_stats()
+    if ac:
+        result["actstats"] = ac
+    mc = maxcalib_stats()
+    if mc:
+        result["maxcalib"] = mc
     path = SUPPORT / "nn_final_stats.json"
     path.write_text(json.dumps(result, indent=2) + "\n")
     het = result["yolo"]["heterogeneity"]

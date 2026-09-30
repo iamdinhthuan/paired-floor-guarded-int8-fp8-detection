@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "attempt": "nn_rebuild_variance_v1_20260930",
+ "arm": "voc_retinanet_int8-selective512",
+ "rebuild": 3,
+ "run_id": "462c5e50391f466d918c48ea02d1bd67",
+ "source_onnx": "/home/thuan/topic_c_ivc/outputs/nn_paired_protocol_v1_20260924/engines/voc_retinanet_int8-selective512/model.onnx",
+ "source_onnx_sha256": "8b8aeb2187be5e820b818ce8dcea0c5dc4324fb577846a15c13a0bc8dd5b03b3",
+ "engine": "/home/thuan/topic_c_ivc/outputs/rebuilds/nn_rebuild_variance_v1_20260930/voc_retinanet_int8-selective512/rebuild-03/model.engine",
+ "engine_sha256": "6b8fb6537151d1c8e81a1d4a4a2e08670ac079a5cfa8711d9d15dbc67cfd4133",
+ "engine_bytes": 41461524,
+ "engine_inspector_sha256": "1ac60936a015abbdf06a778b73e4fe5defbadb7daf30ed033ef24fcc249b8611",
+ "engine_inspector_bytes": 444140,
+ "build_seconds": 19.872180938720703,
+ "started_at_utc": "2026-09-30T15:38:09.266507+00:00",
+ "ended_at_utc": "2026-09-30T15:38:29.153551+00:00",
+ "tensorrt_version": "11.1.0.106",
+ "build_policy": {
+  "backend": "tensorrt_python",
+  "tf32": false,
+  "optimization_level": 3,
+  "workspace_mib": 4096
+ }
+}

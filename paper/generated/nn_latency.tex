@@ -1,0 +1,32 @@
+\begin{tabular}{lllcc}
+\toprule
+Detector & Dataset & Arm & Median latency (ms) & Rep spread (ms) \\
+\midrule
+FCOS (pretrained) & COCO & \texttt{fp32} & 4.708 & 0.002 \\
+FCOS (pretrained) & COCO & \texttt{fp8-matched512} & 1.368 & 0.024 \\
+FCOS (pretrained) & COCO & \texttt{int8-matched512} & 1.179 & 0.017 \\
+FCOS (pretrained) & COCO & \texttt{int8-selective512} & 1.224 & 0.007 \\
+RetinaNet (pretrained) & COCO & \texttt{fp32} & 5.087 & 0.055 \\
+RetinaNet (pretrained) & COCO & \texttt{fp8-matched512} & 1.494 & 0.005 \\
+RetinaNet (pretrained) & COCO & \texttt{int8-matched512} & 1.307 & 0.012 \\
+RetinaNet (pretrained) & COCO & \texttt{int8-selective512} & 1.325 & 0.016 \\
+FCOS & KITTI & \texttt{fp32} & 4.615 & 0.054 \\
+FCOS & KITTI & \texttt{fp8-matched512} & 1.356 & 0.033 \\
+FCOS & KITTI & \texttt{int8-matched512} & 1.197 & 0.047 \\
+FCOS & KITTI & \texttt{int8-selective512} & 1.219 & 0.017 \\
+RetinaNet & KITTI & \texttt{fp8-matched512} & 1.359 & 0.056 \\
+RetinaNet & KITTI & \texttt{int8-aonly512} & 1.188 & 0.012 \\
+RetinaNet & KITTI & \texttt{int8-matched512} & 1.171 & 0.025 \\
+RetinaNet & KITTI & \texttt{int8-selective512} & 1.225 & 0.033 \\
+RetinaNet & KITTI & \texttt{int8-wonly512} & 1.188 & 0.017 \\
+FCOS & VOC & \texttt{fp32} & 4.618 & 0.002 \\
+FCOS & VOC & \texttt{fp8-matched512} & 1.365 & 0.035 \\
+FCOS & VOC & \texttt{int8-matched512} & 1.162 & 0.011 \\
+FCOS & VOC & \texttt{int8-selective512} & 1.236 & 0.036 \\
+RetinaNet & VOC & \texttt{fp8-matched512} & 1.350 & 0.022 \\
+RetinaNet & VOC & \texttt{int8-aonly512} & 1.215 & 0.003 \\
+RetinaNet & VOC & \texttt{int8-matched512} & 1.192 & 0.040 \\
+RetinaNet & VOC & \texttt{int8-selective512} & 1.247 & 0.037 \\
+RetinaNet & VOC & \texttt{int8-wonly512} & 1.221 & 0.004 \\
+\bottomrule
+\end{tabular}

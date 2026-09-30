@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "check": "cross-machine bootstrap determinism",
+ "block": "coco__fcos_pretrained",
+ "local": {
+  "host": "local workstation (huy)",
+  "bootstrap_json_sha256": "9d72328426444aeed821d900e6f6a654a4aea7e78d7032f5267bfc0ba3fba9a0",
+  "draws_npz_sha256": "6d9adc8a2ae45167765071dfa25c2a449e13d28f6db59a8c70447cb88369a9e5"
+ },
+ "remote": {
+  "host": "thuan@100.111.139.103 (topic_c_ivc)",
+  "bootstrap_json_sha256": "a5bfb290f265ed24abba83bff69f81b836dac4943f11afee38e074f660ff7759",
+  "draws_npz_sha256": "13d315c5dfa86200c05b4afd14004e097e20d977fc414260bf821b67754e63dc"
+ },
+ "result": {
+  "n_cells": 56,
+  "identical_cell_keys": true,
+  "seed": 957871994,
+  "n_boot": 2000,
+  "n_images": 2000,
+  "max_abs_draw_difference": 2.220446049250313e-16,
+  "file_hashes_differ": true,
+  "note": "draws numerically identical to floating-point roundoff; npz container bytes differ (serialization metadata), not content"
+ }
+}

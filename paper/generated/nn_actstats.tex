@@ -1,0 +1,17 @@
+\begin{tabular}{llccccc}
+\toprule
+Graph & Region & $n$ tensors & med.~$|x|_{\max}$ & max $|x|$ & med.~excess kurt. & max ex.~kurt. \\
+\midrule
+KITTI RetinaNet (trained) & regression head & 192 & 8.60 & 7491 & 10.63 & 204795 \\
+ & classification head & 192 & 10.32 & 6156 & 3.14 & 21826 \\
+ & shared head inputs & 5 & 48.26 & 524 & 16.54 & 354 \\
+\addlinespace[3pt]
+VOC RetinaNet (trained) & regression head & 192 & 9.34 & 2290 & 7.99 & 261078 \\
+ & classification head & 192 & 8.34 & 1116 & 2.52 & 62412 \\
+ & shared head inputs & 5 & 74.33 & 576 & 5.87 & 96 \\
+\addlinespace[3pt]
+COCO RetinaNet (pretrained) & regression head & 192 & 7.57 & 1282 & 6.04 & 313956 \\
+ & classification head & 192 & 7.52 & 815 & 2.79 & 21296 \\
+ & shared head inputs & 5 & 50.92 & 270 & 3.06 & 43 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,21 @@
+\begin{tabular}{llccc}
+\toprule
+Dataset & Arm & $\Jclean$ clean & codec ctrl. & corrupt mean \\
+\midrule
+KITTI & FP32 reference & 50.15 & -- & 37.80 \\
+ & FP8-matched (entropy) & 49.48 & 49.25 & 36.75 \\
+ & INT8-matched (entropy) & 28.29 & 28.18 & 20.37 \\
+ & INT8-selective (entropy) & 49.60 & 49.53 & 36.58 \\
+\addlinespace[2pt]
+ & \textbf{INT8-matched (max)} & 14.017 & 14.176 & 7.817 \\
+ & \textbf{INT8-selective (max)} & 23.484 & 24.072 & 13.326 \\
+\addlinespace[3pt]
+VOC & FP32 reference & 57.23 & -- & 42.32 \\
+ & FP8-matched (entropy) & 56.17 & 56.21 & 41.48 \\
+ & INT8-matched (entropy) & 53.30 & 53.18 & 38.71 \\
+ & INT8-selective (entropy) & 55.87 & 55.79 & 40.52 \\
+\addlinespace[2pt]
+ & \textbf{INT8-matched (max)} & 0.001 & 0.002 & 0.005 \\
+ & \textbf{INT8-selective (max)} & 0.002 & 0.002 & 0.005 \\
+\bottomrule
+\end{tabular}

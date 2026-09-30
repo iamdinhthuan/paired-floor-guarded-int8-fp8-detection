@@ -375,6 +375,13 @@ not affect the per-block Holm adjustment, which requires valid marginal
 $p$-values but no independence among tests. RetinaNet and
 intervention intervals are per contrast.
 
+As a cross-machine check, the pretrained-FCOS block was bootstrapped
+independently on two hosts under the same seed namespace
+(\texttt{coco\_\_fcos\_pretrained}): the 56 cell-level draw arrays agree to
+$2.2\times10^{-16}$ absolute difference (identical seed, $B$, and image
+set), so resample schedules are portable; container file hashes still
+differ because NPZ serialization embeds metadata.
+
 Point estimates are full-sample plug-in values computed from the metric
 records of each cell (for COCO, from the frozen 2,000-image subset
 evaluation); bootstrap draws supply intervals, standard errors, and
@@ -516,6 +523,170 @@ but they are not bound into the RetinaNet clean run records; those runs
 therefore do not carry an execution-time byte-level binding for the clean
 inputs, only the annotation-level identifier.
 
+\section{Deployment-side audits: latency and engine-build determinism}
+\label{sec:deploy-audit}
+
+Two post-protocol audits measure deployment-side properties that the frozen
+accuracy contract does not cover. Both ran on the same RTX~5090 host and
+TensorRT 11.1.0.106 toolchain as the frozen engines and are retained with
+hash-bound provenance under
+\texttt{nn\_latency\_v1\_20260930/} and
+\texttt{nn\_rebuild\_variance\_v1\_20260930/} in the evidence package. They are
+descriptive measurements on one host and enter no paired estimand.
+
+\paragraph{Latency.} Each of the 26 audited engines was timed in-process
+with CUDA events around \texttt{execute\_async\_v3} at batch~1 (200 warm-up
+plus 500 timed iterations per repetition, three repetitions; the harness
+enumerates GPU compute processes before every repetition and refuses to run
+while a non-allow-listed process holds the device).
+Table~\ref{tab:nn-latency} reports per-condition medians and the
+across-repetition spread; the within-repetition IQR is at most 0.04~ms in
+every condition. Under this harness the INT8-matched engines run at
+\nnLatIntEightMin--\nnLatIntEightMax~ms per image, the FP32 references that
+exist at \nnLatFpMin--\nnLatFpMax~ms per image (a
+\nnLatIntSpeedupMin--\nnLatIntSpeedupMax$\times$ speedup), and the
+selective-precision repair adds
+\nnLatSelOverheadMin--\nnLatSelOverheadMax\% over INT8-matched within the
+same detector--dataset pair. These are single-host medians: they bound the
+repair's deployment cost in the tested setting and do not transfer to other
+hardware, batch sizes, or power caps.
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{Idle-gated batch-1 latency per engine (median of three repetitions,
+each the median of 500 timed iterations).}
+\label{tab:nn-latency}
+{\setlength{\tabcolsep}{3pt}\input{generated/nn_latency.tex}}
+\end{table}
+
+\paragraph{Engine-build determinism.} Rebuilding each of seven engines five
+times from the same quantized ONNX under the frozen build policy (TF32
+disabled, optimization level~3, 4096~MiB workspace) produced a distinct
+engine SHA-256 and a distinct inspector SHA-256 in all \nnRbTotal{} builds,
+and the fused-layer count itself varies across rebuilds
+(\nnRbLayersMin--\nnRbLayersMax layers for the same graph;
+Table~\ref{tab:nn-rebuild}): under this builder the tactic autotuner does
+not settle on a bit-identical plan, or even the same fusion boundaries. The nondeterminism does not reach the
+metric in the evaluated slice---across five rebuilds of the KITTI
+INT8-matched engine the measured AP is identical on both the clean and
+codec-control bases (spread \nnRbApSpread{}~AP)---but the evaluation
+coverage is one arm on one dataset, so the audit bounds rather than
+eliminates build-to-build metric variance.
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{Fivefold rebuild audit per arm: every rebuild is bit-distinct at
+both engine and inspector level; AP spread is reported where evaluated.}
+\label{tab:nn-rebuild}
+{\setlength{\tabcolsep}{3pt}\input{generated/nn_rebuild_variance.tex}}
+\end{table}
+
+\section{Head-region activation statistics}
+\label{sec:actstats}
+
+To probe the operand-factorial attribution at the distribution level we
+captured the activation tensors consumed by each RetinaNet head on the
+frozen 512-image clean-calibration manifests, running the unquantized ONNX
+graph in ONNX-Runtime (CUDA provider) with every head-consumed tensor
+exposed as a graph output. Per-channel $|x|_{\max}$ and excess kurtosis are
+accumulated by streaming raw moments over every pixel of every captured
+tensor; each tensor is assigned to a region by graph consumption (tensors
+feeding both heads are ``shared head inputs''). Captures cover the KITTI
+and VOC trained graphs and the COCO pretrained RetinaNet graph
+(\texttt{nn\_actstats/} in the evidence package; input bytes hash-verified
+against the calibration manifests).
+
+Table~\ref{tab:nn-actstats} reports the summaries. On all three graphs the
+regression head is \emph{not} uniformly larger in typical magnitude---its
+median channel amplitude is comparable to the classification head's---but
+it is markedly heavier-tailed (on the KITTI graph, median excess kurtosis
+\nnActRegKurtMedKitti{} versus \nnActClsKurtMedKitti{} for the
+classification head, with per-channel maxima reaching
+\nnActRegKurtMaxKitti{} versus \nnActClsKurtMaxKitti; on VOC,
+\nnActRegKurtMedVoc{} versus \nnActClsKurtMedVoc; on the COCO pretrained
+graph, \nnActRegKurtMedCoco{} versus \nnActClsKurtMedCoco). The tail is
+broad
+rather than a single stray channel: the median of the per-tensor
+channel-p95 excess kurtosis is \nnActRegKurtTailKitti{} versus
+\nnActClsKurtTailKitti{} on KITTI and \nnActRegKurtTailVoc{} versus
+\nnActClsKurtTailVoc{} on VOC. Rare large
+activations inflate a single per-tensor scale and spend the INT8 code
+budget on outlier coverage, which is exactly the signature under which
+activation---not weight---quantization dominates the deficit
+(the operand factorial of Section~3.7 of the main text). Two cautions bound the
+reading: these are activations of the fp32 ONNX graph on calibration
+inputs, not the deployed quantizer's scale values (the calibrator's chosen
+activation amaxes on the matched INT8 graphs are recorded alongside, e.g.\
+a median of \nnActStaticRegMedKitti{} versus \nnActStaticClsMedKitti{} on
+KITTI); and the captures are
+a measurement of the calibration distribution, which is itself what the
+quantizer saw---the tails under corrupted inputs are not measured here.
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{Per-region activation statistics over the 512-image clean
+calibration sets. $|x|_{\max}$ is the per-channel absolute maximum
+(summaries aggregate per-channel statistics across tensors); excess
+kurtosis is Fisher. ``Shared head inputs'' are tensors consumed by both
+heads (FPN boundary features).}
+\label{tab:nn-actstats}
+{\setlength{\tabcolsep}{3pt}\input{generated/nn_actstats.tex}}
+\end{table}
+
+\section{Max-calibration counterfactual}
+\label{sec:maxcalib}
+
+Section~S13 shows the regression-head activations are heavy-tailed under the
+entropy calibrator's inputs, which admits two distinct cost accounts: tail
+clipping (the chosen range excludes outliers) or bin resolution (the range is
+fine but 127 levels spread too coarsely across it). A max-calibration arm
+separates the two: it sets each activation scale to the observed absolute
+maximum, eliminating clipping at the price of the coarsest possible bin
+resolution. We therefore ran a post-hoc counterfactual pair---INT8-matched and
+INT8-selective under the max estimator, same graphs, same frozen 512-image
+clean-calibration manifests, same 14-condition evaluation schedule---on the
+KITTI and VOC RetinaNet detectors (\texttt{nn\_maxcalib\_v1\_20260930};
+single engine builds, point estimates only, no bootstrap draws).
+
+Table~\ref{tab:nn-maxcalib} reports the levels. The counterfactual is sharp
+and negative in both directions. On KITTI, max calibration does not repair
+the matched deficit---it deepens it, from \nnArmInCleanKitti{} to
+\nnMcMaxJKitti{}~AP on the clean basis---while the head-exclusion benefit
+persists under the new estimator (selective minus matched
+\nnMcSelGainJKitti{}~AP clean, \nnMcSelGainCKitti{}~AP corrupt-mean), so the
+regression-head sensitivity is not an artifact of the entropy estimator. On
+VOC the max estimator is catastrophic on \emph{both} arms
+($\Jclean$ clean $\approx 0.001$~AP): the detection-score distribution
+collapses (the 99th-percentile detection score on the clean run drops from
+$\approx 0.91$ under entropy calibration to $\approx 0.15$;
+\texttt{voc\_score\_audit.json} in the evidence package), so the failure
+shifts to the classification head
+and head exclusion cannot rescue it. A 128-image draw of the same estimator
+in the earlier recipe sweep scored $\nnDiagMaxJ$~AP on the KITTI clean
+basis---the max estimator's outcome is itself draw-sensitive, since a single
+unlucky outlier image inflates every range.
+
+The reading we take is bounded: clipping at the observed tail is not the
+operative cost, because removing the clip entirely does not recover accuracy
+and can destroy the classifier outright. That leaves the resolution side of
+the account---a fixed 127-level grid over a wide range---as the better
+candidate, though we did not separate resolution from the other numerical
+changes a coarser scale induces (larger rounding bias on in-range values,
+dequantization shift). Corruption-aware calibration and max calibration
+together bracket the range-choice dimension: neither repairs the deficit, and
+the regression-head benefit survives both.
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{Max-calibration counterfactual on RetinaNet (post-hoc diagnostic,
+single builds, plug-in AP points without intervals). Reference rows repeat
+the frozen entropy-calibrated paired-protocol arms for the same
+detector--dataset pairs; bold rows are the max-estimator arms on the same
+14-condition schedule.}
+\label{tab:nn-maxcalib}
+{\setlength{\tabcolsep}{3pt}\input{generated/nn_maxcalib.tex}}
+\end{table}
+
 \section{Minimum reporting checklist for paired corruption studies}
 
 \begin{itemize}
@@ -532,7 +703,12 @@ inputs, only the annotation-level identifier.
   \item carry codec-matched calibration controls before attributing
         calibration-intervention gains to corruption coverage;
   \item flag severity-wall cells where every treatment including FP32 is at
-        the floor, and report a leave-one-out sensitivity.
+        the floor, and report a leave-one-out sensitivity;
+  \item audit engine-build determinism before treating a serialized engine as
+        a fixed artifact---tactic autotuning makes rebuilds bit-distinct, so
+        hash the engine and inspector and spot-check metric spread;
+  \item gate latency claims on an idle-device harness with repetitions and
+        dispersion, and scope them to the measured host.
 \end{itemize}
 
 \end{document}

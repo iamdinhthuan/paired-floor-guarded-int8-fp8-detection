@@ -1,0 +1,28 @@
+{
+ "schema": "nn_maxcalib_score_audit_v1",
+ "note": "VOC clean-condition detection-score distributions under entropy vs max calibration; explains the AP collapse as a classifier score-ranking failure (max scale spends code budget on outliers, compressing all logits into few bins).",
+ "voc_int8-max512_clean": {
+  "n_dets": 112356,
+  "score_max": 0.8040984272956848,
+  "score_p99": 0.15284606367349587,
+  "score_med": 0.06097517907619476
+ },
+ "voc_int8-maxsel512_clean": {
+  "n_dets": 87374,
+  "score_max": 0.8053262233734131,
+  "score_p99": 0.15704247042536787,
+  "score_med": 0.06131153553724289
+ },
+ "voc_int8-matched512_clean": {
+  "n_dets": 256546,
+  "score_max": 0.995566189289093,
+  "score_p99": 0.9059898257255554,
+  "score_med": 0.0762699693441391
+ },
+ "voc_int8-selective512_clean": {
+  "n_dets": 203985,
+  "score_max": 0.995566189289093,
+  "score_p99": 0.9227612018585205,
+  "score_med": 0.0762699693441391
+ }
+}
