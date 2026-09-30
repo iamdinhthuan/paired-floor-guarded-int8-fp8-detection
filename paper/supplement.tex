@@ -497,7 +497,14 @@ records, and bootstrap draw caches under
 \texttt{phase\_i\_coco\_pretrained\_results/}; calibration used the
 hash-bound 512-image COCO train2017 manifest
 \texttt{coco\_train\_clean\_512\_s20260807\_p0\_v1\_pilotroot}
-(canonical SHA-256 \texttt{bcac5aaa8b29\ldots}).
+(canonical SHA-256 \texttt{bcac5aaa8b29\ldots}). A final layer covers
+deployment-side audits and post-hoc diagnostics outside the paired
+estimand: the max-calibration counterfactual pair
+(\texttt{phase\_j\_maxcalib\_results/}), the head-activation captures
+(\texttt{nn\_actstats/}), the fivefold engine-rebuild ledger
+(\texttt{nn\_rebuild\_variance\_v1\_20260930/}), and the idle-gated
+latency ledgers (\texttt{nn\_latency\_v1\_20260930/})---single builds and
+point estimates, no bootstrap intervals.
 
 \section{Artifact and audit boundary}
 
