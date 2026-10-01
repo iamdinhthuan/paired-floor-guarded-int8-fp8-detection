@@ -3,8 +3,9 @@ message: >-
   If you use this software or its compact evidence package, please cite the
   archived release using the Zenodo DOI below.
 title: >-
-  A Paired Evaluation of Clean Accuracy and Corruption Sensitivity in
-  Quantized Object Detection: Reproducibility Package
+  Quantization fragility under image corruption is recipe-dependent:
+  paired evidence from INT8 and FP8 object detectors: Reproducibility
+  Package
 type: software
 authors:
   - family-names: Nguyen
@@ -36,11 +37,15 @@ authors:
     email: leanhvu@tdtu.edu.vn
     orcid: "https://orcid.org/0000-0002-4804-7540"
     affiliation: Ton Duc Thang University
-version: 2.2.0
-date-released: "2026-09-09"
-doi: 10.5281/zenodo.22664869
+version: 3.0.0
+date-released: "2026-10-01"
+doi: 10.5281/zenodo.23074098
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22031663
+    description: All-versions concept DOI
 repository-code: "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection"
-url: "https://doi.org/10.5281/zenodo.22664869"
+url: "https://doi.org/10.5281/zenodo.22031663"
 license: MIT
 keywords:
   - object detection

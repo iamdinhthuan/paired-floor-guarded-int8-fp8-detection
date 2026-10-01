@@ -38,8 +38,12 @@ authors:
     orcid: "https://orcid.org/0000-0002-4804-7540"
     affiliation: Ton Duc Thang University
 version: 3.0.0
-date-released: "2026-09-25"
-doi: 10.5281/zenodo.22031663
+date-released: "2026-10-01"
+doi: 10.5281/zenodo.23074098
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22031663
+    description: All-versions concept DOI
 repository-code: "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection"
 url: "https://doi.org/10.5281/zenodo.22031663"
 license: MIT

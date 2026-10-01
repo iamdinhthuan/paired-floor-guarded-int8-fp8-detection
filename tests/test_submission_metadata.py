@@ -112,7 +112,9 @@ def test_citation_cff_describes_the_nn_reproducibility_package() -> None:
     assert cff["cff-version"] == "1.2.0"
     assert cff["title"] == f"{NN_TITLE}: Reproducibility Package"
     assert cff["version"] == "3.0.0"
-    assert cff["doi"] == "10.5281/zenodo.22031663"
+    assert cff["doi"] == "10.5281/zenodo.23074098"
+    assert {"type": "doi", "value": "10.5281/zenodo.22031663",
+            "description": "All-versions concept DOI"} in cff["identifiers"]
     assert cff["license"] == "MIT"
     assert cviu_validator.cff_names(cff) == cviu_validator.AUTHORS
     serialized = json.dumps(cff)
@@ -326,7 +328,7 @@ def test_zenodo_metadata_is_release_ready_and_has_only_human_creators() -> None:
     assert names == cviu_validator.AUTHORS
     assert metadata["related_identifiers"] == [
         {
-            "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection",
+            "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v3.0.0",
             "relation": "isSupplementTo",
             "scheme": "url",
             "resource_type": "software",
