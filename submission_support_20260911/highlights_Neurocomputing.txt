@@ -1,7 +1,0 @@
-Highlights
-
-• Paired evaluation separates clean fidelity from corruption sensitivity.
-• Higher corrupted accuracy can coexist with a contracting clean advantage.
-• Clean adjustment yields a -0.55 AP interaction on final VOC/KITTI.
-• Shared-image bootstrap preserves covariance across four accuracy arms.
-• Quantized treatments are audited as executable pipelines, not datatype labels.

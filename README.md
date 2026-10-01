@@ -27,7 +27,7 @@ The holdout is frame-level, not sequence-disjoint, and has no bootstrap
 intervals. Corruption-aware calibration transfers inconsistently across
 folds and is not a reliable repair.
 
-## Historical CVIU research question and scope
+## Estimand
 
 The study separates clean accuracy, remaining corrupted accuracy, and the
 corruption-associated change in the gap between two recorded executable
@@ -40,32 +40,10 @@ corrupted gap = AP_FP8,corrupt - AP_INT8,corrupt
 DeltaE        = corrupted gap - clean gap
 ```
 
-All four arms use the same image universe and common image-bootstrap draws.
-A negative interaction denotes gap contraction, not necessarily usable
-corrupted accuracy or greater robustness. Absolute AP and clean fidelity must
-be inspected alongside the interaction.
-
-The evidence layers are deliberately not pooled as replications of one
-population parameter:
-
-- Exploratory grid: four datasets (COCO, VOC, KITTI, TT100K), three YOLO11
-  capacities, four corruptions, three severities, 144 direct cells, and JPEG-95
-  matched-clean controls.
-- Selection-disjoint VOC/KITTI holdouts: six retrained dataset–capacity blocks,
-  72 direct cells, and **original-source clean** inputs.
-- Controlled clean-input substitution: the same engines and runner compare
-  original-source and JPEG-95 clean controls in six holdout blocks; two selected
-  TT100K blocks remain separate diagnostics.
-- Additional checks: common-draw covariance, aggregation and metric-scale
-  sensitivity, training/calibration seeds, three corruption materializations,
-  full-grid TT100K fixed-universe bootstrap, and recorded recipe-portability
-  stress cases using RT-DETR-L and RetinaNet.
-
-On the six holdout blocks, the mean FP8–INT8 clean gap is +1.60 AP points,
-the corrupted gap is +1.05, and the interaction is −0.55. The controlled
-clean-input shift averages +0.0574 AP, with an interval crossing zero; this
-does not establish codec equivalence. The four-dataset exploratory interaction
-is approximately −0.02 AP. These summaries concern different conditional scopes.
+All arms in a dataset-by-model block use the same image universe and common
+image-bootstrap draws. A negative interaction denotes gap contraction, not
+necessarily usable corrupted accuracy or greater robustness. Absolute AP and
+clean fidelity are inspected alongside the interaction.
 
 ## One active manuscript source
 
@@ -83,48 +61,23 @@ The Overleaf and flat-source ZIPs under `paper/` are generated deliverables,
 not parallel editable sources. Build the manuscript with `paper/build.sh`
 (pdfLaTeX; see `paper/README.md`).
 
-## Historical CVIU evidence without a GPU
+## Historical CVIU-era archive
 
-For the older CVIU-aligned evidence project, download
-`CVIU_Reviewer_Evidence.zip` from the v2.2.0 Zenodo record and extract it into
-a new directory. With Python 3.11 and NumPy installed:
-
-```bash
-export PYTHONDONTWRITEBYTECODE=1
-python analysis/build_reviewer_evidence.py --root . --verify --include-v4 --submission-package submission_package
-python analysis/build_v4_publication_tables.py --output-dir /tmp/cviu-v4-table-check
-```
-
-Keep generated outputs outside the sealed extraction. Verification checks its
-exact hash inventory, current-manuscript binding and retained numerical inputs.
-Hashes establish internal integrity, not independent execution or timestamps.
-
-For the full prediction-level example, enter
-`outputs/analysis/cviu_v4/holdout_example/package/` inside that extraction:
-
-```bash
-python -m pip install -r requirements.txt
-python reproduce_v4_four_arm.py --manifest manifest.json --out /tmp/cviu-example-report.json --workers 4
-python package_v4_holdout_example.py --verify-report /tmp/cviu-example-report.json --expected expected.json
-```
-
-Use a fresh output filename. This example evaluates KITTI final/YOLO11m/fog-1
-from predictions and annotations, with 1,197 images and 2,000 paired draws,
-without AP caches, images, checkpoints, engines or inference. The all-object
-interaction is approximately −0.280484 AP with percentile endpoints
-[−1.269237, +0.784413]. It tests implementation, not 95% interval coverage.
+An earlier CVIU-targeted revision of this project (v2.2.0, four-dataset
+exploratory plus selection-disjoint holdouts) is preserved unchanged at
+[10.5281/zenodo.22664869](https://doi.org/10.5281/zenodo.22664869), including
+its own sealed evidence package and verification scripts. It is historical
+context only; the current repository and the v3.0.3 release are the
+Neural Networks submission package.
 
 ## Compile the manuscript
 
 From `paper/`, `./build.sh` compiles `main_nn.tex` and `supplement.tex`
 independently with pdfLaTeX/BibTeX and `./verify.sh` regenerates
-`SOURCE_MANIFEST.sha256` and checks the audit chain.
-`analysis/build_cviu_submission_package.py` emits `Overleaf_Source.zip` (plus
-the PDFs and upload documents) into its output directory; upload that zip to
-Overleaf and compile `main_nn.tex`; compile `supplement.tex` separately. For
-the current Neural Networks upload files, see `submission_package/`; the
-historical CVIU source/evidence archive is at
-[v2.2.0](https://doi.org/10.5281/zenodo.22664869).
+`SOURCE_MANIFEST.sha256` and checks the audit chain. For the current Neural
+Networks upload files, see `submission_package/`; the packaged Overleaf-ready
+source is `06_LaTeX_source_NN.zip` there (upload it to Overleaf and compile
+`main_nn.tex`; compile `supplement.tex` separately).
 
 The flat source ZIP is a separate journal-upload alternative. The large
 research-evidence ZIP is not an Overleaf project. `submission_package/` holds
@@ -152,25 +105,17 @@ environment for every experiment.
 
 ## Reproducibility and licensing boundaries
 
-The historical CVIU v2.2.0 archive provides summary/draw-level evidence and one
-complete prediction-level example. It does not reproduce every historical
-training, engine build, prediction run or kernel-precision choice. The current
-Neural Networks v3.0.3 archive has its own compact evidence inventory and
-redistribution boundary. Bootstrap uncertainty is conditional on the stated
-artifacts and sampling law.
+The Neural Networks v3.0.3 archive provides summary/draw-level compact
+evidence and deterministic regeneration of the reported tables; it does not
+redistribute datasets, trained checkpoints, TensorRT engines, raw predictions,
+or ONNX graphs. Bootstrap uncertainty is conditional on the stated artifacts
+and sampling law.
 
 Original software is [MIT licensed](LICENSE). This does **not** relicense
-third-party material. KITTI-derived annotations in the separate evidence
-archive remain **CC BY-NC-SA 3.0**, with attribution and transformation details
-in the historical
-[evidence README](submission_support_20260911/REVIEWER_EVIDENCE_README.md).
-Elsevier CAS files retain their original notices. No dataset images, trained
-checkpoints, engines or credentials are published in this release.
-
-Historical evidence files retain their original bytes and dated statements;
-their former “local/unpublished” notes describe their creation-time status.
-Current release availability is defined by this README and its version DOI,
-not by those historical notes.
+third-party material. KITTI-derived annotations referenced by the evidence
+ledgers remain **CC BY-NC-SA 3.0** under their original terms. Elsevier CAS
+files retain their original notices. No dataset images, trained checkpoints,
+engines or credentials are published in this release.
 
 ## Citation, authors and funding
 

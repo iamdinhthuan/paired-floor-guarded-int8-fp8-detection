@@ -1,8 +1,9 @@
 # Quantization × Corruption × Object Detection — reproducibility package
 
 Neural Networks manuscript + frozen evidence package. Authoritative manuscript:
-`paper/main_nn.tex` (+ `paper/supplement.tex`). Older `main.tex` is the archived
-CVIU-era draft kept for provenance — do not edit it.
+`paper/main_nn.tex` (+ `paper/supplement.tex`). CVIU-era drafts/scripts were
+removed after the v3.0.3 release; they remain in git history and the v2.2.0
+Zenodo archive.
 
 ## Layout
 

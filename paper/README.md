@@ -40,11 +40,8 @@ Author order and contribution roles must remain synchronized with `main_nn.tex`,
 - `references.bib`: shared bibliography.
 - `figures/`: publication figures used by the LaTeX sources.
 - `generated/`: generated LaTeX tables used by the manuscript and supplement.
-- `graphical_abstract.tif`: preferred graphical-abstract submission file.
-- `graphical_abstract.png`: graphical-abstract preview.
 - `Highlights.docx`: Elsevier Highlights upload; `highlights.txt` is its text source.
 - `cover_letter.txt`: editable cover-letter source.
-- `AUTHOR_CHECKLIST_CVIU.txt`: author-controlled checks before submission.
 - `.zenodo.json`, `CITATION.cff`: release and citation metadata.
 
 For Overleaf, upload the LaTeX sources together with `figures/`, `generated/`,
@@ -64,19 +61,14 @@ cd paper
 ```
 
 `build.sh` compiles the article and Supplementary File S1 independently and
-copies the verified PDFs into `preview/`. The legacy CVIU package validator
-(which checks the archived `main.tex` release) runs only when invoked with
-`VALIDATE_CVIU_PACKAGE=1`; it is off by default.
+copies the verified PDFs into `preview/`.
 `verify.sh` additionally refreshes and verifies `SOURCE_MANIFEST.sha256`. It
 does not retrain detectors or rerun TensorRT inference.
 
-From the repository root, the clean journal-upload directory can be created
-with:
+From the repository root, the editable upload documents are regenerated with:
 
 ```bash
 python3 analysis/build_cviu_submission_docx.py --paper-root paper
-python3 analysis/build_cviu_submission_package.py \
-  --paper-root paper --output NN_SUBMISSION_READY
 ```
 
 ## Reproducibility boundary
@@ -106,5 +98,4 @@ their original licenses and terms.
 
 AI tools are not authors, creators, or contributors to this package. Any actual
 AI assistance in manuscript preparation or the research workflow must be
-disclosed according to Elsevier policy and verified by the human authors. See
-`AUTHOR_CHECKLIST_CVIU.txt` for the required author confirmation.
+disclosed according to Elsevier policy and verified by the human authors.

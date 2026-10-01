@@ -1,4 +1,4 @@
-"""Submission-facing citation and archive metadata contracts."""
+"""Submission-facing citation and archive metadata contracts (Neural Networks)."""
 
 from __future__ import annotations
 
@@ -20,28 +20,25 @@ PAPER = PROJECT_ROOT / "paper"
 sys.path.insert(0, str(PROJECT_ROOT / "analysis"))
 import submission_metadata  # noqa: E402
 import submission_package  # noqa: E402
-import validate_cviu_paper_package as cviu_validator  # noqa: E402
 
-CVIU_TITLE = (
-    "A Paired, Floor-Guarded Evaluation Protocol for INT8 and FP8 Object "
-    "Detectors under Image Corruptions"
-)
 NN_TITLE = (
     "Quantization fragility under image corruption is recipe-dependent: "
     "paired evidence from INT8 and FP8 object detectors"
 )
 NN_MAIN = PAPER / "main_nn.tex"
-LEGACY_CVIU = (
-    "CVIU-era guard: the canonical manuscript is now paper/main_nn.tex and "
-    "the v2.x package release this test describes is already minted"
-)
-CVIU_DOIS = {
-    "10.1016/j.cviu.2007.04.006",
-    "10.1016/j.cviu.2020.102907",
-    "10.1016/j.cviu.2022.103445",
-    "10.1016/j.cviu.2024.104252",
-    "10.1016/j.cviu.2026.104735",
-}
+VERSION = "3.0.3"
+VERSION_DOI = "10.5281/zenodo.23082850"
+CONCEPT_DOI = "10.5281/zenodo.22031663"
+
+AUTHORS = [
+    "Nguyen, Dinh Thuan",
+    "Nguyen, Lam Phuong",
+    "Nguyen, Vinh Huy",
+    "Quang, Sy Vu",
+    "Elara, Mohan Rajesh",
+    "Le, Anh Vu",
+]
+AI_NAME = re.compile(r"devin|claude|codex|chatgpt|openai|anthropic|cognition", re.I)
 
 _ONE_PIXEL_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4z8AAAAMBAQDJ"
@@ -68,20 +65,24 @@ def optional_field(entry: str, name: str) -> str:
     return match.group(1).strip() if match else ""
 
 
+def cff_names(cff: dict) -> list[str]:
+    return [
+        f"{a['family-names']}, {a['given-names']}" for a in cff["authors"]
+    ]
+
+
 def test_bibliography_is_closed_and_has_foundational_and_nn_sources() -> None:
-    """Every citation in the NN manuscript resolves to a bibliography entry."""
+    """Every citation in the NN manuscript resolves, with no orphan entries."""
     entries = bibtex_entries((PAPER / "references.bib").read_text(encoding="utf-8"))
-    cited = citation_keys(NN_MAIN.read_text(encoding="utf-8"), root=PAPER)
+    cited = citation_keys(NN_MAIN.read_text(encoding="utf-8"), root=PAPER) | citation_keys(
+        (PAPER / "supplement.tex").read_text(encoding="utf-8"), root=PAPER
+    )
 
     assert entries
     missing = cited - set(entries)
     assert not missing, f"cited but missing from references.bib: {sorted(missing)}"
-    archived = citation_keys(
-        (PAPER / "main.tex").read_text(encoding="utf-8"), root=PAPER
-    )
-    assert not (archived - set(entries))
-    assert cited | archived == set(entries), (
-        f"uncited entries: {sorted(set(entries) - cited - archived)}"
+    assert cited == set(entries), (
+        f"uncited entries: {sorted(set(entries) - cited)}"
     )
     years = {int(field(entry, "year")) for entry in entries.values()}
     assert min(years) <= 1981  # bootstrap foundations are intentionally retained
@@ -111,23 +112,26 @@ def test_citation_cff_describes_the_nn_reproducibility_package() -> None:
 
     assert cff["cff-version"] == "1.2.0"
     assert cff["title"] == f"{NN_TITLE}: Reproducibility Package"
-    assert cff["version"] == "3.0.3"
-    assert cff["doi"] == "10.5281/zenodo.23082850"
-    assert {"type": "doi", "value": "10.5281/zenodo.22031663",
+    assert cff["version"] == VERSION
+    assert cff["doi"] == VERSION_DOI
+    assert {"type": "doi", "value": CONCEPT_DOI,
             "description": "All-versions concept DOI"} in cff["identifiers"]
     assert cff["license"] == "MIT"
-    assert cviu_validator.cff_names(cff) == cviu_validator.AUTHORS
+    assert cff_names(cff) == AUTHORS
     serialized = json.dumps(cff)
-    assert not cviu_validator.AI_NAME.search(serialized)
+    assert not AI_NAME.search(serialized)
 
 
-def test_active_manuscript_uses_the_requested_cviu_cas_double_column_format() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
+def test_root_metadata_matches_paper_metadata() -> None:
+    """Root and paper release records must describe the same version."""
+    root_cff = yaml.safe_load((PROJECT_ROOT / "CITATION.cff").read_text(encoding="utf-8"))
+    root_zenodo = json.loads((PROJECT_ROOT / ".zenodo.json").read_text(encoding="utf-8"))
 
-    assert r"\documentclass[a4paper,fleqn]{cas-dc}" in tex
-    assert r"\shortauthors{Nguyen et al.}" in tex
-    assert rf"\title[mode=title]{{{CVIU_TITLE}}}" in tex
-    assert r"\bibliographystyle{elsarticle-num}" in tex
+    assert root_cff["version"] == VERSION
+    assert root_cff["doi"] == VERSION_DOI
+    assert cff_names(root_cff) == AUTHORS
+    assert root_zenodo["version"] == VERSION
+    assert root_zenodo["related_identifiers"][0]["identifier"].endswith(f"/tree/v{VERSION}")
 
 
 def test_highlights_meet_elsevier_contract_and_match_the_scientific_message() -> None:
@@ -145,120 +149,6 @@ def test_highlights_meet_elsevier_contract_and_match_the_scientific_message() ->
     assert "universal" not in joined
 
 
-def test_main_manuscript_states_the_evidence_hierarchy_explicitly() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-
-    assert r"\label{tab:evidence-hierarchy}" in tex
-    for phrase in (
-        "Exploratory landscape",
-        "Final holdout",
-        "Metric scale",
-        "Training and calibration seeds",
-        "Corruption realizations",
-        "Fixed class set",
-        "Transfer across architectures",
-    ):
-        assert phrase in tex
-    assert "strongest holdout evidence" in tex
-
-
-def test_final_main_source_does_not_retain_the_inactive_b500_protocol() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-
-    assert "500 replicates" not in tex
-    assert "500-replicate" not in tex
-    assert "$B=500$" not in tex
-
-
-def test_conclusion_keeps_format_and_architecture_claims_conditional() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-
-    assert "Across the 144-cell exploratory grid, FP8 had 1.40 AP points higher" in tex
-    assert "The results do not establish a universal robustness ranking" in tex
-    assert "one checkpoint per dataset--family block" in tex
-
-
-def test_main_methods_define_all_holdout_and_sensitivity_protocols() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    normalized = " ".join(tex.split())
-
-    for heading in (
-        r"\subsection{Training, checkpoint selection, and holdout rerun}",
-        r"\subsection{AP evaluation and paired uncertainty}",
-        r"\subsection{Sensitivity designs}",
-    ):
-        assert heading in tex
-    for detail in (
-        "seed 20260818",
-        "5,823 images in val2012",
-        "1,197 images) for final evaluation",
-        "202608181, 202608182, and 202608183",
-        "independent exponential weights with unit rate",
-        "reuses the same vector across all four treatment arms",
-    ):
-        assert detail in normalized
-
-
-def test_results_place_quantitative_sensitivity_before_discussion() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    results = tex.split(r"\section{Results}", 1)[1].split(r"\section{Discussion}", 1)[0]
-    discussion = tex.split(r"\section{Discussion}", 1)[1]
-
-    for value in ("-0.23", "-1.11", "0.5318"):
-        assert value in results
-    assert results.count(r"\input{generated/conditionality_scope_summary.tex}") == 1
-    assert r"\input{generated/conditionality_scope_summary.tex}" not in discussion
-
-
-def test_front_matter_and_positioning_use_current_bounded_terminology() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-
-    assert "paired evaluation protocol" in tex
-    assert "Detection transformers" not in tex
-    assert "Both recent real-world corruption benchmarks" not in tex
-    assert "difference-in-differences contrast is therefore needed" not in tex
-    assert "clean admissibility" not in tex
-    assert "not interpreted as a causal effect" in tex
-
-
-def test_cross_family_supplement_references_are_not_hard_coded() -> None:
-    main = (PAPER / "main.tex").read_text(encoding="utf-8")
-    assert "Supplementary Table~S2" not in main
-    assert "Supplementary Table~S3" not in main
-    assert "Supplementary sections" in main or "Supplementary Information" in main
-
-
-def test_primary_bootstrap_states_duplicate_handling_and_fixed_universe_scope() -> None:
-    methods = (PAPER / "main.tex").read_text(encoding="utf-8")
-    assert "unique identity within that bootstrap sample" in methods
-    assert "does not validate the full 36-cell TT100K height macro" in methods
-
-
-def test_front_matter_has_at_most_seven_keywords_and_discloses_both_assistants() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    keywords = tex.split(r"\begin{keywords}", 1)[1].split(r"\end{keywords}", 1)[0]
-    assert len([item for item in keywords.split(r"\sep") if item.strip()]) <= 7
-    declaration = submission_metadata.extract_section(
-        tex,
-        "Declaration of generative AI and AI-assisted technologies in the manuscript preparation process",
-    )
-    assert "OpenAI Codex" in declaration
-    assert "Anthropic Claude Code" in declaration
-    assert "not listed as authors or contributors" in declaration
-    assert "AI tools are not creators or contributors" in (PAPER / ".zenodo.json").read_text(
-        encoding="utf-8"
-    )
-    assert tex.count(r"\orcidlink{") == 5
-
-
-@pytest.mark.skip(reason=LEGACY_CVIU)
-def test_cviu_package_validator_accepts_the_canonical_paper() -> None:
-    errors, notes = cviu_validator.validate(PAPER)
-    assert errors == []
-    assert any(note.startswith("abstract:") for note in notes)
-    assert any(note.startswith("metadata:") for note in notes)
-
-
 def test_rendered_main_has_results_before_discussion_and_no_layout_warnings() -> None:
     pdf = PROJECT_ROOT / "paper" / "main_nn.pdf"
     info = subprocess.run(
@@ -271,23 +161,17 @@ def test_rendered_main_has_results_before_discussion_and_no_layout_warnings() ->
     ).stdout
     assert rendered.index("4. Results") < rendered.index("5. Discussion")
     assert "References" in rendered
+    log_errors = (
+        re.compile(r"Undefined control sequence"),
+        re.compile(r"LaTeX Error"),
+        re.compile(r"Citation .*undefined", re.I),
+        re.compile(r"Reference .*undefined", re.I),
+        re.compile(r"Emergency stop"),
+    )
     for log_name in ("main_nn.log", "supplement.log"):
         log = (PAPER / log_name).read_text(encoding="utf-8")
-        for pattern in cviu_validator.LOG_ERRORS.values():
-            assert pattern.search(log) is None
-
-
-def test_literal_cas_abstract_is_self_contained_and_within_cviu_limit() -> None:
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    abstract = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", tex, re.S)
-    assert abstract
-    assert r"\input{" not in abstract.group(1)
-    words = re.findall(
-        r"[A-Za-z0-9]+(?:[\u2010-\u2015'-][A-Za-z0-9]+)*",
-        cviu_validator.plain_tex(abstract.group(1)),
-    )
-    assert len(words) == 232
-    assert len(words) <= 250
+        for pattern in log_errors:
+            assert pattern.search(log) is None, f"{pattern.pattern} in {log_name}"
 
 
 def test_manuscript_metadata_extracts_cas_author_address_records() -> None:
@@ -320,66 +204,65 @@ def test_manuscript_metadata_extracts_cas_author_address_records() -> None:
 def test_zenodo_metadata_is_release_ready_and_has_only_human_creators() -> None:
     """Catches creator drift, an old release, or AI attribution as authorship."""
     zenodo = json.loads((PAPER / ".zenodo.json").read_text(encoding="utf-8"))
-    metadata, names = cviu_validator.zenodo_names(zenodo)
+    metadata = zenodo["metadata"] if "metadata" in zenodo else zenodo
+    names = [c["name"] for c in metadata["creators"]]
 
     assert metadata["title"] == f"{NN_TITLE}: Reproducibility Package"
-    assert metadata["version"] == "3.0.3"
+    assert metadata["version"] == VERSION
     assert metadata["license"] == "MIT"
-    assert names == cviu_validator.AUTHORS
+    assert names == AUTHORS
     assert metadata["related_identifiers"] == [
         {
-            "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v3.0.3",
+            "identifier": f"https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v{VERSION}",
             "relation": "isSupplementTo",
             "scheme": "url",
             "resource_type": "software",
         }
     ]
-    assert not cviu_validator.AI_NAME.search(" ".join(names))
+    assert not AI_NAME.search(" ".join(names))
 
 
 def test_no_funding_and_public_archive_statements_are_final() -> None:
     """Catches reintroduced placeholders or unsupported funding."""
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
+    tex = NN_MAIN.read_text(encoding="utf-8")
 
-    funding = re.search(r"\\section\*\{Funding\}(.*?)(?=\\section\*\{|\\bibliography)", tex, flags=re.DOTALL)
-    assert funding
-    assert "did not receive any specific grant" in funding.group(1).casefold()
+    acknowledgments = submission_metadata.extract_section(tex, "Acknowledgments")
+    assert "no specific grant" in acknowledgments.casefold()
     availability = submission_metadata.extract_section(tex, "Data and code availability")
-    assert "10.5281/zenodo.22275640" in availability
-    assert "10.5281/zenodo.22031663" in availability
-    assert "github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection" in availability
+    assert VERSION_DOI in availability
+    assert CONCEPT_DOI in availability
     assert "author action required" not in tex.casefold()
     assert "doi pending" not in tex.casefold()
 
 
-def test_commented_citation_is_not_active_and_breaks_bibliography_closure() -> None:
-    """Catches a citation hidden in a TeX comment instead of active prose."""
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-    citation = r"\citep{thacker2008performance,wen2020uadetrac}"
-    mutated = tex.replace(citation, "% " + citation)
-
-    entries = bibtex_entries(bib)
-    assert "thacker2008performance" not in citation_keys(mutated)
-    assert citation_keys(mutated) != set(entries)
-
-
-def test_commented_version_doi_is_not_an_availability_statement() -> None:
-    """Catches an active availability section missing the exact release DOI."""
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
-    mutated = tex.replace(
-        "The CVIU-aligned release v2.1.0 is archived at",
-        "% The CVIU-aligned release v2.1.0 is archived at",
+def test_ai_declaration_names_tools_and_keeps_authors_responsible() -> None:
+    tex = NN_MAIN.read_text(encoding="utf-8")
+    declaration = submission_metadata.extract_section(
+        tex,
+        "Declaration of generative AI and AI-assisted technologies in the manuscript preparation process",
     )
+    assert "Cognition Devin" in declaration
+    assert "Codex" in declaration or "ChatGPT" in declaration
+    assert "Claude" in declaration
+    assert "full responsibility" in declaration
+    assert "AI tools are not creators or contributors" in (PAPER / ".zenodo.json").read_text(
+        encoding="utf-8"
+    )
+    assert tex.count(r"\orcidlink{") == 5
 
-    availability = submission_metadata.extract_section(mutated, "Data and code availability")
-    assert "10.5281/zenodo.22275640" not in availability
+
+def test_abstract_is_self_contained() -> None:
+    tex = NN_MAIN.read_text(encoding="utf-8")
+    abstract = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", tex, re.S)
+    assert abstract
+    assert r"\input{" not in abstract.group(1)
+    assert r"\cite" not in abstract.group(1)
 
 
 def test_duplicate_bibtex_key_cannot_hide_an_entry() -> None:
     """Catches a duplicate key silently overwriting a valid record."""
     bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-    duplicate = "@article{wen2020uadetrac,\n  year = {1900}\n}\n\n" + bib
+    duplicate = "@article{dupfixture,\n  year = {1900}\n}\n\n@article{dupfixture,\n  year = {1901}\n}\n\n" + bib
 
     with pytest.raises(ValueError, match="duplicate"):
         bibtex_entries(duplicate)
@@ -388,7 +271,7 @@ def test_duplicate_bibtex_key_cannot_hide_an_entry() -> None:
 def test_indented_duplicate_bibtex_key_is_rejected() -> None:
     """Catches a whitespace-prefixed duplicate BibTeX entry."""
     bib = (PAPER / "references.bib").read_text(encoding="utf-8")
-    duplicate = bib + "\n  @article{wen2020uadetrac,\n    year = {1900}\n  }\n"
+    duplicate = bib + "\n  @article{dupfixture,\n    year = {1900}\n  }\n@article{dupfixture,\n  year={1901}\n}\n"
 
     with pytest.raises(ValueError, match="duplicate"):
         submission_metadata.bibtex_entries(duplicate)
@@ -408,7 +291,7 @@ def test_manuscript_metadata_change_fails_when_cff_and_zenodo_are_unchanged(
     old: str, new: str
 ) -> None:
     """Catches drift from manuscript title, author order, or affiliation into metadata."""
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
+    tex = NN_MAIN.read_text(encoding="utf-8")
     _, original = submission_metadata.manuscript_metadata(tex)
     _, changed = submission_metadata.manuscript_metadata(tex.replace(old, new, 1))
     assert changed != original
@@ -416,7 +299,7 @@ def test_manuscript_metadata_change_fails_when_cff_and_zenodo_are_unchanged(
 
 def test_current_manuscript_title_change_fails_when_cff_and_zenodo_are_unchanged() -> None:
     """Derives the active title, so the drift guard survives a legitimate retitling."""
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
+    tex = NN_MAIN.read_text(encoding="utf-8")
     match = re.search(r"\\title(?:\[[^]]+\])?\{([^{}]+)\}", tex)
     assert match, "expected one active manuscript title"
     mutated = tex[: match.start(1)] + "Changed manuscript title" + tex[match.end(1) :]
@@ -431,14 +314,15 @@ def test_zenodo_title_must_match_the_manuscript_and_cff() -> None:
     tex = NN_MAIN.read_text(encoding="utf-8")
     zenodo = json.loads((PAPER / ".zenodo.json").read_text(encoding="utf-8"))
     cff = yaml.safe_load((PAPER / "CITATION.cff").read_text(encoding="utf-8"))
+    metadata = zenodo["metadata"] if "metadata" in zenodo else zenodo
     manuscript_title, _ = submission_metadata.manuscript_metadata(tex)
     expected = f"{manuscript_title}: Reproducibility Package"
-    assert zenodo["title"] == cff["title"] == expected
+    assert metadata["title"] == cff["title"] == expected
 
 
 def test_later_active_title_is_rejected_as_ambiguous() -> None:
     """Catches a second active title that would otherwise override manuscript metadata."""
-    tex = (PAPER / "main.tex").read_text(encoding="utf-8")
+    tex = NN_MAIN.read_text(encoding="utf-8")
     mutated = tex.replace(
         r"\begin{document}",
         "\\title{Different active title}\n\\begin{document}",

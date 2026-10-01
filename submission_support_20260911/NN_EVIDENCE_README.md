@@ -2,8 +2,9 @@
 
 This compact evidence package accompanies the v3.0.3 manuscript release
 ([10.5281/zenodo.23082850](https://doi.org/10.5281/zenodo.23082850)).
-The active paper is `paper/main_nn.tex` with `paper/supplement.tex`; the older
-CVIU-era evidence notes in this directory retain their historical scope.
+The active paper is `paper/main_nn.tex` with `paper/supplement.tex`. Older
+CVIU-era notes were removed from this directory; the sealed historical package
+remains in the v2.2.0 archive (concept DOI 10.5281/zenodo.22031663).
 
 ## Rebuild manuscript summaries
 
@@ -42,6 +43,6 @@ evidence.
 The archive includes analysis code, manifests, metric records, compact
 activation summaries, bootstrap draw caches, and hash-bound run metadata.
 Raw datasets, trained checkpoints, raw predictions, ONNX model graphs, and
-built TensorRT engines are not redistributed. The `REVIEWER_EVIDENCE_README.md`
-file documents the separate historical CVIU evidence package and its
-third-party attribution; it does not describe the current NN release.
+built TensorRT engines are not redistributed. Third-party attribution for the
+historical CVIU evidence package is documented in the sealed v2.2.0 archive;
+it does not describe the current NN release.
