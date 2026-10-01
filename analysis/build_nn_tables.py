@@ -1221,6 +1221,17 @@ def numbers_tex(final: dict) -> str:
         if over:
             macros["LatSelOverheadMax"] = f"{max(over):.1f}"
             macros["LatSelOverheadMin"] = f"{min(over):.1f}"
+        # FP8-matched latency and selective-vs-FP8 saving within the same pair
+        fp8 = {c: e["median_ms"] for c, e in conds.items() if c.endswith("fp8-matched512")}
+        if fp8:
+            macros["LatFpEightMin"] = f"{min(fp8.values()):.2f}"
+            macros["LatFpEightMax"] = f"{max(fp8.values()):.2f}"
+            save = [100 * (1 - conds[c.replace("fp8-matched512", "int8-selective512")]["median_ms"] / v)
+                    for c, v in fp8.items()
+                    if c.replace("fp8-matched512", "int8-selective512") in conds]
+            if save:
+                macros["LatSelVsFpEightMin"] = f"{min(save):.0f}"
+                macros["LatSelVsFpEightMax"] = f"{max(save):.0f}"
     # ---- B5: head-activation statistics macros ----
     ac = final.get("actstats", {})
     tag = {"kitti_retinanet": "Kitti", "voc_retinanet": "Voc",

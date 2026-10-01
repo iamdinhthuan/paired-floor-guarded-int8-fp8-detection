@@ -370,7 +370,8 @@ per-draw Pearson correlations of the FP8$-$INT8 $\Delta E$ between model
 scales are $r=\{0.240, 0.213, -0.104\}$ on KITTI (n$\sim$m, n$\sim$x,
 m$\sim$x), $\{-0.033, -0.066, 0.111\}$ on VOC, and $\{0.057, 0.013, -0.196\}$
 on the COCO subset---small and mixed-sign, so treating the blocks as
-independent is at most mildly optimistic for the pooled statistics and does
+independent appears only modestly optimistic for the pooled statistics (no
+generalized $Q$ with a full covariance matrix was computed) and does
 not affect the per-block Holm adjustment, which requires valid marginal
 $p$-values but no independence among tests. RetinaNet and
 intervention intervals are per contrast.
@@ -647,9 +648,10 @@ Section~S13 shows the regression-head activations are heavy-tailed under the
 entropy calibrator's inputs, which admits two distinct cost accounts: tail
 clipping (the chosen range excludes outliers) or bin resolution (the range is
 fine but 127 levels spread too coarsely across it). A max-calibration arm
-separates the two: it sets each activation scale to the observed absolute
-maximum, eliminating clipping at the price of the coarsest possible bin
-resolution. We therefore ran a post-hoc counterfactual pair---INT8-matched and
+separates the two: it sets each activation scale to the absolute
+maximum observed on the calibration set, removing calibration-set clipping
+at the price of the coarsest bin resolution (evaluation-time activations
+beyond that maximum can still clip). We therefore ran a post-hoc counterfactual pair---INT8-matched and
 INT8-selective under the max estimator, same graphs, same frozen 512-image
 clean-calibration manifests, same 14-condition evaluation schedule---on the
 KITTI and VOC RetinaNet detectors (\texttt{nn\_maxcalib\_v1\_20260930};
@@ -666,16 +668,16 @@ VOC the max estimator is catastrophic on \emph{both} arms
 ($\Jclean$ clean $\approx 0.001$~AP): the detection-score distribution
 collapses (the 99th-percentile detection score on the clean run drops from
 $\approx 0.91$ under entropy calibration to $\approx 0.15$;
-\texttt{voc\_score\_audit.json} in the evidence package), so the failure
-shifts to the classification head
-and head exclusion cannot rescue it. A 128-image draw of the same estimator
+\texttt{voc\_score\_audit.json} in the evidence package), consistent with a
+failure in the score (classification) pathway that regression-head
+exclusion cannot rescue. A 128-image draw of the same estimator
 in the earlier recipe sweep scored $\nnDiagMaxJ$~AP on the KITTI clean
 basis---the max estimator's outcome is itself draw-sensitive, since a single
 unlucky outlier image inflates every range.
 
-The reading we take is bounded: clipping at the observed tail is not the
-operative cost, because removing the clip entirely does not recover accuracy
-and can destroy the classifier outright. That leaves the resolution side of
+The reading we take is bounded: clipping of the observed calibration range
+is not the operative cost, because widening the range to the calibration
+maximum does not recover accuracy and can destroy the classifier outright. That leaves the resolution side of
 the account---a fixed 127-level grid over a wide range---as the better
 candidate, though we did not separate resolution from the other numerical
 changes a coarser scale induces (larger rounding bias on in-range values,
