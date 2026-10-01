@@ -3,8 +3,8 @@ NEURAL NETWORKS — FILES FOR SUBMISSION (1 October 2026)
 Manuscript: "Quantization fragility under image corruption is recipe-dependent:
 paired evidence from INT8 and FP8 object detectors" — release v3.0.2.
 
-01_NN_main.pdf                Main manuscript (21 pages)
-02_NN_supplement.pdf          Supplementary Information (9 pages)
+01_NN_main.pdf                Main manuscript (23 pages)
+02_NN_supplement.pdf          Supplementary Information (10 pages)
 03_highlights_NN.docx         Highlights, 5 items ≤85 chars (editable Word)
 03_highlights_NN.txt          Same highlights, plain text
 04_graphical_abstract_NN.tif  Graphical abstract (TIFF)
