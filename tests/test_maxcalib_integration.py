@@ -15,11 +15,13 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 PHASE_J = ROOT / "submission_support_20260911" / "phase_j_maxcalib_results"
+PHASE_K = ROOT / "submission_support_20260911" / "phase_k_maxreg_results"
 SUPP = ROOT / "paper" / "supplement.tex"
 GENERATED = ROOT / "paper" / "generated"
 STATS = ROOT / "submission_support_20260911" / "nn_final_stats.json"
 
 ARMS = ("int8-max512", "int8-maxsel512")
+ARMS_K = ("int8-maxreg512",)
 
 
 def _cells() -> dict:
@@ -66,11 +68,41 @@ def test_final_stats_carry_maxcalib_block() -> None:
         pytest.skip("maxcalib block not yet integrated")
     for ds in ("kitti", "voc"):
         ent = mc.get(ds)
-        assert ent is not None and set(ent["arms"]) == set(ARMS)
+        assert ent is not None and set(ent["arms"]) == set(ARMS) | set(ARMS_K)
         assert "maxsel_minus_max" in ent["contrasts"]
     # The counterfactual's scientific content: max calibration must not
     # exceed the entropy-calibrated matched level on KITTI clean.
     assert mc["kitti"]["arms"]["int8-max512"]["j95"] < 28.0
+    # Head-local max regression must also stay below the entropy-matched
+    # level on KITTI clean (28.29) -- widening reg-head ranges alone does
+    # not repair the deficit.
+    assert mc["kitti"]["arms"]["int8-maxreg512"]["j95"] < 28.29
+
+
+def test_phase_k_headlocal_cell_points() -> None:
+    path = PHASE_K / "cell_points.json"
+    if not path.is_file():
+        pytest.skip("phase-K cell points not yet collected")
+    cells = json.loads(path.read_text())
+    for ds in ("kitti", "voc"):
+        block = cells.get(f"{ds}/retinanet_maxreg")
+        assert block is not None, f"missing block {ds}/retinanet_maxreg"
+        for arm in ARMS_K:
+            conds = block.get(arm, {})
+            assert "clean-s0" in conds and "codec-control-s0" in conds
+            corrupt = [c for c in conds
+                       if c not in ("clean-s0", "codec-control-s0")]
+            assert len(corrupt) == 12, f"{ds}/{arm} has {len(corrupt)} corrupt"
+
+
+def test_phase_k_manifests_hash_bound() -> None:
+    onnx_dir = PHASE_K / "manifests" / "onnx"
+    records = list(onnx_dir.glob("*.onnx.json"))
+    if not records:
+        pytest.skip("phase-K onnx manifests not yet fetched")
+    for record in records:
+        data = json.loads(record.read_text())
+        assert data.get("output_onnx_sha256"), record.name
 
 
 def test_supplement_references_maxcalib_table() -> None:
@@ -82,3 +114,4 @@ def test_supplement_references_maxcalib_table() -> None:
         table = table_path.read_text(encoding="utf-8")
         assert table.count("INT8-matched (max)") == 2
         assert table.count("INT8-selective (max)") == 2
+        assert table.count("INT8-matched (max, reg head only)") == 2

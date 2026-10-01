@@ -1,7 +1,7 @@
 NEURAL NETWORKS — FILES FOR SUBMISSION (1 October 2026)
 
 Manuscript: "Quantization fragility under image corruption is recipe-dependent:
-paired evidence from INT8 and FP8 object detectors" — release v3.0.1.
+paired evidence from INT8 and FP8 object detectors" — release v3.0.2.
 
 01_NN_main.pdf                Main manuscript (21 pages)
 02_NN_supplement.pdf          Supplementary Information (9 pages)
@@ -17,11 +17,11 @@ paired evidence from INT8 and FP8 object detectors" — release v3.0.1.
 Assign each file to the corresponding portal category. Do not upload this
 README. Inspect the journal-generated PDF before approving submission.
 
-These files are byte-identical to immutable Zenodo release v3.0.1:
-  version DOI  https://doi.org/10.5281/zenodo.23074353
+These files are byte-identical to immutable Zenodo release v3.0.2:
+  version DOI  https://doi.org/10.5281/zenodo.23076132
   concept DOI  https://doi.org/10.5281/zenodo.22031663
-  source tag   v3.0.1 of github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection
-Release file hashes: /data_nvme/release_v3.0.1/RELEASE_SHA256SUMS.txt
+  source tag   v3.0.2 of github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection
+Release file hashes: /data_nvme/release_v3.0.2/RELEASE_SHA256SUMS.txt
 (hashes in SHA256SUMS.txt here cover the submission copies).
 
 Before submitting, confirm author approval, exclusivity, AI disclosure, and

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "voc_val__retinanet_r50_fpn_v2__int8-maxreg512__jpeg-s1",
+  "dataset": "voc",
+  "split": "val",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "int8-maxreg",
+  "corruption": "jpeg",
+  "severity": 1,
+  "n_images": 4952,
+  "stats": {
+    "AP": 0.5077187749691774,
+    "AP50": 0.7775120732384577,
+    "AP75": 0.5332344623379093,
+    "AP_small": 0.12043254095320892,
+    "AP_medium": 0.28925259937979486,
+    "AP_large": 0.5918157296970149,
+    "AR1": 0.46163087787048,
+    "AR10": 0.6336447207484259,
+    "AR100": 0.6569844093152024,
+    "AR_small": 0.32233614770766555,
+    "AR_medium": 0.4906838088273864,
+    "AR_large": 0.723621235140851
+  },
+  "prediction_sha256": "ff9985c6bc93068a7096e6d0313372ade6756674353f5f2526a19fc6c1af8a5c",
+  "input_manifest_sha256": "78b8443a9a49c7ce09fd075a267f98f00f5996836cb23b159dca3e22ced4eac4",
+  "input_image_ids_sha256": "f95fa720f5342f1f10830950826bc77b25133870045675f4c927f8f55baf06c7",
+  "run_record_sha256": "aa67d8120e63b7459daaeaba0bc08bd7c18772ecc03539db9ad3f9a80d58cfdc"
+}

@@ -855,6 +855,43 @@ def actstats_table(final: dict) -> str:
         r"\end{tabular}"]) + "\n")
 
 
+def actstats_level_table(final: dict) -> str:
+    """Per-FPN-level activation statistics (median channel amax / excess
+    kurtosis) for the two heads, per graph."""
+    graphs = final.get("actstats", {})
+    if not graphs:
+        return ""
+    order = [("kitti_retinanet", "KITTI"),
+             ("voc_retinanet", "VOC"),
+             ("coco_retinanet_pretrained", "COCO pretrained")]
+    rows = []
+    for key, label in order:
+        pl = (graphs.get(key) or {}).get("per_level") or {}
+        for i, region in enumerate(("regression_head", "classification_head")):
+            lv = pl.get(region) or {}
+            if not lv:
+                continue
+            cells = []
+            for lvl in ("P3", "P4", "P5", "P6", "P7"):
+                s = lv.get(lvl)
+                cells.append("--" if not s else
+                             f"{s['amax_med']:.1f}/{s['kurt_med']:.0f}")
+            lead = label if i == 0 else ""
+            reg = "reg." if region == "regression_head" else "cls."
+            rows.append(f"{lead} & {reg} & " + " & ".join(cells) + r" \\")
+        rows.append(r"\addlinespace[3pt]")
+    if rows:
+        rows.pop()
+    return ("\n".join([
+        r"\begin{tabular}{llccccc}",
+        r"\toprule",
+        r"Graph & Head & P3 & P4 & P5 & P6 & P7 \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}"]) + "\n")
+
+
 def maxcalib_table(final: dict) -> str:
     """INT8 max-calibration counterfactual (B6): point estimates, no draws.
 
@@ -889,7 +926,8 @@ def maxcalib_table(final: dict) -> str:
                 lead, label, cells["clean-s0"], codec, cm))
         rows.append(r"\addlinespace[2pt]")
         for arm, label in (("int8-max512", "INT8-matched (max)"),
-                           ("int8-maxsel512", "INT8-selective (max)")):
+                           ("int8-maxsel512", "INT8-selective (max)"),
+                           ("int8-maxreg512", "INT8-matched (max, reg head only)")):
             a = ent["arms"].get(arm)
             if not a:
                 continue
@@ -1261,13 +1299,24 @@ def numbers_tex(final: dict) -> str:
             if s:
                 macros[f"ActStatic{R}Med{K}"] = f"{s['amax_median']:.1f}"
                 macros[f"ActStatic{R}Max{K}"] = f"{s['amax_max']:.1f}"
+        pl = g.get("per_level") or {}
+        lvl_tag = {"P3": "PThree", "P4": "PFour", "P5": "PFive",
+                   "P6": "PSix", "P7": "PSeven"}
+        for region, R in (("regression_head", "Reg"),
+                          ("classification_head", "Cls")):
+            for lvl, LT in lvl_tag.items():
+                s = (pl.get(region) or {}).get(lvl)
+                if s:
+                    macros[f"Act{R}Kurt{LT}{K}"] = f"{s['kurt_med']:.1f}"
+                    macros[f"Act{R}Amax{LT}{K}"] = f"{s['amax_med']:.1f}"
     # ---- B6: max-calibration counterfactual macros (points, no intervals) ----
     mc = final.get("maxcalib", {})
     for ds, K in (("kitti", "Kitti"), ("voc", "Voc")):
         ent = mc.get(ds)
         if not ent:
             continue
-        for arm, A in (("int8-max512", "Max"), ("int8-maxsel512", "MaxSel")):
+        for arm, A in (("int8-max512", "Max"), ("int8-maxsel512", "MaxSel"),
+                       ("int8-maxreg512", "MaxReg")):
             a = ent["arms"].get(arm)
             if a:
                 macros[f"Mc{A}J{K}"] = f"{a['j95']:.2f}"
@@ -1316,6 +1365,7 @@ def main() -> None:
         write(GEN / "nn_rebuild_variance.tex", rebuild_variance_table(final))
     if "actstats" in final:
         write(GEN / "nn_actstats.tex", actstats_table(final))
+        write(GEN / "nn_actstats_level.tex", actstats_level_table(final))
     if "maxcalib" in final:
         write(GEN / "nn_maxcalib.tex", maxcalib_table(final))
 

@@ -1,0 +1,395 @@
+{
+  "schema_version": 1,
+  "dataset": "voc",
+  "arm": "int8-matched512",
+  "source_onnx": "/tmp/onnx_check/voc_int8_matched512.onnx",
+  "source_onnx_sha256": "3451b91318be00f20575b1200e24706c9069afa933d13372cab16042c19b793c",
+  "registry": "outputs/nn_paired_protocol_v1_20260924/engines/voc_retinanet_int8-matched512/onnx.json",
+  "registry_sha256": "e58c1b34f4133cd24c0877fea02d1d6c93c64178583b689c19408594df22ff5c",
+  "n_regression_head_nodes": 325,
+  "n_regression_head_activation_quantizers": 25,
+  "activation_quantizers": [
+    {
+      "tensor": "/backbone/fpn/extra_blocks/p6/Conv_output_0",
+      "fpn_level": "P6",
+      "shared_with_classification_head": true,
+      "scale": 0.50927734375,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/backbone/fpn/extra_blocks/p7/Conv_output_0",
+      "fpn_level": "P7",
+      "shared_with_classification_head": true,
+      "scale": 1.0126953125,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/backbone/fpn/layer_blocks.0/layer_blocks.0.0/Conv_output_0",
+      "fpn_level": "P3",
+      "shared_with_classification_head": true,
+      "scale": 1.20703125,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/backbone/fpn/layer_blocks.1/layer_blocks.1.0/Conv_output_0",
+      "fpn_level": "P4",
+      "shared_with_classification_head": true,
+      "scale": 0.7421875,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/backbone/fpn/layer_blocks.2/layer_blocks.2.0/Conv_output_0",
+      "fpn_level": "P5",
+      "shared_with_classification_head": true,
+      "scale": 0.36962890625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.0/conv.0.2/Relu_output_0",
+      "fpn_level": "P3",
+      "shared_with_classification_head": false,
+      "scale": 0.371826171875,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.0/conv.0.2_1/Relu_output_0",
+      "fpn_level": "P4",
+      "shared_with_classification_head": false,
+      "scale": 0.321044921875,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.0/conv.0.2_2/Relu_output_0",
+      "fpn_level": "P5",
+      "shared_with_classification_head": false,
+      "scale": 0.2017822265625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.0/conv.0.2_3/Relu_output_0",
+      "fpn_level": "P6",
+      "shared_with_classification_head": false,
+      "scale": 0.133056640625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.0/conv.0.2_4/Relu_output_0",
+      "fpn_level": "P7",
+      "shared_with_classification_head": false,
+      "scale": 0.056488037109375,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.1/conv.1.2/Relu_output_0",
+      "fpn_level": "P3",
+      "shared_with_classification_head": false,
+      "scale": 0.51416015625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.1/conv.1.2_1/Relu_output_0",
+      "fpn_level": "P4",
+      "shared_with_classification_head": false,
+      "scale": 0.470947265625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.1/conv.1.2_2/Relu_output_0",
+      "fpn_level": "P5",
+      "shared_with_classification_head": false,
+      "scale": 0.295166015625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.1/conv.1.2_3/Relu_output_0",
+      "fpn_level": "P6",
+      "shared_with_classification_head": false,
+      "scale": 0.160400390625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.1/conv.1.2_4/Relu_output_0",
+      "fpn_level": "P7",
+      "shared_with_classification_head": false,
+      "scale": 0.08355712890625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.2/conv.2.2/Relu_output_0",
+      "fpn_level": "P3",
+      "shared_with_classification_head": false,
+      "scale": 0.7119140625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.2/conv.2.2_1/Relu_output_0",
+      "fpn_level": "P4",
+      "shared_with_classification_head": false,
+      "scale": 0.56591796875,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.2/conv.2.2_2/Relu_output_0",
+      "fpn_level": "P5",
+      "shared_with_classification_head": false,
+      "scale": 0.3447265625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.2/conv.2.2_3/Relu_output_0",
+      "fpn_level": "P6",
+      "shared_with_classification_head": false,
+      "scale": 0.1883544921875,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.2/conv.2.2_4/Relu_output_0",
+      "fpn_level": "P7",
+      "shared_with_classification_head": false,
+      "scale": 0.10009765625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.3/conv.3.2/Relu_output_0",
+      "fpn_level": "P3",
+      "shared_with_classification_head": false,
+      "scale": 0.4697265625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.3/conv.3.2_1/Relu_output_0",
+      "fpn_level": "P4",
+      "shared_with_classification_head": false,
+      "scale": 0.337158203125,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.3/conv.3.2_2/Relu_output_0",
+      "fpn_level": "P5",
+      "shared_with_classification_head": false,
+      "scale": 0.1953125,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.3/conv.3.2_3/Relu_output_0",
+      "fpn_level": "P6",
+      "shared_with_classification_head": false,
+      "scale": 0.09967041015625,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    },
+    {
+      "tensor": "/head/regression_head/conv/conv.3/conv.3.2_4/Relu_output_0",
+      "fpn_level": "P7",
+      "shared_with_classification_head": false,
+      "scale": 0.04913330078125,
+      "scale_elements": 1,
+      "granularity": "per-tensor"
+    }
+  ],
+  "weight_quantizers": {
+    "model.head.regression_head.bbox_reg.weight_1_QuantizeLinear_Output": {
+      "scale_elements": 36,
+      "axis": 0
+    },
+    "model.head.regression_head.bbox_reg.weight_2_QuantizeLinear_Output": {
+      "scale_elements": 36,
+      "axis": 0
+    },
+    "model.head.regression_head.bbox_reg.weight_3_QuantizeLinear_Output": {
+      "scale_elements": 36,
+      "axis": 0
+    },
+    "model.head.regression_head.bbox_reg.weight_4_QuantizeLinear_Output": {
+      "scale_elements": 36,
+      "axis": 0
+    },
+    "model.head.regression_head.bbox_reg.weight_5_QuantizeLinear_Output": {
+      "scale_elements": 36,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.0.0.weight_1_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.0.0.weight_2_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.0.0.weight_3_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.0.0.weight_4_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.0.0.weight_5_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.1.0.weight_1_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.1.0.weight_2_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.1.0.weight_3_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.1.0.weight_4_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.1.0.weight_5_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.2.0.weight_1_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.2.0.weight_2_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.2.0.weight_3_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.2.0.weight_4_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.2.0.weight_5_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.3.0.weight_1_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.3.0.weight_2_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.3.0.weight_3_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.3.0.weight_4_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "model.head.regression_head.conv.3.0.weight_5_QuantizeLinear_Output": {
+      "scale_elements": 256,
+      "axis": 0
+    },
+    "/head/regression_head/conv/conv.0/conv.0.2_3/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.0/conv.0.2_2/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.0/conv.0.2_4/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.1/conv.1.2_3/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.1/conv.1.2_2/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.0/conv.0.2_1/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.1/conv.1.2_4/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.2/conv.2.2_3/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.2/conv.2.2_2/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.1/conv.1.2_1/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.0/conv.0.2/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.2/conv.2.2_4/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.3/conv.3.2_3/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.3/conv.3.2_2/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.2/conv.2.2_1/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.1/conv.1.2/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.3/conv.3.2_4/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.3/conv.3.2_1/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.2/conv.2.2/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    },
+    "/head/regression_head/conv/conv.3/conv.3.2/Relu_output_0_QuantizeLinear_Output": {
+      "scale_elements": 1,
+      "axis": null
+    }
+  }
+}

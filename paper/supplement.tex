@@ -515,7 +515,7 @@ calibration manifests (including the corrupt-calibration cell-assignment
 schedule), input manifests, prediction manifests, metric records, and paired-bootstrap
 draw caches are SHA-256 hash-bound and retained in the accompanying
 compact-evidence package, deposited in the versioned research archive
-as release v3.0.1 (version DOI \url{https://doi.org/10.5281/zenodo.23074353}) under the
+as release v3.0.2 (version DOI \url{https://doi.org/10.5281/zenodo.23076132}) under the
 concept DOI \url{https://doi.org/10.5281/zenodo.22031663}. Raw
 benchmark datasets, trained checkpoints, built TensorRT engines, and raw
 predictions are not redistributed; their provenance and regeneration path is
@@ -630,6 +630,27 @@ KITTI); and the captures are
 a measurement of the calibration distribution, which is itself what the
 quantizer saw---the tails under corrupted inputs are not measured here.
 
+Table~\ref{tab:nn-actstats-level} resolves the same captures per FPN level,
+and a structural audit of the matched QDQ graphs
+(\texttt{nn\_actstats/qdq\_structure\_*.json}) records how the head's
+activation ranges are parametrized. Two structure-level facts matter. First,
+the regression head does not share one activation scale across pyramid
+levels: the matched graph carries 25 regression-head-consumed activation
+quantizers---the five FPN feature tensors at the head input boundary (shared
+with the classification head) plus four per-level tensors in each of the
+five level-unrolled tower stages---and every one is per-tensor with a
+level-specific scale, so a shared head-wide activation range is not the
+mechanism here. Second, the tail burden is level-ordered: regression-head
+median excess kurtosis is highest at the fine levels that carry
+small-object predictions (\nnActRegKurtPThreeKitti{} at P3 on KITTI,
+falling to \nnActRegKurtPSevenKitti{} at P7; the classification head shows a
+much flatter profile, \nnActClsKurtPThreeKitti{} to
+\nnActClsKurtPSevenKitti), and the same ordering holds on VOC and on the
+pretrained COCO graph. Per-tensor grids at P3/P4 therefore spend the most
+code budget covering outliers---consistent with the matched arm's
+AP$_S$/AP$_{75}$-concentrated deficit in Table~8 of the
+main text---though this is a consistency argument, not a causal isolation.
+
 \begin{table}[htbp]
 \centering\scriptsize
 \caption{Per-region activation statistics over the 512-image clean
@@ -639,6 +660,17 @@ kurtosis is Fisher. ``Shared head inputs'' are tensors consumed by both
 heads (FPN boundary features).}
 \label{tab:nn-actstats}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_actstats.tex}}
+\end{table}
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{Per-FPN-level activation statistics: median per-channel
+$|x|_{\max}$~$/$~median excess kurtosis, over head-consumed tensors at each
+pyramid level (P3 finest, P7 coarsest; 28 head tensors per level, plus one
+shared head-input feature per level). Regression-head tails concentrate at
+the fine levels on all three graphs.}
+\label{tab:nn-actstats-level}
+{\setlength{\tabcolsep}{3pt}\input{generated/nn_actstats_level.tex}}
 \end{table}
 
 \section{Max-calibration counterfactual}
@@ -675,15 +707,36 @@ in the earlier recipe sweep scored $\nnDiagMaxJ$~AP on the KITTI clean
 basis---the max estimator's outcome is itself draw-sensitive, since a single
 unlucky outlier image inflates every range.
 
+Because the graph-wide swap perturbs every quantizer, it cannot separate a
+head-local estimator effect from collateral damage elsewhere (the VOC
+collapse is the extreme case). We therefore ran a second, head-local
+counterfactual (\texttt{nn\_maxreg\_v1\_20261001}; same single-build,
+point-estimate-only protocol): starting from the frozen INT8-matched graphs,
+the entropy-calibrated scales of the regression-head activation quantizers
+(25 per graph, per-tensor, one per conv per FPN level; Section~S13) were
+replaced by the calibration-set maxima measured on the same captured
+activations, while every other quantizer---backbone, classification head,
+head-input boundary---kept its entropy-calibrated scale byte-identical. The
+head-local arm leaves VOC functional and still does not repair the deficit
+(Table~\ref{tab:nn-maxcalib}): clean $\Jclean$ sits at
+\nnMcMaxRegJKitti{}~AP on KITTI and \nnMcMaxRegJVoc{}~AP on VOC, against
+\nnArmInCleanKitti{}/\nnArmInCleanVoc{} for the entropy-matched arms, and the
+corrupt-mean levels (\nnMcMaxRegCKitti{}/\nnMcMaxRegCVoc{}~AP) track the
+entropy-matched arms within about one AP point. Widening only the
+regression-head ranges to the observed maxima recovers nothing.
+
 The reading we take is bounded: clipping of the observed calibration range
 is not the operative cost, because widening the range to the calibration
-maximum does not recover accuracy and can destroy the classifier outright. That leaves the resolution side of
-the account---a fixed 127-level grid over a wide range---as the better
-candidate, though we did not separate resolution from the other numerical
-changes a coarser scale induces (larger rounding bias on in-range values,
-dequantization shift). Corruption-aware calibration and max calibration
-together bracket the range-choice dimension: neither repairs the deficit, and
-the regression-head benefit survives both.
+maximum---graph-wide or restricted to the regression head---does not recover
+accuracy and can destroy the classifier outright. That leaves the resolution
+side of the account---a fixed 127-level grid over a wide range---as the
+better candidate, though we did not separate resolution from the other
+numerical changes a coarser scale induces (larger rounding bias on in-range
+values, dequantization shift), and max calibration does not preclude
+evaluation-time clipping of activations beyond the calibration-set maximum.
+Corruption-aware calibration and max calibration together bracket the
+range-choice dimension: neither repairs the deficit, and the
+regression-head benefit survives both.
 
 \begin{table}[htbp]
 \centering\scriptsize
@@ -691,7 +744,9 @@ the regression-head benefit survives both.
 single builds, plug-in AP points without intervals). Reference rows repeat
 the frozen entropy-calibrated paired-protocol arms for the same
 detector--dataset pairs; bold rows are the max-estimator arms on the same
-14-condition schedule.}
+14-condition schedule: graph-wide matched/selective, then the head-local
+variant with the max estimator applied to regression-head activation
+quantizers only.}
 \label{tab:nn-maxcalib}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_maxcalib.tex}}
 \end{table}

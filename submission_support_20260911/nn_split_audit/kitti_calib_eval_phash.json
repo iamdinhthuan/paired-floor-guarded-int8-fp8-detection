@@ -1,0 +1,9 @@
+{
+ "method": "average-hash 16x16 grayscale, min Hamming per calib image",
+ "n_calib": 512,
+ "n_eval": 1496,
+ "frac_d0": 0.025390625,
+ "frac_le5": 0.12109375,
+ "frac_le10": 0.2109375,
+ "dmin_median": 26.0
+}

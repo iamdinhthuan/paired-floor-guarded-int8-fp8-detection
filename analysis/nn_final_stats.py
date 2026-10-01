@@ -29,6 +29,7 @@ PHASE_G = SUPPORT / "phase_g_wa_results"
 PHASE_H = SUPPORT / "phase_h_fcos_results"
 PHASE_I = SUPPORT / "phase_i_coco_pretrained_results"
 PHASE_J = SUPPORT / "phase_j_maxcalib_results"
+PHASE_K = SUPPORT / "phase_k_maxreg_results"
 RETINA = "retinanet_r50_fpn_v2"
 FCOS = "fcos_r50_fpn"
 
@@ -302,6 +303,18 @@ def maxcalib_stats() -> dict:
                 "j95": ent["arms"][a]["j95"] - ent["arms"][b]["j95"],
                 "corr12": ent["arms"][a]["corr12"] - ent["arms"][b]["corr12"]}
         out[ds] = ent
+    # head-local max-regression counterfactual (B7): max estimator applied to
+    # the regression-head quantizers only, entropy retained elsewhere; same
+    # point-estimate-only treatment as the graph-wide arms above.
+    src_k = PHASE_K / "cell_points.json"
+    if src_k.is_file():
+        for key, arms in json.loads(src_k.read_text()).items():
+            ds = key.split("/")[0]
+            for arm, cells in arms.items():
+                out.setdefault(ds, {"arms": {}, "contrasts": {}})["arms"][arm] = {
+                    "j95": cells["clean-s0"],
+                    "codec_control": cells["codec-control-s0"],
+                    "corr12": float(np.mean([cells[c] for c in corr]))}
     return out
 
 

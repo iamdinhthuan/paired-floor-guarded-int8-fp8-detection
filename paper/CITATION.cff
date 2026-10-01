@@ -37,9 +37,9 @@ authors:
     email: leanhvu@tdtu.edu.vn
     orcid: "https://orcid.org/0000-0002-4804-7540"
     affiliation: Ton Duc Thang University
-version: 3.0.1
+version: 3.0.2
 date-released: "2026-10-01"
-doi: 10.5281/zenodo.23074353
+doi: 10.5281/zenodo.23076132
 identifiers:
   - type: doi
     value: 10.5281/zenodo.22031663
