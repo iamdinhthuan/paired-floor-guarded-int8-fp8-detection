@@ -33,8 +33,13 @@ def tensor_level(name: str):
     for k, v in _BACKBONE_LVL.items():
         if k in name:
             return v
+    # RetinaNet export: conv.<tower>.<stage>[_<level>]/
     mm = re.search(r"conv\.(\d)\.(\d)(?:_(\d))?/", name)
-    return _UNROLL_IDX.get(mm.group(3)) if mm else None
+    if mm:
+        return _UNROLL_IDX.get(mm.group(3))
+    # FCOS export: conv.<stage>[_<level>]/ (head module unrolled per level)
+    mm = re.search(r"conv\.(\d+)(?:_(\d+))?/", name)
+    return _UNROLL_IDX.get(mm.group(2)) if mm else None
 
 
 def per_level(d: dict) -> dict:

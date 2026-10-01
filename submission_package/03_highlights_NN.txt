@@ -1,5 +1,5 @@
-Paired, codec-controlled protocol isolates corruption effects on quantization gaps
-The FP8-INT8 gap change under corruption flips sign across YOLO11 blocks
-RetinaNet INT8 deficit traces to regression-head activation quantization
-Keeping the regression head in floating point restores accuracy, no retraining
-Corruption-aware calibration transfers inconsistently across held-out folds
+- Paired, codec-controlled protocol isolates the corruption interaction on AP gaps
+- The FP8-INT8 gap change under corruption flips sign across YOLO11 blocks
+- RetinaNet INT8 deficit traces to regression head activation quantization
+- Head exclusion restores AP without retraining; a KITTI holdout confirms the pattern
+- Corruption-aware calibration transfers inconsistently across held-out folds

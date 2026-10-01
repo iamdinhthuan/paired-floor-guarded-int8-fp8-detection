@@ -153,6 +153,132 @@
         }
       }
     },
+    "kitti_fcos": {
+      "onnx_sha256": "916be3f603e23e42e37e58e5ae26bc338777493826dd1af8208fb425a287dd7c",
+      "calib_sha256": "f0cfb861d1c8846d3aa66f266ac8c9e41150f8b2cf66525ad12efca19ad58be7",
+      "n_images": 512,
+      "n_captured_tensors": 712,
+      "summary": {
+        "shared_by_heads": {
+          "n_tensors": 5,
+          "amax_med_of_channel_medians": 1.1847105026245117,
+          "max_amax": 4.949620723724365,
+          "kurt_med_of_channel_medians": 10.287733211634812,
+          "max_kurt": 60.9192611724713
+        },
+        "classification_head": {
+          "n_tensors": 192,
+          "amax_med_of_channel_medians": 5.291440010070801,
+          "max_amax": 89.03549194335938,
+          "kurt_med_of_channel_medians": 1.392860873032748,
+          "max_kurt": 84351.54142436631
+        },
+        "regression_head": {
+          "n_tensors": 217,
+          "amax_med_of_channel_medians": 2.220364212989807,
+          "max_amax": 48.86724853515625,
+          "kurt_med_of_channel_medians": 1.1671192557531684,
+          "max_kurt": 59255.6249224227
+        }
+      },
+      "p95_of_channel": {
+        "shared_by_heads": {
+          "kurt_p95_med": 17.122466762632637,
+          "amax_p95_med": 1.725608468055725
+        },
+        "classification_head": {
+          "kurt_p95_med": 4.297524613205992,
+          "amax_p95_med": 10.622595238685609
+        },
+        "regression_head": {
+          "kurt_p95_med": 3.8205905640952436,
+          "amax_p95_med": 3.9426852464675903
+        }
+      },
+      "per_level": {
+        "shared_by_heads": {
+          "P6": {
+            "n_tensors": 1,
+            "amax_med": 0.6993045508861542,
+            "kurt_med": 6.236520941959249
+          },
+          "P7": {
+            "n_tensors": 1,
+            "amax_med": 0.22172759473323822,
+            "kurt_med": 0.2890010541373671
+          },
+          "P3": {
+            "n_tensors": 1,
+            "amax_med": 2.0854862928390503,
+            "kurt_med": 10.287733211634812
+          },
+          "P4": {
+            "n_tensors": 1,
+            "amax_med": 2.055254101753235,
+            "kurt_med": 13.504929511208598
+          },
+          "P5": {
+            "n_tensors": 1,
+            "amax_med": 1.1847105026245117,
+            "kurt_med": 12.43344941188828
+          }
+        },
+        "classification_head": {
+          "P3": {
+            "n_tensors": 28,
+            "amax_med": 13.290311813354492,
+            "kurt_med": 11.39800951567215
+          },
+          "P4": {
+            "n_tensors": 28,
+            "amax_med": 10.8890061378479,
+            "kurt_med": 9.04011129913125
+          },
+          "P5": {
+            "n_tensors": 28,
+            "amax_med": 7.463792324066162,
+            "kurt_med": 3.1784797957306603
+          },
+          "P6": {
+            "n_tensors": 28,
+            "amax_med": 3.1771474480628967,
+            "kurt_med": 0.05208346248512419
+          },
+          "P7": {
+            "n_tensors": 28,
+            "amax_med": 2.181182622909546,
+            "kurt_med": -0.560251127111713
+          }
+        },
+        "regression_head": {
+          "P3": {
+            "n_tensors": 28,
+            "amax_med": 5.17893373966217,
+            "kurt_med": 14.35657390736245
+          },
+          "P4": {
+            "n_tensors": 28,
+            "amax_med": 3.38488107919693,
+            "kurt_med": 11.279074328168752
+          },
+          "P5": {
+            "n_tensors": 28,
+            "amax_med": 2.2882867455482483,
+            "kurt_med": 5.875656239878943
+          },
+          "P6": {
+            "n_tensors": 28,
+            "amax_med": 1.0303193926811218,
+            "kurt_med": 0.34709109120923387
+          },
+          "P7": {
+            "n_tensors": 28,
+            "amax_med": 0.6202134191989899,
+            "kurt_med": -0.4794308542810011
+          }
+        }
+      }
+    },
     "kitti_retinanet": {
       "onnx_sha256": "5c522b7711017f7506a2096e046596be33861715ba0c415f393580ad8bc59941",
       "calib_sha256": "f0cfb861d1c8846d3aa66f266ac8c9e41150f8b2cf66525ad12efca19ad58be7",
@@ -302,6 +428,132 @@
           "amax_median": 37.39306640625,
           "amax_max": 143.2470703125,
           "amax_max_over_median": 3.8308457711442787
+        }
+      }
+    },
+    "voc_fcos": {
+      "onnx_sha256": "ceb85cfc62212ce841a9c4f697ecfcecf5ff91f45bf4842e581428360b28c75f",
+      "calib_sha256": "ea97698729ac9982292d66d6bc127be8db393cdb713b8f0546e04bf055318a29",
+      "n_images": 512,
+      "n_captured_tensors": 712,
+      "summary": {
+        "shared_by_heads": {
+          "n_tensors": 5,
+          "amax_med_of_channel_medians": 9.367498874664307,
+          "max_amax": 53.548892974853516,
+          "kurt_med_of_channel_medians": 5.820448277856823,
+          "max_kurt": 25.770730683340673
+        },
+        "classification_head": {
+          "n_tensors": 192,
+          "amax_med_of_channel_medians": 7.610981106758118,
+          "max_amax": 199.790771484375,
+          "kurt_med_of_channel_medians": 1.813043642357611,
+          "max_kurt": 3276795.0000003055
+        },
+        "regression_head": {
+          "n_tensors": 217,
+          "amax_med_of_channel_medians": 2.4522507190704346,
+          "max_amax": 183.2779998779297,
+          "kurt_med_of_channel_medians": 1.4366189043220503,
+          "max_kurt": 373590.04813039384
+        }
+      },
+      "p95_of_channel": {
+        "shared_by_heads": {
+          "kurt_p95_med": 9.412321181222742,
+          "amax_p95_med": 13.837648153305054
+        },
+        "classification_head": {
+          "kurt_p95_med": 5.171638440245955,
+          "amax_p95_med": 12.922749733924865
+        },
+        "regression_head": {
+          "kurt_p95_med": 3.5295262021586726,
+          "amax_p95_med": 4.418575763702393
+        }
+      },
+      "per_level": {
+        "shared_by_heads": {
+          "P6": {
+            "n_tensors": 1,
+            "amax_med": 25.75791358947754,
+            "kurt_med": 6.1346065376007
+          },
+          "P7": {
+            "n_tensors": 1,
+            "amax_med": 14.871792316436768,
+            "kurt_med": 1.369651060405825
+          },
+          "P3": {
+            "n_tensors": 1,
+            "amax_med": 9.367498874664307,
+            "kurt_med": 3.7249471410929775
+          },
+          "P4": {
+            "n_tensors": 1,
+            "amax_med": 8.500340938568115,
+            "kurt_med": 5.820448277856823
+          },
+          "P5": {
+            "n_tensors": 1,
+            "amax_med": 6.068799018859863,
+            "kurt_med": 6.2851566031950865
+          }
+        },
+        "classification_head": {
+          "P3": {
+            "n_tensors": 28,
+            "amax_med": 10.91520357131958,
+            "kurt_med": 3.7477590412954136
+          },
+          "P4": {
+            "n_tensors": 28,
+            "amax_med": 11.525409460067749,
+            "kurt_med": 6.392130605258755
+          },
+          "P5": {
+            "n_tensors": 28,
+            "amax_med": 9.322582244873047,
+            "kurt_med": 6.041580197253017
+          },
+          "P6": {
+            "n_tensors": 28,
+            "amax_med": 6.296706914901733,
+            "kurt_med": 2.6425704219293236
+          },
+          "P7": {
+            "n_tensors": 28,
+            "amax_med": 2.3938085436820984,
+            "kurt_med": -0.5498792288190222
+          }
+        },
+        "regression_head": {
+          "P3": {
+            "n_tensors": 28,
+            "amax_med": 3.257927179336548,
+            "kurt_med": 3.820146508240996
+          },
+          "P4": {
+            "n_tensors": 28,
+            "amax_med": 3.306476414203644,
+            "kurt_med": 4.684274329307015
+          },
+          "P5": {
+            "n_tensors": 28,
+            "amax_med": 2.6597620248794556,
+            "kurt_med": 4.562632347069027
+          },
+          "P6": {
+            "n_tensors": 28,
+            "amax_med": 1.7912448346614838,
+            "kurt_med": 1.8679053495789004
+          },
+          "P7": {
+            "n_tensors": 28,
+            "amax_med": 0.7595799565315247,
+            "kurt_med": -0.259617921636877
+          }
         }
       }
     },

@@ -92,9 +92,9 @@ The CVIU-aligned `v2.1.0` source and compact-evidence package is archived at
 [10.5281/zenodo.22275640](https://doi.org/10.5281/zenodo.22275640). Its
 all-versions concept DOI is
 [10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663), which the
-manuscript and supplement cite; the Neural Networks release `v3.0.2` is
+manuscript and supplement cite; the Neural Networks release `v3.0.3` is
 archived under the same concept DOI with version DOI
-[10.5281/zenodo.23076132](https://doi.org/10.5281/zenodo.23076132).
+[10.5281/zenodo.23082850](https://doi.org/10.5281/zenodo.23082850).
 
 ## License
 

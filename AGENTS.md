@@ -23,13 +23,16 @@ CVIU-era draft kept for provenance — do not edit it.
 
 ## Build & verify
 
-Local conda TeX Live is broken (missing mktexlsr.pl) — build on the remote host:
+The conda TeX Live is broken, but the full TeX Live 2026 installation with
+STIX fonts is available locally. Use it for publication PDFs and text-layer
+checks; the remote mirror may fall back to bitmap fonts if STIX is absent:
 
-    rsync -az --delete paper/ thuan@100.111.139.103:/home/thuan/topic_c_ivc/paper/
-    ssh thuan@100.111.139.103 'cd /home/thuan/topic_c_ivc/paper && ./verify.sh'
+    cd paper
+    PATH=/data_nvme/texlive/2026/bin/x86_64-linux:$PATH ./verify.sh
 
-`verify.sh` builds both PDFs (latexmk), regenerates `SOURCE_MANIFEST.sha256`, and
-verifies it. Pull back `main_nn.pdf`, `supplement.pdf`, `SOURCE_MANIFEST.sha256`.
+`cas-dc.cls` loads T1 encoding; `main_nn.tex` also enables glyph-to-Unicode
+mapping for the PDF text layer. After building, check ligatures and punctuation
+with `pdftotext`, and verify `paper/SOURCE_MANIFEST.sha256`.
 
 ## Regenerating numbers
 
@@ -44,11 +47,13 @@ shared schedule per dataset×model block).
 
 ## Conventions
 
-- Five evidence layers: diagnostic (decomposition, single points), frozen
+- Seven evidence layers: diagnostic (decomposition, single points), frozen
   paired (9 YOLO11 blocks + RetinaNet matched arms), intervention (two
   complementary calibration folds), historical exploratory (context only),
-  and post-hoc extensions (W/A operand factorial + FCOS replication, paired
-  bootstrap but unregistered). Keep them distinguished in prose.
+  post-hoc operand factorial + FCOS replication, off-the-shelf COCO-pretrained
+  replication, and deployment-side/post-hoc diagnostics (activation captures,
+  Q/DQ audit, max-calibration counterfactuals, KITTI final holdout, latency, and
+  rebuild audit). Keep their inferential status distinct in prose.
 - Fold-2 swaps family roles: calibrates fog+motion_blur, holds out
   gaussian_noise+jpeg (`FOLD2` mapping in `nn_final_stats.py`).
 - npz draw caches refuse overwrite — bootstrap runs write to fresh attempt dirs;

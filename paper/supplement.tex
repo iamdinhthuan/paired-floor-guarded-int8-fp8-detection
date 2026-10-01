@@ -515,7 +515,7 @@ calibration manifests (including the corrupt-calibration cell-assignment
 schedule), input manifests, prediction manifests, metric records, and paired-bootstrap
 draw caches are SHA-256 hash-bound and retained in the accompanying
 compact-evidence package, deposited in the versioned research archive
-as release v3.0.2 (version DOI \url{https://doi.org/10.5281/zenodo.23076132}) under the
+as release v3.0.3 (version DOI \url{https://doi.org/10.5281/zenodo.23082850}) under the
 concept DOI \url{https://doi.org/10.5281/zenodo.22031663}. Raw
 benchmark datasets, trained checkpoints, built TensorRT engines, and raw
 predictions are not redistributed; their provenance and regeneration path is
@@ -593,19 +593,22 @@ both engine and inspector level; AP spread is reported where evaluated.}
 \label{sec:actstats}
 
 To probe the operand-factorial attribution at the distribution level we
-captured the activation tensors consumed by each RetinaNet head on the
+captured the activation tensors consumed by each RetinaNet and FCOS head on
 frozen 512-image clean-calibration manifests, running the unquantized ONNX
 graph in ONNX-Runtime (CUDA provider) with every head-consumed tensor
 exposed as a graph output. Per-channel $|x|_{\max}$ and excess kurtosis are
-accumulated by streaming raw moments over every pixel of every captured
-tensor; each tensor is assigned to a region by graph consumption (tensors
+computed over all spatial positions in the 512 captured images, with moments
+accumulated by streaming over every pixel. Each tensor's per-channel
+statistics are first summarized by their median, then the regional and
+per-level entries report medians across tensors. Each tensor is assigned to
+a region by graph consumption (tensors
 feeding both heads are ``shared head inputs''). Captures cover the KITTI
-and VOC trained graphs and the COCO pretrained RetinaNet graph
+and VOC trained RetinaNet and FCOS graphs and the COCO pretrained RetinaNet graph
 (\texttt{nn\_actstats/} in the evidence package; input bytes hash-verified
 against the calibration manifests).
 
-Table~\ref{tab:nn-actstats} reports the summaries. On all three graphs the
-regression head is \emph{not} uniformly larger in typical magnitude---its
+Table~\ref{tab:nn-actstats} reports the summaries. On the three RetinaNet
+graphs the regression head is \emph{not} uniformly larger in typical magnitude---its
 median channel amplitude is comparable to the classification head's---but
 it is markedly heavier-tailed (on the KITTI graph, median excess kurtosis
 \nnActRegKurtMedKitti{} versus \nnActClsKurtMedKitti{} for the
@@ -651,24 +654,40 @@ code budget covering outliers---consistent with the matched arm's
 AP$_S$/AP$_{75}$-concentrated deficit in Table~8 of the
 main text---though this is a consistency argument, not a causal isolation.
 
+The FCOS captures provide a cross-architecture falsification check for the
+extreme-tail profile, not evidence that FCOS activations are tail-free.
+Regression-head median excess kurtosis at P3/P4 is
+\nnActRegKurtPThreeFcosKitti{}/\nnActRegKurtPFourFcosKitti{} on KITTI and
+\nnActRegKurtPThreeFcosVoc{}/\nnActRegKurtPFourFcosVoc{} on VOC, compared
+with \nnActRegKurtPThreeKitti{}/\nnActRegKurtPFourKitti{} and
+\nnActRegKurtPThreeVoc{}/\nnActRegKurtPFourVoc{} for RetinaNet. In
+particular, FCOS still has positive excess kurtosis at KITTI P3; its fine-level
+tails are substantially lighter, not absent. This co-occurrence---lighter
+fine-level tails and no comparable head-specific deficit---is consistent
+with the proposed distribution-level account, but FCOS also differs in
+architecture, anchor density, centerness scoring, and selective-output
+coverage, so the comparison does not isolate tail shape causally.
+
 \begin{table}[htbp]
 \centering\scriptsize
 \caption{Per-region activation statistics over the 512-image clean
-calibration sets. $|x|_{\max}$ is the per-channel absolute maximum
-(summaries aggregate per-channel statistics across tensors); excess
-kurtosis is Fisher. ``Shared head inputs'' are tensors consumed by both
-heads (FPN boundary features).}
+calibration sets for trained RetinaNet and FCOS graphs and the pretrained
+COCO RetinaNet graph. $|x|_{\max}$ is the per-channel absolute maximum;
+excess kurtosis is Fisher. For each tensor, channel-level statistics are
+summarized by a median; table medians are then taken across tensors.
+``Shared head inputs'' are tensors consumed by both heads (FPN boundary
+features).}
 \label{tab:nn-actstats}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_actstats.tex}}
 \end{table}
 
 \begin{table}[htbp]
 \centering\scriptsize
-\caption{Per-FPN-level activation statistics: median per-channel
-$|x|_{\max}$~$/$~median excess kurtosis, over head-consumed tensors at each
-pyramid level (P3 finest, P7 coarsest; 28 head tensors per level, plus one
-shared head-input feature per level). Regression-head tails concentrate at
-the fine levels on all three graphs.}
+\caption{Per-FPN-level activation statistics, reported as the median of
+per-tensor median-channel $|x|_{\max}$~$/$~excess kurtosis at each level (P3
+finest, P7 coarsest; shared FPN boundary features are included where
+applicable). The table includes three RetinaNet and two FCOS graphs;
+fine-level tails are substantially heavier in RetinaNet.}
 \label{tab:nn-actstats-level}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_actstats_level.tex}}
 \end{table}
@@ -749,6 +768,36 @@ variant with the max estimator applied to regression-head activation
 quantizers only.}
 \label{tab:nn-maxcalib}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_maxcalib.tex}}
+\end{table}
+
+\section{KITTI final-holdout check}
+\label{sec:nn-holdout}
+
+As a post-hoc check of the RetinaNet head-localization result, we evaluated
+the four factorial arms on the 1,197-image KITTI final-holdout partition
+reserved at split time. The partition was excluded from model and recipe
+development, but this re-evaluation was not a preregistered test; no retraining
+or calibration changes were made. The same engines, decoder, and 14-condition evaluation
+schedule were used (\texttt{nn\_holdout\_v1\_20261001}); the retained
+hash-bound metric and input manifests identify the evaluated artifacts.
+Values are full-sample point estimates only, with no bootstrap intervals.
+The selection-partition rows are included as a descriptive reference, not as
+a paired comparison to the holdout rows. Since the split is frame-level,
+adjacent frames from the same driving sequence can cross partitions; this is
+not a sequence-independent generalization test.
+
+On the holdout, selective and W-only recover the clean-level deficit, while
+A-only remains near the matched arm. The pattern therefore reproduces the
+activation-dominant operand attribution observed on the selection partition,
+although the absolute AP levels differ between image samples.
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{KITTI RetinaNet factorial arms on the final holdout and, for
+context, the selection partition. The holdout contains 1,197 images reserved
+at split time; values are plug-in AP points without intervals.}
+\label{tab:nn-holdout}
+{\setlength{\tabcolsep}{3pt}\input{generated/nn_holdout.tex}}
 \end{table}
 
 \section{Minimum reporting checklist for paired corruption studies}

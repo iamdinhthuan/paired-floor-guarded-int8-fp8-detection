@@ -30,6 +30,7 @@ PHASE_H = SUPPORT / "phase_h_fcos_results"
 PHASE_I = SUPPORT / "phase_i_coco_pretrained_results"
 PHASE_J = SUPPORT / "phase_j_maxcalib_results"
 PHASE_K = SUPPORT / "phase_k_maxreg_results"
+PHASE_L = SUPPORT / "phase_l_holdout_results"
 RETINA = "retinanet_r50_fpn_v2"
 FCOS = "fcos_r50_fpn"
 
@@ -318,6 +319,35 @@ def maxcalib_stats() -> dict:
     return out
 
 
+def holdout_stats() -> dict:
+    """KITTI final-holdout check (B8): 1,197 untouched images, point estimates.
+
+    The four factorial arms (matched/selective/W-only/A-only) re-evaluated on
+    the reserved holdout partition; plug-in AP points per condition plus
+    clean/corrupt-mean levels, no bootstrap draws."""
+    src = PHASE_L / "cell_points.json"
+    if not src.is_file():
+        return {}
+    pts = json.loads(src.read_text())
+    corr = [f"{f}-s{s}" for f in ("fog", "gaussian_noise", "jpeg", "motion_blur")
+            for s in (1, 3, 5)]
+    out = {}
+    for key, arms in pts.items():
+        ent = {"arms": {}, "contrasts": {}}
+        for arm, cells in arms.items():
+            ent["arms"][arm] = {
+                "j95": cells["clean-s0"],
+                "codec_control": cells["codec-control-s0"],
+                "corr12": float(np.mean([cells[c] for c in corr]))}
+        a, b = "int8-selective512", "int8-matched512"
+        if a in arms and b in arms:
+            ent["contrasts"]["sel_minus_mat"] = {
+                "j95": ent["arms"][a]["j95"] - ent["arms"][b]["j95"],
+                "corr12": ent["arms"][a]["corr12"] - ent["arms"][b]["corr12"]}
+        out[key] = ent
+    return out
+
+
 def latency_stats() -> dict:
     """Idle-gated cudaEvent latency ledger (B4).
 
@@ -395,6 +425,9 @@ def main() -> None:
     mc = maxcalib_stats()
     if mc:
         result["maxcalib"] = mc
+    ho = holdout_stats()
+    if ho:
+        result["kitti_holdout"] = ho
     path = SUPPORT / "nn_final_stats.json"
     path.write_text(json.dumps(result, indent=2) + "\n")
     het = result["yolo"]["heterogeneity"]

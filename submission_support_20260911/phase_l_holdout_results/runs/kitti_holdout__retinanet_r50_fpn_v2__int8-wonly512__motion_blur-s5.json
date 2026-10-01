@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_holdout__retinanet_r50_fpn_v2__int8-wonly512__motion_blur-s5",
+  "dataset": "kitti",
+  "split": "test",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "int8-entropy",
+  "decoder": "torchvision_retinanet_raw_v1",
+  "decoder_sha256": "58b7c8bf522978825c7662acf89e0c8520b4613c2cfe0f6a7e0c2dcfdeca9f29",
+  "engine_registry": "/home/thuan/topic_c_ivc/outputs/nn_paired_protocol_v1_20260924/engines/kitti_retinanet_int8-wonly512/trt/engine.json",
+  "engine_registry_sha256": "4c758476e6387ea187f3e21a8a449b28cf5806bc24e53350be5a03385105fc4d",
+  "engine_sha256": "4a40b31b962d650834079b59bc7e115e84137277a2ea8123990a391a376f3535",
+  "corruption": "motion_blur",
+  "severity": 5,
+  "annotation_sha256": "3ac7970874a4a7400c1ea9494f3e0ebf1dbd7a6b0536a426a2abaa199f6b56c1",
+  "confidence": 0.05,
+  "input_manifest_sha256": "a92bc26d4256358ebfba07755802f348e8c872b520728626cf4f1a32f3ba0542",
+  "input_image_ids_sha256": "58db4d0a4c228e0cfc80d7a62759a745a22cc8754e375ed1b937e5e8b22ea1f5",
+  "prediction_sha256": "e400cac10a17608392764f6cdfc21d726d9b27a9cfdbca14ca959a21ab25dd6b",
+  "n_images": 1197,
+  "n_detections": 20289,
+  "runtime_seconds": 15.050225973129272
+}

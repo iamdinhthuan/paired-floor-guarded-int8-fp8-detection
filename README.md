@@ -1,18 +1,33 @@
-# A Paired Evaluation of Clean Accuracy and Corruption Sensitivity in Quantized Object Detection
+# Quantization fragility under image corruption is recipe-dependent
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22664869.svg)](https://doi.org/10.5281/zenodo.22664869)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23082850.svg)](https://doi.org/10.5281/zenodo.23082850)
 
-Research software and evidence accompanying the manuscript prepared for
-*Neural Networks* (Elsevier). The active manuscript sources live in `paper/`
-(`main_nn.tex`, `supplement.tex`); `submission_package/` retains the archived
-CVIU-era release and is not the editable manuscript.
+Research software and compact evidence accompanying the *Neural Networks*
+manuscript. The active manuscript sources live in `paper/` (`main_nn.tex`,
+`supplement.tex`); `submission_package/` is the versioned upload bundle, not
+the editable source.
 
 - [Active manuscript README and build](paper/README.md)
-- [CVIU-era archived package](submission_package/)
-- [Archived software, source ZIPs and evidence](https://doi.org/10.5281/zenodo.22664869)
-- [Evidence verification instructions and licensing](submission_package/REVIEWER_EVIDENCE_README.md)
+- [Current Neural Networks submission files](submission_package/)
+- [Current v3.0.3 reproducibility release](https://doi.org/10.5281/zenodo.23082850)
+- [Historical CVIU-era v2.2.0 archive](https://doi.org/10.5281/zenodo.22664869)
+- [Current evidence inventory](submission_support_20260911/NN_EVIDENCE_README.md)
 
-## Research question and scope
+## Current Neural Networks study
+
+The study evaluates executable INT8 and FP8 detectors under paired image
+corruptions. Across nine YOLO11 dataset-by-scale blocks, the corruption
+interaction changes sign even though FP8 has higher absolute AP in every
+matched block mean. In the tested RetinaNet recipe, the severe INT8 level
+deficit localizes to regression-head activation quantization; FCOS shows no
+comparable head-specific deficit and substantially lighter fine-level
+activation tails. A post-hoc evaluation on the untouched 1,197-image KITTI
+final holdout reproduces the RetinaNet arm pattern at point-estimate level.
+The holdout is frame-level, not sequence-disjoint, and has no bootstrap
+intervals. Corruption-aware calibration transfers inconsistently across
+folds and is not a reliable repair.
+
+## Historical CVIU research question and scope
 
 The study separates clean accuracy, remaining corrupted accuracy, and the
 corruption-associated change in the gap between two recorded executable
@@ -57,7 +72,7 @@ is approximately −0.02 AP. These summaries concern different conditional scope
 | Path | Purpose |
 | --- | --- |
 | `paper/` | Active Neural Networks manuscript (`main_nn.tex`, `supplement.tex`), generated tables/figures, build and verify scripts, upload documents |
-| `submission_package/` | Archived CVIU-era release sources, PDFs and upload instructions (historical; do not edit) |
+| `submission_package/` | Current Neural Networks upload bundle; rebuild from `paper/` for each release |
 | `src/` | Training, export, inference, corruption and evaluator programs |
 | `analysis/` | Scientific analysis, validation and evidence packaging |
 | `configs/`, `manifests/` | Experimental settings and retained provenance |
@@ -68,10 +83,11 @@ The Overleaf and flat-source ZIPs under `paper/` are generated deliverables,
 not parallel editable sources. Build the manuscript with `paper/build.sh`
 (pdfLaTeX; see `paper/README.md`).
 
-## Recompute evidence without a GPU
+## Historical CVIU evidence without a GPU
 
-Download `CVIU_Reviewer_Evidence.zip` from the versioned Zenodo record and
-extract it into a new directory. With Python 3.11 and NumPy installed:
+For the older CVIU-aligned evidence project, download
+`CVIU_Reviewer_Evidence.zip` from the v2.2.0 Zenodo record and extract it into
+a new directory. With Python 3.11 and NumPy installed:
 
 ```bash
 export PYTHONDONTWRITEBYTECODE=1
@@ -106,10 +122,15 @@ independently with pdfLaTeX/BibTeX and `./verify.sh` regenerates
 `analysis/build_cviu_submission_package.py` emits `Overleaf_Source.zip` (plus
 the PDFs and upload documents) into its output directory; upload that zip to
 Overleaf and compile `main_nn.tex`; compile `supplement.tex` separately. For
-the archived CVIU release, see `submission_package/`.
+the current Neural Networks upload files, see `submission_package/`; the
+historical CVIU source/evidence archive is at
+[v2.2.0](https://doi.org/10.5281/zenodo.22664869).
 
 The flat source ZIP is a separate journal-upload alternative. The large
-research-evidence ZIP is not an Overleaf project.
+research-evidence ZIP is not an Overleaf project. `submission_package/` holds
+the current Neural Networks upload files; it is regenerated from the active
+sources for each immutable release. The historical CVIU source/evidence
+archive remains at [v2.2.0](https://doi.org/10.5281/zenodo.22664869).
 
 ## Tests and experimental reproduction
 
@@ -131,15 +152,18 @@ environment for every experiment.
 
 ## Reproducibility and licensing boundaries
 
-Version 2.2.0 provides summary/draw-level evidence and one complete
-prediction-level example. It does not reproduce every historical training,
-engine build, prediction run or kernel-precision choice. Bootstrap uncertainty
-is conditional on the stated artifacts and sampling law.
+The historical CVIU v2.2.0 archive provides summary/draw-level evidence and one
+complete prediction-level example. It does not reproduce every historical
+training, engine build, prediction run or kernel-precision choice. The current
+Neural Networks v3.0.3 archive has its own compact evidence inventory and
+redistribution boundary. Bootstrap uncertainty is conditional on the stated
+artifacts and sampling law.
 
 Original software is [MIT licensed](LICENSE). This does **not** relicense
 third-party material. KITTI-derived annotations in the separate evidence
 archive remain **CC BY-NC-SA 3.0**, with attribution and transformation details
-in [the evidence README](submission_package/REVIEWER_EVIDENCE_README.md).
+in the historical
+[evidence README](submission_support_20260911/REVIEWER_EVIDENCE_README.md).
 Elsevier CAS files retain their original notices. No dataset images, trained
 checkpoints, engines or credentials are published in this release.
 
@@ -151,7 +175,7 @@ not by those historical notes.
 ## Citation, authors and funding
 
 Use [CITATION.cff](CITATION.cff) and version DOI
-[10.5281/zenodo.23076132](https://doi.org/10.5281/zenodo.23076132) (v3.0.2, Neural Networks submission).
+[10.5281/zenodo.23082850](https://doi.org/10.5281/zenodo.23082850) (v3.0.3, Neural Networks submission).
 The CVIU-era v2.2.0 is [10.5281/zenodo.22664869](https://doi.org/10.5281/zenodo.22664869).
 The all-versions concept DOI remains
 [10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).
