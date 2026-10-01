@@ -151,7 +151,7 @@ not by those historical notes.
 ## Citation, authors and funding
 
 Use [CITATION.cff](CITATION.cff) and version DOI
-[10.5281/zenodo.23074098](https://doi.org/10.5281/zenodo.23074098) (v3.0.0, Neural Networks submission).
+[10.5281/zenodo.23074353](https://doi.org/10.5281/zenodo.23074353) (v3.0.1, Neural Networks submission).
 The CVIU-era v2.2.0 is [10.5281/zenodo.22664869](https://doi.org/10.5281/zenodo.22664869).
 The all-versions concept DOI remains
 [10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).
