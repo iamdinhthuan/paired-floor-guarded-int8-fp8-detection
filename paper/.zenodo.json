@@ -1,9 +1,9 @@
 {
   "title": "Quantization fragility under image corruption is recipe-dependent: paired evidence from INT8 and FP8 object detectors: Reproducibility Package",
   "upload_type": "software",
-  "version": "3.0.3",
-  "publication_date": "2026-10-01",
-  "description": "<p>Reproducibility package accompanying the manuscript <em>Quantization fragility under image corruption is recipe-dependent: paired evidence from INT8 and FP8 object detectors</em>, prepared for <em>Neural Networks</em>.</p><p>The release contains analysis and validation code, frozen configurations and manifests, compact deterministic evidence ledgers, generated tables and figures, revised manuscript and supplementary sources, FCOS activation captures, and the post-hoc KITTI final-holdout evidence. It supports reproduction of reported summaries from retained evidence. Raw benchmark datasets, trained checkpoints, TensorRT engines, raw predictions, and machine-specific caches are not redistributed; their provenance and regeneration boundaries are documented in the package.</p><p>Project concept DOI: <a href=\"https://doi.org/10.5281/zenodo.22031663\">10.5281/zenodo.22031663</a>.</p><p>All scientific claims and metadata remain the responsibility of the six human authors. AI tools are not creators or contributors.</p>",
+  "version": "3.0.4",
+  "publication_date": "2026-10-02",
+  "description": "<p>Reproducibility package accompanying the manuscript <em>Quantization fragility under image corruption is recipe-dependent: paired evidence from INT8 and FP8 object detectors</em>, prepared for <em>Neural Networks</em>.</p><p>The release contains analysis, pipeline, and validation code; frozen configurations and manifests; compact deterministic evidence ledgers; generated tables and figures; and the manuscript and supplementary sources. Version 3.0.4 corrects the KITTI holdout provenance of v3.0.3 (the 1,197 \"final\" images were part of the original RetinaNet training partition) and adds a genuine holdout scored with a retrained checkpoint, a drive-clustered KITTI bootstrap, a covariance-aware heterogeneity test, a scripted and verified max-calibration patch, and the YOLO11 training inputs. It supports reproduction of all reported summaries from retained evidence. Raw benchmark datasets, trained checkpoints, TensorRT engines, ONNX graphs, and raw predictions are not redistributed; their provenance and regeneration steps are documented in the package.</p><p>Project concept DOI: <a href=\"https://doi.org/10.5281/zenodo.22031663\">10.5281/zenodo.22031663</a>.</p><p>All scientific claims and metadata remain the responsibility of the six human authors. AI tools are not creators or contributors.</p>",
   "creators": [
     {
       "name": "Nguyen, Dinh Thuan",
@@ -48,7 +48,7 @@
   "license": "MIT",
   "related_identifiers": [
     {
-      "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v3.0.3",
+      "identifier": "https://github.com/iamdinhthuan/paired-floor-guarded-int8-fp8-detection/tree/v3.0.4",
       "relation": "isSupplementTo",
       "scheme": "url",
       "resource_type": "software"

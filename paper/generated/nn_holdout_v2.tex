@@ -1,0 +1,29 @@
+\begin{tabular}{lrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Final holdout} & \multicolumn{2}{c}{Selection set} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-6}
+Arm & Orig.\ clean & $\Jclean$ & Corrupt & $\Jclean$ & Corrupt \\
+\midrule
+FP32 & 42.19 & 42.20 & 32.26 & 44.50 & 34.02 \\
+FP8-matched & 41.41 & 41.54 & 31.34 & 43.56 & 33.16 \\
+INT8-matched & 27.44 & 27.49 & 21.05 & 29.01 & 22.16 \\
+INT8-selective & 41.50 & 41.34 & 31.46 & 43.70 & 33.07 \\
+INT8 W-only & 41.50 & 41.38 & 31.45 & 43.74 & 33.06 \\
+INT8 A-only & 27.29 & 27.47 & 20.96 & 28.94 & 22.13 \\
+\bottomrule
+\end{tabular}
+
+\medskip
+\begin{tabular}{llll}
+\toprule
+Contrast (final holdout) & $\Jclean$, image & $\Jclean$, drive & Corrupt mean, image \\
+\midrule
+FP8-matched $-$ INT8-matched & $+14.06$\sigstar $[+12.85,\,+15.35]$ & $+14.06$\sigstar $[+10.92,\,+16.60]$ & $+10.29$\sigstar $[+9.49,\,+11.16]$ \\
+INT8-selective $-$ INT8-matched & $+13.85$\sigstar $[+12.76,\,+15.00]$ & $+13.85$\sigstar $[+10.98,\,+16.28]$ & $+10.41$\sigstar $[+9.63,\,+11.23]$ \\
+FP8-matched $-$ INT8-selective & $+0.21$ $[-0.48,\,+1.11]$ & $+0.21$ $[-0.47,\,+0.68]$ & $-0.12$ $[-0.33,\,+0.10]$ \\
+W-only $-$ INT8-matched & $+13.90$\sigstar $[+12.80,\,+15.01]$ & $+13.90$\sigstar $[+11.03,\,+16.43]$ & $+10.40$\sigstar $[+9.62,\,+11.21]$ \\
+A-only $-$ INT8-matched & $-0.02$ $[-0.22,\,+0.18]$ & $-0.02$ $[-0.17,\,+0.15]$ & $-0.09$\sigstar $[-0.16,\,-0.04]$ \\
+INT8-selective $-$ W-only & $-0.05$ $[-0.21,\,+0.11]$ & $-0.05$ $[-0.20,\,+0.04]$ & $+0.01$ $[-0.02,\,+0.05]$ \\
+FP32 $-$ INT8-selective & $+0.87$\sigstar $[+0.21,\,+1.59]$ & $+0.87$\sigstar $[+0.27,\,+1.24]$ & $+0.81$\sigstar $[+0.59,\,+1.00]$ \\
+\bottomrule
+\end{tabular}

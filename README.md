@@ -1,6 +1,6 @@
 # Quantization fragility under image corruption is recipe-dependent
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23082850.svg)](https://doi.org/10.5281/zenodo.23082850)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23097634.svg)](https://doi.org/10.5281/zenodo.23097634)
 
 Research software and compact evidence accompanying the *Neural Networks*
 manuscript. The active manuscript sources live in `paper/` (`main_nn.tex`,
@@ -9,7 +9,7 @@ the editable source.
 
 - [Active manuscript README and build](paper/README.md)
 - [Current Neural Networks submission files](submission_package/)
-- [Current v3.0.3 reproducibility release](https://doi.org/10.5281/zenodo.23082850)
+- [Current v3.0.4 reproducibility release](https://doi.org/10.5281/zenodo.23097634)
 - [Historical CVIU-era v2.2.0 archive](https://doi.org/10.5281/zenodo.22664869)
 - [Current evidence inventory](submission_support_20260911/NN_EVIDENCE_README.md)
 
@@ -21,10 +21,13 @@ interaction changes sign even though FP8 has higher absolute AP in every
 matched block mean. In the tested RetinaNet recipe, the severe INT8 level
 deficit localizes to regression-head activation quantization; FCOS shows no
 comparable head-specific deficit and substantially lighter fine-level
-activation tails. A post-hoc evaluation on the untouched 1,197-image KITTI
-final holdout reproduces the RetinaNet arm pattern at point-estimate level.
-The holdout is frame-level, not sequence-disjoint, and has no bootstrap
-intervals. Corruption-aware calibration transfers inconsistently across
+activation tails. The head localization and the FCOS null recur on
+off-the-shelf COCO-pretrained checkpoints, and on a KITTI holdout scored with
+a RetinaNet checkpoint retrained without those images (`phase_n_kitti_holdout_v2`).
+The earlier re-evaluation of the 1,197 KITTI "final" images with the original
+checkpoint (`phase_l_holdout_results`) is NOT a holdout, because those images
+were in its training partition. KITTI intervals are also checked with a
+drive-clustered bootstrap (`phase_m_cluster_bootstrap`). Corruption-aware calibration transfers inconsistently across
 folds and is not a reliable repair.
 
 ## Estimand
@@ -67,7 +70,7 @@ An earlier CVIU-targeted revision of this project (v2.2.0, four-dataset
 exploratory plus selection-disjoint holdouts) is preserved unchanged at
 [10.5281/zenodo.22664869](https://doi.org/10.5281/zenodo.22664869), including
 its own sealed evidence package and verification scripts. It is historical
-context only; the current repository and the v3.0.3 release are the
+context only; the current repository and the v3.0.4 release are the
 Neural Networks submission package.
 
 ## Compile the manuscript
@@ -105,7 +108,7 @@ environment for every experiment.
 
 ## Reproducibility and licensing boundaries
 
-The Neural Networks v3.0.3 archive provides summary/draw-level compact
+The Neural Networks v3.0.4 archive provides summary/draw-level compact
 evidence and deterministic regeneration of the reported tables; it does not
 redistribute datasets, trained checkpoints, TensorRT engines, raw predictions,
 or ONNX graphs. Bootstrap uncertainty is conditional on the stated artifacts
@@ -120,7 +123,7 @@ engines or credentials are published in this release.
 ## Citation, authors and funding
 
 Use [CITATION.cff](CITATION.cff) and version DOI
-[10.5281/zenodo.23082850](https://doi.org/10.5281/zenodo.23082850) (v3.0.3, Neural Networks submission).
+[10.5281/zenodo.23097634](https://doi.org/10.5281/zenodo.23097634) (v3.0.4, Neural Networks submission); v3.0.3 ([10.5281/zenodo.23082850](https://doi.org/10.5281/zenodo.23082850)) is superseded because it described the KITTI "final" partition as an untouched holdout.
 The CVIU-era v2.2.0 is [10.5281/zenodo.22664869](https://doi.org/10.5281/zenodo.22664869).
 The all-versions concept DOI remains
 [10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).

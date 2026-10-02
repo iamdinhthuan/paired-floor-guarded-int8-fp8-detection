@@ -1,4 +1,4 @@
-"""Integration guards for the NN activation and KITTI holdout extensions."""
+"""Integration guards for the NN activation and KITTI training-partition consistency-check extensions."""
 from __future__ import annotations
 
 import hashlib
@@ -50,8 +50,12 @@ def test_holdout_has_four_complete_arms_and_is_in_supplement() -> None:
     main = (PAPER / "main_nn.tex").read_text()
     assert r"\input{generated/nn_holdout.tex}" in supplement
     assert r"\label{tab:nn-holdout}" in supplement
-    assert "KITTI final-holdout check" in supplement
-    assert "Table~S10" in main
+    assert "KITTI holdout with a retrained checkpoint" in supplement
+    assert "seen-image consistency check" in supplement
+    # The 1,197 "final" images lie inside the RetinaNet checkpoint's training
+    # partition (and 95 in its calibration list): never call them untouched.
+    for text in (main, supplement):
+        assert "untouched" not in text
     assert "34.70" in table and "65.25" in table
 
 
@@ -151,7 +155,7 @@ def test_built_pdf_text_layer_preserves_ligatures_and_punctuation(tmp_path: Path
         text=True,
     )
     text = text_path.read_text(encoding="utf-8")
-    for token in ("deficit", "off-the-shelf", "—", "“", "”"):
+    for token in ("deficit", "off-the-shelf", "–", "“", "”"):  # en dash; the text uses no em dashes
         assert token in text
     for damaged in ("decit", "dened", "o-the-shelf", "contractthe"):
         assert damaged not in text

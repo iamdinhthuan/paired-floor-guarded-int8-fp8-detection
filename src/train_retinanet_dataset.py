@@ -55,7 +55,14 @@ class YoloDetectionDataset(Dataset):
     def __init__(self, dataset_root: Path, image_roots: list[Path], *, augment: bool, label_offset: int = 1):
         self.dataset_root, self.augment, self.label_offset = Path(dataset_root).resolve(), augment, label_offset
         suffixes = {".jpg", ".jpeg", ".png", ".bmp"}
-        self.images = sorted(path for root in image_roots for path in root.rglob("*") if path.suffix.lower() in suffixes)
+        images = []
+        for root in image_roots:
+            if root.is_file() and root.suffix == ".txt":  # Ultralytics-style image list (e.g. a resplit)
+                images.extend(Path(line.strip()).resolve() for line in root.read_text(encoding="utf-8").splitlines()
+                              if line.strip())
+            else:
+                images.extend(path for path in root.rglob("*") if path.suffix.lower() in suffixes)
+        self.images = sorted(images)
         if not self.images:
             raise RuntimeError("RetinaNet dataset contains no images")
 

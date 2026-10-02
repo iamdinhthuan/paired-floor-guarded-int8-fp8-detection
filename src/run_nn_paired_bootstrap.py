@@ -47,20 +47,25 @@ _SAMPLES = None
 _SUBSET_IDS = None
 
 
-def block_seed(namespace: str, dataset: str, model: str) -> int:
-    digest = hashlib.sha256(f"{namespace}|{dataset}|{model}".encode()).digest()
+def block_seed(namespace: str, dataset: str, model: str,
+               shared_dataset_schedule: bool = False) -> int:
+    key = (f"{namespace}|{dataset}" if shared_dataset_schedule
+           else f"{namespace}|{dataset}|{model}")
+    digest = hashlib.sha256(key.encode()).digest()
     return int.from_bytes(digest[:8], "big") % (2**32)
 
 
 def locate_cell(root: Path, dataset: str, model: str, arm: str, corruption: str,
-                severity: int, coco_subset: bool) -> dict | None:
+                severity: int, coco_subset: bool, attempts=None, prefix: str | None = None) -> dict | None:
     """Resolve prediction + input record paths for one arm/condition cell."""
-    attempts = ("coco_uniform_p0_v1", "codec_control_p0_v1") if coco_subset else tuple(ATTEMPT_DIRS)
+    if attempts is None:
+        attempts = ("coco_uniform_p0_v1", "codec_control_p0_v1", "nn_coco_pretrained_v1_20260930") if coco_subset else tuple(ATTEMPT_DIRS)
+    prefix = prefix or f"{dataset}_*"
     for attempt in attempts:
         base = root / "outputs" / "predictions" / attempt
         if not base.is_dir():
             continue
-        for pred in sorted(base.glob(f"{dataset}_val*__{model}__*__{corruption}-s{severity}*.json")):
+        for pred in sorted(base.glob(f"{prefix}__{model}__*__{corruption}-s{severity}*.json")):
             stem = pred.stem
             run = root / "manifests" / "runs" / attempt / f"{stem}.json"
             inp = root / "outputs" / "inputs" / attempt / f"{stem}.json"
@@ -83,29 +88,48 @@ def locate_cell(root: Path, dataset: str, model: str, arm: str, corruption: str,
     return None
 
 
-def discover_block(root: Path, dataset: str, model: str, arms: dict[str, str]) -> dict:
+def discover_block(root: Path, dataset: str, model: str, arms: dict[str, str],
+                   attempts=None, prefix: str | None = None, annotations: str | None = None) -> dict:
     coco_subset = dataset == "coco"
     cells = []
     for label, arm in arms.items():
         for corruption in ("clean", "codec-control", *CORRUPTIONS):
             severities = (0,) if corruption in ("clean", "codec-control") else SEVERITIES
             for severity in severities:
-                found = locate_cell(root, dataset, model, arm, corruption, severity, coco_subset)
+                found = locate_cell(root, dataset, model, arm, corruption, severity, coco_subset,
+                                    attempts, prefix)
                 if found:
                     found.update(arm=label, corruption=corruption, severity=severity)
                     cells.append(found)
-    return {"dataset": dataset, "model": model, "annotations": ANNOTATIONS[dataset], "cells": cells}
+    return {"dataset": dataset, "model": model, "annotations": annotations or ANNOTATIONS[dataset],
+            "cells": cells}
+
+
+def cluster_schedule(seed: int, n_boot: int, position_clusters: list[str]) -> list[np.ndarray]:
+    """Cluster (e.g. KITTI drive) bootstrap: resample whole clusters with
+    replacement and keep every image of each drawn cluster; shared by all arms."""
+    labels = sorted(set(position_clusters))
+    members = {label: [] for label in labels}
+    for position, label in enumerate(position_clusters):
+        members[label].append(position)
+    members = [np.asarray(members[label], dtype=np.int64) for label in labels]
+    rng = np.random.default_rng(seed)
+    draws = rng.choice(len(labels), size=(n_boot, len(labels)), replace=True)
+    return [np.concatenate([members[k] for k in row]) for row in draws]
 
 
 def _init_worker(annotations: str, seed: int, n_boot: int, n_images: int,
-                 subset_ids, src_dir: str):
+                 subset_ids, src_dir: str, position_clusters=None):
     """Each worker builds its own GT handle and regenerates the shared schedule."""
     global _GT, _SAMPLES, _SUBSET_IDS
     sys.path.insert(0, src_dir)
     from pycocotools.coco import COCO
     _GT = COCO(annotations)
-    rng = np.random.default_rng(seed)
-    _SAMPLES = rng.choice(n_images, size=(n_boot, n_images), replace=True)
+    if position_clusters is None:
+        rng = np.random.default_rng(seed)
+        _SAMPLES = rng.choice(n_images, size=(n_boot, n_images), replace=True)
+    else:
+        _SAMPLES = cluster_schedule(seed, n_boot, position_clusters)
     _SUBSET_IDS = subset_ids
 
 
@@ -123,7 +147,8 @@ def _accumulate_cell(task):
 
 
 def run_block(root: Path, spec: dict, n_boot: int, seed_namespace: str,
-              jobs: int, out_dir: Path) -> dict:
+              jobs: int, out_dir: Path, shared_schedule: bool = False,
+              cluster_manifest: Path | None = None) -> dict:
     from paired_bootstrap import percentile
 
     dataset, model = spec["dataset"], spec["model"]
@@ -161,12 +186,22 @@ def run_block(root: Path, spec: dict, n_boot: int, seed_namespace: str,
         del entry["ids"]
 
     n_images = len(reference_ids)
-    seed = block_seed(seed_namespace, dataset, model)
+    seed = block_seed(seed_namespace, dataset, model,
+                      shared_dataset_schedule=shared_schedule)
+    position_clusters = None
+    resampling = "image"
+    if cluster_manifest is not None:
+        clusters = json.loads(Path(cluster_manifest).read_text(encoding="utf-8"))["clusters"]
+        missing = [i for i in reference_ids if str(i) not in clusters]
+        if missing:
+            raise SystemExit(f"BOOTSTRAP REFUSED: {len(missing)} image ids lack a cluster label")
+        position_clusters = [clusters[str(i)] for i in reference_ids]
+        resampling = f"cluster:{sha256_file(cluster_manifest)}"
 
     point = np.full((len(cells), 4), np.nan, dtype=np.float64)
     draws = np.full((n_boot, len(cells), 4), np.nan, dtype=np.float64)
     src_dir = str(Path(__file__).resolve().parent)
-    initargs = (str(annotations), seed, n_boot, n_images, subset_ids, src_dir)
+    initargs = (str(annotations), seed, n_boot, n_images, subset_ids, src_dir, position_clusters)
     tasks = list(enumerate(cells))
     done = 0
     if jobs > 1:
@@ -209,7 +244,8 @@ def run_block(root: Path, spec: dict, n_boot: int, seed_namespace: str,
     np.savez_compressed(cache, **npz)
 
     summary = {"dataset": dataset, "model": model, "n_images": n_images, "n_boot": n_boot,
-               "seed": seed, "draw_cache_sha256": sha256_file(cache),
+               "seed": seed, "resampling": resampling,
+               "n_clusters": len(set(position_clusters)) if position_clusters else None, "draw_cache_sha256": sha256_file(cache),
                "cells": meta, "arms": {}, "contrasts": {}}
     for arm in arms:
         conds = arm_cond[arm]
@@ -261,18 +297,31 @@ def main() -> None:
     parser.add_argument("--jobs", type=int, default=4)
     parser.add_argument("--seed-namespace", default="nn_paired_bootstrap_v1_20260924")
     parser.add_argument("--discover-only", action="store_true")
+    parser.add_argument("--cluster-manifest", type=Path, default=None,
+                        help="JSON {'clusters': {image_id: label}}; resample whole clusters")
+    parser.add_argument("--annotations", default=None,
+                        help="override the dataset annotation file (relative to --root)")
+    parser.add_argument("--attempts", default=None,
+                        help="comma-separated prediction attempt dirs to search (default: built-in list)")
+    parser.add_argument("--prefix", default=None,
+                        help="prediction stem prefix glob (default: '<dataset>_*')")
+    parser.add_argument("--shared-dataset-schedule", action="store_true",
+                        help="Seed the resample schedule by (namespace|dataset) only, "
+                        "so model blocks on the same dataset share resamples")
     parser.add_argument("--out-dir", type=Path, default=None)
     args = parser.parse_args()
     root = args.root.resolve()
     arms = json.loads(args.arms)
-    spec = discover_block(root, args.dataset, args.model, arms)
+    attempts = tuple(args.attempts.split(",")) if args.attempts else None
+    spec = discover_block(root, args.dataset, args.model, arms, attempts, args.prefix, args.annotations)
     spec["contrasts"] = json.loads(args.contrasts)
     print(f"resolved {len(spec['cells'])} cells for {args.dataset}/{args.model}", flush=True)
     if args.discover_only:
         print(json.dumps(spec, indent=2))
         return
     out_dir = args.out_dir or root / "outputs" / "analysis" / "nn_paired_protocol_v1_20260924" / "bootstrap"
-    run_block(root, spec, args.n_boot, args.seed_namespace, args.jobs, out_dir)
+    run_block(root, spec, args.n_boot, args.seed_namespace, args.jobs, out_dir,
+              shared_schedule=args.shared_dataset_schedule, cluster_manifest=args.cluster_manifest)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "profile_id": "voc_kitti_yolo11_nmx_v1",
+  "models": ["yolo11n", "yolo11m", "yolo11x"],
+  "epochs": 100,
+  "imgsz": 640,
+  "batch": -1,
+  "device": 0,
+  "workers": 8,
+  "seed": 20260807,
+  "deterministic": true,
+  "pretrained": true,
+  "optimizer": "auto",
+  "patience": 0,
+  "close_mosaic": 10,
+  "cache": false,
+  "amp": true,
+  "save_period": -1
+}

@@ -53,7 +53,7 @@ shared schedule per dataset×model block).
   complementary calibration folds), historical exploratory (context only),
   post-hoc operand factorial + FCOS replication, off-the-shelf COCO-pretrained
   replication, and deployment-side/post-hoc diagnostics (activation captures,
-  Q/DQ audit, max-calibration counterfactuals, KITTI final holdout, latency, and
+  Q/DQ audit, max-calibration counterfactuals, KITTI "final"-partition re-evaluation — training-exposed, NOT a holdout, latency, and
   rebuild audit). Keep their inferential status distinct in prose.
 - Fold-2 swaps family roles: calibrates fog+motion_blur, holds out
   gaussian_noise+jpeg (`FOLD2` mapping in `nn_final_stats.py`).

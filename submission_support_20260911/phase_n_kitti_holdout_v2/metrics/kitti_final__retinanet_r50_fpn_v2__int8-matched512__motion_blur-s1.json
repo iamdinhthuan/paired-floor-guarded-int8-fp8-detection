@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "condition_id": "kitti_final__retinanet_r50_fpn_v2__int8-matched512__motion_blur-s1",
+  "dataset": "kitti",
+  "split": "test",
+  "model": "retinanet-r50-fpn-v2",
+  "precision": "int8-entropy",
+  "corruption": "motion_blur",
+  "severity": 1,
+  "n_images": 1197,
+  "stats": {
+    "AP": 0.25879910458199834,
+    "AP50": 0.5167910739606845,
+    "AP75": 0.23899388271444855,
+    "AP_small": 0.025620178422274,
+    "AP_medium": 0.20802430024861127,
+    "AP_large": 0.5195398933458351,
+    "AR1": 0.2226722238032876,
+    "AR10": 0.3479810057150009,
+    "AR100": 0.375672851213689,
+    "AR_small": 0.037969488423704886,
+    "AR_medium": 0.34629905845973885,
+    "AR_large": 0.642167391826058
+  },
+  "prediction_sha256": "d989cd47494d44a70a3adf89635c84bd095e155ba24d97d8c322088cd1a1cc3e",
+  "input_manifest_sha256": "674e9afebd60543b05c865934528b4cabd5b89967dfb4ad5b9e1597272805ac6",
+  "input_image_ids_sha256": "58db4d0a4c228e0cfc80d7a62759a745a22cc8754e375ed1b937e5e8b22ea1f5",
+  "run_record_sha256": "a42d202aa8991c1eed7609d90f6cbb953d7d40ce6b439ded80cea363f0f594eb"
+}

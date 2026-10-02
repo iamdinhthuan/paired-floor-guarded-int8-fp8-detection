@@ -67,6 +67,7 @@ for dataset in kitti voc; do
   for arm in fp8-matched512 int8-matched512 int8-selective512; do
     dir="outputs/$attempt/engines/${dataset}_fcos_${arm}"
     if [[ ! -f "$dir/onnx.json.complete" ]]; then
+      mkdir -p "$dir"
       extra=""
       mode="${arm%%-*}"
       [[ "$arm" == int8-* ]] && mode="int8-entropy"

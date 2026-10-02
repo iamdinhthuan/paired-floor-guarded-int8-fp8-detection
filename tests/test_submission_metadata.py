@@ -26,8 +26,8 @@ NN_TITLE = (
     "paired evidence from INT8 and FP8 object detectors"
 )
 NN_MAIN = PAPER / "main_nn.tex"
-VERSION = "3.0.3"
-VERSION_DOI = "10.5281/zenodo.23082850"
+VERSION = "3.0.4"
+VERSION_DOI = "10.5281/zenodo.23097634"
 CONCEPT_DOI = "10.5281/zenodo.22031663"
 
 AUTHORS = [

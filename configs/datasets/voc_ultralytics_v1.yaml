@@ -1,0 +1,62 @@
+path: /home/thuan/topic_c_ivc/data/datasets/VOC
+train:
+- images/train2012
+- images/train2007
+- images/val2012
+- images/val2007
+val:
+- images/test2007
+test:
+- images/test2007
+names:
+  0: aeroplane
+  1: bicycle
+  2: bird
+  3: boat
+  4: bottle
+  5: bus
+  6: car
+  7: cat
+  8: chair
+  9: cow
+  10: diningtable
+  11: dog
+  12: horse
+  13: motorbike
+  14: person
+  15: pottedplant
+  16: sheep
+  17: sofa
+  18: train
+  19: tvmonitor
+download: "import xml.etree.ElementTree as ET\nfrom pathlib import Path\n\nfrom ultralytics.utils.downloads
+  import download\nfrom ultralytics.utils import ASSETS_URL, TQDM\n\ndef convert_label(path,
+  lb_path, year, image_id):\n    \"\"\"Converts XML annotations from VOC format to
+  YOLO format by extracting bounding boxes and class IDs.\"\"\"\n\n    def convert_box(size,
+  box):\n        dw, dh = 1.0 / size[0], 1.0 / size[1]\n        x, y, w, h = (box[0]
+  + box[1]) / 2.0 - 1, (box[2] + box[3]) / 2.0 - 1, box[1] - box[0], box[3] - box[2]\n
+  \       return x * dw, y * dh, w * dw, h * dh\n\n    with open(path / f\"VOC{year}/Annotations/{image_id}.xml\")
+  as in_file, open(lb_path, \"w\", encoding=\"utf-8\") as out_file:\n        tree
+  = ET.parse(in_file)\n        root = tree.getroot()\n        size = root.find(\"size\")\n
+  \       w = int(size.find(\"width\").text)\n        h = int(size.find(\"height\").text)\n\n
+  \       names = list(yaml[\"names\"].values())  # names list\n        for obj in
+  root.iter(\"object\"):\n            cls = obj.find(\"name\").text\n            if
+  cls in names and int(obj.find(\"difficult\").text) != 1:\n                xmlbox
+  = obj.find(\"bndbox\")\n                bb = convert_box((w, h), [float(xmlbox.find(x).text)
+  for x in (\"xmin\", \"xmax\", \"ymin\", \"ymax\")])\n                cls_id = names.index(cls)
+  \ # class id\n                out_file.write(\" \".join(str(a) for a in (cls_id,
+  *bb)) + \"\\n\")\n\n\n# Download\ndir = Path(yaml[\"path\"])  # dataset root dir\nurls
+  = [\n    f\"{ASSETS_URL}/VOCtrainval_06-Nov-2007.zip\",  # 446MB, 5011 images\n
+  \   f\"{ASSETS_URL}/VOCtest_06-Nov-2007.zip\",  # 438MB, 4952 images\n    f\"{ASSETS_URL}/VOCtrainval_11-May-2012.zip\",
+  \ # 1.95GB, 17125 images\n]\ndownload(urls, dir=dir / \"images\", threads=3, exist_ok=True)
+  \ # download and unzip over existing (required)\n\n# Convert\npath = dir / \"images/VOCdevkit\"\nfor
+  year, image_set in (\"2012\", \"train\"), (\"2012\", \"val\"), (\"2007\", \"train\"),
+  (\"2007\", \"val\"), (\"2007\", \"test\"):\n    imgs_path = dir / \"images\" / f\"{image_set}{year}\"\n
+  \   lbs_path = dir / \"labels\" / f\"{image_set}{year}\"\n    imgs_path.mkdir(exist_ok=True,
+  parents=True)\n    lbs_path.mkdir(exist_ok=True, parents=True)\n\n    with open(path
+  / f\"VOC{year}/ImageSets/Main/{image_set}.txt\") as f:\n        image_ids = f.read().strip().split()\n
+  \   for id in TQDM(image_ids, desc=f\"{image_set}{year}\"):\n        f = path /
+  f\"VOC{year}/JPEGImages/{id}.jpg\"  # old img path\n        lb_path = (lbs_path
+  / f.name).with_suffix(\".txt\")  # new label path\n        f.rename(imgs_path /
+  f.name)  # move image\n        convert_label(path, lb_path, year, id)  # convert
+  labels to YOLO format\n"

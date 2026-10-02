@@ -2,16 +2,21 @@
 
 Read this file first. It is the single self-contained briefing for continuing
 work on this repository. Target: *Neural Networks* (Elsevier), submission-ready
-state as of release **v3.0.3**.
+state as of release **v3.0.4**.
 
 ---
 
 ## 1. Current state (verified)
 
-- Manuscript: `paper/main_nn.tex` (22 pp) + `paper/supplement.tex` (10 pp),
+- Manuscript: `paper/main_nn.tex` (23 pp) + `paper/supplement.tex` (12 pp),
   Elsevier `cas-dc` class, STIX fonts, `\pdfgentounicode` text layer fixed.
-- Published reproducibility release: **v3.0.3**, version DOI
-  `10.5281/zenodo.23082850`, concept DOI `10.5281/zenodo.22031663`.
+- Published reproducibility release: **v3.0.4**, version DOI
+  `10.5281/zenodo.23097634`, concept DOI `10.5281/zenodo.22031663`
+  (v3.0.3 = `10.5281/zenodo.23082850`, superseded: it called the KITTI
+  "final" partition an untouched holdout).
+- v3.0.4 adds: retrained KITTI holdout (phase N), drive-clustered bootstrap
+  (phase M), generalized Q, scripted max-reg patch, YOLO11 training inputs,
+  passive-voice style rewrite, 5-reviewer Codex review rounds to convergence.
 - Git: tag `v3.0.3` = commit `951b081` (the archived Zenodo snapshot).
   `main` = `91f0b03` — post-release cleanup that removed all CVIU/IVC-era
   files; Zenodo still archives the v3.0.3 tree.
@@ -46,7 +51,7 @@ order is ΔE second, absolute AP and clean gap first.
 | FCOS (anchor-free) shows no comparable head deficit and has much lighter P3/P4 tails (14.4/11.3 KITTI, 3.8/4.7 VOC) | Post-hoc, distribution-level consistency — not tail-free, not causal isolation |
 | Pattern recurs on off-the-shelf COCO-pretrained checkpoints | Post-hoc replication arm |
 | Corruption-aware calibration transfers inconsistently across folds — not a reliable repair | Intervention, complementary folds, intervals |
-| KITTI final holdout (1,197 imgs): matched 34.70 / selective 65.25 / W-only 65.30 / A-only 34.64 clean AP; selective−matched = +30.54 clean, +21.18 corrupt mean | **Post-hoc point estimates only — no bootstrap intervals; frame-level split, NOT sequence-disjoint** |
+| KITTI "final" partition re-eval (1,197 imgs): matched 34.70 / selective 65.25 / W-only 65.30 / A-only 34.64 orig-clean AP | **NOT a holdout** (corrected 2026-10-01): images are inside the RetinaNet checkpoint's 5,985-img Ultralytics train partition (trained 2026-08-16, resplit 2026-08-18) and 95/1,197 are in its calibration list `kitti_train_clean_512_s20260807_v1`. Seen-image consistency check only; point estimates. |
 
 ## 3. Repository map (post-cleanup, NN-only)
 
@@ -98,7 +103,7 @@ submission_support_20260911/
                   phase_g_wa_results (operand factorial), phase_h_fcos_results,
                   phase_i_coco_pretrained_results, phase_j_maxcalib_results
                   (graph-wide max), phase_k_maxreg_results (head-local max),
-                  phase_l_holdout_results (KITTI holdout, MANIFEST.sha256),
+                  phase_l_holdout_results (KITTI training-partition consistency check — NOT a holdout; MANIFEST.sha256),
                   nn_actstats/ (incl. kitti_fcos.json, voc_fcos.json),
                   nn_rebuild_variance_v1_20260930/, nn_latency_v1_20260930/,
                   merged_cd_e/, shared_schedule/, nn_final_stats.json,
@@ -152,11 +157,11 @@ Three adversarial review rounds already happened. Fixed items:
 
 ## 6. Known limitations = levers for strengthening (ranked)
 
-1. **Holdout has no uncertainty bars.** Phase L is point-estimate only.
-   Cheapest credible upgrade: run the same paired-bootstrap machinery on the
-   1,197 holdout images (records + cell_points exist; add bootstrap stage to
-   `run_nn_holdout_queue.sh`/`run_nn_paired_bootstrap.py` path, then emit
-   intervals via `nn_final_stats.py`).
+1. **There is no genuine KITTI holdout.** Phase L ("holdout") images were in
+   the checkpoint's training set; bootstrap intervals cannot fix that. A real
+   holdout needs RetinaNet retrained on the 4,788-image resplit train list,
+   engines rebuilt with `kitti_confirmatory_train_512_s20260818_v1`
+   (0 overlap with final), then the four factorial arms re-evaluated.
 2. **Split is frame-level, not sequence-disjoint.** KITTI adjacent frames can
    cross partitions. A sequence-level re-split + re-eval would answer the
    strongest reviewer objection; needs new manifests + full re-run (costly).
@@ -177,9 +182,11 @@ Three adversarial review rounds already happened. Fixed items:
 
 ## 7. Hard rules
 
-- Keep the five evidence layers distinct in prose: diagnostic, frozen paired,
-  intervention, historical exploratory, post-hoc extensions (operand
-  factorial, FCOS, COCO-pretrained, actstats, max-calib, holdout).
+- Keep the seven evidence layers distinct in prose (see AGENTS.md / Table 3):
+  diagnostic, frozen paired, intervention, historical exploratory, operand
+  factorial + FCOS, COCO-pretrained, deployment audits + diagnostics
+  (actstats, max-calib, KITTI training-partition re-eval, latency, rebuild).
+- Never call the KITTI 1,197-image "final" partition a holdout/untouched.
 - Never turn post-hoc point estimates into interval claims; never call FCOS
   activations tail-free; never claim sequence-independent KITTI
   generalization; never claim universal INT8/FP8 ordering.
@@ -197,8 +204,8 @@ python3 -m pytest -q                                  # 110 passed, 4 skipped
 cd paper && PATH=/data_nvme/texlive/2026/bin/x86_64-linux:$PATH ./verify.sh
 sha256sum -c SOURCE_MANIFEST.sha256                   # inside paper/
 cd submission_package && sha256sum -c SHA256SUMS.txt  # all OK
-pdfinfo paper/main_nn.pdf | grep Pages                # 22
-pdfinfo paper/supplement.pdf | grep Pages             # 10
+pdfinfo paper/main_nn.pdf | grep Pages                # 23
+pdfinfo paper/supplement.pdf | grep Pages             # 12
 pdftotext paper/main_nn.pdf - | grep -c 'deficit'     # >0, no broken ligatures
 ```
 

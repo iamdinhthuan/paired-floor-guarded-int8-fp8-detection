@@ -1,0 +1,40 @@
+\begin{tabular}{lccc}
+\toprule
+Claim (KITTI) & Image bootstrap & Drive bootstrap & Width ratio \\
+\midrule
+YOLO11n $\Delta E$ (FP8-INT8) & $-0.01$ $[-0.67,\,+0.91]$ & $-0.01$ $[-0.40,\,+0.66]$ & 0.67 \\
+YOLO11m $\Delta E$ (FP8-INT8) $\dagger$ & $-0.68$\sigstar $[-1.32,\,-0.05]$ & $-0.68$ $[-0.90,\,+0.15]$ & 0.83 \\
+YOLO11x $\Delta E$ (FP8-INT8) & $-0.69$\sigstar $[-1.13,\,-0.33]$ & $-0.69$\sigstar $[-1.71,\,-0.33]$ & 1.72 \\
+RetinaNet FP8-INT8 matched, $\Jclean$ gap & $+21.07$\sigstar $[+19.57,\,+22.61]$ & $+21.07$\sigstar $[+16.28,\,+24.54]$ & 2.71 \\
+RetinaNet FP8-INT8 matched, $\Delta E$ & $-4.69$\sigstar $[-5.49,\,-3.86]$ & $-4.69$\sigstar $[-5.82,\,-3.36]$ & 1.51 \\
+RetinaNet selective-matched, $\Jclean$ & $+21.35$\sigstar $[+19.95,\,+22.81]$ & $+21.35$\sigstar $[+17.12,\,+24.57]$ & 2.61 \\
+RetinaNet FP8-selective, $\Jclean$ & $-0.28$ $[-1.11,\,+0.56]$ & $-0.28$ $[-1.60,\,+0.43]$ & 1.21 \\
+RetinaNet FP8-selective, corrupt mean & $+0.17$ $[-0.07,\,+0.40]$ & $+0.17$ $[-0.29,\,+0.45]$ & 1.58 \\
+RetinaNet FP8-selective, motion-blur $\Delta E$ & $+1.30$\sigstar $[+0.51,\,+2.04]$ & $+1.30$\sigstar $[+0.62,\,+2.32]$ & 1.11 \\
+RetinaNet W-only-matched, $\Jclean$ & $+21.25$\sigstar $[+19.88,\,+22.69]$ & $+21.25$\sigstar $[+17.08,\,+24.50]$ & 2.64 \\
+RetinaNet A-only-matched, $\Jclean$ & $-0.04$ $[-0.20,\,+0.11]$ & $-0.04$ $[-0.23,\,+0.12]$ & 1.13 \\
+RetinaNet selective-W-only, $\Jclean$ & $+0.09$\sigstar $[+0.01,\,+0.17]$ & $+0.09$\sigstar $[+0.004,\,+0.183]$ & 1.16 \\
+RetinaNet operand interaction, corrupt mean & $+0.07$\sigstar $[+0.01,\,+0.14]$ & $+0.07$\sigstar $[+0.02,\,+0.16]$ & 1.13 \\
+Fold 1 corrupt-calib - matched, held-out & $+1.07$\sigstar $[+0.87,\,+1.26]$ & $+1.07$\sigstar $[+0.62,\,+1.34]$ & 1.83 \\
+Fold 1 corrupt-calib - matched, held-out $\Delta E$ & $-0.50$ $[-1.01,\,+0.03]$ & $-0.50$ $[-1.25,\,+0.12]$ & 1.31 \\
+Fold 2 corrupt-calib - matched, held-out & $-2.02$\sigstar $[-2.31,\,-1.73]$ & $-2.02$\sigstar $[-2.71,\,-1.50]$ & 2.07 \\
+Fold 2 corrupt-calib - matched, held-out $\Delta E$ & $+0.69$ $[-0.10,\,+1.37]$ & $+0.69$ $[-0.48,\,+1.12]$ & 1.08 \\
+Fold 2 INT8-sel-cc2calib - INT8-selective, held-out & $+0.66$\sigstar $[+0.33,\,+0.92]$ & $+0.66$\sigstar $[+0.06,\,+0.91]$ & 1.46 \\
+RetinaNet FP8-selective, JPEG $\Delta E$ & $-0.11$ $[-0.81,\,+0.50]$ & $-0.11$ $[-1.12,\,+0.76]$ & 1.44 \\
+RetinaNet A-only-matched, $\Delta E$ & $+0.03$ $[-0.14,\,+0.20]$ & $+0.03$ $[-0.16,\,+0.22]$ & 1.17 \\
+RetinaNet operand interaction, $\Jclean$ & $+0.14$ $[-0.04,\,+0.30]$ & $+0.14$ $[-0.02,\,+0.29]$ & 0.92 \\
+INT8-q95calib - matched, $\Jclean$ & $-0.34$ $[-0.93,\,+0.35]$ & $-0.34$ $[-0.76,\,+0.60]$ & 1.07 \\
+Fold 1 corrupt-calib - FP8, held-out & $-13.34$\sigstar $[-14.13,\,-12.57]$ & $-13.34$\sigstar $[-15.37,\,-10.58]$ & 3.06 \\
+Fold 1 INT8-sel-corruptcalib - FP8, held-out & $-1.30$\sigstar $[-1.61,\,-1.00]$ & $-1.30$\sigstar $[-1.86,\,-0.82]$ & 1.69 \\
+Fold 1 INT8-sel-corruptcalib - INT8-selective, held-out & $-0.58$\sigstar $[-0.80,\,-0.36]$ & $-0.58$\sigstar $[-0.92,\,-0.33]$ & 1.37 \\
+Fold 2 corrupt-calib - q95calib, held-out $\Delta E$ & $+0.37$ $[-0.28,\,+0.90]$ & $+0.37$ $[-0.51,\,+0.76]$ & 1.08 \\
+Fold 2 INT8-sel-cc2calib - INT8-sel-q95calib, held-out & $+0.25$ $[-0.09,\,+0.52]$ & $+0.25$ $[-0.25,\,+0.46]$ & 1.15 \\
+Fold 2 INT8-sel-cc2calib - FP8, held-out & $+1.04$\sigstar $[+0.64,\,+1.40]$ & $+1.04$\sigstar $[+0.74,\,+1.38]$ & 0.84 \\
+FCOS FP8-INT8 matched, $\Jclean$ $\dagger$ & $-0.47$\sigstar $[-0.990,\,-0.001]$ & $-0.47$ $[-2.35,\,+0.12]$ & 2.50 \\
+FCOS FP8-INT8 matched, corrupt mean & $-0.50$\sigstar $[-0.66,\,-0.36]$ & $-0.50$\sigstar $[-0.94,\,-0.31]$ & 2.09 \\
+FCOS FP8-INT8 matched, $\Delta E$ & $-0.04$ $[-0.44,\,+0.40]$ & $-0.04$ $[-0.51,\,+1.46]$ & 2.34 \\
+FCOS selective-matched, $\Jclean$ & $0.00$ $[-0.15,\,+0.12]$ & $0.00$ $[-0.24,\,+0.11]$ & 1.27 \\
+FCOS FP32-selective, $\Jclean$ & $+0.07$ $[-0.25,\,+0.42]$ & $+0.07$ $[-1.09,\,+0.44]$ & 2.30 \\
+FCOS FP32-selective, corrupt mean $\dagger$ & $+0.12$\sigstar $[+0.01,\,+0.22]$ & $+0.12$ $[-0.16,\,+0.20]$ & 1.65 \\
+\bottomrule
+\end{tabular}

@@ -1,19 +1,21 @@
-\begin{tabular}{lr}
+\begin{tabular}{lcr}
 \toprule
-Recipe arm (KITTI diagnostic, single-point) & $\Jclean$ AP \\
+INT8 arm & Reg.\ head INT8 & $\Jclean$ AP \\
 \midrule
-INT8 legacy (mismatched calibration contract, 128-img) & 6.72 \\
-INT8 matched preprocessing, 128-img calibration & 27.91 \\
-INT8 matched preprocessing, 512-img calibration & 28.18 \\
-INT8 max-estimator, 128-img calibration & 23.94 \\
-INT8 restricted to Conv+Add sites, 128-img calibration & 15.75 \\
-INT8 at exactly the FP8 compute sites (shared mask) & 28.74 \\
-INT8 backbone+FPN only (heads fp16) & 49.14 \\
-INT8 classification head only & 50.57 \\
-INT8 regression head only & 16.41 \\
-INT8 heads only (cls+reg) & 17.09 \\
-INT8 all-except regression head & 49.50 \\
-FP8 matched, 128-img calibration & 48.50 \\
-FP32 reference (diagnostic build) & 50.44 \\
+Legacy preprocessing, 128 img & yes & 6.72 \\
+Matched preprocessing, 128 img & yes & 27.91 \\
+Matched preprocessing, 512 img & yes & 28.18 \\
+Max estimator, 128 img & yes & 23.94 \\
+Conv+Add sites only, 128 img & yes & 15.75 \\
+FP8 compute sites (shared mask) & yes & 28.74 \\
+Both heads only & yes & 17.09 \\
+\textbf{Regression head only} & yes & \textbf{16.41} \\
+\addlinespace[2pt]
+Classification head only & no & 50.57 \\
+Backbone + FPN only & no & 49.14 \\
+\textbf{All except regression head} & no & \textbf{49.50} \\
+\addlinespace[2pt]
+FP8 matched, 128 img (reference) & -- & 48.50 \\
+FP32 (reference) & -- & 50.44 \\
 \bottomrule
 \end{tabular}

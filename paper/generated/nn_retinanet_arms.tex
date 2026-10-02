@@ -1,29 +1,21 @@
-\begin{tabular}{llrrr}
+\begin{tabular}{lrrrrrr}
 \toprule
-Dataset & Arm & Clean AP & $\Jclean$ AP & Corrupt mean AP \\
+ & \multicolumn{3}{c}{KITTI} & \multicolumn{3}{c}{VOC} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Arm & Clean & $\Jclean$ & Corrupt & Clean & $\Jclean$ & Corrupt \\
 \midrule
-KITTI & FP32 reference & 50.15 & -- & 37.80 \\
- & FP8-matched & 49.48 & 49.25 & 36.75 \\
- & INT8-legacy (contract mismatch) & 7.21 & -- & 7.43 \\
- & INT8-matched & 28.29 & 28.18 & 20.37 \\
- & INT8-q95calib (codec control) & 28.26 & 27.85 & 20.42 \\
- & INT8-selective (reg-head fp16) & 49.60 & 49.53 & 36.58 \\
- & INT8-sel-q95calib & 50.28 & 49.79 & 36.94 \\
- & INT8-corruptcalib & 29.69 & 29.74 & 21.71 \\
- & INT8-sel-corruptcalib & 49.55 & 49.03 & 36.08 \\
- & INT8-cc2calib (fold 2) & 25.36 & 25.47 & 18.68 \\
- & INT8-sel-cc2calib (fold 2) & 49.72 & 50.54 & 37.20 \\
-\midrule
-VOC & FP32 reference & 57.23 & -- & 42.32 \\
- & FP8-matched & 56.17 & 56.21 & 41.48 \\
- & INT8-legacy (contract mismatch) & 33.61 & -- & 24.32 \\
- & INT8-matched & 53.30 & 53.18 & 38.71 \\
- & INT8-q95calib (codec control) & 53.33 & 53.39 & 38.54 \\
- & INT8-selective (reg-head fp16) & 55.87 & 55.79 & 40.52 \\
- & INT8-sel-q95calib & 55.81 & 55.95 & 40.40 \\
- & INT8-corruptcalib & 53.78 & 53.91 & 39.35 \\
- & INT8-sel-corruptcalib & 56.36 & 56.43 & 41.13 \\
- & INT8-cc2calib (fold 2) & 54.15 & 54.22 & 39.97 \\
- & INT8-sel-cc2calib (fold 2) & 56.40 & 56.43 & 41.58 \\
+FP32 reference & 50.15 & -- & 37.80 & 57.23 & -- & 42.32 \\
+FP8-matched & 49.48 & 49.25 & 36.75 & 56.17 & 56.21 & 41.48 \\
+INT8-legacy (contract mismatch) & 7.21 & -- & 7.43 & 33.61 & -- & 24.32 \\
+\addlinespace[2pt]
+\textbf{INT8-matched} & \textbf{28.29} & \textbf{28.18} & \textbf{20.37} & \textbf{53.30} & \textbf{53.18} & \textbf{38.71} \\
+\textbf{INT8-selective (reg-head fp16)} & \textbf{49.60} & \textbf{49.53} & \textbf{36.58} & \textbf{55.87} & \textbf{55.79} & \textbf{40.52} \\
+\addlinespace[2pt]
+INT8-q95calib (codec control) & 28.26 & 27.85 & 20.42 & 53.33 & 53.39 & 38.54 \\
+INT8-sel-q95calib & 50.28 & 49.79 & 36.94 & 55.81 & 55.95 & 40.40 \\
+INT8-corruptcalib & 29.69 & 29.74 & 21.71 & 53.78 & 53.91 & 39.35 \\
+INT8-sel-corruptcalib & 49.55 & 49.03 & 36.08 & 56.36 & 56.43 & 41.13 \\
+INT8-cc2calib (fold 2) & 25.36 & 25.47 & 18.68 & 54.15 & 54.22 & 39.97 \\
+INT8-sel-cc2calib (fold 2) & 49.72 & 50.54 & 37.20 & 56.40 & 56.43 & 41.58 \\
 \bottomrule
 \end{tabular}

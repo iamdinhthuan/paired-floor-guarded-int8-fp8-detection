@@ -5,6 +5,7 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{graphicx}
+\usepackage{rotating}
 \graphicspath{{figures/}}
 \usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
@@ -52,8 +53,8 @@ Sy Vu Quang$^{3}$, Mohan Rajesh Elara$^{4}$, Anh Vu Le$^{3,*}$\\[2mm]
 This supplement documents the frozen protocol details, estimands, corruption
 parameters, calibration schedules, and artifact contract supporting the main
 article. All reported values are generated deterministically from retained
-ledgers. Section~S8 additionally reports per-family $\Delta E$ diagnostics that
-support---but do not extend---the main-text claims.
+ledgers. Section~S9 additionally reports per-family $\Delta E$ diagnostics that
+support, but do not extend, the main-text claims.
 
 \section{Estimands}
 
@@ -81,14 +82,14 @@ alongside every interaction (main text, \S4.1--\S4.3).
 \section{Frozen condition schedule}
 
 Each dataset$\times$model block evaluates 14 conditions on identical image
-ordering for quantized arms (13 for the RetinaNet FP32 and INT8-legacy arms
-that predate codec control):
+ordering across arms (13 for the original RetinaNet FP32, FP8-legacy, and
+INT8-legacy arms, which predate codec control):
 
 \begin{itemize}
   \item clean (original bytes) and $\Jclean$ (JPEG-95 clean control);
-  \item Gaussian noise: $\sigma \in \{8, 20, 40\}$;
-  \item motion blur: kernel lengths $\{5, 13, 23\}$;
-  \item synthetic fog: (strength, radius) $\in \{(0.18,6), (0.38,12), (0.62,20)\}$;
+  \item Gaussian noise: $\sigma \in \{8, 20, 40\}$ on the 0--255 RGB scale;
+  \item motion blur: kernel lengths $\{5, 13, 23\}$ pixels;
+  \item synthetic fog: (strength, blur radius in pixels) $\in \{(0.18,6), (0.38,12), (0.62,20)\}$;
   \item JPEG compression: qualities $\{70, 40, 15\}$.
 \end{itemize}
 
@@ -131,10 +132,9 @@ FP8-legacy & FP8 & full graph & pre-study build (context only) \\
 \end{table}
 
 The W-only and A-only arms are post-hoc QDQ-graph rewires of the frozen
-INT8-matched graph (Section~3.7 of the main text): under the TensorRT
-\texttt{int8-entropy} build policy every non-quantized operation executes in
-fp16, so the restored operand computes in fp16 rather than literal fp32, and
-the bypassed head weight initializers are themselves fp16 tensors.
+INT8-matched graph (Section~3.7 of the main text). The restored floating-point
+convolution operands and bypassed head weight initializers use fp16; engine I/O
+and some normalization intermediates retain fp32.
 
 
 \begin{table}[h]
@@ -142,7 +142,7 @@ the bypassed head weight initializers are themselves fp16 tensors.
 \caption{FCOS-R50-FPN replication arm registry. The selective exclusion regex
 \texttt{\^{}/head/regression\_head/} covers the regression tower and the
 \texttt{bbox\_ctrness} output, so the selective arm also dequantizes
-centerness---because the score is $\sqrt{\sigma(\mathrm{cls})\cdot\sigma(\mathrm{ctr})}$,
+centerness. Because the score is $\sqrt{\sigma(\mathrm{cls})\cdot\sigma(\mathrm{ctr})}$,
 the intervention is not treatment-identical to the RetinaNet selective arm,
 which touches regression outputs only. Calibration identical to the RetinaNet matched
 recipe.}
@@ -163,14 +163,15 @@ quantized by NVIDIA ModelOpt with entropy calibration (512-image budget;
 the study-built registries record version 0.45.0 and the pre-study YOLO11
 ONNX registries predate that field;
 the diagnostic sweeps vary the estimator and include arms marked
-``128-img'' in Table~4 of the main text, which use the earlier 128-image
+``128-img'' in Table~6 of the main text, which use the earlier 128-image
 subset)
 with a 4,096~MiB builder workspace. Builder policy is recorded per engine
 and differs by program: the YOLO11 engines were built by \texttt{trtexec}
 before the frozen contract and carry TensorRT~11.1 defaults (TF32 enabled);
 the RetinaNet quantization arms built for this study use the TensorRT Python
-builder with TF32 disabled, while the RetinaNet FP32 reference and the
-FP8/INT8-legacy arms are pre-study \texttt{trtexec} builds with TF32 enabled
+builder with TF32 disabled, while the original RetinaNet FP32 reference and the
+FP8/INT8-legacy arms are pre-study \texttt{trtexec} builds with TF32 enabled (all six
+retrained-holdout arms of Section~S15 use the Python builder with TF32 disabled)
 (the $\Delta E$ contrasts only join quantized arms built under the same
 policy); the four FCOS arms, FP32 included, are TensorRT Python builder
 builds with TF32 disabled, so the FCOS block is internally policy-matched
@@ -191,7 +192,15 @@ under the same profile and checkpoint rule. All four RetinaNet/FCOS
 selected checkpoints are early picks: run-log epochs 21 (KITTI) and 5 (VOC)
 for RetinaNet, 14 (KITTI) and 10 (VOC) for FCOS
 (epoch counts here are the run log's 1-indexed values; the checkpoints
-store the same point 0-indexed). The KITTI/VOC YOLO11 models instead select
+store the same point 0-indexed). Training inputs are retained for
+reproduction: YOLO11 uses \texttt{configs/training/voc\_kitti\_yolo11\_nmx\_v1.json},
+the driver \texttt{src/train\_yolo\_dataset.py} (queue
+\texttt{src/run\_training\_queue.py}), the dataset YAMLs in
+\texttt{configs/datasets/}, and the resolved Ultralytics arguments in
+\texttt{manifests/training/ultralytics\_args/}; RetinaNet and FCOS use
+\texttt{src/train\_retinanet\_dataset.py} and \texttt{src/train\_fcos\_dataset.py}
+with \texttt{configs/training/cross\_family\_retinanet\_r50\_fpn\_v2\_v1.json}.
+All file hashes match the training manifests. The KITTI/VOC YOLO11 models instead select
 late best-fitness checkpoints (run epochs 65--100; recorded in
 \texttt{phase\_a\_arms/training/yolo11\_best\_fitness\_epochs.json})
 under Ultralytics' own rule, and the COCO YOLO11 models are the official
@@ -209,19 +218,25 @@ epochs match the checkpoints' stored epoch fields (raw run logs are not
 redistributed; each curve record carries its source log's SHA-256). Per-run training
 manifests are hash-bound; the evaluation-partition overlap is a disclosed
 selection caveat (see the main text's limitations). The frozen condition schedule is
-14 conditions per arm; the RetinaNet FP32 and legacy arms predate codec
+14 conditions per arm; the original RetinaNet FP32 and legacy arms predate codec
 control and carry 13.
 
 \section{Inference and evaluation contract}
 
-YOLO11 blocks: 640-pixel letterbox input, confidence threshold 0.001,
-class-wise NMS at IoU 0.7, at most 300 detections. RetinaNet blocks: 640-pixel
-letterbox input, confidence threshold 0.05, batched NMS at IoU 0.5, at most
-300 detections. FCOS blocks: 640-pixel letterbox input, confidence threshold
+Preprocessing differs by family. YOLO11 uses OpenCV bilinear resizing to a
+640-pixel letterbox with centered padding of value 114 and RGB values divided
+by 255. RetinaNet and FCOS divide RGB values by 255, normalize with ImageNet
+means (0.485, 0.456, 0.406) and standard deviations (0.229, 0.224, 0.225),
+resize bilinearly to a longest side of 640 pixels, and zero-pad the bottom
+and right in normalized coordinates.
+YOLO11 blocks: confidence threshold 0.001,
+class-wise NMS at IoU 0.7, at most 300 detections. RetinaNet blocks:
+confidence threshold 0.05, at most 1,000 pre-NMS candidates per feature level,
+batched NMS at IoU 0.5, at most 300 detections. FCOS blocks: confidence threshold
 0.05 on the centerness-weighted score, at most 1,000 pre-NMS candidates per
-feature level, batched NMS at IoU 0.5, at most 300 detections---the
-RetinaNet constants reused post hoc and frozen for FCOS at the RetinaNet
-values, and not torchvision's FCOS defaults
+feature level, batched NMS at IoU 0.5, at most 300 detections. These are
+the RetinaNet constants, reused post hoc and frozen for FCOS, not
+torchvision's FCOS defaults
 (score threshold 0.2, NMS IoU 0.6, 100 detections per image); the decoder is
 a reimplementation of torchvision's post-processing, validated detection-for-detection
 against torchvision's own pipeline on 32 seeded synthetic head-output
@@ -229,20 +244,20 @@ draws
 (\texttt{phase\_h\_fcos\_results/decoder\_validation.json}: 9,600
 detections, maximum box and score deviation exactly zero). The check
 saturates the 300-detection cap on every draw, uses a square 640-pixel
-input at scale 1.0, and covers the 8-class KITTI head only---it validates
+input at scale 1.0, and covers the 8-class KITTI head only. It validates
 the post-processing arithmetic, not letterbox un-mapping, sparse-output
 behavior, or end-to-end engine parity. All evaluations use the COCO protocol via
 \texttt{pycocotools} with \texttt{maxDets=100}; VOC and KITTI annotations were
-converted once to COCO format and frozen. Decoder constants are listed per family in
-the paragraph above---identical for RetinaNet and FCOS---and held fixed
+converted once from Ultralytics YOLO labels to COCO format and frozen; VOC objects marked difficult are omitted rather than kept as ignore regions. Decoder constants are listed per family in
+the paragraph above (identical for RetinaNet and FCOS) and held fixed
 within each; cross-family comparisons are
 comparisons of recipe bundles, never of formats alone.
 
 \section{Corruption-aware calibration schedule}
 
 The intervention calibration sets reuse the same 512 images as the matched
-clean-calibration manifests. Each image is deterministically assigned---via a
-SHA-256-keyed hash of its identifier---to exactly one of six in-family cells,
+clean-calibration manifests. Each image is deterministically assigned, via a
+SHA-256-keyed hash of its identifier, to exactly one of six in-family cells,
 Gaussian noise or JPEG at severities 1, 3, or 5 (approximately 77--102 images
 per cell). Assigned corruptions use the frozen transform parameters above, and
 the outputs are terminally encoded at JPEG quality 95, matching the evaluation
@@ -265,12 +280,12 @@ corruption coverage.
 \label{sec:supp-intervention}
 
 Table~\ref{tab:intervention} gives the full per-arm contrast set underlying
-Section~4.4 of the main text, and Fig.~\ref{fig:intervention} groups the same
+Section~4.5 of the main text, and Fig.~\ref{fig:intervention} groups the same
 contrasts by calibration arm and evaluation partition.
 
-The additive $\Delta E$ decomposition is itself scale-sensitive (a uniform
-level shift on a degraded arm appears as a corruption-specific gain), so we
-run a retention-scaled check: each fold's clean-control change is scaled by
+The additive $\Delta E$ decomposition is itself scale-sensitive (equal
+proportional changes can produce a nonzero additive interaction), so a
+retention-scaled check is reported: each fold's clean-control change is scaled by
 the matched arm's AP retention on that fold's held-out families
 (\nnRetHoFmKitti{} for fold~1 and \nnRetHoNjKitti{} for fold~2 on KITTI;
 \nnRetHoFmVoc{} and \nnRetHoNjVoc{} on VOC), predicting held-out changes of
@@ -283,10 +298,10 @@ only VOC fold~2 exceeds its prediction materially (\nnCtHVocP{} vs.\
 answer (KITTI fold-1 residual \nnResidCcQHoKitti{} AP).
 
 The fold-1 primary estimand also covers the selective-tier held-out gain over
-its clean-calibrated counterpart (sel-corruptcalib
+its clean-calibrated counterpart. This contrast (sel-corruptcalib
 minus sel) is \nnSccHKitti{}
-on KITTI---significantly negative, under the development-contamination caveat
-of the main text---and \nnSccHVoc{} on VOC. On KITTI fold~2 the selective
+on KITTI (significantly negative, subject to the development-contamination
+caveat of the main text) and \nnSccHVoc{} on VOC. On KITTI fold~2 the selective
 arm is significantly lifted where the full-INT8 arm is harmed ($\Jclean$
 \nnSctJKitti{}; held-out \nnSctHKitti{}), but neither lift survives the
 codec anchor (sel-cc2calib minus sel-q95calib: $\Jclean$ \nnSctQJKitti{};
@@ -295,7 +310,7 @@ arm's held-out residual (\nnSctFHVoc{}) is the only cell whose fold-1-style
 null-seeking interval includes zero; on KITTI the same contrast excludes zero
 favorably (\nnSctFHKitti{}). All fold-2 selective contrasts are post hoc.
 
-\begin{table*}[t]
+\begin{sidewaystable}
 \centering
 \caption{RetinaNet intervention and codec-control contrasts (A minus B, AP
 points; plug-in point with 95\% paired-bootstrap interval, 2,000 common-image
@@ -308,15 +323,15 @@ held-out difference minus $\Jclean$ clean difference, and
 $\Delta E_{\text{in-family}}$ is defined analogously; because every row here
 is an intervention-minus-baseline contrast (the $\Delta E$ definition of the main text), positive $\Delta E$ shifts the difference toward the first-named
 arm. For rows anchored to a clean-calibrated INT8 arm, a positive $\Delta E$
-is a corruption-specific intervention benefit; for rows anchored to
-FP8-matched---which remain deep level deficits---positive values describe gap
+is a corruption-specific intervention benefit; for intervention arms compared with
+FP8-matched, substantial level deficits remain, and positive values describe gap
 narrowing under corruption, not a benefit. Fold-2 rows swap the family roles:
 their in-family is fog and motion blur and their held-out is Gaussian noise
-and JPEG. \sigstar{} interval excludes zero.}
+and JPEG. \sigstar{}: unadjusted 95\% paired-bootstrap interval excludes zero.}
 \label{tab:intervention}
 \footnotesize
 \resizebox{\textwidth}{!}{\input{generated/nn_intervention.tex}}
-\end{table*}
+\end{sidewaystable}
 
 \begin{figure*}[t]
 \centering
@@ -324,13 +339,13 @@ and JPEG. \sigstar{} interval excludes zero.}
 \caption{Calibration variants versus their clean-calibrated counterparts (AP
 points, 95\% paired-bootstrap intervals). Grey: $\Jclean$ clean control;
 blue: in-family corruptions; red: held-out corruptions; ``f2'' groups swap the
-family roles, and for the q95-calibration rows---which see no corrupted
-images---the in-family/held-out labels mark only the evaluation partition.
+family roles, and for the q95-calibration rows, which see no corrupted
+images, the in-family/held-out labels mark only the evaluation partition.
 Held-out bars that merely track the clean bar are not corruption-specific:
 that is the KITTI fold-1 pattern and, as a harm, the KITTI fold-2 full-INT8
 pattern; the VOC fold-2 groups are the exception, where held-out clearly
 exceeds clean. Per-cell codec effects exist but stay under half an AP point in
-aggregate---a codec effect on shared failure cells, not evidence of
+aggregate. This is a codec effect on shared failure cells, not evidence of
 corruption coverage.}
 \label{fig:intervention}
 \end{figure*}
@@ -364,14 +379,23 @@ DerSimonian--Laird between-block standard deviation $\tau$. Blocks within a
 dataset share images, so their estimates may be correlated; the cross-block
 covariance is not identifiable from the phase-B caches because each block's
 resample schedule is seeded per dataset$\times$model. To bound the induced
-dependence we re-ran the nine YOLO11 blocks with $B=1{,}000$ under a
+dependence, the nine YOLO11 blocks were rerun with $B=1{,}000$ under a
 schedule seeded per dataset only (\texttt{shared\_schedule/bootstrap/}):
 per-draw Pearson correlations of the FP8$-$INT8 $\Delta E$ between model
 scales are $r=\{0.240, 0.213, -0.104\}$ on KITTI (n$\sim$m, n$\sim$x,
 m$\sim$x), $\{-0.033, -0.066, 0.111\}$ on VOC, and $\{0.057, 0.013, -0.196\}$
-on the COCO subset---small and mixed-sign, so treating the blocks as
-independent appears only modestly optimistic for the pooled statistics (no
-generalized $Q$ with a full covariance matrix was computed) and does
+on the COCO subset. These are small and of mixed sign. Using this rerun's full within-dataset covariance
+matrix (blocks on different datasets share no images and are treated as
+independent; point estimates are the frozen plug-in values), the generalized
+Cochran's $Q=\mathbf e^\top\Sigma^{-1}\mathbf e$, with $\mathbf e=\hat{\boldsymbol\Delta}-\hat\mu_{\mathrm{GLS}}\mathbf 1$ and
+$\hat\mu_{\mathrm{GLS}}=(\mathbf 1^\top\Sigma^{-1}\hat{\boldsymbol\Delta})/(\mathbf 1^\top\Sigma^{-1}\mathbf 1)$, is
+$\nnHetGlsQ$ on $\nnHetDf$ df ($p\approx\nnHetGlsP$), against $\nnHetQ$
+under independence; within-dataset values are $\nnHetGlsQKitti$ (KITTI,
+$p=\nnHetGlsPKitti$), $\nnHetGlsQVoc$ (VOC, $p\approx\nnHetGlsPVoc$), and
+$\nnHetGlsQCoco$ (COCO, $p\approx\nnHetGlsPCoco$) on 2 df, and the VOC
+YOLO11n$-$YOLO11m contrast has $z=\nnVocNmZGls$ with its covariance included
+(\texttt{analysis/nn\_final\_stats.py}, \texttt{gls\_heterogeneity}). The
+dependence therefore does not change the heterogeneity conclusion, and it does
 not affect the per-block Holm adjustment, which requires valid marginal
 $p$-values but no independence among tests. RetinaNet and
 intervention intervals are per contrast.
@@ -389,14 +413,13 @@ evaluation); bootstrap draws supply intervals, standard errors, and
 $p$-values only. For the intervention, the corruption-specific component on
 the held-out family is
 $\Delta E_{\text{held-out}}=(\AP_A-\AP_B)_{\text{held-out}}-(\AP_A-\AP_B)_{\Jclean}$,
-the same paired construction as the main estimand. This decomposition is
-interpretive: it assumes an additive, parallel-shift model in which a
-calibration-induced level shift on clean inputs transfers comparably to
-corrupted inputs. Under an interaction model (where the intervention also
-changes slope across conditions), $\Delta E_{\text{held-out}}$ mixes that
-interaction with any clean-level effect; it is not a causal identification
-theorem. We therefore report the J95-clean and held-out levels alongside it
-rather than relying on the composite alone.
+the same paired construction as the main estimand. It is an arithmetic
+contrast on the AP scale: an equal additive intervention effect on clean and
+held-out inputs cancels exactly. Reading a nonzero value as a corruption-specific
+benefit requires the clean-level effect to transfer additively; scale and floor
+effects can otherwise produce a nonzero interaction, and the contrast does not
+identify a causal mechanism. The J95-clean and held-out levels are therefore
+reported alongside it.
 
 \section{Sensitivity analyses}
 
@@ -442,27 +465,61 @@ place the configurations before their arms' first inference (run manifests
 carry no timestamp field, and the git history records joint archival of
 configs and outcomes, not pre-inference ordering). The fold-1
 file was written 2026-09-25 (its name retains the design date 20260924, and
-its \texttt{title} field says ``frozen 2026-09-24''---the title records the
-design-freeze day while the serialized file postdates it by one day);
+its \texttt{title} field says ``frozen 2026-09-24''; the title records the
+design-freeze day, and the serialized file is one day later);
 the q95 codec-control schedules were added after the fold-1 results were
-computed---the attempt identifier \texttt{nn\_q95calib\_v1\_20260924} keeps
-the design-date convention and postdates the fold-1 runs in manifest time.
+computed (the attempt identifier \texttt{nn\_q95calib\_v1\_20260924} keeps
+the design-date convention and postdates the fold-1 runs in manifest time).
 {\sloppy The fold-2 primary rule is quoted verbatim:
 ``\texttt{int8-cc2calib512 minus int8-matched512 on the fold-2 held-out mean
 (gaussian\_noise+jpeg), paired bootstrap B=2000, same seed namespace as
 Phase B: CI95 excluding 0 => fold-1 frozen criterion replicated on
-fold 2}''; we read ``replicated'' through the directional fold-1 criterion
+fold 2}''; ``replicated'' is read through the directional fold-1 criterion
 it cites, so a significantly negative change counts as failure.\par}
 
 \begin{table}[h]
 \centering
 \caption{Per-family $\Delta E$ (AP points; family-mean FP8$-$INT8 gap minus
 $\Jclean$ gap) and the leave-one-out $\Delta E$ excluding
-\texttt{motion\_blur-s5}, per dataset$\times$model block. \sigstar{} interval
-excludes zero.}
+\texttt{motion\_blur-s5}, per dataset$\times$model block. \sigstar{}: unadjusted 95\%
+paired-bootstrap interval excludes zero.}
 \label{tab:supp-perfamily}
 \small
 \input{generated/nn_per_family}
+\end{table}
+
+\subsection*{Drive-clustered bootstrap for KITTI}
+
+KITTI object images are frames from a limited number of raw driving
+sequences, so image-level resampling can understate uncertainty. Every KITTI image was mapped to its raw drive with the official object devkit
+(\texttt{mapping/train\_rand.txt} and \texttt{train\_mapping.txt}; file hashes
+pinned in \texttt{src/build\_kitti\_drive\_clusters.py}). The mapping is
+consistent with the Ultralytics file names: every image of a capture date has
+that date's camera resolution, and adjacent frames of the same drive have a
+median 16$\times$16 average-hash distance of 18 bits, against 106 for random
+pairs. The 1,496-image evaluation set contains \nnClDrives{} drives. Every KITTI block was then
+rerun with a bootstrap that resamples whole drives
+(\texttt{N\_BOOT=1000 bash src/run\_nn\_cluster\_bootstrap.sh}; one shared schedule per
+block so that all arm contrasts stay paired; point estimates are unchanged).
+Table~\ref{tab:cluster} compares the two intervals for the \nnClClaims{} KITTI
+contrasts reported in the main text. Interval widths change by a factor of \nnClWidthMin--\nnClWidthMax{}
+(median \nnClWidthMed); drive resampling narrows some YOLO11 intervals and widens
+most RetinaNet and FCOS ones. Only \nnClChanged{} of \nnClClaims{} contrasts change significance
+(marked $\dagger$), all with an image-bootstrap bound near zero: KITTI/YOLO11m
+$\Delta E$, the FCOS FP8$-$INT8 clean contrast, and the FCOS FP32-minus-selective
+corrupt mean. The Holm-significant KITTI/YOLO11x
+block, the RetinaNet deficit and selective repair, the operand factorial, and
+the intervention verdicts are unchanged.
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{KITTI interval claims under image-level ($B=2{,}000$) and
+drive-clustered ($B=1{,}000$) paired bootstrap, AP points. Width ratio:
+drive-interval width over image-interval width. $\dagger$: the two intervals
+disagree on whether zero is excluded; \sigstar{}: the unadjusted 95\% interval excludes zero. Fold-2 ``held-out'' families are
+Gaussian noise and JPEG.}
+\label{tab:cluster}
+{\setlength{\tabcolsep}{3pt}\input{generated/nn_cluster_sensitivity.tex}}
 \end{table}
 
 \section{Evidence layers}
@@ -483,8 +540,8 @@ the same engines and estimand under a wider scope and a different analysis
 plan) are reported
 only as context and are never pooled with the frozen paired estimates.
 Post-hoc extensions are the operand-level factorial inside the RetinaNet
-regression head (W-only and A-only rewires of the frozen matched graph) and
-the FCOS-R50-FPN replication: both were designed and executed after the
+regression head (W-only and A-only rewires of the frozen matched graph), the
+FCOS-R50-FPN replication, and the retrained KITTI holdout (Section~S15): all were designed and executed after the
 frozen paired results were known, are evaluated on the same condition
 schedule with the same paired bootstrap estimand, and are reported as
 post-hoc extensions rather than frozen evidence. The FCOS phase package
@@ -504,18 +561,19 @@ estimand: the max-calibration counterfactual pair
 (\texttt{phase\_j\_maxcalib\_results/}), the head-activation captures
 (\texttt{nn\_actstats/}), the fivefold engine-rebuild ledger
 (\texttt{nn\_rebuild\_variance\_v1\_20260930/}), and the idle-gated
-latency ledgers (\texttt{nn\_latency\_v1\_20260930/})---single builds and
-point estimates, no bootstrap intervals.
+latency ledgers (\texttt{nn\_latency\_v1\_20260930/}). These diagnostics are descriptive and
+have no bootstrap intervals; the rebuild audit comprises five builds per engine.
 
 \section{Artifact and audit boundary}
 
-Manuscript tables and figures are generated deterministically from frozen
-ledgers by \texttt{analysis/build\_nn\_}\allowbreak\texttt{tables.py}. Engine registries,
+Generated tables, numerical macros, and results figures are produced from
+retained ledgers by \texttt{analysis/build\_nn\_}\allowbreak\texttt{tables.py}; the protocol
+schematic is produced by \texttt{analysis/build\_nn\_framework\_fig.py}. Engine registries,
 calibration manifests (including the corrupt-calibration cell-assignment
 schedule), input manifests, prediction manifests, metric records, and paired-bootstrap
 draw caches are SHA-256 hash-bound and retained in the accompanying
 compact-evidence package, deposited in the versioned research archive
-as release v3.0.3 (version DOI \url{https://doi.org/10.5281/zenodo.23082850}) under the
+as release v3.0.4 (version DOI \url{https://doi.org/10.5281/zenodo.23097634}) under the
 concept DOI \url{https://doi.org/10.5281/zenodo.22031663}. Raw
 benchmark datasets, trained checkpoints, built TensorRT engines, and raw
 predictions are not redistributed; their provenance and regeneration path is
@@ -547,9 +605,9 @@ with CUDA events around \texttt{execute\_async\_v3} at batch~1 (200 warm-up
 plus 500 timed iterations per repetition, three repetitions; the harness
 enumerates GPU compute processes before every repetition and refuses to run
 while a non-allow-listed process holds the device).
-Table~\ref{tab:nn-latency} reports per-condition medians and the
-across-repetition spread; the within-repetition IQR is at most 0.04~ms in
-every condition. Under this harness the INT8-matched engines run at
+Table~\ref{tab:nn-latency} reports per-engine medians and the
+across-repetition spread; for every engine, the median of the three
+within-repetition IQRs is at most 0.04~ms. Under this harness the INT8-matched engines run at
 \nnLatIntEightMin--\nnLatIntEightMax~ms per image, the FP32 references that
 exist at \nnLatFpMin--\nnLatFpMax~ms per image (a
 \nnLatIntSpeedupMin--\nnLatIntSpeedupMax$\times$ speedup), and the
@@ -562,7 +620,9 @@ hardware, batch sizes, or power caps.
 \begin{table}[htbp]
 \centering\scriptsize
 \caption{Idle-gated batch-1 latency per engine (median of three repetitions,
-each the median of 500 timed iterations).}
+each the median of 500 timed iterations). Timing covers engine execution on a
+zero-filled input tensor and excludes preprocessing, data transfer, decoding,
+and NMS. Rep spread: maximum minus minimum of the three repetition medians.}
 \label{tab:nn-latency}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_latency.tex}}
 \end{table}
@@ -572,19 +632,21 @@ times from the same quantized ONNX under the frozen build policy (TF32
 disabled, optimization level~3, 4096~MiB workspace) produced a distinct
 engine SHA-256 and a distinct inspector SHA-256 in all \nnRbTotal{} builds,
 and the fused-layer count itself varies across rebuilds
-(\nnRbLayersMin--\nnRbLayersMax layers for the same graph;
+(counts span \nnRbLayersMin--\nnRbLayersMax{} layers across all audited builds;
 Table~\ref{tab:nn-rebuild}): under this builder the tactic autotuner does
 not settle on a bit-identical plan, or even the same fusion boundaries. The nondeterminism does not reach the
-metric in the evaluated slice---across five rebuilds of the KITTI
-INT8-matched engine the measured AP is identical on both the clean and
-codec-control bases (spread \nnRbApSpread{}~AP)---but the evaluation
-coverage is one arm on one dataset, so the audit bounds rather than
+metric in the evaluated slice. Across five rebuilds each of the KITTI
+INT8-matched and INT8-selective engines the measured AP is identical on both the clean and
+codec-control bases (spread \nnRbApSpread{}~AP). The evaluation
+coverage is two arms (matched and selective) on one dataset, so the audit bounds rather than
 eliminates build-to-build metric variance.
 
 \begin{table}[htbp]
 \centering\scriptsize
 \caption{Fivefold rebuild audit per arm: every rebuild is bit-distinct at
-both engine and inspector level; AP spread is reported where evaluated.}
+both engine and inspector level. Layers: minimum--maximum fused-layer count.
+AP spread: maximum minus minimum AP across rebuilds, for original-clean and
+codec-control inputs; dashes mark unevaluated arms.}
 \label{tab:nn-rebuild}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_rebuild_variance.tex}}
 \end{table}
@@ -592,9 +654,8 @@ both engine and inspector level; AP spread is reported where evaluated.}
 \section{Head-region activation statistics}
 \label{sec:actstats}
 
-To probe the operand-factorial attribution at the distribution level we
-captured the activation tensors consumed by each RetinaNet and FCOS head on
-frozen 512-image clean-calibration manifests, running the unquantized ONNX
+To probe the operand-factorial attribution at the distribution level, the activation tensors consumed by each RetinaNet and FCOS head were captured on
+the frozen 512-image clean-calibration manifests by running the unquantized ONNX
 graph in ONNX-Runtime (CUDA provider) with every head-consumed tensor
 exposed as a graph output. Per-channel $|x|_{\max}$ and excess kurtosis are
 computed over all spatial positions in the 512 captured images, with moments
@@ -608,9 +669,8 @@ and VOC trained RetinaNet and FCOS graphs and the COCO pretrained RetinaNet grap
 against the calibration manifests).
 
 Table~\ref{tab:nn-actstats} reports the summaries. On the three RetinaNet
-graphs the regression head is \emph{not} uniformly larger in typical magnitude---its
-median channel amplitude is comparable to the classification head's---but
-it is markedly heavier-tailed (on the KITTI graph, median excess kurtosis
+graphs the regression and classification heads have comparable median channel
+amplitudes, but regression-head activations have much heavier tails (on the KITTI graph, median excess kurtosis
 \nnActRegKurtMedKitti{} versus \nnActClsKurtMedKitti{} for the
 classification head, with per-channel maxima reaching
 \nnActRegKurtMaxKitti{} versus \nnActClsKurtMaxKitti; on VOC,
@@ -623,7 +683,7 @@ channel-p95 excess kurtosis is \nnActRegKurtTailKitti{} versus
 \nnActClsKurtTailVoc{} on VOC. Rare large
 activations inflate a single per-tensor scale and spend the INT8 code
 budget on outlier coverage, which is exactly the signature under which
-activation---not weight---quantization dominates the deficit
+activation quantization, not weight quantization, dominates the deficit
 (the operand factorial of Section~3.7 of the main text). Two cautions bound the
 reading: these are activations of the fp32 ONNX graph on calibration
 inputs, not the deployed quantizer's scale values (the calibrator's chosen
@@ -631,7 +691,7 @@ activation amaxes on the matched INT8 graphs are recorded alongside, e.g.\
 a median of \nnActStaticRegMedKitti{} versus \nnActStaticClsMedKitti{} on
 KITTI); and the captures are
 a measurement of the calibration distribution, which is itself what the
-quantizer saw---the tails under corrupted inputs are not measured here.
+quantizer saw. Tails under corrupted inputs are not measured here.
 
 Table~\ref{tab:nn-actstats-level} resolves the same captures per FPN level,
 and a structural audit of the matched QDQ graphs
@@ -639,20 +699,19 @@ and a structural audit of the matched QDQ graphs
 activation ranges are parametrized. Two structure-level facts matter. First,
 the regression head does not share one activation scale across pyramid
 levels: the matched graph carries 25 regression-head-consumed activation
-quantizers---the five FPN feature tensors at the head input boundary (shared
-with the classification head) plus four per-level tensors in each of the
-five level-unrolled tower stages---and every one is per-tensor with a
+quantizers (the five FPN feature tensors at the head input, shared
+with the classification head, plus four tower tensors at each of the five FPN levels), and every one is per-tensor with a
 level-specific scale, so a shared head-wide activation range is not the
 mechanism here. Second, the tail burden is level-ordered: regression-head
 median excess kurtosis is highest at the fine levels that carry
 small-object predictions (\nnActRegKurtPThreeKitti{} at P3 on KITTI,
 falling to \nnActRegKurtPSevenKitti{} at P7; the classification head shows a
 much flatter profile, \nnActClsKurtPThreeKitti{} to
-\nnActClsKurtPSevenKitti), and the same ordering holds on VOC and on the
-pretrained COCO graph. Per-tensor grids at P3/P4 therefore spend the most
-code budget covering outliers---consistent with the matched arm's
-AP$_S$/AP$_{75}$-concentrated deficit in Table~8 of the
-main text---though this is a consistency argument, not a causal isolation.
+\nnActClsKurtPSevenKitti), and the same ordering holds on VOC; on the pretrained COCO graph the peak is
+at P4 (\nnActRegKurtPFourCoco{} versus \nnActRegKurtPThreeCoco{} at P3). Per-tensor grids at P3/P4 therefore spend the most
+code budget covering outliers. This fits the matched arm's
+deficit, which is concentrated in AP$_S$ and AP$_{75}$ (Table~11 of the
+main text), but it is a consistency argument, not a causal test.
 
 The FCOS captures provide a cross-architecture falsification check for the
 extreme-tail profile, not evidence that FCOS activations are tail-free.
@@ -662,8 +721,8 @@ Regression-head median excess kurtosis at P3/P4 is
 with \nnActRegKurtPThreeKitti{}/\nnActRegKurtPFourKitti{} and
 \nnActRegKurtPThreeVoc{}/\nnActRegKurtPFourVoc{} for RetinaNet. In
 particular, FCOS still has positive excess kurtosis at KITTI P3; its fine-level
-tails are substantially lighter, not absent. This co-occurrence---lighter
-fine-level tails and no comparable head-specific deficit---is consistent
+tails are substantially lighter, not absent. The combination of lighter
+fine-level tails and no comparable head-specific deficit is consistent
 with the proposed distribution-level account, but FCOS also differs in
 architecture, anchor density, centerness scoring, and selective-output
 coverage, so the comparison does not isolate tail shape causally.
@@ -685,8 +744,8 @@ features).}
 \centering\scriptsize
 \caption{Per-FPN-level activation statistics, reported as the median of
 per-tensor median-channel $|x|_{\max}$~$/$~excess kurtosis at each level (P3
-finest, P7 coarsest; shared FPN boundary features are included where
-applicable). The table includes three RetinaNet and two FCOS graphs;
+finest, P7 coarsest; shared FPN boundary tensors are excluded from
+these head-specific summaries). The table includes three RetinaNet and two FCOS graphs;
 fine-level tails are substantially heavier in RetinaNet.}
 \label{tab:nn-actstats-level}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_actstats_level.tex}}
@@ -698,60 +757,73 @@ fine-level tails are substantially heavier in RetinaNet.}
 Section~S13 shows the regression-head activations are heavy-tailed under the
 entropy calibrator's inputs, which admits two distinct cost accounts: tail
 clipping (the chosen range excludes outliers) or bin resolution (the range is
-fine but 127 levels spread too coarsely across it). A max-calibration arm
-separates the two: it sets each activation scale to the absolute
+fine but wide relative to the signed INT8 grid spacing). A max-calibration arm
+changes clipping and resolution jointly: it sets each activation range bound to the absolute
 maximum observed on the calibration set, removing calibration-set clipping
 at the price of the coarsest bin resolution (evaluation-time activations
-beyond that maximum can still clip). We therefore ran a post-hoc counterfactual pair---INT8-matched and
-INT8-selective under the max estimator, same graphs, same frozen 512-image
-clean-calibration manifests, same 14-condition evaluation schedule---on the
+beyond that maximum can still clip). A post-hoc counterfactual pair was therefore run, INT8-matched and
+INT8-selective under the max estimator with the same graphs, frozen 512-image
+clean-calibration manifests, and 14-condition evaluation schedule, on the
 KITTI and VOC RetinaNet detectors (\texttt{nn\_maxcalib\_v1\_20260930};
 single engine builds, point estimates only, no bootstrap draws).
 
 Table~\ref{tab:nn-maxcalib} reports the levels. The counterfactual is sharp
 and negative in both directions. On KITTI, max calibration does not repair
-the matched deficit---it deepens it, from \nnArmInCleanKitti{} to
-\nnMcMaxJKitti{}~AP on the clean basis---while the head-exclusion benefit
+the matched deficit but deepens it, from \nnArmInCleanKitti{} to
+\nnMcMaxJKitti{}~AP on the clean basis, while the head-exclusion benefit
 persists under the new estimator (selective minus matched
 \nnMcSelGainJKitti{}~AP clean, \nnMcSelGainCKitti{}~AP corrupt-mean), so the
 regression-head sensitivity is not an artifact of the entropy estimator. On
 VOC the max estimator is catastrophic on \emph{both} arms
-($\Jclean$ clean $\approx 0.001$~AP): the detection-score distribution
+(Table~\ref{tab:nn-maxcalib}; clean AP $\approx0.001$--$0.002$): the detection-score distribution
 collapses (the 99th-percentile detection score on the clean run drops from
 $\approx 0.91$ under entropy calibration to $\approx 0.15$;
 \texttt{voc\_score\_audit.json} in the evidence package), consistent with a
 failure in the score (classification) pathway that regression-head
 exclusion cannot rescue. A 128-image draw of the same estimator
 in the earlier recipe sweep scored $\nnDiagMaxJ$~AP on the KITTI clean
-basis---the max estimator's outcome is itself draw-sensitive, since a single
-unlucky outlier image inflates every range.
+basis. The two calibration budgets give different AP values; variability across
+repeated calibration draws at a fixed budget was not measured.
 
 Because the graph-wide swap perturbs every quantizer, it cannot separate a
 head-local estimator effect from collateral damage elsewhere (the VOC
-collapse is the extreme case). We therefore ran a second, head-local
-counterfactual (\texttt{nn\_maxreg\_v1\_20261001}; same single-build,
-point-estimate-only protocol): starting from the frozen INT8-matched graphs,
-the entropy-calibrated scales of the regression-head activation quantizers
-(25 per graph, per-tensor, one per conv per FPN level; Section~S13) were
-replaced by the calibration-set maxima measured on the same captured
-activations, while every other quantizer---backbone, classification head,
-head-input boundary---kept its entropy-calibrated scale byte-identical. The
-head-local arm leaves VOC functional and still does not repair the deficit
-(Table~\ref{tab:nn-maxcalib}): clean $\Jclean$ sits at
+collapse is the extreme case). A second counterfactual was therefore run,
+restricted to the regression head's inputs (\texttt{nn\_maxreg\_v1\_20261001};
+same single-build, point-estimate-only protocol): starting from the frozen
+INT8-matched graphs, the entropy-calibrated scales of every activation
+quantizer consumed by a regression-head node (25 per graph, per-tensor: 20
+inside the tower, one per conv per FPN level, plus the five FPN-boundary
+quantizers at the head input; Section~S13) were replaced by the
+calibration-set maxima measured on the same captured activations, while
+every other quantizer (backbone and classification tower) kept its
+entropy-calibrated scale byte-identical. The five boundary quantizers are
+shared with the classification head, so the patch also changes the
+classification head's input scales; it is regression-head-local inside the
+tower but not at the shared boundary. The patch is implemented by \texttt{src/patch\_maxreg\_scales.py}: each
+selected quantizer's Q and DQ scale becomes
+$\mathrm{fp16}(|x|_{\max}/127)$, with $|x|_{\max}$ the largest per-channel
+absolute maximum captured for that tensor (Section~S13). Re-running the script
+on the frozen matched graphs reproduces the archived patched graphs exactly:
+byte-identical on KITTI, and identical nodes and initializers on VOC (the file
+hash differs only through serialization;
+\texttt{phase\_k\_maxreg\_results/patch\_reproduction.json}). This arm leaves VOC functional and still does not repair
+the deficit (Table~\ref{tab:nn-maxcalib}): original-clean AP sits at
 \nnMcMaxRegJKitti{}~AP on KITTI and \nnMcMaxRegJVoc{}~AP on VOC, against
 \nnArmInCleanKitti{}/\nnArmInCleanVoc{} for the entropy-matched arms, and the
 corrupt-mean levels (\nnMcMaxRegCKitti{}/\nnMcMaxRegCVoc{}~AP) track the
-entropy-matched arms within about one AP point. Widening only the
-regression-head ranges to the observed maxima recovers nothing.
+entropy-matched arms within about one AP point. Widening the
+regression-head-consumed ranges to the observed maxima recovers nothing.
 
-The reading we take is bounded: clipping of the observed calibration range
-is not the operative cost, because widening the range to the calibration
-maximum---graph-wide or restricted to the regression head---does not recover
-accuracy and can destroy the classifier outright. That leaves the resolution
-side of the account---a fixed 127-level grid over a wide range---as the
-better candidate, though we did not separate resolution from the other
-numerical changes a coarser scale induces (larger rounding bias on in-range
-values, dequantization shift), and max calibration does not preclude
+The interpretation is bounded. Extending ranges to the observed
+calibration maxima, graph-wide or restricted to regression-head-consumed
+quantizers, does not improve AP and can destroy the classifier outright.
+Because max calibration reduces calibration-set clipping and coarsens the
+grid at the same time, these experiments do not separate a clipping benefit
+from the accompanying resolution cost; they are compatible with a
+resolution account (a fixed signed INT8 grid over a wide range) but do not
+establish it. Resolution is also not separated from the other numerical
+changes a coarser scale induces (larger rounding bias on in-range values,
+dequantization shift), and max calibration does not preclude
 evaluation-time clipping of activations beyond the calibration-set maximum.
 Corruption-aware calibration and max calibration together bracket the
 range-choice dimension: neither repairs the deficit, and the
@@ -763,39 +835,61 @@ regression-head benefit survives both.
 single builds, plug-in AP points without intervals). Reference rows repeat
 the frozen entropy-calibrated paired-protocol arms for the same
 detector--dataset pairs; bold rows are the max-estimator arms on the same
-14-condition schedule: graph-wide matched/selective, then the head-local
-variant with the max estimator applied to regression-head activation
-quantizers only.}
+14-condition schedule: graph-wide matched/selective, then the variant with
+the max estimator applied only to activation quantizers consumed by the
+regression head (including the five FPN-boundary quantizers shared with the
+classification head). ``Orig.\ clean'' is the original clean image;
+``$\Jclean$'' is the JPEG quality-95 codec control.}
 \label{tab:nn-maxcalib}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_maxcalib.tex}}
 \end{table}
 
-\section{KITTI final-holdout check}
+\section{KITTI holdout with a retrained checkpoint}
 \label{sec:nn-holdout}
 
-As a post-hoc check of the RetinaNet head-localization result, we evaluated
-the four factorial arms on the 1,197-image KITTI final-holdout partition
-reserved at split time. The partition was excluded from model and recipe
-development, but this re-evaluation was not a preregistered test; no retraining
-or calibration changes were made. The same engines, decoder, and 14-condition evaluation
-schedule were used (\texttt{nn\_holdout\_v1\_20261001}); the retained
-hash-bound metric and input manifests identify the evaluated artifacts.
-Values are full-sample point estimates only, with no bootstrap intervals.
-The selection-partition rows are included as a descriptive reference, not as
-a paired comparison to the holdout rows. Since the split is frame-level,
-adjacent frames from the same driving sequence can cross partitions; this is
-not a sequence-independent generalization test.
-
-On the holdout, selective and W-only recover the clean-level deficit, while
-A-only remains near the matched arm. The pattern therefore reproduces the
-activation-dominant operand attribution observed on the selection partition,
-although the absolute AP levels differ between image samples.
+The original KITTI checkpoints were trained on the full 5,985-image
+Ultralytics training partition, which contains the 1,197 images of the later
+resplit's final partition. A holdout was therefore built by retraining
+RetinaNet-R50-FPN-v2 with the frozen profile (100 epochs, seed 20260807) on
+the 4,788-image resplit training list, selecting the checkpoint with the
+lowest loss on the 1,496-image selection set (epoch 12), and rebuilding all
+six arms with the TensorRT Python builder (TF32 disabled), the five quantized
+arms using the frozen recipes and a 512-image calibration list drawn from
+the training list (\texttt{kitti\_confirmatory\_train\_512\_s20260818\_v1}; no
+overlap with the final partition). All arms were evaluated on the final
+partition and, for reference, on the selection set under the 14-condition
+schedule (\texttt{src/run\_nn\_kitti\_holdout\_v2\_queue.sh}). Intervals use the
+paired image bootstrap ($B=2{,}000$) and the drive-clustered bootstrap
+($B=1{,}000$; \texttt{src/run\_nn\_kitti\_holdout\_v2\_bootstrap.sh}). The
+final images share drives with the training list, so the holdout is
+image-disjoint but not sequence-disjoint. Table~\ref{tab:nn-holdout-v2}
+reports arm levels and contrasts.
 
 \begin{table}[htbp]
 \centering\scriptsize
-\caption{KITTI RetinaNet factorial arms on the final holdout and, for
-context, the selection partition. The holdout contains 1,197 images reserved
-at split time; values are plug-in AP points without intervals.}
+\caption{RetinaNet on the KITTI holdout (1,197 images unseen by the retrained
+checkpoint). Top: arm levels in AP on the final holdout and, for reference, on
+the selection set; ``Orig.\ clean'': original clean images; ``Corrupt'': equal-weight
+mean over the 12 corruption--severity cells. Bottom: paired contrasts with 95\% intervals from the image
+bootstrap and, on the $\Jclean$ basis, the drive-clustered bootstrap.
+\sigstar{}: unadjusted interval excludes zero.}
+\label{tab:nn-holdout-v2}
+{\setlength{\tabcolsep}{3pt}\input{generated/nn_holdout_v2.tex}}
+\end{table}
+
+An earlier post-hoc check (\texttt{nn\_holdout\_v1\_20261001}) evaluated the
+original checkpoint's four factorial arms on the same 1,197 images. Those
+images were part of that checkpoint's training data, and 95 of them were in
+its calibration list, so the check is a seen-image consistency check, not a
+holdout; its absolute AP is correspondingly much higher
+(Table~\ref{tab:nn-holdout}).
+
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{Original KITTI checkpoint: factorial arms on the 1,197 final images
+(seen in training; 95 also in the calibration list) and on the selection set.
+Plug-in AP without intervals. ``Orig.\ clean'': original clean image;
+``$\Jclean$'': JPEG quality-95 codec control.}
 \label{tab:nn-holdout}
 {\setlength{\tabcolsep}{3pt}\input{generated/nn_holdout.tex}}
 \end{table}
@@ -818,7 +912,7 @@ at split time; values are plug-in AP points without intervals.}
   \item flag severity-wall cells where every treatment including FP32 is at
         the floor, and report a leave-one-out sensitivity;
   \item audit engine-build determinism before treating a serialized engine as
-        a fixed artifact---tactic autotuning makes rebuilds bit-distinct, so
+        a fixed artifact; tactic autotuning makes rebuilds bit-distinct, so
         hash the engine and inspector and spot-check metric spread;
   \item gate latency claims on an idle-device harness with repetitions and
         dispersion, and scope them to the measured host.

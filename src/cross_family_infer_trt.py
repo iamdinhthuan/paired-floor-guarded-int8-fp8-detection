@@ -39,6 +39,7 @@ def main() -> None:
     parser.add_argument("--dataset", required=True); parser.add_argument("--split", required=True)
     parser.add_argument("--corruption", default="clean"); parser.add_argument("--severity", type=int, default=0)
     parser.add_argument("--confidence", type=float); parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--categories-json", help="override label-index -> category-id map (for pretrained COCO heads)")
     args = parser.parse_args()
     destinations = [Path(args.out), Path(args.input_record), Path(args.run_record)]
     if any(path.exists() for path in destinations):
@@ -65,6 +66,9 @@ def main() -> None:
                               manifest_cache_root=args.manifest_cache_root, limit=args.limit)
     annotations = json.loads(Path(args.annotations).read_text(encoding="utf-8"))
     categories = sorted(annotations["categories"], key=lambda value: value["id"])
+    if args.categories_json:
+        categories = sorted(json.loads(Path(args.categories_json).read_text())["categories"],
+                            key=lambda value: value["id"])
     class_to_category = [value["id"] for value in categories]
     import tensorrt as trt
     try: import cuda.bindings.runtime as cudart

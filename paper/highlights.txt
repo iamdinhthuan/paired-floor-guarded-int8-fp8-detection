@@ -1,5 +1,5 @@
 - Paired, codec-controlled protocol isolates the corruption interaction on AP gaps
 - The FP8-INT8 gap change under corruption flips sign across YOLO11 blocks
 - RetinaNet INT8 deficit traces to regression head activation quantization
-- Head exclusion restores AP without retraining; a KITTI holdout confirms the pattern
-- Corruption-aware calibration transfers inconsistently across held-out folds
+- Head exclusion recovers INT8 AP; replicated on a KITTI holdout and COCO models
+- Corruption-aware calibration transfers inconsistently across held-out families

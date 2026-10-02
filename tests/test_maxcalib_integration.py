@@ -72,11 +72,11 @@ def test_final_stats_carry_maxcalib_block() -> None:
         assert "maxsel_minus_max" in ent["contrasts"]
     # The counterfactual's scientific content: max calibration must not
     # exceed the entropy-calibrated matched level on KITTI clean.
-    assert mc["kitti"]["arms"]["int8-max512"]["j95"] < 28.0
+    assert mc["kitti"]["arms"]["int8-max512"]["clean"] < 28.0
     # Head-local max regression must also stay below the entropy-matched
-    # level on KITTI clean (28.29) -- widening reg-head ranges alone does
+    # level on KITTI clean (28.29) -- widening regression-head-consumed ranges does
     # not repair the deficit.
-    assert mc["kitti"]["arms"]["int8-maxreg512"]["j95"] < 28.29
+    assert mc["kitti"]["arms"]["int8-maxreg512"]["clean"] < 28.29
 
 
 def test_phase_k_headlocal_cell_points() -> None:
@@ -114,4 +114,4 @@ def test_supplement_references_maxcalib_table() -> None:
         table = table_path.read_text(encoding="utf-8")
         assert table.count("INT8-matched (max)") == 2
         assert table.count("INT8-selective (max)") == 2
-        assert table.count("INT8-matched (max, reg head only)") == 2
+        assert table.count("INT8-matched (max, reg.-consumed quantizers)") == 2

@@ -89,11 +89,14 @@ def yolo_deltae_table(summary: dict, boot: dict, final: dict) -> str:
             phs = f"{ph:.3f}"
             fp8c = blk["arms"]["fp8"]["corrupted_mean_ap"]
             i8c = blk["arms"]["int8"]["corrupted_mean_ap"]
+            de_s, ci_s, ph_s = f"{de:+.2f}{sig}", f"$[{ci[0]:+.2f},\\,{ci[2]:+.2f}]$", phs
+            if ph < 0.05:  # Holm-significant blocks in bold
+                de_s, ci_s, ph_s = bold(de_s), bold(ci_s), bold(ph_s)
             rows.append(
                 f"{dsname} & {model.replace('yolo11','YOLO11')} & "
                 f"{fp8c:.1f} & {i8c:.1f} & "
                 f"{c['G0_q95']:+.2f} & {c['Gc']:+.2f} & "
-                f"{de:+.2f}{sig} & $[{ci[0]:+.2f},\\,{ci[2]:+.2f}]$ & {phs} \\\\")
+                f"{de_s} & {ci_s} & {ph_s} \\\\")
     return ("\n".join([
         r"\begin{tabular}{llrrrrllr}",
         r"\toprule",
@@ -133,19 +136,19 @@ def retinanet_arms_table(summary: dict, report: dict) -> str:
         ("fp8-matched512", "FP8-matched"),
         ("int8-legacy", "INT8-legacy (contract mismatch)"),
         ("int8-matched512", "INT8-matched"),
-        ("int8-q95calib512", "INT8-q95calib (codec control)"),
         ("int8-selective512", "INT8-selective (reg-head fp16)"),
+        ("int8-q95calib512", "INT8-q95calib (codec control)"),
         ("int8-sel-q95calib512", "INT8-sel-q95calib"),
         ("int8-corruptcalib512", "INT8-corruptcalib"),
         ("int8-sel-corruptcalib512", "INT8-sel-corruptcalib"),
         ("int8-cc2calib512", "INT8-cc2calib (fold 2)"),
         ("int8-sel-cc2calib512", "INT8-sel-cc2calib (fold 2)"),
     ]
-    for ds, dsname in (("kitti", "KITTI"), ("voc", "VOC")):
+    vals: dict = {}
+    for ds in ("kitti", "voc"):
         blk = next(b for b in summary["blocks"]
                    if b["dataset"] == ds and b["model"] == "retinanet_r50_fpn_v2")
-        first = True
-        for key, label in arm_names:
+        for key, _ in arm_names:
             pa_b = bpoints.get(f"{ds}/retinanet_r50_fpn_v2", {}).get(key)
             if pa_b is not None:
                 # Full-precision plug-in values from the per-cell metric records.
@@ -161,19 +164,25 @@ def retinanet_arms_table(summary: dict, report: dict) -> str:
                 pa = points[ds].get(key)
                 if pa is None:
                     continue
-                clean = pa["clean"]
-                q95 = pa["q95"]
-                corr = pa["corr12"]
-            ds_cell = dsname if first else ""
-            first = False
-            q95s = f"{q95:.2f}" if q95 == q95 else "--"
-            rows.append(f"{ds_cell} & {label} & {clean:.2f} & {q95s} & {corr:.2f} \\\\")
-        rows.append(r"\midrule")
-    rows.pop()  # trailing midrule
+                clean, q95, corr = pa["clean"], pa["q95"], pa["corr12"]
+            vals[(ds, key)] = (clean, q95, corr)
+    emph = {"int8-matched512", "int8-selective512"}
+    for key, label in arm_names:
+        cells = [label]
+        for ds in ("kitti", "voc"):
+            clean, q95, corr = vals.get((ds, key), (float("nan"),) * 3)
+            cells += [f"{clean:.2f}", f"{q95:.2f}" if q95 == q95 else "--", f"{corr:.2f}"]
+        if key in emph:
+            cells = [r"\textbf{" + c + "}" for c in cells]
+        rows.append(" & ".join(cells) + r" \\")
+        if key in ("int8-legacy", "int8-selective512"):
+            rows.append(r"\addlinespace[2pt]")
     return ("\n".join([
-        r"\begin{tabular}{llrrr}",
+        r"\begin{tabular}{lrrrrrr}",
         r"\toprule",
-        r"Dataset & Arm & Clean AP & $\Jclean$ AP & Corrupt mean AP \\",
+        r" & \multicolumn{3}{c}{KITTI} & \multicolumn{3}{c}{VOC} \\",
+        r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}",
+        r"Arm & Clean & $\Jclean$ & Corrupt & Clean & $\Jclean$ & Corrupt \\",
         r"\midrule",
         *rows,
         r"\bottomrule",
@@ -209,6 +218,11 @@ def _signed(v: float) -> str:
     # |v| < 0.005 would print "+-0.00" -- a sign flip for negative points;
     # render it unsigned instead
     return f"{v:+.2f}" if abs(v) >= 0.005 else "0.00"
+
+
+def bold(cell: str) -> str:
+    """Bold a table cell that may contain math (\\boldmath covers $...$)."""
+    return "{\\boldmath\\bfseries " + cell + "}"
 
 
 def fmt_ci(v: dict, stars: bool = True) -> str:
@@ -255,32 +269,20 @@ PHASE_A_DIR = ROOT / "submission_support_20260911" / "phase_a_arms"
 
 # display label -> (summary file, treatment key) in the Phase-A ledgers
 _DECOMPOSITION_ARMS = [
-    ("INT8 legacy (mismatched calibration contract, 128-img)",
-     "pilot_v1_summary.json", "int8_legacy_calibration"),
-    ("INT8 matched preprocessing, 128-img calibration",
-     "pilot_v1_summary.json", "int8_matched_calibration"),
-    ("INT8 matched preprocessing, 512-img calibration",
-     "recipe_v2_summary.json", "int8_matched_entropy_512cal"),
-    ("INT8 max-estimator, 128-img calibration",
-     "recipe_v1_summary.json", "int8_matched_max_calibration"),
-    ("INT8 restricted to Conv+Add sites, 128-img calibration",
-     "recipe_v1_summary.json", "int8_matched_convadd_calibration"),
-    ("INT8 at exactly the FP8 compute sites (shared mask)",
-     "recipe_v3_summary.json", "int8_matched_shared_mask_512cal"),
-    ("INT8 backbone+FPN only (heads fp16)",
-     "recipe_v4_summary.json", "int8_matched_backbone_only"),
-    ("INT8 classification head only",
-     "recipe_v5_summary.json", "int8_matched_cls_head_only"),
-    ("INT8 regression head only",
-     "recipe_v5_summary.json", "int8_matched_reg_head_only"),
-    ("INT8 heads only (cls+reg)",
-     "recipe_v4_summary.json", "int8_matched_heads_only"),
-    ("INT8 all-except regression head",
-     "recipe_v6_summary.json", "int8_matched_except_reg_head"),
-    ("FP8 matched, 128-img calibration",
-     "pilot_v1_summary.json", "fp8_matched_calibration"),
-    ("FP32 reference (diagnostic build)",
-     "pilot_v1_summary.json", "fp32"),
+    # (label, summary file, treatment key, regression head quantized?)
+    ("Legacy preprocessing, 128 img", "pilot_v1_summary.json", "int8_legacy_calibration", True),
+    ("Matched preprocessing, 128 img", "pilot_v1_summary.json", "int8_matched_calibration", True),
+    ("Matched preprocessing, 512 img", "recipe_v2_summary.json", "int8_matched_entropy_512cal", True),
+    ("Max estimator, 128 img", "recipe_v1_summary.json", "int8_matched_max_calibration", True),
+    ("Conv+Add sites only, 128 img", "recipe_v1_summary.json", "int8_matched_convadd_calibration", True),
+    ("FP8 compute sites (shared mask)", "recipe_v3_summary.json", "int8_matched_shared_mask_512cal", True),
+    ("Both heads only", "recipe_v4_summary.json", "int8_matched_heads_only", True),
+    ("Regression head only", "recipe_v5_summary.json", "int8_matched_reg_head_only", True),
+    ("Classification head only", "recipe_v5_summary.json", "int8_matched_cls_head_only", False),
+    ("Backbone + FPN only", "recipe_v4_summary.json", "int8_matched_backbone_only", False),
+    ("All except regression head", "recipe_v6_summary.json", "int8_matched_except_reg_head", False),
+    ("FP8 matched, 128 img (reference)", "pilot_v1_summary.json", "fp8_matched_calibration", None),
+    ("FP32 (reference)", "pilot_v1_summary.json", "fp32", None),
 ]
 
 
@@ -293,14 +295,21 @@ def _phase_a_ap(summary_file: str, treatment: str) -> float:
 
 
 def decomposition_table() -> str:
-    rows = [(label, f"{_phase_a_ap(sf, t):.2f}")
-            for label, sf, t in _DECOMPOSITION_ARMS]
+    rows = []
+    for label, sf, t, reg in _DECOMPOSITION_ARMS:
+        ap = f"{_phase_a_ap(sf, t):.2f}"
+        flag = {True: "yes", False: "no", None: "--"}[reg]
+        if label in ("Regression head only", "All except regression head"):
+            label, ap = rf"\textbf{{{label}}}", rf"\textbf{{{ap}}}"
+        rows.append(f"{label} & {flag} & {ap} \\\\")
+        if label.startswith(r"\textbf{Regression") or t == "int8_matched_except_reg_head":
+            rows.append(r"\addlinespace[2pt]")
     return ("\n".join([
-        r"\begin{tabular}{lr}",
+        r"\begin{tabular}{lcr}",
         r"\toprule",
-        r"Recipe arm (KITTI diagnostic, single-point) & $\Jclean$ AP \\",
+        r"INT8 arm & Reg.\ head INT8 & $\Jclean$ AP \\",
         r"\midrule",
-        *[f"{name} & {val} \\\\" for name, val in rows],
+        *rows,
         r"\bottomrule",
         r"\end{tabular}"]) + "\n")
 
@@ -408,7 +417,7 @@ def intervention_figure(final: dict) -> None:
     metrics = (("j95", r"$\mathrm{J95}$ clean", "#7f7f7f"),
                ("in_family", "in-family", "#1f77b4"),
                ("held_out", "held-out", "#d62728"))
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.0), sharey=True)
+    fig, axes = plt.subplots(2, 1, figsize=(7.2, 5.6), sharex=True)
     for ax, (ds, dsname) in zip(axes, (("kitti", "KITTI"), ("voc", "VOC"))):
         con = final["retinanet"][ds]["intervention"]
         keep = [(k, lab) for k, lab in specs if k in con]
@@ -423,12 +432,12 @@ def intervention_figure(final: dict) -> None:
                    alpha=0.85, label=mname)
         ax.axhline(0, color="k", lw=0.8)
         ax.set_xticks(x)
-        ax.set_xticklabels([lab for _, lab in keep], fontsize=6.5,
-                           rotation=30, ha="right")
-        ax.set_title(dsname, fontsize=9)
+        ax.set_xticklabels([lab for _, lab in keep], fontsize=8.5)
+        ax.set_title(dsname, fontsize=10)
+        ax.tick_params(axis="y", labelsize=8.5)
+        ax.set_ylabel(r"$\Delta$AP vs clean-calibrated", fontsize=9)
         ax.grid(axis="y", alpha=0.25)
-    axes[0].set_ylabel(r"$\Delta$AP vs clean-calibrated counterpart")
-    axes[0].legend(fontsize=7, frameon=False)
+    axes[0].legend(fontsize=8.5, frameon=False, ncol=3, loc="lower left")
     fig.tight_layout()
     fig.savefig(FIG / "nn_intervention.pdf", **PDF_META)
     plt.close(fig)
@@ -471,7 +480,10 @@ def fold_design_figure() -> None:
                 lw=1.1)
             ax.add_patch(box)
             ax.text(x + 0.72, y + 0.31, flab, ha="center", va="center",
-                    fontsize=7, color="white" if is_cal else out_col)
+                    fontsize=7.5, color="white" if is_cal else out_col,
+                    weight="bold" if not is_cal else "normal",
+                    bbox=None if is_cal else dict(boxstyle="round,pad=0.18", fc="white",
+                                                  ec="none", alpha=0.95))
         ax.annotate("", xy=(8.55, y + 0.31), xytext=(8.0, y + 0.31),
                     arrowprops=dict(arrowstyle="->", lw=0.9, color="k"))
         ax.text(8.72, y + 0.31, "test", fontsize=7, va="center")
@@ -592,7 +604,7 @@ def wa_factorial_table(final: dict) -> str:
             rows.append(
                 f"{dsname if i == 0 else ''} & {w} & {a} & {lv['j95']:.2f} & "
                 f"{lv['corr12']:.2f} & {ret:.2f} & "
-                f"{fmt_ci(entry['contrasts'][f'{arm}_minus_int8-matched512']['j95']) if arm != 'int8-matched512' else r'--'} \\\\")
+                f"{(bold if arm in ('int8-wonly512', 'int8-aonly512') else str)(fmt_ci(entry['contrasts'][f'{arm}_minus_int8-matched512']['j95'])) if arm != 'int8-matched512' else r'--'} \\\\")
         if ds == "kitti":
             rows.append(r"\addlinespace[4pt]")
     return ("\n".join([
@@ -608,7 +620,7 @@ def wa_factorial_table(final: dict) -> str:
 
 def wa_factorial_figure(final: dict) -> None:
     """J95 vs corrupt-mean AP for the four regression-head quantization states."""
-    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.7), sharey=False)
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.1), sharey=False)
     base_col = "#1f77b4"
     for ax, (ds, dsname) in zip(axes, (("kitti", "KITTI"), ("voc", "VOC"))):
         arms = final["retinanet_wa"][ds]["arms"]
@@ -627,12 +639,12 @@ def wa_factorial_figure(final: dict) -> None:
         ax.axhline(base + fp8["point"], color="#1f77b4", lw=1, ls="--",
                    zorder=2)
         ax.set_xticks(x)
-        ax.set_xticklabels([f"{wt}/{at}" for _, wt, at in _WA_ARMS], fontsize=7.5)
-        ax.set_title(dsname, fontsize=9)
+        ax.set_xticklabels([f"{wt}/{at}" for _, wt, at in _WA_ARMS], fontsize=9)
+        ax.set_title(dsname, fontsize=10)
         ax.grid(axis="y", alpha=0.25, zorder=0)
-        ax.tick_params(labelsize=7.5)
-        ax.set_xlabel("head weights / head activations", fontsize=7.5)
-    axes[0].set_ylabel("AP", fontsize=8)
+        ax.tick_params(labelsize=9)
+        ax.set_xlabel("head weights / head activations", fontsize=9)
+    axes[0].set_ylabel("AP", fontsize=9.5)
     from matplotlib.patches import Patch
     from matplotlib.lines import Line2D
     handles = [Patch(fc=base_col, label="clean AP (codec basis)"),
@@ -640,7 +652,7 @@ def wa_factorial_figure(final: dict) -> None:
                Patch(fc="w", hatch="//", ec="k", label="hatched: INT8 weights"),
                Line2D([0], [0], color="#1f77b4", ls="--", lw=1,
                       label="FP8-matched clean AP")]
-    fig.legend(handles=handles, fontsize=7.2, frameon=False, ncol=2,
+    fig.legend(handles=handles, fontsize=9, frameon=False, ncol=2,
                loc="upper center", bbox_to_anchor=(0.5, 1.0))
     fig.tight_layout(rect=(0, 0, 1, 0.84))
     fig.savefig(FIG / "nn_wa_factorial.pdf", **PDF_META)
@@ -659,18 +671,19 @@ def iou_size_table() -> str:
     label = {
         "fp8-matched512": "FP8-matched",
         "int8-matched512": "INT8-matched",
-        "int8-selective512": "INT8-selective (reg-head fp16)",
-        "int8-wonly512": "W-only (INT8 W / fp16 A)",
-        "int8-aonly512": "A-only (fp16 W / INT8 A)",
+        "int8-selective512": "INT8-selective",
+        "int8-wonly512": "W-only",
+        "int8-aonly512": "A-only",
     }
     stat = ["AP", "AP50", "AP75", "AP_small", "AP_medium", "AP_large"]
     rows = []
     for ds, dsname in (("kitti_val", "KITTI"), ("voc_val", "VOC")):
         for i, arm in enumerate(order):
             cell = data[f"{ds}::{arm}"]["codec-control-s0"]
-            rows.append(
-                f"{dsname if i == 0 else ''} & {label[arm]} & "
-                + " & ".join(f"{cell[s]:.1f}" for s in stat) + r" \\")
+            hot = arm in ("int8-matched512", "int8-aonly512")
+            vals = [f"\\textbf{{{cell[s]:.1f}}}" if hot and s in ("AP75", "AP_small") else f"{cell[s]:.1f}"
+                    for s in stat]
+            rows.append(f"{dsname if i == 0 else ''} & {label[arm]} & " + " & ".join(vals) + r" \\")
         if ds == "kitti_val":
             rows.append(r"\addlinespace[4pt]")
     return ("\n".join([
@@ -696,7 +709,7 @@ def fcos_replication_table(final: dict) -> str:
             fs = block["fp8-matched512_minus_int8-selective512"]
             rows.append(
                 f"{det} & {dsname} & {fmt_ci(fm['j95'])} & {fmt_ci(fm['deltaE'])} & "
-                f"{fmt_ci(sm['j95'])} & {fmt_ci(sm['deltaE'])} & "
+                f"{bold(fmt_ci(sm['j95']))} & {fmt_ci(sm['deltaE'])} & "
                 f"{fmt_ci(fs['j95'])} \\\\")
         rows.append(r"\addlinespace[3pt]")
     rows.pop()
@@ -931,19 +944,19 @@ def maxcalib_table(final: dict) -> str:
         rows.append(r"\addlinespace[2pt]")
         for arm, label in (("int8-max512", "INT8-matched (max)"),
                            ("int8-maxsel512", "INT8-selective (max)"),
-                           ("int8-maxreg512", "INT8-matched (max, reg head only)")):
+                           ("int8-maxreg512", "INT8-matched (max, reg.-consumed quantizers)")):
             a = ent["arms"].get(arm)
             if not a:
                 continue
             rows.append(" & \\textbf{%s} & %.3f & %.3f & %.3f \\\\" % (
-                label, a["j95"], a["codec_control"], a["corr12"]))
+                label, a["clean"], a["codec_control"], a["corr12"]))
         rows.append(r"\addlinespace[3pt]")
     if rows and rows[-1] == r"\addlinespace[3pt]":
         rows.pop()
     return ("\n".join([
         r"\begin{tabular}{llccc}",
         r"\toprule",
-        r"Dataset & Arm & $\Jclean$ clean & codec ctrl. & corrupt mean \\",
+        r"Dataset & Arm & Orig.\ clean & $\Jclean$ (codec ctrl.) & corrupt mean \\",
         r"\midrule",
         *rows,
         r"\bottomrule",
@@ -951,9 +964,10 @@ def maxcalib_table(final: dict) -> str:
 
 
 def holdout_table(final: dict) -> str:
-    """KITTI final-holdout check (B8): plug-in AP points, no intervals.
+    """KITTI training-partition consistency check (B8): plug-in AP points, no intervals.
 
-    Rows: the four factorial arms on the 1,197-image untouched holdout, then
+    Rows: the four factorial arms on the 1,197-image final partition of the
+    later resplit (inside the checkpoint's training data -- not a holdout), then
     the same arms on the 1,496-image selection partition for reference."""
     ho = final.get("kitti_holdout", {})
     ent = ho.get("kitti_holdout/retinanet_r50_fpn_v2")
@@ -973,8 +987,8 @@ def holdout_table(final: dict) -> str:
     rows = []
     for arm, label in labels:
         a = ent["arms"][arm]
-        rows.append("Holdout & %s & %.2f & %.2f & %.2f \\\\" % (
-            label, a["j95"], a["codec_control"], a["corr12"]))
+        rows.append("Final (seen) & %s & %.2f & %.2f & %.2f \\\\" % (
+            label, a["clean"], a["codec_control"], a["corr12"]))
     rows.append(r"\addlinespace[2pt]")
     for arm, label in labels:
         cells = sel.get(arm)
@@ -987,7 +1001,7 @@ def holdout_table(final: dict) -> str:
     return ("\n".join([
         r"\begin{tabular}{llccc}",
         r"\toprule",
-        r"Split & Arm & $\Jclean$ clean & codec ctrl. & corrupt mean \\",
+        r"Split & Arm & Orig.\ clean & $\Jclean$ (codec ctrl.) & corrupt mean \\",
         r"\midrule",
         *rows,
         r"\bottomrule",
@@ -1061,6 +1075,16 @@ def numbers_tex(final: dict) -> str:
         w = het["within_dataset"][ds]
         macros[f"HetQ{D}"] = f"{w['Q']:.1f}"
         macros[f"HetP{D}"] = f"{w['p']:.2f}" if w["p"] >= 0.01 else sci(w["p"])
+    gls = het.get("gls")
+    if gls:  # covariance-aware sensitivity (shared-schedule covariance)
+        macros["HetGlsQ"] = f"{gls['Q']:.1f}"
+        macros["HetGlsP"] = sci(gls["p"])
+        macros["HetGlsDraws"] = f"{gls['n_draws']:,}".replace(",", "{,}")
+        for ds, D in (("kitti", "Kitti"), ("voc", "Voc"), ("coco", "Coco")):
+            w = gls["within_dataset"][ds]
+            macros[f"HetGlsQ{D}"] = f"{w['Q']:.1f}"
+            macros[f"HetGlsP{D}"] = f"{w['p']:.2f}" if w["p"] >= 0.01 else sci(w["p"])
+        macros["VocNmZGls"] = f"{gls['voc_n_minus_m']['z']:.1f}"
     macros["HolmSurvivors"] = str(sum(b["p_holm"] < 0.05 for b in y["blocks"]))
     _tau = het["tau"]
     _w = [1.0 / (b["se"] ** 2 + _tau ** 2) for b in y["blocks"]]
@@ -1368,28 +1392,149 @@ def numbers_tex(final: dict) -> str:
                        ("int8-maxreg512", "MaxReg")):
             a = ent["arms"].get(arm)
             if a:
-                macros[f"Mc{A}J{K}"] = f"{a['j95']:.2f}"
+                macros[f"Mc{A}J{K}"] = f"{a['clean']:.2f}"  # orig. clean (name kept)
                 macros[f"Mc{A}C{K}"] = f"{a['corr12']:.2f}"
         ct = ent["contrasts"].get("maxsel_minus_max")
         if ct:
-            macros[f"McSelGainJ{K}"] = f"{ct['j95']:.2f}"
+            macros[f"McSelGainJ{K}"] = f"{ct['clean']:.2f}"
             macros[f"McSelGainC{K}"] = f"{ct['corr12']:.2f}"
-    # ---- B8: KITTI final-holdout check macros (points, no intervals) ----
+    # ---- B8: KITTI final-partition (training-exposed) re-evaluation macros (points, no intervals) ----
     ho = final.get("kitti_holdout", {}).get("kitti_holdout/retinanet_r50_fpn_v2", {})
     for arm, A in (("int8-matched512", "Mat"), ("int8-selective512", "Sel"),
                    ("int8-wonly512", "Wo"), ("int8-aonly512", "Ao")):
         a = ho.get("arms", {}).get(arm)
         if a:
-            macros[f"Ho{A}J"] = f"{a['j95']:.2f}"
+            macros[f"Ho{A}J"] = f"{a['clean']:.2f}"  # orig. clean (name kept)
             macros[f"Ho{A}C"] = f"{a['corr12']:.2f}"
             macros[f"Ho{A}Codec"] = f"{a['codec_control']:.2f}"
     ct = ho.get("contrasts", {}).get("sel_minus_mat")
     if ct:
-        macros["HoSelGainJ"] = f"{ct['j95']:.2f}"
+        macros["HoSelGainJ"] = f"{ct['clean']:.2f}"
         macros["HoSelGainC"] = f"{ct['corr12']:.2f}"
+    # ---- IoU / object-size profile of the KITTI matched deficit (J95 basis) ----
+    iou = json.loads((ROOT / "submission_support_20260911" / "phase_b_results"
+                      / "nn_iou_size_metrics.json").read_text())
+    fe = iou["kitti_val::fp8-matched512"]["codec-control-s0"]
+    im = iou["kitti_val::int8-matched512"]["codec-control-s0"]
+    pts = lambda d, k: float(d[k])  # nn_iou_size_metrics.json stores AP points
+    macros["IouGapSeventyFiveKitti"] = f"{pts(fe, 'AP75') - pts(im, 'AP75'):.1f}"
+    macros["IouGapFiftyKitti"] = f"{pts(fe, 'AP50') - pts(im, 'AP50'):.1f}"
+    macros["IouApSmallInKitti"] = f"{pts(im, 'AP_small'):.1f}"
+    macros["IouApSmallFeKitti"] = f"{pts(fe, 'AP_small'):.1f}"
+    macros["IouGapLargeKitti"] = f"{pts(fe, 'AP_large') - pts(im, 'AP_large'):.1f}"
+    # ---- drive-clustered KITTI sensitivity (phase M) ----
+    cl = final.get("kitti_drive_cluster")
+    if cl:
+        macros["ClDrives"] = str(cl["n_drives"])
+        macros["ClChanged"] = str(cl["n_changed"])
+        macros["ClClaims"] = str(len(cl["rows"]))
+        macros["ClWidthMed"] = f"{cl['median_width_ratio']:.1f}"
+        macros["ClWidthMax"] = f"{max(r['width_ratio'] for r in cl['rows']):.1f}"
+        macros["ClWidthMin"] = f"{min(r['width_ratio'] for r in cl['rows']):.1f}"
+        by = {r["claim"]: r for r in cl["rows"]}
+        for claim, K in (("YOLO11x DeltaE (FP8-INT8)", "YoloXKitti"),
+                         ("YOLO11m DeltaE (FP8-INT8)", "YoloMKitti"),
+                         ("FCOS FP8-INT8 matched, J95", "FcosFmJKitti"),
+                         ("RetinaNet FP8-INT8 matched, J95 gap", "RetFmJKitti"),
+                         ("RetinaNet selective-matched, J95", "RetSmJKitti")):
+            if claim in by:
+                macros[f"Cl{K}"] = _ci(by[claim]["drive"])
+    # ---- genuine KITTI holdout (phase N) ----
+    h2 = final.get("kitti_holdout_v2", {})
+    tags = {"fp32": "Fp", "fp8-matched512": "Fe", "int8-matched512": "In", "int8-selective512": "Sel",
+            "int8-wonly512": "Wo", "int8-aonly512": "Ao"}
+    for part, P in (("final_image", "Fin"), ("val_image", "Val")):
+        ent = h2.get(part)
+        if not ent:
+            continue
+        for arm, T in tags.items():
+            if arm in ent["arms"]:
+                macros[f"Hv{P}{T}J"] = f"{ent['arms'][arm]['j95']:.2f}"
+                macros[f"Hv{P}{T}C"] = f"{ent['arms'][arm]['corr12']:.2f}"
+        for key, K in (("fp8-matched512_minus_int8-matched512", "FmIn"),
+                       ("int8-selective512_minus_int8-matched512", "SelIn"),
+                       ("fp8-matched512_minus_int8-selective512", "FeSel"),
+                       ("int8-wonly512_minus_int8-matched512", "WoIn"),
+                       ("int8-aonly512_minus_int8-matched512", "AoIn"),
+                       ("int8-selective512_minus_int8-wonly512", "SelWo"),
+                       ("fp32_minus_int8-selective512", "FpSel")):
+            c = ent["contrasts"].get(key)
+            if c:
+                macros[f"Hv{P}{K}J"] = _ci(c["j95"])
+                macros[f"Hv{P}{K}JP"] = _signed(c["j95"]["point"])
+                macros[f"Hv{P}{K}C"] = _ci(c["corr12"])
+                macros[f"Hv{P}{K}DE"] = _ci(c["deltaE"])
+        if "operand_interaction" in ent["contrasts"]:
+            macros[f"Hv{P}IxJ"] = _ci(ent["contrasts"]["operand_interaction"]["j95"])
+    fd = h2.get("final_drive")
+    if fd:
+        for key, K in (("fp8-matched512_minus_int8-matched512", "FmIn"),
+                       ("int8-selective512_minus_int8-matched512", "SelIn"),
+                       ("fp8-matched512_minus_int8-selective512", "FeSel"),
+                       ("int8-aonly512_minus_int8-matched512", "AoIn")):
+            c = fd["contrasts"].get(key)
+            if c:
+                macros[f"HvDrv{K}J"] = _ci(c["j95"])
     lines = ["% Generated by analysis/build_nn_tables.py from nn_final_stats.json"]
     lines += [f"\\newcommand{{\\nn{k}}}{{{v}}}" for k, v in sorted(macros.items())]
     return "\n".join(lines) + "\n"
+
+
+def cluster_sensitivity_table(final: dict) -> str:
+    """Supplement: image- vs drive-resampled 95% intervals for KITTI claims."""
+    cl = final["kitti_drive_cluster"]
+    rows = []
+    for r in cl["rows"]:
+        flag = "" if r["image_excludes_zero"] == r["drive_excludes_zero"] else r" $\dagger$"
+        claim = r["claim"].replace("DeltaE", r"$\Delta E$").replace("J95", r"$\Jclean$")
+        rows.append(f"{claim}{flag} & {fmt_ci(r['image'])} & {fmt_ci(r['drive'])} & "
+                    f"{r['width_ratio']:.2f} \\\\")
+    return "\n".join([
+        r"\begin{tabular}{lccc}",
+        r"\toprule",
+        r"Claim (KITTI) & Image bootstrap & Drive bootstrap & Width ratio \\",
+        r"\midrule", *rows, r"\bottomrule", r"\end{tabular}"]) + "\n"
+
+
+_HO2_ARMS = (("fp32", "FP32"), ("fp8-matched512", "FP8-matched"), ("int8-matched512", "INT8-matched"),
+             ("int8-selective512", "INT8-selective"), ("int8-wonly512", "INT8 W-only"),
+             ("int8-aonly512", "INT8 A-only"))
+_HO2_CONTRASTS = (("fp8-matched512_minus_int8-matched512", "FP8-matched $-$ INT8-matched"),
+                  ("int8-selective512_minus_int8-matched512", "INT8-selective $-$ INT8-matched"),
+                  ("fp8-matched512_minus_int8-selective512", "FP8-matched $-$ INT8-selective"),
+                  ("int8-wonly512_minus_int8-matched512", "W-only $-$ INT8-matched"),
+                  ("int8-aonly512_minus_int8-matched512", "A-only $-$ INT8-matched"),
+                  ("int8-selective512_minus_int8-wonly512", "INT8-selective $-$ W-only"),
+                  ("fp32_minus_int8-selective512", "FP32 $-$ INT8-selective"))
+
+
+def holdout_v2_table(final: dict) -> str:
+    """Supplement: genuine KITTI holdout -- arm levels, then paired contrasts."""
+    h = final["kitti_holdout_v2"]
+    fi, fd, va = h["final_image"], h.get("final_drive"), h.get("val_image")
+    lv = []
+    for arm, label in _HO2_ARMS:
+        a, v = fi["arms"][arm], (va["arms"][arm] if va else None)
+        sel = f"{v['j95']:.2f} & {v['corr12']:.2f}" if v else "-- & --"
+        lv.append(f"{label} & {a['clean']:.2f} & {a['j95']:.2f} & {a['corr12']:.2f} & {sel} \\\\")
+    ct = []
+    for key, label in _HO2_CONTRASTS:
+        c = fi["contrasts"][key]
+        drv = fmt_ci(fd["contrasts"][key]["j95"]) if fd else "--"
+        ct.append(f"{label} & {fmt_ci(c['j95'])} & {drv} & {fmt_ci(c['corr12'])} \\\\")
+    return "\n".join([
+        r"\begin{tabular}{lrrrrr}",
+        r"\toprule",
+        r" & \multicolumn{3}{c}{Final holdout} & \multicolumn{2}{c}{Selection set} \\",
+        r"\cmidrule(lr){2-4}\cmidrule(lr){5-6}",
+        r"Arm & Orig.\ clean & $\Jclean$ & Corrupt & $\Jclean$ & Corrupt \\",
+        r"\midrule", *lv, r"\bottomrule", r"\end{tabular}",
+        r"",
+        r"\medskip",
+        r"\begin{tabular}{llll}",
+        r"\toprule",
+        r"Contrast (final holdout) & $\Jclean$, image & $\Jclean$, drive & Corrupt mean, image \\",
+        r"\midrule", *ct, r"\bottomrule", r"\end{tabular}"]) + "\n"
 
 
 def main() -> None:
@@ -1432,6 +1577,10 @@ def main() -> None:
         write(GEN / "nn_maxcalib.tex", maxcalib_table(final))
     if "kitti_holdout" in final:
         write(GEN / "nn_holdout.tex", holdout_table(final))
+    if "kitti_drive_cluster" in final:
+        write(GEN / "nn_cluster_sensitivity.tex", cluster_sensitivity_table(final))
+    if "kitti_holdout_v2" in final and "final_image" in final["kitti_holdout_v2"]:
+        write(GEN / "nn_holdout_v2.tex", holdout_v2_table(final))
 
 
 if __name__ == "__main__":

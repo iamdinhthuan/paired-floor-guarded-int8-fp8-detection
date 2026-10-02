@@ -1,0 +1,34 @@
+{
+ "schema_version": 1,
+ "script": "src/patch_maxreg_scales.py",
+ "rule": "scale := fp16(per_channel.amax_max/127) from outputs/analysis/nn_actstats/<ds>_retinanet.json for every activation QuantizeLinear whose DQ output feeds a /head/regression_head/ node (25 quantizers, 50 Q/DQ scale initializers, incl. 5 FPN-boundary tensors shared with the classification head)",
+ "verified_utc": "2026-10-02",
+ "results": {
+  "kitti": {
+   "reproduced_sha256": "22d6dd652e5ba204be24877f4265a259978c5599fe3132260bda073c27fc61ef",
+   "archived_sha256": "22d6dd652e5ba204be24877f4265a259978c5599fe3132260bda073c27fc61ef",
+   "nodes_identical": true,
+   "initializers_identical": true,
+   "opset_identical": true,
+   "producer": [
+    "onnx.quantize 0.1.0",
+    "onnx.quantize 0.1.0"
+   ],
+   "registry_output_onnx_sha256": "22d6dd652e5ba204be24877f4265a259978c5599fe3132260bda073c27fc61ef",
+   "archived_matches_registry": true
+  },
+  "voc": {
+   "reproduced_sha256": "a5c0991683a36cc081605a5c8cc8a108602bdfd8b118c670ba177131cf54d390",
+   "archived_sha256": "b18f156b3bc556a95bd60afad6cd3ab08158e9b56a24a7edf7c595d62e8f55b7",
+   "nodes_identical": true,
+   "initializers_identical": true,
+   "opset_identical": true,
+   "producer": [
+    "onnx.quantize 0.1.0",
+    "onnx.quantize 0.1.0"
+   ],
+   "registry_output_onnx_sha256": "b18f156b3bc556a95bd60afad6cd3ab08158e9b56a24a7edf7c595d62e8f55b7",
+   "archived_matches_registry": true
+  }
+ }
+}
