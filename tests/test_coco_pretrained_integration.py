@@ -94,7 +94,7 @@ def test_final_stats_carry_coco_pretrained_block() -> None:
 def test_manuscript_references_pretrained_table() -> None:
     text = MAIN.read_text(encoding="utf-8")
     assert "\\input{generated/nn_coco_pretrained.tex}" in text
-    assert "sec:coco-pretrained" in text
+    assert "tab:coco-pretrained" in text
     table_path = GENERATED / "nn_coco_pretrained.tex"
     draws_ready = len(list((PHASE_I / "bootstrap").glob("*__draws.npz"))) >= 2
     if table_path.is_file() and draws_ready:

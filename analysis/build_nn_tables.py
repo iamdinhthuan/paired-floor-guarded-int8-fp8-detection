@@ -124,31 +124,18 @@ def load_points() -> dict:
     return merged
 
 
-def retinanet_arms_table(summary: dict, report: dict) -> str:
+def _retinanet_arm_values(summary: dict, keys: list[str]) -> dict:
+    """(dataset, arm) -> (original clean, J95, 12-cell corrupt mean) AP points."""
     points = load_points()
     bpoints = json.loads((PHASE_B / "cell_points.json").read_text())
     corr_conds = [f"{c}-s{s}" for c in
                   ("fog", "gaussian_noise", "jpeg", "motion_blur")
                   for s in (1, 3, 5)]
-    rows = []
-    arm_names = [
-        ("fp32", "FP32 reference"),
-        ("fp8-matched512", "FP8-matched"),
-        ("int8-legacy", "INT8-legacy (contract mismatch)"),
-        ("int8-matched512", "INT8-matched"),
-        ("int8-selective512", "INT8-selective (reg-head fp16)"),
-        ("int8-q95calib512", "INT8-q95calib (codec control)"),
-        ("int8-sel-q95calib512", "INT8-sel-q95calib"),
-        ("int8-corruptcalib512", "INT8-corruptcalib"),
-        ("int8-sel-corruptcalib512", "INT8-sel-corruptcalib"),
-        ("int8-cc2calib512", "INT8-cc2calib (fold 2)"),
-        ("int8-sel-cc2calib512", "INT8-sel-cc2calib (fold 2)"),
-    ]
     vals: dict = {}
     for ds in ("kitti", "voc"):
         blk = next(b for b in summary["blocks"]
                    if b["dataset"] == ds and b["model"] == "retinanet_r50_fpn_v2")
-        for key, _ in arm_names:
+        for key in keys:
             pa_b = bpoints.get(f"{ds}/retinanet_r50_fpn_v2", {}).get(key)
             if pa_b is not None:
                 # Full-precision plug-in values from the per-cell metric records.
@@ -166,6 +153,25 @@ def retinanet_arms_table(summary: dict, report: dict) -> str:
                     continue
                 clean, q95, corr = pa["clean"], pa["q95"], pa["corr12"]
             vals[(ds, key)] = (clean, q95, corr)
+    return vals
+
+
+def retinanet_arms_table(summary: dict, report: dict) -> str:
+    rows = []
+    arm_names = [
+        ("fp32", "FP32 reference"),
+        ("fp8-matched512", "FP8-matched"),
+        ("int8-legacy", "INT8-legacy (contract mismatch)"),
+        ("int8-matched512", "INT8-matched"),
+        ("int8-selective512", "INT8-selective (reg-head fp16)"),
+        ("int8-q95calib512", "INT8-q95calib (codec control)"),
+        ("int8-sel-q95calib512", "INT8-sel-q95calib"),
+        ("int8-corruptcalib512", "INT8-corruptcalib"),
+        ("int8-sel-corruptcalib512", "INT8-sel-corruptcalib"),
+        ("int8-cc2calib512", "INT8-cc2calib (fold 2)"),
+        ("int8-sel-cc2calib512", "INT8-sel-cc2calib (fold 2)"),
+    ]
+    vals = _retinanet_arm_values(summary, [k for k, _ in arm_names])
     emph = {"int8-matched512", "int8-selective512"}
     for key, label in arm_names:
         cells = [label]
@@ -183,6 +189,88 @@ def retinanet_arms_table(summary: dict, report: dict) -> str:
         r" & \multicolumn{3}{c}{KITTI} & \multicolumn{3}{c}{VOC} \\",
         r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}",
         r"Arm & Clean & $\Jclean$ & Corrupt & Clean & $\Jclean$ & Corrupt \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}"]) + "\n")
+
+
+# ---------------- Repair-strategy comparison ----------------
+
+# Retraining-free repairs of the RetinaNet INT8-matched deficit. "calib" rows
+# change only the calibration data or range estimator; the selective row
+# changes only which region is quantized.
+REPAIR_ROWS = [
+    ("int8-matched512", "Standard INT8 (entropy, matched)", "--", "ref"),
+    ("int8-q95calib512", "Codec-matched calibration", "calibration images", "calib"),
+    ("int8-corruptcalib512", "Corruption-aware calibration, fold 1", "calibration images", "calib"),
+    ("int8-cc2calib512", "Corruption-aware calibration, fold 2", "calibration images", "calib"),
+    ("int8-max512", "Max calibration, whole graph", "range estimator", "calib"),
+    ("int8-maxreg512", "Max calibration, reg.-head quantizers", "range estimator", "calib"),
+    ("int8-selective512", "Selective precision (proposed)", "quantized region", "sel"),
+    ("fp8-matched512", "FP8 (entropy, matched)", "number format", "fmt"),
+    ("fp32", "FP32 reference", "no quantization", "fmt"),
+]
+
+
+def repair_values(summary: dict, final: dict) -> dict:
+    """(dataset, arm) -> (J95 AP, corrupt-mean AP); J95 falls back to original clean
+    for the FP32 reference, which predates the codec control."""
+    keys = [k for k, *_ in REPAIR_ROWS]
+    base = _retinanet_arm_values(summary, keys)
+    out = {}
+    for (ds, key), (clean, q95, corr) in base.items():
+        out[(ds, key)] = (q95 if q95 == q95 else clean, corr, q95 != q95)
+    for ds in ("kitti", "voc"):
+        arms = final.get("maxcalib", {}).get(ds, {}).get("arms", {})
+        for key in ("int8-max512", "int8-maxreg512"):
+            if key in arms:
+                out[(ds, key)] = (arms[key]["codec_control"], arms[key]["corr12"], False)
+    return out
+
+
+def repair_margins(vals: dict) -> dict:
+    """Selective precision minus the best calibration-only repair, per dataset."""
+    res = {}
+    for ds in ("kitti", "voc"):
+        calib = [(k, vals[(ds, k)]) for k, _, _, kind in REPAIR_ROWS
+                 if kind == "calib" and (ds, k) in vals]
+        sel_j, sel_c, _ = vals[(ds, "int8-selective512")]
+        ref_j, ref_c, _ = vals[(ds, "int8-matched512")]
+        best_j = max(calib, key=lambda kv: kv[1][0])
+        best_c = max(calib, key=lambda kv: kv[1][1])
+        res[ds] = {"sel_minus_best_j": sel_j - best_j[1][0], "best_j_arm": best_j[0],
+                   "sel_minus_best_c": sel_c - best_c[1][1], "best_c_arm": best_c[0],
+                   "best_calib_gain_j": best_j[1][0] - ref_j,
+                   "sel_gain_j": sel_j - ref_j, "sel_gain_c": sel_c - ref_c}
+    return res
+
+
+def repair_comparison_table(summary: dict, final: dict) -> str:
+    vals = repair_values(summary, final)
+    rows = []
+    for key, label, changed, kind in REPAIR_ROWS:
+        cells = [label, changed]
+        for ds in ("kitti", "voc"):
+            if (ds, key) not in vals:
+                cells += ["--"] * 3
+                continue
+            j, c, orig = vals[(ds, key)]
+            ref_j = vals[(ds, "int8-matched512")][0]
+            delta = "--" if kind == "ref" or orig else f"${_signed(j - ref_j)}$"
+            jtxt = f"{j:.2f}" + (r"\textsuperscript{a}" if orig else "")
+            cells += [jtxt, delta, f"{c:.2f}"]
+        if kind == "sel":
+            cells = [r"\textbf{" + x + "}" for x in cells]
+        rows.append(" & ".join(cells) + r" \\")
+        if key in ("int8-maxreg512", "int8-selective512"):
+            rows.append(r"\addlinespace[2pt]")
+    return ("\n".join([
+        r"\begin{tabular}{@{}llrrrrrr@{}}",
+        r"\toprule",
+        r" & & \multicolumn{3}{c}{KITTI} & \multicolumn{3}{c}{VOC} \\",
+        r"\cmidrule(lr){3-5}\cmidrule(l){6-8}",
+        r"Strategy & Changed component & $\Jclean$ & $\Delta$ & Corrupt & $\Jclean$ & $\Delta$ & Corrupt \\",
         r"\midrule",
         *rows,
         r"\bottomrule",
@@ -1086,6 +1174,8 @@ def numbers_tex(final: dict) -> str:
             macros[f"HetGlsP{D}"] = f"{w['p']:.2f}" if w["p"] >= 0.01 else sci(w["p"])
         macros["VocNmZGls"] = f"{gls['voc_n_minus_m']['z']:.1f}"
     macros["HolmSurvivors"] = str(sum(b["p_holm"] < 0.05 for b in y["blocks"]))
+    macros["HolmSurvivorsWord"] = ["no", "one", "two", "three", "four", "five", "six", "seven",
+                                   "eight", "nine"][sum(b["p_holm"] < 0.05 for b in y["blocks"])]
     _tau = het["tau"]
     _w = [1.0 / (b["se"] ** 2 + _tau ** 2) for b in y["blocks"]]
     _mu = sum(wi * b["point"] for wi, b in zip(_w, y["blocks"])) / sum(_w)
@@ -1475,6 +1565,26 @@ def numbers_tex(final: dict) -> str:
             c = fd["contrasts"].get(key)
             if c:
                 macros[f"HvDrv{K}J"] = _ci(c["j95"])
+    rv = repair_values(json.loads((PHASE_B / "summary.json").read_text()), final)
+    for ds, D in (("kitti", "Kitti"), ("voc", "Voc")):
+        m = repair_margins(rv)[ds]
+        macros[f"RepSelOverCalibJ{D}"] = f"{m['sel_minus_best_j']:.1f}"
+        macros[f"RepSelOverCalibC{D}"] = f"{m['sel_minus_best_c']:.1f}"
+        macros[f"RepBestCalibGainJ{D}"] = _signed(m["best_calib_gain_j"])
+    # Retained share of the FP8-matched J95 level on the retrained holdout.
+    hv = final.get("kitti_holdout_v2", {}).get("final_image", {})
+    if hv:
+        c = hv["contrasts"]
+        gap = c["fp8-matched512_minus_int8-matched512"]["j95"]["point"]
+        rec = c["int8-selective512_minus_int8-matched512"]["j95"]["point"]
+        macros["HvRecovPct"] = f"{100 * rec / gap:.0f}"
+        sel = c["int8-selective512_minus_int8-matched512"]["j95"]
+        macros["HvSelGainPt"] = f"{sel['point']:.2f}"
+        macros["HvSelGainLo"] = f"{sel['ci95'][0]:.2f}"
+        macros["HvSelGainHi"] = f"{sel['ci95'][1]:.2f}"
+    n_calib = sum(1 for *_, kind in REPAIR_ROWS if kind == "calib")
+    macros["RepNCalibWord"] = ["zero", "one", "two", "three", "four", "five",
+                               "six", "seven"][n_calib]
     lines = ["% Generated by analysis/build_nn_tables.py from nn_final_stats.json"]
     lines += [f"\\newcommand{{\\nn{k}}}{{{v}}}" for k, v in sorted(macros.items())]
     return "\n".join(lines) + "\n"
@@ -1548,6 +1658,7 @@ def main() -> None:
     FIG.mkdir(parents=True, exist_ok=True)
     write(GEN / "nn_yolo_deltae.tex", yolo_deltae_table(summary, boot, final))
     write(GEN / "nn_retinanet_arms.tex", retinanet_arms_table(summary, report))
+    write(GEN / "nn_repair_comparison.tex", repair_comparison_table(summary, final))
     write(GEN / "nn_intervention.tex", intervention_table(final))
     write(GEN / "nn_decomposition.tex", decomposition_table())
     write(GEN / "nn_per_family.tex", per_family_table(final))

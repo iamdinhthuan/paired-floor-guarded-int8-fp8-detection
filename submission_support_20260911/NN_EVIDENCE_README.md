@@ -1,7 +1,8 @@
 # Neural Networks evidence bundle
 
-This compact evidence package accompanies the v3.0.4 manuscript release
-([10.5281/zenodo.23097634](https://doi.org/10.5281/zenodo.23097634)).
+This compact evidence package accompanies the v3.0.5 manuscript release
+([10.5281/zenodo.23331336](https://doi.org/10.5281/zenodo.23331336)); its
+evidence is unchanged from v3.0.4.
 The active paper is `paper/main_nn.tex` with `paper/supplement.tex`. Older
 CVIU-era notes were removed from this directory; the sealed historical package
 remains in the v2.2.0 archive (concept DOI 10.5281/zenodo.22031663).
@@ -33,10 +34,11 @@ input-ID digest, run record, engine registry, prediction digest, and input
 manifest marker. The raw prediction payloads, TensorRT engines, ONNX graphs,
 and dataset images are not included.
 
-The final partition contains 1,197 images and was excluded from model and
-recipe development. This is a post-hoc point-estimate check on a frame-level
-split; adjacent frames can cross partitions, so it is not sequence-disjoint
-evidence.
+The final partition contains 1,197 images. They were in the training
+partition of the original checkpoints (95 also in calibration), so the
+phase-L re-evaluation is a seen-image consistency check, not a holdout. The
+holdout is phase N, scored with a checkpoint retrained without these images;
+it is image-disjoint but not sequence-disjoint, because KITTI is split by frame.
 
 ## Redistribution boundary
 

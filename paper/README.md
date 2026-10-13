@@ -1,10 +1,12 @@
-# Neural Networks manuscript and reproducibility-package metadata
+# Knowledge-Based Systems manuscript and reproducibility-package metadata
 
 ## Manuscript
 
-**Title:** *Quantization fragility under image corruption is recipe-dependent: paired evidence from INT8 and FP8 object detectors*
+**Title:** *PDR: A paired diagnosis-and-repair framework for 8-bit object detectors under image corruption*
 
-**Target journal:** *Neural Networks* (Elsevier)
+**Target journal:** *Knowledge-Based Systems* (Elsevier).
+Numbered citations (`elsarticle-num`), abstract of at most 250 words, five
+highlights of at most 85 characters.
 
 This study shows that whether an 8-bit quantized object detector remains
 reliable under image corruption cannot be ordered by the format label: the
@@ -84,9 +86,11 @@ The CVIU-aligned `v2.1.0` source and compact-evidence package is archived at
 [10.5281/zenodo.22275640](https://doi.org/10.5281/zenodo.22275640). Its
 all-versions concept DOI is
 [10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663), which the
-manuscript and supplement cite; the Neural Networks release `v3.0.4` is
+manuscript and supplement cite; the Knowledge-Based Systems release `v3.0.5` is
 archived under the same concept DOI with version DOI
-[10.5281/zenodo.23097634](https://doi.org/10.5281/zenodo.23097634).
+[10.5281/zenodo.23331336](https://doi.org/10.5281/zenodo.23331336)
+(the earlier Neural Networks version is `v3.0.4`,
+[10.5281/zenodo.23097634](https://doi.org/10.5281/zenodo.23097634)).
 
 ## License
 

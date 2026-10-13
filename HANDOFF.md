@@ -1,8 +1,25 @@
-# HANDOFF — Neural Networks manuscript: quantization × corruption fragility
+# HANDOFF — Knowledge-Based Systems manuscript (PDR framework)
 
 Read this file first. It is the single self-contained briefing for continuing
-work on this repository. Target: *Neural Networks* (Elsevier), submission-ready
-state as of release **v3.0.4**.
+work on this repository.
+
+## 0. KBS retarget (2026-10-13)
+
+The manuscript was retargeted from *Neural Networks* (v3.0.4) to
+*Knowledge-Based Systems* and reframed as a method:
+PDR = paired diagnosis (Stage 1) -> region/operand localization (Stage 2) ->
+selective-precision repair (Stage 3) -> verification (Stage 4), with
+Algorithm 1, a repair-strategy comparison table
+(`generated/nn_repair_comparison.tex`, built by `repair_comparison_table` in
+`analysis/build_nn_tables.py`), decision rules (Section 6.2), numbered
+citations (`elsarticle-num`), nine verified KBS references, and 12 old or
+redundant references dropped. New title: *PDR: A paired diagnosis-and-repair framework for 8-bit object
+detectors under image corruption*.
+Glossary, rule table, evidence-layer table, RetinaNet arm table, family
+heatmap, and the historical exploratory analysis moved to the supplement.
+Evidence is unchanged; released as v3.0.5 (version DOI
+`10.5281/zenodo.23331336`, tag `v3.0.5`) with the author's approval.
+Sections 1-2 below describe the v3.0.4 (Neural Networks) state.
 
 ---
 
@@ -204,13 +221,15 @@ python3 -m pytest -q                                  # 110 passed, 4 skipped
 cd paper && PATH=/data_nvme/texlive/2026/bin/x86_64-linux:$PATH ./verify.sh
 sha256sum -c SOURCE_MANIFEST.sha256                   # inside paper/
 cd submission_package && sha256sum -c SHA256SUMS.txt  # all OK
-pdfinfo paper/main_nn.pdf | grep Pages                # 23
-pdfinfo paper/supplement.pdf | grep Pages             # 12
+pdfinfo paper/main_nn.pdf | grep Pages                # 15 (KBS version)
+pdfinfo paper/supplement.pdf | grep Pages             # 15
 pdftotext paper/main_nn.pdf - | grep -c 'deficit'     # >0, no broken ligatures
 ```
 
-Independent compile: unzip `submission_package/06_LaTeX_source_NN.zip` to a
-clean dir and `pdflatex` both `main_nn.tex` and `supplement.tex`.
+Independent compile: unzip `submission_package/06_LaTeX_source_KBS.zip` to a
+clean dir and `pdflatex` both `main_nn.tex` and `supplement.tex`. (The
+`submission_package/` now holds the KBS files, 01_KBS_main.pdf ...
+06_LaTeX_source_KBS.zip; the NN v3.0.4 bundle is in git history and on Zenodo.)
 
 ## 9. Next-version release procedure (v3.0.4 template)
 

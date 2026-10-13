@@ -1,0 +1,19 @@
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+ & & \multicolumn{3}{c}{KITTI} & \multicolumn{3}{c}{VOC} \\
+\cmidrule(lr){3-5}\cmidrule(l){6-8}
+Strategy & Changed component & $\Jclean$ & $\Delta$ & Corrupt & $\Jclean$ & $\Delta$ & Corrupt \\
+\midrule
+Standard INT8 (entropy, matched) & -- & 28.18 & -- & 20.37 & 53.18 & -- & 38.71 \\
+Codec-matched calibration & calibration images & 27.85 & $-0.34$ & 20.42 & 53.39 & $+0.20$ & 38.54 \\
+Corruption-aware calibration, fold 1 & calibration images & 29.74 & $+1.56$ & 21.71 & 53.91 & $+0.73$ & 39.35 \\
+Corruption-aware calibration, fold 2 & calibration images & 25.47 & $-2.71$ & 18.68 & 54.22 & $+1.04$ & 39.97 \\
+Max calibration, whole graph & range estimator & 14.18 & $-14.01$ & 7.82 & 0.00 & $-53.18$ & 0.00 \\
+Max calibration, reg.-head quantizers & range estimator & 27.43 & $-0.75$ & 19.58 & 52.16 & $-1.02$ & 37.93 \\
+\addlinespace[2pt]
+\textbf{Selective precision (proposed)} & \textbf{quantized region} & \textbf{49.53} & \textbf{$+21.35$} & \textbf{36.58} & \textbf{55.79} & \textbf{$+2.61$} & \textbf{40.52} \\
+\addlinespace[2pt]
+FP8 (entropy, matched) & number format & 49.25 & $+21.07$ & 36.75 & 56.21 & $+3.03$ & 41.48 \\
+FP32 reference & no quantization & 50.15\textsuperscript{a} & -- & 37.80 & 57.23\textsuperscript{a} & -- & 42.32 \\
+\bottomrule
+\end{tabular}

@@ -17,4 +17,4 @@ fi
 ./build.sh
 python3 scripts/make_manifest.py
 sha256sum -c SOURCE_MANIFEST.sha256 >/dev/null
-echo "Neural Networks manuscript-source verification passed."
+echo "Knowledge-Based Systems manuscript-source verification passed."

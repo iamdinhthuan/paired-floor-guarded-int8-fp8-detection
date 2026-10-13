@@ -1,0 +1,5 @@
+- Paired, codec-matched diagnosis isolates corruption effects in 8-bit detectors
+- FP8-INT8 corruption interaction reverses sign across nine YOLO11 blocks
+- Operand factorial traces RetinaNet INT8 collapse to regression head activations
+- Selective precision adds 13.85 clean AP over standard INT8 on held-out KITTI images
+- Corruption-aware calibration transfers inconsistently to held-out families

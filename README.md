@@ -1,19 +1,19 @@
-# Quantization fragility under image corruption is recipe-dependent
+# PDR: A paired diagnosis-and-repair framework for 8-bit object detectors under image corruption
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23097634.svg)](https://doi.org/10.5281/zenodo.23097634)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23331336.svg)](https://doi.org/10.5281/zenodo.23331336)
 
-Research software and compact evidence accompanying the *Neural Networks*
-manuscript. The active manuscript sources live in `paper/` (`main_nn.tex`,
+Research software and compact evidence accompanying the *Knowledge-Based
+Systems* manuscript. The active manuscript sources live in `paper/` (`main_nn.tex`,
 `supplement.tex`); `submission_package/` is the versioned upload bundle, not
 the editable source.
 
 - [Active manuscript README and build](paper/README.md)
-- [Current Neural Networks submission files](submission_package/)
-- [Current v3.0.4 reproducibility release](https://doi.org/10.5281/zenodo.23097634)
+- [Current submission files](submission_package/)
+- [Current v3.0.5 reproducibility release](https://doi.org/10.5281/zenodo.23331336)
 - [Historical CVIU-era v2.2.0 archive](https://doi.org/10.5281/zenodo.22664869)
 - [Current evidence inventory](submission_support_20260911/NN_EVIDENCE_README.md)
 
-## Current Neural Networks study
+## Current study
 
 The study evaluates executable INT8 and FP8 detectors under paired image
 corruptions. Across nine YOLO11 dataset-by-scale blocks, the corruption
@@ -52,8 +52,8 @@ clean fidelity are inspected alongside the interaction.
 
 | Path | Purpose |
 | --- | --- |
-| `paper/` | Active Neural Networks manuscript (`main_nn.tex`, `supplement.tex`), generated tables/figures, build and verify scripts, upload documents |
-| `submission_package/` | Current Neural Networks upload bundle; rebuild from `paper/` for each release |
+| `paper/` | Active Knowledge-Based Systems manuscript (`main_nn.tex`, `supplement.tex`), generated tables/figures, build and verify scripts, upload documents |
+| `submission_package/` | Current upload bundle; rebuild from `paper/` for each release |
 | `src/` | Training, export, inference, corruption and evaluator programs |
 | `analysis/` | Scientific analysis, validation and evidence packaging |
 | `configs/`, `manifests/` | Experimental settings and retained provenance |
@@ -70,22 +70,22 @@ An earlier CVIU-targeted revision of this project (v2.2.0, four-dataset
 exploratory plus selection-disjoint holdouts) is preserved unchanged at
 [10.5281/zenodo.22664869](https://doi.org/10.5281/zenodo.22664869), including
 its own sealed evidence package and verification scripts. It is historical
-context only; the current repository and the v3.0.4 release are the
-Neural Networks submission package.
+context only. The v3.0.4 release archived the Neural Networks submission; the
+current sources in `paper/` are the Knowledge-Based Systems revision.
 
 ## Compile the manuscript
 
 From `paper/`, `./build.sh` compiles `main_nn.tex` and `supplement.tex`
 independently with pdfLaTeX/BibTeX and `./verify.sh` regenerates
-`SOURCE_MANIFEST.sha256` and checks the audit chain. For the current Neural
-Networks upload files, see `submission_package/`; the packaged Overleaf-ready
-source is `06_LaTeX_source_NN.zip` there (upload it to Overleaf and compile
+`SOURCE_MANIFEST.sha256` and checks the audit chain. For the upload
+files, see `submission_package/` (regenerated for each release); the packaged Overleaf-ready
+source is `06_LaTeX_source_KBS.zip` there (upload it to Overleaf and compile
 `main_nn.tex`; compile `supplement.tex` separately).
 
 The flat source ZIP is a separate journal-upload alternative. The large
 research-evidence ZIP is not an Overleaf project. `submission_package/` holds
-the current Neural Networks upload files; it is regenerated from the active
-sources for each immutable release. The historical CVIU source/evidence
+the upload files; it is regenerated from the active sources for each
+immutable release. The historical CVIU source/evidence
 archive remains at [v2.2.0](https://doi.org/10.5281/zenodo.22664869).
 
 ## Tests and experimental reproduction
@@ -123,7 +123,7 @@ engines or credentials are published in this release.
 ## Citation, authors and funding
 
 Use [CITATION.cff](CITATION.cff) and version DOI
-[10.5281/zenodo.23097634](https://doi.org/10.5281/zenodo.23097634) (v3.0.4, Neural Networks submission); v3.0.3 ([10.5281/zenodo.23082850](https://doi.org/10.5281/zenodo.23082850)) is superseded because it described the KITTI "final" partition as an untouched holdout.
+[10.5281/zenodo.23331336](https://doi.org/10.5281/zenodo.23331336) (v3.0.5, Knowledge-Based Systems submission); v3.0.4 ([10.5281/zenodo.23097634](https://doi.org/10.5281/zenodo.23097634)) archived the earlier Neural Networks version; v3.0.3 ([10.5281/zenodo.23082850](https://doi.org/10.5281/zenodo.23082850)) is superseded because it described the KITTI "final" partition as an untouched holdout.
 The CVIU-era v2.2.0 is [10.5281/zenodo.22664869](https://doi.org/10.5281/zenodo.22664869).
 The all-versions concept DOI remains
 [10.5281/zenodo.22031663](https://doi.org/10.5281/zenodo.22031663).

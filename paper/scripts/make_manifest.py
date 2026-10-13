@@ -60,7 +60,7 @@ def main() -> None:
     files = sorted((p for p in ROOT.rglob("*") if included(p)), key=lambda p: p.relative_to(ROOT).as_posix())
     header = [
         "# SHA-256 manifest of manuscript sources and retained artifacts.",
-        "# Authoritative manuscript: main_nn.tex (Neural Networks submission).",
+        "# Authoritative manuscript: main_nn.tex (Knowledge-Based Systems submission).",
         "# CVIU-era files (main.tex, main_cviu_backup.tex, *_CVIU.*) are kept",
         "# for provenance only. Compiled PDFs are excluded (see build.sh).",
     ]

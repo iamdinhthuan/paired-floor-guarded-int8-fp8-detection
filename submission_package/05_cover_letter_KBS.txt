@@ -1,0 +1,24 @@
+13 October 2026
+
+Dear Editors of Knowledge-Based Systems,
+
+Please consider the manuscript "PDR: A paired diagnosis-and-repair framework for 8-bit object detectors under image corruption" for publication as a research article in Knowledge-Based Systems. It presents a method for selecting numerical precision in executable object detectors: baseline accuracy gaps are separated from corruption-associated changes, deficits are localized by region and operand, and repairs are verified for accuracy and deployment cost. The contribution is a diagnosis-guided deployment methodology rather than a new quantizer.
+
+Quantized object detectors are deployed on edge accelerators where images are degraded by noise, blur, weather, and compression. Current robustness evaluations compare number formats (INT8 versus FP8) on corrupted images alone. They confound the clean-image gap with the corruption effect, ignore how each engine is built, and cannot locate or repair a failure. The manuscript proposes PDR, a paired diagnosis-and-repair framework that overcomes these limitations: it feeds identical codec-matched bytes to the engines, estimates the corruption-induced change in their accuracy gap with common-image bootstrap inference, localizes any deficit to a model region and operand, and repairs it by keeping only that region in floating point, without retraining.
+
+The main results are as follows. First, across nine YOLO11 dataset-by-scale blocks on KITTI, PASCAL VOC, and COCO, the format-level corruption effect reverses sign, with Holm-significant blocks of both signs, although FP8 has higher absolute AP in every block; the format label alone therefore does not predict corruption behavior. Second, PDR traces a 21.2-AP INT8 collapse in RetinaNet to the activations consumed by the regression head. Third, the resulting selective-precision recipe outperforms the standard entropy-calibrated INT8 recipe by 13.85 clean-control AP (95% CI 12.76 to 15.00) on KITTI images excluded from training, selection, and calibration of a retrained checkpoint, where its difference to FP8 is statistically indistinguishable from zero. On the KITTI development set it exceeds the best of five calibration-only repairs by 19.8 AP, and its batch-1 engine latency is 8 to 11% below that of FP8. Corruption-aware calibration transfers inconsistently across two frozen folds. On anchor-free FCOS, where no INT8 deficit is detected, regression-head exclusion yields no measurable gain, so plain INT8 is retained.
+
+The work fits Knowledge-Based Systems because it contributes a reproducible, evidence-driven procedure and explicit decision rules for deploying compressed vision models in intelligent systems, in line with recent work in the journal on post-training quantization, robust detection, and decision support under perturbation.
+
+The manuscript is original, is not under consideration elsewhere, and all six authors have approved its submission. The research received no specific grant from funding agencies in the public, commercial, or not-for-profit sectors. Code, manuscript sources, and hash-bound evidence are archived in release v3.0.5 (version DOI 10.5281/zenodo.23331336) under concept DOI 10.5281/zenodo.22031663. Raw datasets, checkpoints, built engines, ONNX graphs, and raw predictions are not redistributed; their provenance and regeneration steps are documented. The manuscript includes data and code availability, funding, competing-interest, CRediT, and generative-AI declarations.
+
+Thank you for your consideration.
+
+Sincerely,
+
+Anh Vu Le
+Corresponding author
+Advanced Intelligent Technology Research Group
+Faculty of Electrical and Electronics Engineering, Ton Duc Thang University
+Ho Chi Minh City, Vietnam
+leanhvu@tdtu.edu.vn

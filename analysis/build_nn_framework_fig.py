@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Draw fig_framework.pdf: the paired clean-control / corruption protocol.
+"""Draw fig_framework.pdf: the PDR framework.
 
-Left to right: one source image yields a JPEG-95 clean control and a
-corrupted input (also re-encoded at JPEG 95); both reach the INT8 and FP8
-engines; the four AP cells form the 2x2 table from which Delta E is read.
+Panel (a): the four PDR stages (paired diagnosis, localization,
+selective-precision repair, verification). Panel (b): the Stage-1 paired
+protocol; one source image yields a JPEG-95 clean control and a corrupted
+input (also re-encoded at JPEG 95); both reach the INT8 and FP8 engines; the
+four AP cells form the 2x2 table from which Delta E is read.
 Vector output (PDF) plus a 300-dpi PNG preview."""
 from pathlib import Path
 
@@ -37,11 +39,40 @@ def arrow(ax, a, b, color=INK, rad=0.0, lw=1.0):
                                  shrinkA=0, shrinkB=0))
 
 
-def main() -> None:
-    fig, ax = plt.subplots(figsize=(7.0, 2.55))
+STAGES = [
+    ("Stage 1\nPaired diagnosis", "codec-matched paired bytes;\n$\\Delta E$ with absolute AP"),
+    ("Stage 2\nLocalization", "region decomposition;\nW-only / A-only factorial"),
+    ("Stage 3\nSelective repair", "region excluded from Q/DQ;\nfp16 operands, no retraining"),
+    ("Stage 4\nVerification", "unseen images, other\nfamilies, latency"),
+]
+ACCENT = "#0F766E"
+
+
+def stage_panel(ax) -> None:
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis("off")
+    w, gap = 0.215, (1 - 4 * 0.215 - 0.01) / 3
+    for k, (head, body) in enumerate(STAGES):
+        x = 0.005 + k * (w + gap)
+        box(ax, x, 0.04, w, 0.80, fc=PALE, ec=ACCENT, lw=1.1)
+        ax.text(x + w / 2, 0.60, head, ha="center", va="center", fontsize=8.4,
+                color=ACCENT, fontweight="bold", linespacing=1.15)
+        ax.text(x + w / 2, 0.24, body, ha="center", va="center", fontsize=7.2,
+                color=INK, linespacing=1.2)
+        if k < 3:
+            arrow(ax, (x + w + 0.004, 0.44), (x + w + gap - 0.004, 0.44), color=ACCENT, lw=1.2)
+    ax.text(0.0, 1.02, "(a)", ha="left", va="top", fontsize=9, fontweight="bold", color=INK)
+
+
+def main() -> None:
+    fig = plt.figure(figsize=(7.0, 3.55))
+    stage_panel(fig.add_axes([0.005, 0.70, 0.99, 0.27]))
+    ax = fig.add_axes([0.005, 0.005, 0.99, 0.70])
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+    ax.text(0.0, 1.0, "(b)", ha="left", va="top", fontsize=9, fontweight="bold", color=INK)
 
     # 1. inputs
     box(ax, 0.005, 0.47, 0.095, 0.20, "Source\nimage", fc=PALE, fs=8.5)
@@ -87,7 +118,6 @@ def main() -> None:
             "Every $\\Delta E$ is reported with absolute corrupted AP (floor guard).",
             ha="left", va="bottom", fontsize=7.4, color=MUTED)
 
-    fig.subplots_adjust(left=0.005, right=0.995, top=0.995, bottom=0.005)
     OUT.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUT / "fig_framework.pdf")
     fig.savefig(OUT / "fig_framework.png", dpi=300)

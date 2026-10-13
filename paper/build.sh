@@ -24,7 +24,7 @@ cp main_nn.pdf preview/main_nn.pdf
 cp supplement.pdf preview/supplement.pdf
 
 # The CVIU validator applies to the archived v2.1.0 package (main.tex). Run it
-# only when validating that frozen release; the Neural Networks manuscript is
+# only when validating that frozen release; the Knowledge-Based Systems manuscript is
 # main_nn.tex and has its own consistency checks in analysis/build_nn_tables.py.
 if [ "${VALIDATE_CVIU_PACKAGE:-0}" = "1" ]; then
   python3 "$REPOSITORY_ROOT/analysis/validate_cviu_paper_package.py" --paper-root "$ROOT"

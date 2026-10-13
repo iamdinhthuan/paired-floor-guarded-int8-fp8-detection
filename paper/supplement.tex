@@ -14,7 +14,7 @@
 \usepackage{placeins}
 
 \hypersetup{
-  pdftitle={Supplementary Information: Quantization fragility under image corruption is recipe-dependent},
+  pdftitle={Supplementary Information: PDR: A paired diagnosis-and-repair framework for 8-bit object detectors under image corruption},
   pdfauthor={Dinh Thuan Nguyen; Lam Phuong Nguyen; Vinh Huy Nguyen; Sy Vu Quang; Mohan Rajesh Elara; Anh Vu Le},
   pdfsubject={Supplementary methods, frozen protocol details, and reproducibility contract}
 }
@@ -35,7 +35,7 @@
 \emergencystretch=1.5em
 
 \title{Supplementary Information for\\[1mm]
-\textbf{Quantization fragility under image corruption is recipe-dependent:\\ paired evidence from INT8 and FP8 object detectors}}
+\textbf{PDR: A paired diagnosis-and-repair framework for\\ 8-bit object detectors under image corruption}}
 \author{Dinh Thuan Nguyen$^{1}$, Lam Phuong Nguyen$^{1}$, Vinh Huy Nguyen$^{2}$,\\
 Sy Vu Quang$^{3}$, Mohan Rajesh Elara$^{4}$, Anh Vu Le$^{3,*}$\\[2mm]
 \small $^1$Faculty of Electrical and Electronics Engineering, Ton Duc Thang University, Vietnam\\
@@ -50,11 +50,15 @@ Sy Vu Quang$^{3}$, Mohan Rajesh Elara$^{4}$, Anh Vu Le$^{3,*}$\\[2mm]
 
 \section{Purpose and scope}
 
-This supplement documents the frozen protocol details, estimands, corruption
-parameters, calibration schedules, and artifact contract supporting the main
-article. All reported values are generated deterministically from retained
-ledgers. Section~S9 additionally reports per-family $\Delta E$ diagnostics that
-support, but do not extend, the main-text claims.
+This supplement documents the estimands, frozen condition schedule, arm
+registry with terminology, and inference contract (S2--S5); the
+calibration-baseline schedule, decision rules, and contrasts (S6--S7); the
+bootstrap and sensitivity analyses (S8--S9); the evidence layers with the
+historical exploratory analysis (S10); and the artifact boundary (S11).
+Sections S12--S15 report post-hoc deployment audits, activation
+statistics, max-calibration counterfactuals, and the retrained KITTI holdout;
+these are labeled post hoc and are not part of the frozen protocol. S16 gives
+a reporting checklist. All reported values are generated deterministically from retained ledgers.
 
 \section{Estimands}
 
@@ -77,7 +81,7 @@ RetinaNet collapse and recovery claims, while the paired interaction uses
 the $\Jclean$ basis. $\Delta E > 0$ means the A-minus-B gap widens under
 corruption; $\Delta E < 0$ means it narrows. A narrowing gap near a shared
 accuracy floor is not read as robustness: absolute corrupted AP is reported
-alongside every interaction (main text, \S4.1--\S4.3).
+alongside every interaction (main text, Section~5).
 
 \section{Frozen condition schedule}
 
@@ -104,10 +108,15 @@ corruption-aware calibration images.\par}
 
 \section{Treatments and arm registry}
 
+The RetinaNet and FCOS arms are listed in Tables~\ref{tab:registry-retinanet}
+and~\ref{tab:registry-fcos}; Table~\ref{tab:glossary} defines the terminology,
+and Table~\ref{tab:retinanet} gives the AP of every RetinaNet arm.
+
 \begin{table}[h]
 \centering\small
 \caption{RetinaNet arm registry. ``Calibration'' lists the input distribution
 seen by entropy calibration; ``sites'' lists the quantized region.}
+\label{tab:registry-retinanet}
 \begin{tabular}{@{}llll@{}}
 \toprule
 Arm & Precision & Quantized sites & Calibration input \\
@@ -132,14 +141,14 @@ FP8-legacy & FP8 & full graph & pre-study build (context only) \\
 \end{table}
 
 The W-only and A-only arms are post-hoc QDQ-graph rewires of the frozen
-INT8-matched graph (Section~3.7 of the main text). The restored floating-point
+INT8-matched graph (Stage~2, Section~3.3 of the main text). The restored floating-point
 convolution operands and bypassed head weight initializers use fp16; engine I/O
 and some normalization intermediates retain fp32.
 
 
 \begin{table}[h]
 \centering\small
-\caption{FCOS-R50-FPN replication arm registry. The selective exclusion regex
+\caption{FCOS-R50-FPN replication arm registry.\label{tab:registry-fcos} The selective exclusion regex
 \texttt{\^{}/head/regression\_head/} covers the regression tower and the
 \texttt{bbox\_ctrness} output, so the selective arm also dequantizes
 centerness. Because the score is $\sqrt{\sigma(\mathrm{cls})\cdot\sigma(\mathrm{ctr})}$,
@@ -158,12 +167,49 @@ INT8-selective & INT8 & all except regression tower + centerness & clean, 512 im
 \end{tabular}
 \end{table}
 
+\begin{table}[h]
+\centering\small
+\caption{Terminology used in the main text and this supplement.}
+\label{tab:glossary}
+\begin{tabular}{@{}p{0.24\textwidth}p{0.68\textwidth}@{}}
+\toprule
+Term & Meaning \\
+\midrule
+treatment / arm & complete recorded engine configuration / one treatment within an experiment \\
+contract-matched & calibration preprocessing identical to inference \\
+codec-matched & sharing the final JPEG quality-95 encoding \\
+paired & evaluated on identical images and bootstrap resamples \\
+cell & one corruption$\times$severity condition (12 per evaluation) \\
+$\Jclean$ control & clean image re-encoded at JPEG quality 95 \\
+level deficit & AP shortfall an arm already carries on clean inputs \\
+$\Delta E$ & change in an AP gap under corruption relative to the clean control \\
+severity wall & a saturated cell where all arms sit near the accuracy floor \\
+ledger & hash-addressed JSON record of inputs, predictions, or metrics \\
+frozen / post hoc & fixed at the relevant protocol freeze / added after it \\
+in-family / held-out & corruption families inside / outside a calibration fold \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\caption{RetinaNet arms under the frozen protocol (COCO-style AP on converted
+annotations). Corrupt: equal weight over the 12 corruption--severity cells.
+$\Jclean$: codec-control clean; the FP32 and legacy arms predate the codec
+control (dashes). INT8-legacy also differs from the matched arms in builder
+policy (TF32 enabled by default versus disabled); Table~2 of the main text
+gives the controlled preprocessing-only comparison. Bold: the standard INT8
+recipe and its selective repair.}
+\label{tab:retinanet}
+{\setlength{\tabcolsep}{4pt}\input{generated/nn_retinanet_arms.tex}}
+\end{table}
+
 All INT8/FP8 engines are built by TensorRT 11.1.0.106 from ONNX graphs
 quantized by NVIDIA ModelOpt with entropy calibration (512-image budget;
 the study-built registries record version 0.45.0 and the pre-study YOLO11
 ONNX registries predate that field;
 the diagnostic sweeps vary the estimator and include arms marked
-``128-img'' in Table~6 of the main text, which use the earlier 128-image
+``128-img'' in Table~2 of the main text, which use the earlier 128-image
 subset)
 with a 4,096~MiB builder workspace. Builder policy is recorded per engine
 and differs by program: the YOLO11 engines were built by \texttt{trtexec}
@@ -276,11 +322,53 @@ The codec-matched control manifests encode the same 512 images at JPEG
 quality 95 with no named corruption, isolating codec adaptation from
 corruption coverage.
 
-\section{Per-arm intervention contrasts}
+\begin{table}[h]
+\centering\small
+\caption{Calibration-baseline decision rules and their registration status.
+``dir.'': read directionally, so a significant harm counts as failure.
+``null-seek'': met only when the interval contains zero; this bounds the
+residual but does not prove equivalence. \textsuperscript{a}The registered
+wording is two-sided (interval excluding 0 in either direction); the main text
+uses the directional reading. \textsuperscript{b}Registered as a primary
+estimand, not a success criterion. The codec-matched (q95calib) controls are
+post hoc for fold~1 and pre-specified for fold~2.}
+\label{tab:rules}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Contrast & Tier & Fold 1 & Fold 2 \\
+\midrule
+Held-out gain vs clean-calib.\ arm & full & frozen, dir. & frozen, dir.\textsuperscript{a} \\
+Held-out $\Delta E$ vs matched/q95 & full & post hoc & frozen, dir. \\
+Held-out gain vs clean-calib.\ arm & sel. & frozen estimand\textsuperscript{b} & post hoc \\
+Held-out residual vs FP8 incl.\ 0 & sel. & frozen, null-seek & post hoc \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:rules} lists the rules. Fold~1 has two success criteria:
+(i)~the full-tier arm improves the held-out corrupt mean over INT8-matched
+with an interval above zero, supporting the range-mismatch hypothesis;
+(ii)~the held-out mean of the selective arm is compatible with FP8-matched,
+which would let calibration explain the VOC residual. Criterion~(ii) seeks a
+null and has no equivalence margin. The hypothesis concerns corrupted-input
+accuracy and cannot explain the clean deficit. The fold-2 replication rule is
+worded two-sidedly; it is read through the directional fold-1 criterion it
+cites, so a significant held-out decrease counts as failure, and the literal
+reading would change only the KITTI verdict. Two analyses were added after the
+fold-1 freeze: a comparison of held-out gains with the remaining deficit to
+FP8-matched, and the corruption-specific component $\Delta E_{\text{held-out}}$,
+which removes the shift that also appears on clean inputs. Reading this
+arithmetic interaction as a corruption-specific benefit assumes that the clean
+effect carries over additively; scale or floor effects can also produce a
+nonzero value (Section~S7). Codec adaptation can shift AP in either
+direction, so held-out gains are attributed to corruption coverage only if they
+also hold against the codec-matched anchor.
+
+\section{Per-arm calibration contrasts}
 \label{sec:supp-intervention}
 
 Table~\ref{tab:intervention} gives the full per-arm contrast set underlying
-Section~4.5 of the main text, and Fig.~\ref{fig:intervention} groups the same
+Section~5.3 of the main text, and Fig.~\ref{fig:intervention} groups the same
 contrasts by calibration arm and evaluation partition.
 
 The additive $\Delta E$ decomposition is itself scale-sensitive (equal
@@ -312,7 +400,7 @@ favorably (\nnSctFHKitti{}). All fold-2 selective contrasts are post hoc.
 
 \begin{sidewaystable}
 \centering
-\caption{RetinaNet intervention and codec-control contrasts (A minus B, AP
+\caption{RetinaNet calibration and codec-control contrasts (A minus B, AP
 points; plug-in point with 95\% paired-bootstrap interval, 2,000 common-image
 resamples). $\Jclean$ clean: codec-control clean cell; corrupt mean: 12
 cells; in-family: Gaussian noise and JPEG (the fold-1 calibrated families);
@@ -344,9 +432,9 @@ images, the in-family/held-out labels mark only the evaluation partition.
 Held-out bars that merely track the clean bar are not corruption-specific:
 that is the KITTI fold-1 pattern and, as a harm, the KITTI fold-2 full-INT8
 pattern; the VOC fold-2 groups are the exception, where held-out clearly
-exceeds clean. Per-cell codec effects exist but stay under half an AP point in
-aggregate. This is a codec effect on shared failure cells, not evidence of
-corruption coverage.}
+exceeds clean. For the q95-calibration arms, aggregate corrupted-AP changes stay below half
+an AP point; these changes reflect codec adaptation, not exposure to the named
+corruptions.}
 \label{fig:intervention}
 \end{figure*}
 
@@ -426,7 +514,8 @@ reported alongside it.
 Table~\ref{tab:supp-perfamily} resolves the paired $\Delta E$ of each
 YOLO11 block per corruption family (each entry is the family-mean FP8$-$INT8
 gap minus the $\Jclean$ gap) and gives the leave-one-out exclusion of the
-\texttt{motion\_blur-s5} severity wall. The sign heterogeneity is also
+\texttt{motion\_blur-s5} severity wall; Fig.~\ref{fig:familyheat} shows the
+per-family interactions. The sign heterogeneity is also
 \emph{within} blocks: on VOC-x the JPEG family contributes $\nnFamVocXJpeg$~AP while
 Gaussian noise and motion blur contribute $\nnFamVocXGn$ and $\nnFamVocXMb$~AP;
 on COCO-m JPEG ($\nnFamCocoMJpeg$) and
@@ -488,6 +577,18 @@ paired-bootstrap interval excludes zero.}
 \input{generated/nn_per_family}
 \end{table}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{nn_family_heatmap.pdf}
+\caption{Per-family interaction $\Delta E$ (FP8 minus INT8, $\Jclean$ basis)
+for the nine paired YOLO11 blocks, in AP. Star: unadjusted 95\% bootstrap
+interval excludes zero. Every corruption family takes both signs across
+blocks. Two blocks have a single sign (VOC/YOLO11n positive, VOC/YOLO11m
+negative); the other seven mix signs, although the one positive cell of
+KITTI/YOLO11x is close to zero ($\nnFamKittiXMb$).}
+\label{fig:familyheat}
+\end{figure}
+
 \subsection*{Drive-clustered bootstrap for KITTI}
 
 KITTI object images are frames from a limited number of raw driving
@@ -502,7 +603,7 @@ rerun with a bootstrap that resamples whole drives
 (\texttt{N\_BOOT=1000 bash src/run\_nn\_cluster\_bootstrap.sh}; one shared schedule per
 block so that all arm contrasts stay paired; point estimates are unchanged).
 Table~\ref{tab:cluster} compares the two intervals for the \nnClClaims{} KITTI
-contrasts reported in the main text. Interval widths change by a factor of \nnClWidthMin--\nnClWidthMax{}
+contrasts reported in the main text and this supplement. Interval widths change by a factor of \nnClWidthMin--\nnClWidthMax{}
 (median \nnClWidthMed); drive resampling narrows some YOLO11 intervals and widens
 most RetinaNet and FCOS ones. Only \nnClChanged{} of \nnClClaims{} contrasts change significance
 (marked $\dagger$), all with an image-bootstrap bound near zero: KITTI/YOLO11m
@@ -524,6 +625,42 @@ Gaussian noise and JPEG.}
 
 \section{Evidence layers}
 
+Table~\ref{tab:evidence-layers} summarizes the evidence layers and their
+inferential status.
+
+\begin{table}[h]
+\centering\small
+\caption{Evidence layers and their inferential status.}
+\label{tab:evidence-layers}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.47\textwidth}>{\raggedright\arraybackslash}p{0.28\textwidth}@{}}
+\toprule
+Layer & Content & Inference \\
+\midrule
+Diagnostic & Recipe sweeps that located the fragile region (Stage 2) & Single runs \\
+Frozen paired & Nine YOLO11 blocks; RetinaNet matched and selective arms & Bootstrap; Holm over YOLO11 \\
+Calibration baseline & Two calibration folds with codec controls & Bootstrap, unadjusted \\
+Historical & Earlier 144-cell YOLO11 grid & Context only \\
+Post-hoc arms & Operand factorial, FCOS, retrained KITTI holdout & Bootstrap, unadjusted \\
+Pretrained & COCO-pretrained RetinaNet and FCOS & Bootstrap, unadjusted \\
+Audits & Max calibration, activations, Q/DQ, latency, rebuilds & Point estimates \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{Historical exploratory evidence.} An earlier 144-cell exploratory
+analysis of the same YOLO11 engines and estimand covered four datasets
+(including TT100K), the full COCO codec-control pool, and additional arms,
+without the Holm family. It found an overall interaction of $-0.02$ AP
+$[-0.24,+0.15]$, $-0.55$ $[-0.78,-0.29]$ on post-selection VOC/KITTI
+holdouts with independently selected checkpoints, and 56 point-estimate sign
+disagreements between the raw corrupted-input gap and $\Delta E$, with 17
+$\Delta E$ intervals entirely below zero. These results motivated the frozen
+analysis and are not pooled with it. Two exploratory transfer cases,
+RT-DETR-L and legacy RetinaNet, failed in INT8 under the unmigrated recipe; a
+corrected recipe was not tested for RT-DETR-L, which is therefore excluded
+from the main analysis.
+
+
 Diagnostic arms (the RetinaNet decomposition: head-only and
 all-except-region variants) are single-point recipe sweeps produced during
 development and carry no intervals. Frozen paired evidence is the
@@ -531,14 +668,12 @@ development and carry no intervals. Frozen paired evidence is the
 schedule, and bootstrap schedule (the nine-block Holm adjustment lives in
 the analysis code, not the frozen configuration), while the YOLO11
 engines and evaluation partitions predate it and are shared with the
-historical layer. Intervention evidence is the corrupt-calibration
+historical layer. Calibration-baseline evidence is the corrupt-calibration
 experiment together with its codec-matched controls: the two
 corruption-calibration folds were frozen prospectively before their engines
 were built, while the fold-1 codec-control arms are post-hoc. Historical exploratory
-results (a 144-cell grid over four datasets including TT100K, computed on
-the same engines and estimand under a wider scope and a different analysis
-plan) are reported
-only as context and are never pooled with the frozen paired estimates.
+results (described above) are reported only as context and are never pooled
+with the frozen paired estimates.
 Post-hoc extensions are the operand-level factorial inside the RetinaNet
 regression head (W-only and A-only rewires of the frozen matched graph), the
 FCOS-R50-FPN replication, and the retrained KITTI holdout (Section~S15): all were designed and executed after the
@@ -573,7 +708,7 @@ calibration manifests (including the corrupt-calibration cell-assignment
 schedule), input manifests, prediction manifests, metric records, and paired-bootstrap
 draw caches are SHA-256 hash-bound and retained in the accompanying
 compact-evidence package, deposited in the versioned research archive
-as release v3.0.4 (version DOI \url{https://doi.org/10.5281/zenodo.23097634}) under the
+as release v3.0.5 (version DOI \url{https://doi.org/10.5281/zenodo.23331336}) under the
 concept DOI \url{https://doi.org/10.5281/zenodo.22031663}. Raw
 benchmark datasets, trained checkpoints, built TensorRT engines, and raw
 predictions are not redistributed; their provenance and regeneration path is
@@ -684,7 +819,7 @@ channel-p95 excess kurtosis is \nnActRegKurtTailKitti{} versus
 activations inflate a single per-tensor scale and spend the INT8 code
 budget on outlier coverage, which is exactly the signature under which
 activation quantization, not weight quantization, dominates the deficit
-(the operand factorial of Section~3.7 of the main text). Two cautions bound the
+(the operand factorial of Section~3.3 of the main text). Two cautions bound the
 reading: these are activations of the fp32 ONNX graph on calibration
 inputs, not the deployed quantizer's scale values (the calibrator's chosen
 activation amaxes on the matched INT8 graphs are recorded alongside, e.g.\
@@ -710,7 +845,7 @@ much flatter profile, \nnActClsKurtPThreeKitti{} to
 \nnActClsKurtPSevenKitti), and the same ordering holds on VOC; on the pretrained COCO graph the peak is
 at P4 (\nnActRegKurtPFourCoco{} versus \nnActRegKurtPThreeCoco{} at P3). Per-tensor grids at P3/P4 therefore spend the most
 code budget covering outliers. This fits the matched arm's
-deficit, which is concentrated in AP$_S$ and AP$_{75}$ (Table~11 of the
+deficit, which is concentrated in AP$_S$ and AP$_{75}$ (Table~9 of the
 main text), but it is a consistency argument, not a causal test.
 
 The FCOS captures provide a cross-architecture falsification check for the
@@ -767,8 +902,8 @@ clean-calibration manifests, and 14-condition evaluation schedule, on the
 KITTI and VOC RetinaNet detectors (\texttt{nn\_maxcalib\_v1\_20260930};
 single engine builds, point estimates only, no bootstrap draws).
 
-Table~\ref{tab:nn-maxcalib} reports the levels. The counterfactual is sharp
-and negative in both directions. On KITTI, max calibration does not repair
+Table~\ref{tab:nn-maxcalib} reports the levels. Graph-wide max calibration
+repairs neither dataset. On KITTI, max calibration does not repair
 the matched deficit but deepens it, from \nnArmInCleanKitti{} to
 \nnMcMaxJKitti{}~AP on the clean basis, while the head-exclusion benefit
 persists under the new estimator (selective minus matched
@@ -908,7 +1043,7 @@ Plug-in AP without intervals. ``Orig.\ clean'': original clean image;
   \item keep calibration corruption families disjoint from held-out
         evaluation families when claiming calibration-based robustness;
   \item carry codec-matched calibration controls before attributing
-        calibration-intervention gains to corruption coverage;
+        calibration gains to corruption coverage;
   \item flag severity-wall cells where every treatment including FP32 is at
         the floor, and report a leave-one-out sensitivity;
   \item audit engine-build determinism before treating a serialized engine as

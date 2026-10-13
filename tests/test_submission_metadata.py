@@ -1,4 +1,4 @@
-"""Submission-facing citation and archive metadata contracts (Neural Networks)."""
+"""Submission-facing citation and archive metadata contracts (Knowledge-Based Systems)."""
 
 from __future__ import annotations
 
@@ -22,12 +22,12 @@ import submission_metadata  # noqa: E402
 import submission_package  # noqa: E402
 
 NN_TITLE = (
-    "Quantization fragility under image corruption is recipe-dependent: "
-    "paired evidence from INT8 and FP8 object detectors"
+    "PDR: A paired diagnosis-and-repair framework for 8-bit object detectors "
+    "under image corruption"
 )
 NN_MAIN = PAPER / "main_nn.tex"
-VERSION = "3.0.4"
-VERSION_DOI = "10.5281/zenodo.23097634"
+VERSION = "3.0.5"
+VERSION_DOI = "10.5281/zenodo.23331336"
 CONCEPT_DOI = "10.5281/zenodo.22031663"
 
 AUTHORS = [
@@ -71,8 +71,8 @@ def cff_names(cff: dict) -> list[str]:
     ]
 
 
-def test_bibliography_is_closed_and_has_foundational_and_nn_sources() -> None:
-    """Every citation in the NN manuscript resolves, with no orphan entries."""
+def test_bibliography_is_closed_and_has_foundational_and_kbs_sources() -> None:
+    """Every citation resolves, with no orphan entries, and the target journal is cited."""
     entries = bibtex_entries((PAPER / "references.bib").read_text(encoding="utf-8"))
     cited = citation_keys(NN_MAIN.read_text(encoding="utf-8"), root=PAPER) | citation_keys(
         (PAPER / "supplement.tex").read_text(encoding="utf-8"), root=PAPER
@@ -88,12 +88,16 @@ def test_bibliography_is_closed_and_has_foundational_and_nn_sources() -> None:
     assert min(years) <= 1981  # bootstrap foundations are intentionally retained
     assert max(years) == 2026
 
-    nn_entries = [
+    kbs_entries = [
         entry
         for entry in entries.values()
-        if optional_field(entry, "journal").casefold() == "neural networks"
+        if optional_field(entry, "journal").casefold() == "knowledge-based systems"
     ]
-    assert nn_entries
+    assert len(kbs_entries) >= 5
+    for entry in kbs_entries:
+        assert optional_field(entry, "doi").startswith("10.1016/j.knosys.")
+    recent = [e for e in entries.values() if int(field(e, "year")) >= 2020]
+    assert len(recent) >= 0.75 * len(entries)
 
 
 def test_citation_keys_resolves_owned_input_files(tmp_path: Path) -> None:
@@ -155,11 +159,11 @@ def test_rendered_main_has_results_before_discussion_and_no_layout_warnings() ->
         ["pdfinfo", str(pdf)], check=True, capture_output=True, text=True
     ).stdout
     pages = int(re.search(r"^Pages:\s+(\d+)", info, flags=re.MULTILINE).group(1))
-    assert 15 <= pages <= 25
+    assert 10 <= pages <= 25
     rendered = subprocess.run(
         ["pdftotext", str(pdf), "-"], check=True, capture_output=True, text=True
     ).stdout
-    assert rendered.index("4. Results") < rendered.index("5. Discussion")
+    assert rendered.index("5. Results") < rendered.index("6. Discussion")
     assert "References" in rendered
     log_errors = (
         re.compile(r"Undefined control sequence"),
